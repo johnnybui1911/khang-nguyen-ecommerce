@@ -348,7 +348,7 @@
         var imgBox = el('figure', {});
         var src = imageUrl(p.iconImage || p.bannerImage);
         if (src) {
-            imgBox.appendChild(el('img', {src: src, alt: p.name, loading: 'lazy'}));
+            imgBox.appendChild(el('img', {src: src, alt: '', loading: 'lazy'}));
         }
         if (p.discountPercent > 0) {
             imgBox.appendChild(el('span', {'class': 'kn-tag', text: '-' + Math.round(p.discountPercent) + '%'}));
@@ -1695,7 +1695,7 @@
         }
         qa('[data-kn-auth-link]').forEach(function (a) {
             loggedIn().then(function (ok) {
-                if (ok) { a.textContent = 'Tài khoản của tôi'; a.setAttribute('href', '/account'); }
+                if (ok && a.parentNode) { a.parentNode.hidden = true; }
             });
         });
         renderBagCount();
