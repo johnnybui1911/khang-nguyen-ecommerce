@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Thanh toán | Khang Nguyên - Ngọc Bảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet" />
+<!--kn:css--><link rel="stylesheet" href="kn.css" /><!--/kn:css-->
+</head>
+<body class="kn">
+<!-- Reference page: checkout. Real template: .../templates/checkout.html. Keep every name/id below: ecommerce.js reads them. Data is sample. -->
+<header class="kn-nav">
+  <div class="kn-wrap">
+    <a class="kn-brand" href="home.html" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
+      <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
+      <span>Khang Nguyên<small>Ngọc Bảo</small></span>
+    </a>
+    <nav aria-label="Danh mục"><ul class="kn-nav__links">
+      <li><a href="category.html">Vòng ngọc</a></li>
+      <li><a href="category.html">Nhẫn ngọc</a></li>
+      <li><a href="category.html">Chuỗi ngọc</a></li>
+      <li><a href="home.html#kien-thuc">Kiến thức về ngọc</a></li>
+    </ul></nav>
+    <a class="kn-bag" href="cart.html" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge">2</b></a>
+  </div>
+</header>
+<main>
+<div class="kn-narrow" id="swMain">
+  <nav class="kn-crumb" aria-label="Breadcrumb"><a href="home.html">Trang chủ</a> / <a href="cart.html">Giỏ hàng</a> / Thanh toán</nav>
+  <div class="kn-page-title"><h1>Thanh <em>toán</em></h1></div>
+  <div class="kn-cart" id="swCheckout">
+    <form class="kn-form" id="swCheckoutForm" novalidate>
+      <h2>Thông tin giao hàng</h2>
+      <div class="kn-field"><label for="deliveryFullName">Họ và tên</label><input class="kn-input" id="deliveryFullName" name="deliveryFullName" required autocomplete="name" /></div>
+      <div class="kn-form__row">
+        <div class="kn-field"><label for="deliveryEmail">Email</label><input class="kn-input" id="deliveryEmail" name="deliveryEmail" type="email" required autocomplete="email" /></div>
+        <div class="kn-field"><label for="deliveryPhoneNumber">Số điện thoại</label><input class="kn-input" id="deliveryPhoneNumber" name="deliveryPhoneNumber" type="tel" required autocomplete="tel" placeholder="0901 234 567" /></div>
+      </div>
+      <div class="kn-field"><label for="deliveryAddress">Địa chỉ</label><input class="kn-input" id="deliveryAddress" name="deliveryAddress" required autocomplete="street-address" /></div>
+      <div class="kn-form__row">
+        <div class="kn-field"><label for="deliveryCityName">Tỉnh, thành phố</label><input class="kn-input" id="deliveryCityName" name="deliveryCityName" required autocomplete="address-level2" /></div>
+        <div class="kn-field"><label for="deliveryPostalCode">Mã bưu chính</label><input class="kn-input" id="deliveryPostalCode" name="deliveryPostalCode" required autocomplete="postal-code" /></div>
+      </div>
+      <div class="kn-field"><label for="swCountry">Quốc gia</label><select class="kn-input" id="swCountry" name="deliveryCountryId" required><option value="1">Việt Nam</option></select></div>
+
+      <h2>Thanh toán</h2>
+      <!-- Real template renders a select#swPay (name paymentServiceCode) from the API; the design renders the same options as radio choices. Labels below are sample. -->
+      <div id="swPay" role="radiogroup" aria-label="Phương thức thanh toán">
+        <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="bank-transfer" checked /> <span data-demo="true">Chuyển khoản ngân hàng</span></label>
+        <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="cod" /> <span data-demo="true">Thanh toán khi nhận hàng</span></label>
+      </div>
+      <p class="kn-error" id="swFormErr" role="alert" hidden></p>
+      <button type="submit" class="kn-btn" id="swPlace">Đặt hàng</button>
+    </form>
+    <aside class="kn-summary">
+      <h2>Đơn hàng của bạn</h2>
+      <ul class="kn-mini" id="swMini">
+        <li><span>1 × Vòng phỉ thúy xanh lam</span><span data-demo="true">18.500.000 ₫</span></li>
+        <li><span>1 × Vòng Hòa Điền trắng</span><span data-demo="true">24.800.000 ₫</span></li>
+      </ul>
+      <p class="kn-total"><span>Tổng cộng</span><strong id="swTotal" data-demo="true">43.300.000 ₫</strong></p>
+      <small>Phí giao hàng sẽ được xác nhận trước khi bạn thanh toán.</small>
+    </aside>
+  </div>
+</div>
+</main>
+<footer class="kn-colophon kn-colophon--spaced">
+  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <ellipse cx="80" cy="71" rx="64" ry="58"/>
+    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
+    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
+  </svg>
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <div class="kn-util">
+    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
+    <div><h3>Sản phẩm</h3><ul><li><a href="category.html">Vòng ngọc</a></li><li><a href="category.html">Nhẫn ngọc</a></li><li><a href="category.html">Chuỗi ngọc</a></li></ul></div>
+    <div><h3>Hỗ trợ</h3><ul><li><a href="/customer-service">Chăm sóc khách hàng</a></li><li><a href="home.html#kien-thuc">Kiến thức về ngọc</a></li></ul></div>
+  </div>
+  <p class="kn-legal">Trang minh họa. Tên sản phẩm, giá và chính sách là dữ liệu mẫu, chưa dùng để bán hàng.</p>
+</footer>
+</body>
+</html>

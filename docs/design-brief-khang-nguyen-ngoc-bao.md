@@ -414,8 +414,8 @@ kiểm tra tự động.
 |---|---|
 | `kn.css` | Stylesheet chuẩn: token trong `:root` và mọi thành phần `kn-*`. **Nguồn duy nhất.** |
 | `style-guide.html` | Mọi token, thang chữ, nút (4 trạng thái), ô nhập (mặc định, focus, lỗi, vô hiệu), chip, accordion, bảng, ô lưới, lỗi, trống, dòng giỏ hàng, bo góc, khoảng cách, nên/không nên |
-| `home.html`, `category.html`, `product.html` | Ba trang mẫu đầy đủ (trang chủ, danh mục, chi tiết sản phẩm) |
-| `screenshots/*.jpg` | Ảnh chụp ba trang mẫu ở desktop (1440px) và mobile (390px) để đối chiếu mắt |
+| `home.html`, `category.html`, `product.html`, `cart.html`, `checkout.html` | Năm trang mẫu đầy đủ (trang chủ, danh mục, chi tiết sản phẩm, giỏ hàng, thanh toán) |
+| `screenshots/*.jpg` | Ảnh chụp năm trang mẫu ở desktop (1440px) và mobile (390px) để đối chiếu mắt |
 | `check-design.py` | Script kiểm tra tự động (xem 14.2) |
 | `inline-css.py` | Đóng gói trang tham chiếu thành `content.html` tự chứa CSS để đăng lên EzyPlatform |
 | `img/` | Ảnh sản phẩm dùng cho các trang mẫu |
@@ -454,7 +454,7 @@ Script không kiểm tra được bố cục, nhịp, hay "cảm giác"; phần 
 
 ### 14.3 Quy trình bắt buộc cho Agent
 
-1. Mở `style-guide.html` và ba trang mẫu, xem ảnh chụp, rồi mới sửa mã.
+1. Mở `style-guide.html` và năm trang mẫu, xem ảnh chụp, rồi mới sửa mã.
 2. Chỉ dùng token và class `kn-*` có sẵn. Cần cái mới thì thêm vào `kn.css` **và** `style-guide.html` trong cùng thay đổi, kèm lý do.
 3. Với mỗi trang: dựng trang tham chiếu (hoặc sửa template) rồi chạy `check-design.py`. Lỗi phải bằng 0.
 4. Trang trong `my-site/pages/`: dựng bằng `inline-css.py`, ví dụ  
@@ -469,7 +469,27 @@ Script không kiểm tra được bố cục, nhịp, hay "cảm giác"; phần 
 - Chỉ dùng một nút chính mỗi khu; vàng không làm nền khối; mỗi tiêu đề chỉ một cụm in nghiêng có nghĩa.
 - Ảnh phải là ảnh sản phẩm thật theo quy chuẩn mục 6; không vẽ ngọc bằng CSS, không dùng ảnh AI làm ảnh chính.
 - Không bịa số liệu, chính sách, chứng nhận. Dữ liệu mẫu phải có `data-demo="true"` hoặc dòng chú thích.
-- Luồng giỏ hàng, thanh toán phải chạy thật với sản phẩm trong DB sau khi đổi class/id.
+- Luồng giỏ hàng, thanh toán phải chạy thật với sản phẩm trong DB sau khi đổi class/id (xem 14.5).
+
+### 14.5 Hợp đồng với `ecommerce.js` (không được làm hỏng)
+
+`ecommerce-theme/.../static/js/ecommerce.js` đọc các id và tên trường dưới đây, và tự dựng thêm DOM với class `sw-*`.
+Trang mẫu `cart.html`, `checkout.html`, `product.html` đã giữ nguyên các id và tên này. Khi đổi sang `kn-*`:
+đổi class trong template **và** trong đoạn JS tạo DOM, hoặc giữ id và chỉ đổi class; sau đó chạy lại cả luồng.
+
+| Trang | Phải giữ nguyên | JS tự dựng (phải đổi class sang `kn-*`) |
+|---|---|---|
+| Chi tiết sản phẩm (`product.html`) | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDesc`, `swPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-sw-state` | Khối trạng thái trống/lỗi, ô chọn màu |
+| Giỏ hàng (`cart.html`) | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-sw-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
+| Thanh toán (`checkout.html`) | `swCheckout`, `swCheckoutForm`, các tên trường `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (id `swCountry`), `paymentServiceCode` (id `swPay`), `swFormErr`, `swPlace`, `swMini`, `swTotal` | Các `option` của quốc gia và thanh toán, các dòng `swMini` |
+
+Lưu ý thiết kế liên quan:
+
+- Mỗi món ngọc là hàng độc nhất. Giao diện mẫu **không có ô số lượng**. Mã hiện tại có nút cộng trừ số lượng và đã chặn theo tồn kho (`product.amount`); khi tồn kho là 1, ẩn bộ chọn số lượng thay vì hiện cộng trừ.
+- Form thanh toán hiện tại đòi `deliveryPostalCode` và mặc định theo Singapore (placeholder `+65`, thành phố "Singapore"). Bản mẫu đã đổi sang giá trị cho Việt Nam; xác nhận với chủ shop xem mã bưu chính có cần bắt buộc không trước khi đổi logic kiểm tra.
+- Mẫu hiển thị phương thức thanh toán dạng radio. Mã hiện tại dùng `select#swPay` do API đổ vào. Có thể giữ `select` (kiểu `kn-input`) hoặc đổi sang radio `kn-choice`; nếu đổi, sửa đoạn JS đọc `swPay`.
+- Nhóm accordion hiện tại do JS bật tắt qua `aria-expanded`; mẫu dùng thẻ `details`. Khi chuyển, xóa trình xử lý cũ trong `ecommerce.js` để không xung đột.
+- Dữ liệu trong mẫu (giá, tên, phương thức thanh toán) là mẫu. Đừng giữ lại trong sản phẩm thật.
 
 ## 15. Câu hỏi còn mở (cần chủ shop trả lời)
 
