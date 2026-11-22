@@ -354,6 +354,23 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 [data-kn-state]:empty{display:none}
 .kn-stage [data-kn-state]{grid-column:1/-1}
 .kn-shot:empty{display:none}
+/* article on paper */
+.kn-article{background:var(--kn-paper);color:var(--kn-paper-ink);padding:64px var(--kn-pad) 112px}
+.kn-article__inner{max-width:720px;margin:0 auto;display:grid;gap:32px}
+.kn-article .kn-crumb{color:var(--kn-paper-muted)}
+.kn-article .kn-crumb a:hover{color:var(--kn-paper-ink)}
+.kn-article .kn-eyebrow{color:var(--kn-gold-ink);margin:0 0 16px}
+.kn-article h1{font-size:64px;line-height:1.05;color:var(--kn-paper-ink)}
+.kn-article h1 em,.kn-article h2 em{color:var(--kn-gold-ink)}
+.kn-article h2{font-size:36px;line-height:1.1;color:var(--kn-paper-ink)}
+.kn-article__lead{margin:24px 0 0;font:400 22px/1.5 var(--kn-serif)}
+.kn-article__text{margin:0;font:400 19px/1.6 var(--kn-serif)}
+.kn-article figure{margin:0}
+.kn-article figure img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.kn-article figcaption{margin-top:8px;font-size:13px;color:var(--kn-paper-muted)}
+.kn-article .kn-braced{color:var(--kn-paper-ink)}
+.kn-article__links{display:flex;flex-wrap:wrap;gap:16px 32px}
+
 /* listing filters */
 .kn-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px;align-items:end;padding:24px 0 8px}
 .kn-tools .kn-field{margin:0}
@@ -363,6 +380,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 
 /* responsive */
 @media (max-width:1023px){
+  .kn-article h1{font-size:44px}
   .kn-tools{grid-template-columns:repeat(2,1fr)}
   .kn-stage .kn-wrap{grid-template-columns:1fr;gap:32px}
   .kn-buy{position:static}
@@ -383,6 +401,10 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
   .kn-cell:nth-child(2n){border-right:0}
 }
 @media (max-width:767px){
+  .kn-article{padding:32px var(--kn-pad) 72px}
+  .kn-article h1{font-size:36px}
+  .kn-article h2{font-size:30px}
+  .kn-article__lead{font-size:19px}
   .kn-tools{grid-template-columns:1fr}
   .kn-tools .kn-field--wide{grid-column:auto}
   :root{--kn-pad:16px}
