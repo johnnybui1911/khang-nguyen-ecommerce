@@ -25,7 +25,7 @@ Không đổi: tên sản phẩm/SKU/ảnh trong data/seed và DB, tiền tố C
 | mã thanh toán demo (tiền tố viết hoa cũ) | ECM_DEMO và ECM_DEMO_SG (code, DB, khoá cấu hình) |
 | chữ hiển thị tên thương hiệu gốc | Khang Nguyen |
 | my-site/page-fragments/`<old>` | page-fragments/ecommerce |
-| 4 pages `<old>-home`, `-necklaces`, `-customer-service`, `-mesmera-necklace` | home / necklaces / customer-service / product-detail-sample |
+| 4 pages 4 trang mẫu cũ (home, necklaces, customer-service, chi tiết sản phẩm mẫu) | home / necklaces / customer-service / product-detail-sample (necklaces và product-detail-sample đã xoá ở đợt thay catalog Khang Nguyên) |
 | link tới site gốc, cột source_url | bỏ |
 | plans/ tài liệu, scripts, README, export.*, SKILL.md | đổi tên file và nội dung |
 

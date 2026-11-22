@@ -13,7 +13,7 @@ created: 2026-11-21
 Nguồn quyết định: `plans/reports/brainstorm-261121-0212-ecommerce-clone.md` (outcome, constraints, non-goals, acceptance criteria). Quy trình: `TEAM-WORKFLOW.md` mục 2.
 
 ## Overview
-Clone giao diện 4 trang (home, necklaces, mesmera-necklace, customer-service) bằng page-fragment dùng chung, chạy local `127.0.0.1:8080` (admin `127.0.0.1:9090`). Chỉ LOCAL; không đụng `.env`, DB, production; không in token; mọi ghi lên server chạy dry run trước và cần Johnny duyệt apply; ảnh/thương hiệu Ecommerce chỉ demo local. Plan viết tay cũ đã lưu trữ ở `.artifacts/archive/ecommerce-clone-v0/`, chỉ là dữ liệu tham khảo.
+Clone giao diện 4 trang mẫu (home, danh sách, chi tiết sản phẩm, customer-service) bằng page-fragment dùng chung, chạy local `127.0.0.1:8080` (admin `127.0.0.1:9090`). Chỉ LOCAL; không đụng `.env`, DB, production; không in token; mọi ghi lên server chạy dry run trước và cần Johnny duyệt apply; ảnh/thương hiệu Ecommerce chỉ demo local. Plan viết tay cũ đã lưu trữ ở `.artifacts/archive/ecommerce-clone-v0/`, chỉ là dữ liệu tham khảo.
 
 ## Goals
 
