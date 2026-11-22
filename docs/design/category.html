@@ -28,59 +28,54 @@
 </header>
 
 <main>
-<div id="swMain" tabindex="-1">
 <div class="kn-wrap">
-  <nav class="kn-crumb kn-crumb--page" aria-label="Đường dẫn"><a href="home.html">Trang chủ</a> / <span id="swBcCur">Vòng ngọc</span></nav>
+  <nav class="kn-crumb kn-crumb--page" aria-label="Breadcrumb"><a href="home.html">Trang chủ</a> / Vòng ngọc</nav>
   <div class="kn-page-title">
-    <h1 id="swListTitle">Vòng ngọc</h1>
-    <p>Mỗi món là một sản phẩm duy nhất. Chọn theo chất ngọc, màu sắc và kích cỡ phù hợp với bạn.</p>
-    <p class="kn-count" id="swCount" aria-live="polite" data-demo="true">6 / 35 sản phẩm</p>
+    <h1>Vòng <em>ngọc</em></h1>
+    <p>Mỗi chiếc vòng là một món duy nhất. Chọn theo chất ngọc, màu sắc và đường kính trong phù hợp với cổ tay.</p>
   </div>
-  <form class="kn-tools" id="swTools" novalidate>
-    <div class="kn-field"><label for="swFilterCat">Danh mục</label>
-      <select id="swFilterCat" name="category" class="kn-input"><option value="">Tất cả danh mục</option></select></div>
-    <div class="kn-field"><label for="swSort">Sắp xếp</label>
-      <select id="swSort" name="sort" class="kn-input">
-        <option value="">Mới nhất</option>
-        <option value="PRICE_ASC">Giá tăng dần</option>
-        <option value="PRICE_DESC">Giá giảm dần</option>
-      </select></div>
-    <div class="kn-field"><label for="swPriceMin">Giá từ (₫)</label>
-      <input id="swPriceMin" name="priceMin" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Thấp nhất" /></div>
-    <div class="kn-field"><label for="swPriceMax">Giá đến (₫)</label>
-      <input id="swPriceMax" name="priceMax" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Cao nhất" /></div>
-    <div class="kn-field"><label for="swDiscount">Giảm giá</label>
-      <select id="swDiscount" name="discount" class="kn-input">
-        <option value="">Bất kỳ</option>
-        <option value="10">Từ 10%</option>
-        <option value="20">Từ 20%</option>
-        <option value="30">Từ 30%</option>
-        <option value="40">Từ 40%</option>
-        <option value="50">Từ 50%</option>
-      </select></div>
-    <div class="kn-field" id="swColorWrap" hidden><label for="swColor">Màu sắc</label>
-      <select id="swColor" name="color" class="kn-input"><option value="">Bất kỳ</option></select></div>
-    <div class="kn-field" id="swMaterialWrap" hidden><label for="swMaterial">Chất liệu</label>
-      <select id="swMaterial" name="material" class="kn-input"><option value="">Bất kỳ</option></select></div>
-    <div class="kn-field kn-field--wide"><label for="swKeyword">Từ khóa</label>
-      <input id="swKeyword" name="keyword" class="kn-input" type="search" placeholder="Tên hoặc mã sản phẩm" /></div>
-    <button type="submit" class="kn-btn">Áp dụng</button>
-  </form>
-  <div data-kn-state></div>
+  <div class="kn-toolbar">
+    <div class="kn-chips" role="group" aria-label="Lọc theo loại ngọc">
+      <button type="button" class="kn-chip" aria-pressed="true">Tất cả</button>
+      <button type="button" class="kn-chip" aria-pressed="false">Hòa Điền</button>
+      <button type="button" class="kn-chip" aria-pressed="false">Phỉ thúy</button>
+    </div>
+    <div class="kn-field kn-field--flush">
+      <label for="sort" class="kn-sr">Sắp xếp</label>
+      <select id="sort" class="kn-input"><option>Mới nhất</option><option>Giá tăng dần</option><option>Giá giảm dần</option></select>
+    </div>
+  </div>
 </div>
 
-<ul class="kn-cells" id="swGrid" data-limit="24" data-paged="1">
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /></figure><div><h3>Vòng Hòa Điền trắng</h3><code class="kn-cell__code">KN-001</code><p class="kn-cell__price" data-demo="true">24.800.000 ₫</p></div></a></li>
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh lam</h3><code class="kn-cell__code">KN-002</code><p class="kn-cell__price" data-demo="true">18.500.000 ₫</p></div></a></li>
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh vân hoa</h3><code class="kn-cell__code">KN-003</code><p class="kn-cell__price" data-demo="true">32.000.000 ₫</p></div></a></li>
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam, mẫu thứ hai" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh lam nhạt</h3><code class="kn-cell__code">KN-004</code><p class="kn-cell__price" data-demo="true">16.200.000 ₫</p></div></a></li>
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh vân hoa, mẫu thứ hai" loading="lazy" /></figure><div><h3>Vòng phỉ thúy vân hoa lục</h3><code class="kn-cell__code">KN-005</code><p class="kn-cell__price" data-demo="true">28.400.000 ₫</p></div></a></li>
-    <li class="kn-cell"><a href="product.html"><figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng, mẫu thứ hai" loading="lazy" /></figure><div><h3>Vòng Hòa Điền trắng ngà</h3><code class="kn-cell__code">KN-006</code><p class="kn-cell__price" data-demo="true">21.900.000 ₫</p></div></a></li>
-</ul>
+<div class="kn-cells">
+  <a class="kn-cell" href="product.html">
+    <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" />
+    <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
+  </a>
+  <a class="kn-cell" href="product.html">
+    <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" />
+    <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
+  </a>
+  <a class="kn-cell" href="product.html">
+    <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" />
+    <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
+  </a>
+  <a class="kn-cell" href="product.html">
+    <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam, mẫu thứ hai" loading="lazy" />
+    <div><h3>Vòng phỉ thúy xanh lam nhạt</h3><p data-demo="true">16.200.000 ₫</p></div>
+  </a>
+  <a class="kn-cell" href="product.html">
+    <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh vân hoa, mẫu thứ hai" loading="lazy" />
+    <div><h3>Vòng phỉ thúy vân hoa lục</h3><p data-demo="true">28.400.000 ₫</p></div>
+  </a>
+  <a class="kn-cell" href="product.html">
+    <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng, mẫu thứ hai" loading="lazy" />
+    <div><h3>Vòng Hòa Điền trắng ngà</h3><p data-demo="true">21.900.000 ₫</p></div>
+  </a>
+</div>
 
-<div class="kn-more"><button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swLoadMore" hidden>Xem thêm</button></div>
+<div class="kn-more"><button type="button" class="kn-btn kn-btn--ghost kn-btn--inline">Xem thêm</button></div>
 <p class="kn-prose">Vòng ngọc phỉ thúy và Hòa Điền tại Khang Nguyên · Ngọc Bảo được giới thiệu theo từng món: chất ngọc, màu sắc, đường kính trong. Nếu chưa chắc về size, hãy xem hướng dẫn đo tay hoặc nhờ tư vấn.</p>
-</div>
 </main>
 
 <footer class="kn-colophon kn-colophon--spaced">

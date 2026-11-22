@@ -23,38 +23,26 @@
       <li><a href="category.html">Chuỗi ngọc</a></li>
       <li><a href="#kien-thuc">Kiến thức về ngọc</a></li>
     </ul></nav>
-    <a class="kn-bag" href="cart.html" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge" id="swBagCount">0</b></a>
+    <a class="kn-bag" href="cart.html" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge" id="bagCount">0</b></a>
   </div>
 </header>
 
 <main>
-<section class="kn-stage" id="swMain" tabindex="-1">
+<section class="kn-stage">
   <div class="kn-wrap">
-    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="home.html">Trang chủ</a> / <a href="category.html">Vòng ngọc</a> / <span id="swBcCur" data-demo="true">Vòng ngọc phỉ thúy xanh lam</span></nav>
-    <div data-kn-state></div>
-    <figure class="kn-shot" id="swPdpImg">
-      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
+    <nav class="kn-crumb" aria-label="Breadcrumb"><a href="home.html">Trang chủ</a> / <a href="category.html">Vòng ngọc</a> / Phỉ thúy xanh lam</nav>
+    <figure class="kn-shot">
+      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem" />
     </figure>
-    <div class="kn-buy" id="swPdp">
-      <div>
-      <p class="kn-code" id="swPdpCode" data-demo="true">Mã KN-DEMO-001</p>
-      <h1 id="swPdpName" data-demo="true">Vòng ngọc phỉ thúy xanh lam</h1>
-      <p class="kn-lead" id="swPdpDescText">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
-      <p class="kn-price" id="swPdpPrice" data-demo="true">18.500.000 ₫</p>
-      <p class="kn-stock" id="swPdpStock" data-demo="true">Sản phẩm duy nhất · còn 1 chiếc</p>
-      <div class="kn-swatches" id="swPdpSwatches" hidden>
-        <p>Màu sắc: <strong id="swPdpColor"></strong></p>
-        <ul id="swPdpSwatchList"></ul>
-      </div>
-      <div class="kn-qty-row" id="swPdpQtyRow" hidden>
-        <label for="swPdpQty">Số lượng</label>
-        <div class="kn-qty"><button type="button" data-qty-dec aria-label="Giảm số lượng">&minus;</button><input id="swPdpQty" type="number" min="1" value="1" inputmode="numeric" /><button type="button" data-qty-inc aria-label="Tăng số lượng">+</button></div>
-      </div>
-      <button type="button" class="kn-btn" id="swAddBtn">Thêm vào giỏ hàng</button>
-      <button type="button" class="kn-btn kn-btn--ghost kn-wish" id="swWishBtn" aria-pressed="false" data-wish-label>Lưu vào yêu thích</button>
-      <p class="kn-note" id="swAddNote" role="status" aria-live="polite"></p>
+    <div class="kn-buy">
+      <p class="kn-eyebrow">Phỉ thúy · Vòng tay</p>
+      <h1>Vòng ngọc phỉ thúy <em>xanh lam</em></h1>
+      <p class="kn-price" data-demo="true">18.500.000 ₫</p>
+      <p class="kn-once">Sản phẩm duy nhất · còn 1 chiếc</p>
+      <p class="kn-lead">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
+      <button type="button" class="kn-btn" id="addBtn" data-product-id="">Thêm vào giỏ</button>
+      <p class="kn-note" id="addNote" role="status" aria-live="polite"></p>
       <a class="kn-braced" href="/customer-service">Tư vấn chọn vòng</a>
-      </div>
 
       <details class="kn-acc" open>
         <summary>Thông số</summary>
@@ -62,16 +50,16 @@
           <dt>Chất liệu</dt><dd>Ngọc phỉ thúy</dd>
           <dt>Màu sắc</dt><dd>Xanh lam</dd>
           <dt>Đường kính trong</dt><dd>56 mm</dd>
-          <dt>Mã sản phẩm</dt><dd data-demo="true">KN-DEMO-001</dd>
+          <dt>Mã sản phẩm</dt><dd>KN-DEMO-001</dd>
         </dl></div>
       </details>
       <details class="kn-acc">
         <summary>Cách đo size tay</summary>
-        <div><p>Chụm các ngón tay lại, đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14 để ra đường kính trong cần chọn. Xem thêm tại <a class="kn-link" href="/size-guide">hướng dẫn chọn size</a>.</p></div>
+        <div><p>Chụm các ngón tay lại, đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14 để ra đường kính trong cần chọn.</p></div>
       </details>
       <details class="kn-acc">
         <summary>Giao hàng và đổi trả</summary>
-        <div><p>Phí giao hàng và điều kiện đổi trả được xác nhận khi chốt đơn. Cần hỗ trợ trước khi đặt, vui lòng liên hệ <a class="kn-link" href="/customer-service">chăm sóc khách hàng</a>.</p></div>
+        <div><p>Nội dung mẫu. Chính sách giao hàng và đổi trả thật sẽ được cập nhật trước khi mở bán.</p></div>
       </details>
       <details class="kn-acc">
         <summary>Bảo quản ngọc</summary>
@@ -108,21 +96,22 @@
   <div class="kn-cells">
     <a class="kn-cell" href="product.html">
       <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" />
-      <div><h3 data-demo="true">Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
+      <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="product.html">
       <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" />
-      <div><h3 data-demo="true">Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
+      <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="product.html">
       <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" />
-      <div><h3 data-demo="true">Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
+      <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
     </a>
   </div>
 </section>
 
 <section class="kn-horizon">
   <div class="kn-wrap">
+    <svg class="kn-ornament" viewBox="0 0 160 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 8h64 M96 8h64"/><path d="M80 1l7 7-7 7-7-7z"/><path d="M80 5l3 3-3 3-3-3z"/></svg>
     <h2>Chọn chiếc vòng <em>hợp với cổ tay</em> của bạn</h2>
     <p>Gửi số đo tay hoặc ảnh cổ tay, tư vấn viên sẽ gợi ý những chiếc vòng vừa size và hợp tông da.</p>
     <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="category.html">Xem bộ sưu tập</a></div>
@@ -148,7 +137,7 @@
 
 <script>
 (function(){
-  var btn=document.getElementById('swAddBtn'),note=document.getElementById('swAddNote'),count=document.getElementById('swBagCount');
+  var btn=document.getElementById('addBtn'),note=document.getElementById('addNote'),count=document.getElementById('bagCount');
   if(!btn){return;}
   btn.addEventListener('click',function(){
     if(btn.getAttribute('data-added')==='1'){return;}

@@ -28,9 +28,8 @@
 </header>
 <main>
 <div class="kn-narrow" id="swMain">
-  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="home.html">Trang chủ</a> / <a href="cart.html">Giỏ hàng</a> / Thanh toán</nav>
+  <nav class="kn-crumb" aria-label="Breadcrumb"><a href="home.html">Trang chủ</a> / <a href="cart.html">Giỏ hàng</a> / Thanh toán</nav>
   <div class="kn-page-title"><h1>Thanh <em>toán</em></h1></div>
-  <div data-kn-state></div>
   <div class="kn-cart" id="swCheckout">
     <form class="kn-form" id="swCheckoutForm" novalidate>
       <h2>Thông tin giao hàng</h2>
@@ -42,12 +41,16 @@
       <div class="kn-field"><label for="deliveryAddress">Địa chỉ</label><input class="kn-input" id="deliveryAddress" name="deliveryAddress" required autocomplete="street-address" /></div>
       <div class="kn-form__row">
         <div class="kn-field"><label for="deliveryCityName">Tỉnh, thành phố</label><input class="kn-input" id="deliveryCityName" name="deliveryCityName" required autocomplete="address-level2" /></div>
-        <div class="kn-field"><label for="deliveryPostalCode">Mã bưu chính</label><input class="kn-input" id="deliveryPostalCode" name="deliveryPostalCode" required autocomplete="postal-code" inputmode="numeric" /></div>
+        <div class="kn-field"><label for="deliveryPostalCode">Mã bưu chính</label><input class="kn-input" id="deliveryPostalCode" name="deliveryPostalCode" required autocomplete="postal-code" /></div>
       </div>
       <div class="kn-field"><label for="swCountry">Quốc gia</label><select class="kn-input" id="swCountry" name="deliveryCountryId" required><option value="1">Việt Nam</option></select></div>
 
       <h2>Thanh toán</h2>
-      <div class="kn-field"><label for="swPay">Phương thức thanh toán</label><select class="kn-input" id="swPay" name="paymentServiceCode" required><option value="bank-transfer" data-demo="true">Chuyển khoản ngân hàng</option><option value="cod" data-demo="true">Thanh toán khi nhận hàng</option></select></div>
+      <!-- Real template renders a select#swPay (name paymentServiceCode) from the API; the design renders the same options as radio choices. Labels below are sample. -->
+      <div id="swPay" role="radiogroup" aria-label="Phương thức thanh toán">
+        <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="bank-transfer" checked /> <span data-demo="true">Chuyển khoản ngân hàng</span></label>
+        <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="cod" /> <span data-demo="true">Thanh toán khi nhận hàng</span></label>
+      </div>
       <p class="kn-error" id="swFormErr" role="alert" hidden></p>
       <button type="submit" class="kn-btn" id="swPlace">Đặt hàng</button>
     </form>
@@ -58,7 +61,7 @@
         <li><span>1 × Vòng Hòa Điền trắng</span><span data-demo="true">24.800.000 ₫</span></li>
       </ul>
       <p class="kn-total"><span>Tổng cộng</span><strong id="swTotal" data-demo="true">43.300.000 ₫</strong></p>
-      <small>Phí giao hàng được xác nhận khi chốt đơn.</small>
+      <small>Phí giao hàng sẽ được xác nhận trước khi bạn thanh toán.</small>
     </aside>
   </div>
 </div>
