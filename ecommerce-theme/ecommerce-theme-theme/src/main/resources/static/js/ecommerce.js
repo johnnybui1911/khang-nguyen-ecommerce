@@ -14,10 +14,8 @@
     var CAT_KEY = 'ecm.categories';
     var CAT_TTL = 5 * 60 * 1000;
     var FALLBACK_CATEGORIES = [
-        ['world-of-khang-nguyen', 'World of Khang Nguyen'], ['decorations', 'Decorations'],
-        ['accessories', 'Accessories'], ['earrings', 'Earrings'], ['watches', 'Watches'],
-        ['bracelets', 'Bracelets'], ['jewelry', 'Jewelry'], ['rings', 'Rings'],
-        ['necklaces', 'Necklaces']
+        ['vong-ngoc', 'Vòng ngọc'], ['nhan-ngoc', 'Nhẫn ngọc'],
+        ['chuoi-hat', 'Chuỗi hạt'], ['set-nhan-vong', 'Set nhẫn vòng']
     ].map(function (c, i) { return {name: c[0], displayName: c[1], displayOrder: i + 1}; });
 
     function q(sel, root) { return (root || d).querySelector(sel); }
@@ -147,8 +145,24 @@
         return media.name ? '/api/v1/media/' + encodeURIComponent(media.name) : '';
     }
 
+    var STATUS_VI = {
+        pending: 'đang chờ xử lý', unpaid: 'chưa thanh toán', paid: 'đã thanh toán', processing: 'đang xử lý',
+        confirmed: 'đã xác nhận', shipping: 'đang giao hàng', shipped: 'đã giao cho đơn vị vận chuyển',
+        delivered: 'đã giao hàng', completed: 'hoàn tất', cancelled: 'đã hủy', canceled: 'đã hủy',
+        refunded: 'đã hoàn tiền', failed: 'thất bại', waiting_payment: 'chờ thanh toán', created: 'đã tạo đơn'
+    };
+    function statusText(v) {
+        var key = String(v || '').toLowerCase();
+        return STATUS_VI[key] || key.replace(/_/g, ' ');
+    }
+    function dateText(ms, withTime) {
+        if (!ms) { return ''; }
+        var dt = new Date(ms);
+        return withTime ? dt.toLocaleString('vi-VN') : dt.toLocaleDateString('vi-VN');
+    }
+
     function priceNode(p) {
-        var node = el('p', {'class': 'sw-price'});
+        var node = el('p', {'class': 'kn-price'});
         node.appendChild(d.createTextNode(priceText(p)));
         var was = originalText(p);
         if (was && p.discountPercent > 0) {
@@ -159,15 +173,15 @@
 
     /* ---------- state boxes ---------- */
     function setState(root, kind, message, retry) {
-        var box = q('[data-sw-state]', root || d);
+        var box = q('[data-kn-state]', root || d);
         if (!box) { return; }
         clear(box);
         if (!kind) { return; }
-        var s = el('div', {'class': 'sw-state', 'data-kind': kind, role: kind === 'error' ? 'alert' : 'status'});
-        if (kind === 'loading') { s.appendChild(el('span', {'class': 'sw-spin', 'aria-hidden': 'true'})); }
+        var s = el('div', {'class': 'kn-state', 'data-kind': kind, role: kind === 'error' ? 'alert' : 'status'});
+        if (kind === 'loading') { s.appendChild(el('span', {'class': 'kn-spin', 'aria-hidden': 'true'})); }
         s.appendChild(d.createTextNode(message));
         if (retry) {
-            var btn = el('button', {type: 'button', 'class': 'sw-btn', text: 'Try again'});
+            var btn = el('button', {type: 'button', 'class': 'kn-btn kn-btn--ghost kn-btn--inline', text: 'Thử lại'});
             btn.addEventListener('click', retry);
             s.appendChild(el('div', {}, [btn]));
         }
@@ -263,7 +277,7 @@
     function paintHeart(btn) {
         var on = !!(wishSet && wishSet[btn.getAttribute('data-pid')]);
         btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-        btn.setAttribute('aria-label', on ? 'Remove from wish list' : 'Add to wish list');
+        btn.setAttribute('aria-label', on ? 'Bỏ khỏi danh sách yêu thích' : 'Thêm vào danh sách yêu thích');
     }
 
     function paintHearts() {
@@ -271,14 +285,14 @@
             if (btn.hasAttribute('aria-pressed')) { paintHeart(btn); }
         });
         qa('[data-wish-label]').forEach(function (btn) {
-            btn.textContent = btn.getAttribute('aria-pressed') === 'true' ? 'Saved to wish list' : 'Add to wish list';
+            btn.textContent = btn.getAttribute('aria-pressed') === 'true' ? 'Đã lưu vào yêu thích' : 'Lưu vào yêu thích';
         });
     }
 
     function notify(message) {
         var box = q('#swToast');
         if (!box) {
-            box = el('div', {id: 'swToast', 'class': 'sw-toast', role: 'status'});
+            box = el('div', {id: 'swToast', 'class': 'kn-toast', role: 'status'});
             d.body.appendChild(box);
         }
         box.textContent = message;
@@ -303,15 +317,15 @@
                         if (turnOn) { delete set[id]; } else { set[id] = true; }
                         paintHearts();
                         if (e.status === 401) { goLogin(location.pathname + location.search); return; }
-                        notify('We could not update your wish list. Please try again.');
+                        notify('Chưa cập nhật được danh sách yêu thích. Vui lòng thử lại.');
                     });
             });
         });
     }
 
     function heartButton(id, extraClass) {
-        var btn = el('button', {type: 'button', 'class': 'sw-heart' + (extraClass ? ' ' + extraClass : ''),
-            'data-pid': String(id), 'aria-pressed': 'false', 'aria-label': 'Add to wish list'});
+        var btn = el('button', {type: 'button', 'class': 'kn-heart' + (extraClass ? ' ' + extraClass : ''),
+            'data-pid': String(id), 'aria-pressed': 'false', 'aria-label': 'Thêm vào danh sách yêu thích'});
         btn.innerHTML = HEART_SVG;
         btn.addEventListener('click', function () { toggleWish(id); });
         loadWish().then(function () { paintHeart(btn); });
@@ -319,21 +333,25 @@
     }
 
     function productCard(p) {
-        var imgBox = el('div', {'class': 'sw-img'});
+        var imgBox = el('figure', {});
         var src = imageUrl(p.iconImage || p.bannerImage);
         if (src) {
             imgBox.appendChild(el('img', {src: src, alt: p.name, loading: 'lazy'}));
         }
         if (p.discountPercent > 0) {
-            imgBox.appendChild(el('span', {'class': 'sw-tag', text: '-' + Math.round(p.discountPercent) + '%'}));
+            imgBox.appendChild(el('span', {'class': 'kn-tag', text: '-' + Math.round(p.discountPercent) + '%'}));
         }
+        var price = priceNode(p);
+        price.className = 'kn-cell__price';
         var a = el('a', {href: '/products/' + encodeURIComponent(p.code)}, [
             imgBox,
-            el('h3', {text: p.name}),
-            el('p', {'class': 'sw-pcode', text: p.code}),
-            priceNode(p)
+            el('div', {}, [
+                el('h3', {text: p.name}),
+                el('code', {'class': 'kn-cell__code', text: p.code}),
+                price
+            ])
         ]);
-        return el('li', {'class': 'sw-card-p', 'data-pid-card': String(p.id)}, [a, heartButton(p.id)]);
+        return el('li', {'class': 'kn-cell', 'data-pid-card': String(p.id)}, [a, heartButton(p.id)]);
     }
 
     function productQuery(extra) {
@@ -358,7 +376,7 @@
         var loaded = 0;
 
         function fetchPage(append) {
-            if (!append) { clear(grid); loaded = 0; nextToken = null; setState(root, 'loading', 'Loading products…'); }
+            if (!append) { clear(grid); loaded = 0; nextToken = null; setState(root, 'loading', 'Đang tải sản phẩm…'); }
             if (loadBtn) { loadBtn.disabled = true; }
             var p = Object.assign({}, params, {limit: limit, nextPageToken: append ? nextToken : ''});
             return api('/api/v1/products?' + productQuery(p)).then(function (r) {
@@ -367,19 +385,19 @@
                 items.forEach(function (it) { grid.appendChild(productCard(it)); });
                 loaded += items.length;
                 nextToken = r.continuation && r.continuation.hasNext ? r.pageToken.next : null;
-                if (countEl) { countEl.textContent = r.total ? loaded + ' of ' + r.total + ' products' : ''; }
+                if (countEl) { countEl.textContent = r.total ? loaded + ' / ' + r.total + ' sản phẩm' : ''; }
                 if (!loaded) {
-                    setState(root, 'empty', 'No products match your selection.');
+                    setState(root, 'empty', 'Không có sản phẩm nào phù hợp với lựa chọn của bạn.');
                 }
                 if (loadBtn) { loadBtn.hidden = !nextToken; loadBtn.disabled = false; }
             }).catch(function (e) {
                 if (e.status === 404 || (e.status === 400 && e.data && e.data.category)) {
-                    setState(root, 'empty', 'This category has no products yet.');
+                    setState(root, 'empty', 'Danh mục này chưa có sản phẩm.');
                     if (loadBtn) { loadBtn.hidden = true; }
                     if (countEl) { countEl.textContent = ''; }
                     return;
                 }
-                setState(root, 'error', 'We could not load the products.', function () { fetchPage(append); });
+                setState(root, 'error', 'Chưa tải được danh sách sản phẩm.', function () { fetchPage(append); });
                 if (loadBtn) { loadBtn.disabled = false; }
             });
         }
@@ -429,10 +447,10 @@
             var cat = sel.value;
             var keyword = kw.value.trim();
             var chosen = sel.options[sel.selectedIndex];
-            var title = keyword ? 'Search: ' + keyword : (cat ? chosen.textContent : 'All products');
+            var title = keyword ? 'Tìm kiếm: ' + keyword : (cat ? chosen.textContent : 'Tất cả sản phẩm');
             titleEl.textContent = title;
             bc.textContent = title;
-            d.title = title + ' | Khang Nguyen';
+            d.title = title + ' | Khang Nguyên · Ngọc Bảo';
             var params = {categoryName: cat, keyword: keyword, sortOrder: sort.value};
             if (priceMin.value !== '') { params.priceGte = priceMin.value; }
             // the server compares "greater than" strictly, so "10% or more" is "> 9"
@@ -447,14 +465,14 @@
                 clear(grid);
                 countEl0.textContent = '';
                 if (loadBtn) { loadBtn.hidden = true; }
-                setState(root, 'empty', 'Enter a keyword to search our collection.');
+                setState(root, 'empty', 'Nhập từ khóa để tìm trong bộ sưu tập.');
                 return;
             }
             if (pState.params.categoryName && !catsReal) {
                 clear(grid);
                 countEl0.textContent = '';
                 if (loadBtn) { loadBtn.hidden = true; }
-                setState(root, 'empty', 'This category has no products yet.');
+                setState(root, 'empty', 'Danh mục này chưa có sản phẩm.');
                 return;
             }
             if (!current) {
@@ -491,8 +509,8 @@
                 return true;
             }
             function finish(total) {
-                countEl.textContent = total ? loaded + ' of ' + total + ' products' : '';
-                if (!loaded) { setState(root, 'empty', 'No products match your selection.'); }
+                countEl.textContent = total ? loaded + ' / ' + total + ' sản phẩm' : '';
+                if (!loaded) { setState(root, 'empty', 'Không có sản phẩm nào phù hợp với lựa chọn của bạn.'); }
             }
             function fetchAll(my, base, token, acc) {
                 var p = Object.assign({}, base, {limit: 100, nextPageToken: token || ''});
@@ -517,14 +535,14 @@
                 countEl.textContent = '';
                 if (loadBtn) { loadBtn.hidden = true; loadBtn.disabled = false; }
                 if (e.status === 404 || (e.status === 400 && e.data && e.data.category)) {
-                    setState(root, 'empty', 'This category has no products yet.');
+                    setState(root, 'empty', 'Danh mục này chưa có sản phẩm.');
                     return;
                 }
-                setState(root, 'error', 'We could not load the products.', retry);
+                setState(root, 'error', 'Chưa tải được danh sách sản phẩm.', retry);
             }
             function fetchPage(append) {
                 var my = ++seq;
-                if (!append) { clear(grid); loaded = 0; nextToken = null; buffer = null; shown = 0; if (loadBtn) { loadBtn.hidden = true; } setState(root, 'loading', 'Loading products…'); }
+                if (!append) { clear(grid); loaded = 0; nextToken = null; buffer = null; shown = 0; if (loadBtn) { loadBtn.hidden = true; } setState(root, 'loading', 'Đang tải sản phẩm…'); }
                 if (loadBtn) { loadBtn.disabled = true; }
                 if (isPriceSort() || hasAttrFilter()) {
                     if (append && buffer) { showSlice(); return; }
@@ -566,11 +584,11 @@
         function showDroppedFilters() {
             var note = q('#swFilterNote');
             if (!note) {
-                note = el('p', {'class': 'sw-note', id: 'swFilterNote', role: 'status'});
+                note = el('p', {'class': 'kn-note', id: 'swFilterNote', role: 'status'});
                 q('#swTools').insertAdjacentElement('afterend', note);
             }
             note.textContent = dropped.length
-                ? 'We do not have ' + dropped.join(' or ') + ', so that filter was not applied.'
+                ? 'Chưa có ' + dropped.join(' hoặc ') + ', nên bộ lọc đó chưa được áp dụng.'
                 : '';
         }
         function fillAttrSelect(select, wrap, key, wanted, label) {
@@ -596,8 +614,8 @@
             });
             sel.value = slug;
             if (sel.value !== slug) { sel.value = ''; }
-            fillAttrSelect(colorSel, q('#swColorWrap'), 'colors', wantColor, 'the colour');
-            fillAttrSelect(materialSel, q('#swMaterialWrap'), 'materials', wantMaterial, 'the material');
+            fillAttrSelect(colorSel, q('#swColorWrap'), 'colors', wantColor, 'màu sắc');
+            fillAttrSelect(materialSel, q('#swMaterialWrap'), 'materials', wantMaterial, 'chất liệu');
             showDroppedFilters();
             apply();
         });
@@ -623,16 +641,11 @@
     };
 
     function stockText(p) {
-        if (p.amount > 5) { return 'In stock'; }
-        if (p.amount > 0) { return 'Only ' + p.amount + ' left'; }
-        return 'Out of stock';
+        if (p.amount > 5) { return 'Còn hàng'; }
+        if (p.amount === 1) { return 'Chỉ còn 1 sản phẩm, mỗi món là duy nhất'; }
+        if (p.amount > 0) { return 'Chỉ còn ' + p.amount + ' sản phẩm'; }
+        return 'Hết hàng';
     }
-
-    var SWATCH_DOT = {
-        'White': '#fff', 'Black': '#111', 'Blue': '#3a6fb0', 'Pink': '#e8a3b8', 'Green': '#4c8a5a',
-        'Yellow': '#f0d04a', 'Multicolored': 'linear-gradient(135deg,#e8a3b8,#f0d04a,#3a6fb0)',
-        'Gold tone': '#c9a45c', 'Rose gold tone': '#d9a48f', 'Silver tone': '#c0c0c0'
-    };
 
     // Other products of the same family are shown as colour choices; picking one opens that product.
     function renderSwatches(p) {
@@ -650,14 +663,10 @@
                 var current = code === p.code;
                 var link = el('a', {
                     href: '/products/' + encodeURIComponent(code),
-                    'class': 'sw-swatch' + (current ? ' is-current' : ''),
-                    'aria-label': 'Colour ' + color
-                }, [
-                    el('span', {'class': 'sw-swatch-dot', 'aria-hidden': 'true'}),
-                    el('span', {text: color})
-                ]);
+                    'class': 'kn-chip' + (current ? ' is-active' : ''),
+                    text: color
+                });
                 if (current) { link.setAttribute('aria-current', 'true'); }
-                link.firstChild.style.background = SWATCH_DOT[color] || '#ddd';
                 list.appendChild(el('li', {}, [link]));
             });
             q('#swPdpColor').textContent = mine.colors[0];
@@ -672,13 +681,13 @@
         var product;
         var wishBtn = q('#swWishBtn');
         function load() {
-            setState(root, 'loading', 'Loading product…');
+            setState(root, 'loading', 'Đang tải sản phẩm…');
             api('/api/v1/products/' + encodeURIComponent(code) + '/details').then(function (p) {
                 product = p;
                 setState(root, null);
-                d.title = p.name + ' | Khang Nguyen';
+                d.title = p.name + ' | Khang Nguyên · Ngọc Bảo';
                 q('#swBcCur').textContent = p.name;
-                q('#swPdpCode').textContent = 'Item ' + p.code;
+                q('#swPdpCode').textContent = 'Mã ' + p.code;
                 q('#swPdpName').textContent = p.name;
                 var priceBox = q('#swPdpPrice');
                 priceBox.textContent = priceText(p);
@@ -687,17 +696,19 @@
                 q('#swPdpStock').textContent = stockText(p);
                 var box = q('#swPdpImg');
                 clear(box);
-                var imgWrap = el('div', {'class': 'sw-img'});
                 var src = imageUrl(p.bannerImage || p.iconImage);
-                if (src) { imgWrap.appendChild(el('img', {src: src, alt: p.name})); }
-                box.appendChild(imgWrap);
+                if (src) { box.appendChild(el('img', {src: src, alt: p.name})); }
                 q('#swPdpDescText').textContent = p.description || p.name;
                 var inStock = p.amount > 0;
                 var addBtn = q('#swAddBtn');
                 addBtn.disabled = !inStock;
-                addBtn.textContent = inStock ? 'Add to bag' : 'Out of stock';
+                addBtn.textContent = inStock ? 'Thêm vào giỏ hàng' : 'Hết hàng';
                 q('#swPdpQty').disabled = !inStock;
                 qa('[data-qty-dec],[data-qty-inc]').forEach(function (n) { n.disabled = !inStock; });
+                // a single piece cannot be ordered twice, so the quantity picker is not offered
+                var qtyRow = q('#swPdpQtyRow');
+                if (qtyRow) { qtyRow.hidden = p.amount === 1; }
+                if (p.amount === 1) { qty.value = '1'; }
                 wishBtn.setAttribute('data-pid', String(p.id));
                 wishBtn.setAttribute('aria-pressed', 'false');
                 loadWish().then(paintHearts);
@@ -705,9 +716,9 @@
                 renderSwatches(p);
             }).catch(function (e) {
                 if (e.status === 404 || e.status === 400) {
-                    setState(root, 'empty', 'We could not find this product.');
+                    setState(root, 'empty', 'Không tìm thấy sản phẩm này.');
                 } else {
-                    setState(root, 'error', 'We could not load this product.', load);
+                    setState(root, 'error', 'Chưa tải được sản phẩm này.', load);
                 }
             });
         }
@@ -721,8 +732,8 @@
             addToBag(product.id, n);
             var note = q('#swAddNote');
             note.textContent = '';
-            var link = el('a', {href: '/shopping-cart', 'class': 'sw-u', text: 'View bag'});
-            note.appendChild(d.createTextNode('Added ' + n + ' to your bag. '));
+            var link = el('a', {href: '/shopping-cart', 'class': 'kn-link', text: 'Xem giỏ hàng'});
+            note.appendChild(d.createTextNode('Đã thêm ' + n + ' sản phẩm vào giỏ hàng. '));
             note.appendChild(link);
         });
         load();
@@ -761,17 +772,17 @@
         var wrap = q('#swCart');
         var list = q('#swLines');
         function render() {
-            setState(root, 'loading', 'Loading your bag…');
+            setState(root, 'loading', 'Đang tải giỏ hàng…');
             loadLines().then(function (rows) {
                 setState(root, null);
                 clear(list);
                 if (!rows.length) {
                     wrap.hidden = true;
-                    var empty = el('div', {'class': 'sw-state', role: 'status'}, [
-                        el('p', {text: 'Your bag is empty.'}),
-                        el('a', {'class': 'sw-btn sw-btn--dark', href: '/products', text: 'Continue shopping'})
+                    var empty = el('div', {'class': 'kn-state', role: 'status'}, [
+                        el('p', {text: 'Giỏ hàng của bạn đang trống.'}),
+                        el('a', {'class': 'kn-btn kn-btn--inline', href: '/products', text: 'Tiếp tục xem sản phẩm'})
                     ]);
-                    q('[data-sw-state]', root).appendChild(empty);
+                    q('[data-kn-state]', root).appendChild(empty);
                     return;
                 }
                 rows.forEach(function (r) { list.appendChild(lineNode(r, render)); });
@@ -779,7 +790,7 @@
                 wrap.hidden = false;
             }).catch(function () {
                 wrap.hidden = true;
-                setState(root, 'error', 'We could not load your bag.', render);
+                setState(root, 'error', 'Chưa tải được giỏ hàng.', render);
             });
         }
         render();
@@ -787,12 +798,12 @@
 
     function lineNode(r, rerender) {
         var p = r.product;
-        var imgBox = el('div', {'class': 'sw-img'});
+        var imgBox = el('a', {'class': 'kn-line__img', href: '/products/' + encodeURIComponent(p.code), tabindex: '-1', 'aria-hidden': 'true'});
         var src = imageUrl(p.iconImage || p.bannerImage);
-        if (src) { imgBox.appendChild(el('img', {src: src, alt: p.name})); }
-        var minus = el('button', {type: 'button', 'aria-label': 'Decrease quantity of ' + p.name, text: '−'});
-        var plus = el('button', {type: 'button', 'aria-label': 'Increase quantity of ' + p.name, text: '+'});
-        var input = el('input', {type: 'number', min: '1', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Quantity of ' + p.name});
+        if (src) { imgBox.appendChild(el('img', {src: src, alt: ''})); }
+        var minus = el('button', {type: 'button', 'aria-label': 'Giảm số lượng ' + p.name, text: '−'});
+        var plus = el('button', {type: 'button', 'aria-label': 'Tăng số lượng ' + p.name, text: '+'});
+        var input = el('input', {type: 'number', min: '1', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Số lượng ' + p.name});
         function setQty(n) {
             n = Math.max(1, Math.floor(n) || 1);
             if (p.amount && n > p.amount) { n = p.amount; }
@@ -804,21 +815,21 @@
         minus.addEventListener('click', function () { setQty(r.line.qty - 1); });
         plus.addEventListener('click', function () { setQty(r.line.qty + 1); });
         input.addEventListener('change', function () { setQty(Number(input.value)); });
-        var remove = el('button', {type: 'button', 'class': 'sw-rm', text: 'Remove'});
+        var remove = el('button', {type: 'button', 'class': 'kn-rm', text: 'Xóa khỏi giỏ'});
         remove.addEventListener('click', function () {
             writeBag(readBag().filter(function (l) { return l.id !== p.id; }));
             rerender();
         });
         var info = el('div', {}, [
             el('h3', {}, [el('a', {href: '/products/' + encodeURIComponent(p.code), text: p.name})]),
-            el('p', {'class': 'sw-pcode', text: 'Item ' + p.code}),
-            el('div', {'class': 'sw-qty'}, [minus, input, plus]),
+            el('p', {'class': 'kn-line__meta', text: 'Mã ' + p.code}),
+            p.amount === 1 ? null : el('div', {'class': 'kn-qty'}, [minus, input, plus])
+        ]);
+        var end = el('div', {'class': 'kn-line__end'}, [
+            el('p', {'class': 'kn-line__price', text: lineTotalText(p, r.line.qty)}),
             remove
         ]);
-        var end = el('div', {'class': 'sw-line-end'}, [
-            el('strong', {text: money(Number(p.price) * r.line.qty, isoOf(p), null) === '' ? '' : lineTotalText(p, r.line.qty)})
-        ]);
-        return el('li', {'class': 'sw-line'}, [imgBox, info, end]);
+        return el('li', {'class': 'kn-line'}, [imgBox, info, end]);
     }
 
     function lineTotalText(p, qty) {
@@ -844,7 +855,7 @@
         }
 
         function boot() {
-            setState(root, 'loading', 'Preparing your checkout…');
+            setState(root, 'loading', 'Đang chuẩn bị thanh toán…');
             Promise.all([
                 loadLines(),
                 api('/api/v1/currencies/default'),
@@ -855,16 +866,20 @@
                 currency = res[1];
                 setState(root, null);
                 if (!rowsCache.length) {
-                    setState(root, 'empty', 'Your bag is empty.');
-                    q('[data-sw-state]', root).firstChild.appendChild(el('div', {}, [el('a', {'class': 'sw-btn sw-btn--dark', href: '/products', text: 'Continue shopping'})]));
+                    setState(root, 'empty', 'Giỏ hàng của bạn đang trống.');
+                    q('[data-kn-state]', root).firstChild.appendChild(el('div', {}, [el('a', {'class': 'kn-btn kn-btn--inline', href: '/products', text: 'Tiếp tục xem sản phẩm'})]));
                     return;
                 }
                 var countries = Array.isArray(res[2]) ? res[2] : (res[2].items || []);
                 var cSel = q('#swCountry');
                 clear(cSel);
+                var vietnam = '';
                 countries.forEach(function (c) {
-                    cSel.appendChild(el('option', {value: String(c.id), text: c.localName || c.internationalName || c.code}));
+                    var label = c.localName || c.internationalName || c.code;
+                    if (/^(vn|vnm)$/i.test(c.code || '') || /viet\s?nam/i.test(label + ' ' + (c.internationalName || ''))) { vietnam = String(c.id); }
+                    cSel.appendChild(el('option', {value: String(c.id), text: label}));
                 });
+                if (vietnam) { cSel.value = vietnam; }
                 var services = Array.isArray(res[3]) ? res[3] : (res[3].items || res[3].paymentServices || []);
                 var pSel = q('#swPay');
                 clear(pSel);
@@ -888,7 +903,7 @@
                 wrap.hidden = false;
             }).catch(function (e) {
                 if (e.status === 401) { goLogin('/checkout'); return; }
-                setState(root, 'error', 'We could not prepare your checkout.', boot);
+                setState(root, 'error', 'Chưa chuẩn bị được trang thanh toán.', boot);
             });
         }
 
@@ -896,15 +911,15 @@
             e.preventDefault();
             showErr('');
             var f = form.elements;
-            var required = ['deliveryFullName', 'deliveryEmail', 'deliveryPhoneNumber', 'deliveryAddress', 'deliveryCityName', 'deliveryPostalCode'];
+            var required = ['deliveryFullName', 'deliveryEmail', 'deliveryPhoneNumber', 'deliveryAddress', 'deliveryCityName'];
             for (var i = 0; i < required.length; i++) {
-                if (!f[required[i]].value.trim()) { showErr('Please fill in all delivery details.', f[required[i]]); return; }
+                if (!f[required[i]].value.trim()) { showErr('Vui lòng điền đủ thông tin giao hàng.', f[required[i]]); return; }
             }
-            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Enter a valid email address.', f.deliveryEmail); return; }
-            if (!f.paymentServiceCode.value) { showErr('No payment method is available.', f.paymentServiceCode); return; }
+            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Nhập địa chỉ email hợp lệ.', f.deliveryEmail); return; }
+            if (!f.paymentServiceCode.value) { showErr('Hiện chưa có phương thức thanh toán nào.', f.paymentServiceCode); return; }
             var btn = q('#swPlace');
             btn.disabled = true;
-            btn.textContent = 'Placing order…';
+            btn.textContent = 'Đang đặt hàng…';
             var amountByProductId = {};
             rowsCache.forEach(function (r) { amountByProductId[r.product.id] = r.line.qty; });
             api('/api/v1/checkout', {method: 'POST', body: {
@@ -935,12 +950,12 @@
                 location.href = target;
             }).catch(function (err) {
                 btn.disabled = false;
-                btn.textContent = 'Place order';
+                btn.textContent = 'Đặt hàng';
                 if (err.status === 401) { goLogin('/checkout'); return; }
                 var bad = err.status === 400 && err.data && typeof err.data === 'object' ? Object.keys(err.data)[0] : '';
-                var labels = {deliveryPhoneNumber: 'phone number', deliveryEmail: 'email address', deliveryPostalCode: 'postal code', deliveryAddress: 'address', deliveryFullName: 'full name', deliveryCityName: 'city'};
-                if (bad && labels[bad] && f[bad]) { showErr('Please check your ' + labels[bad] + '.', f[bad]); return; }
-                showErr('We could not place your order. Please check your details and try again.');
+                var labels = {deliveryPhoneNumber: 'số điện thoại', deliveryEmail: 'địa chỉ email', deliveryPostalCode: 'mã bưu chính', deliveryAddress: 'địa chỉ', deliveryFullName: 'họ tên', deliveryCityName: 'tỉnh/thành phố'};
+                if (bad && labels[bad] && f[bad]) { showErr('Vui lòng kiểm tra lại ' + labels[bad] + '.', f[bad]); return; }
+                showErr('Chưa đặt được đơn hàng. Vui lòng kiểm tra thông tin và thử lại.');
             });
         });
         boot();
@@ -948,9 +963,9 @@
 
     function authError(data, status) {
         if (status === 401 || status === 400) {
-            return 'Check your username and password and try again.';
+            return 'Kiểm tra lại tên đăng nhập và mật khẩu rồi thử lại.';
         }
-        return 'Something went wrong. Please try again.';
+        return 'Đã có lỗi xảy ra. Vui lòng thử lại.';
     }
 
     pages.login = pages.register = function () {
@@ -959,7 +974,7 @@
         var errBox = q('#swFormErr');
         var btn = q('#swAuthBtn');
         var next = safeNext();
-        var alt = q('[data-sw-next-link]');
+        var alt = q('[data-kn-next-link]');
         if (alt && next) { alt.href = alt.getAttribute('href') + '?next=' + encodeURIComponent(next); }
         form.addEventListener('submit', function (e) {
             e.preventDefault();
@@ -967,10 +982,10 @@
             errBox.hidden = true;
             qa('[aria-invalid]', form).forEach(function (n) { n.removeAttribute('aria-invalid'); });
             function bad(msg, field) { errBox.textContent = msg; errBox.hidden = false; if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); } }
-            if (!f.username.value.trim()) { bad('Enter your username.', f.username); return; }
-            if (mode === 'register' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim())) { bad('Enter a valid email address.', f.email); return; }
-            if (!f.password.value) { bad('Enter your password.', f.password); return; }
-            if (mode === 'register' && f.password.value.length < 8) { bad('Use at least 8 characters for your password.', f.password); return; }
+            if (!f.username.value.trim()) { bad('Nhập tên đăng nhập.', f.username); return; }
+            if (mode === 'register' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.email.value.trim())) { bad('Nhập địa chỉ email hợp lệ.', f.email); return; }
+            if (!f.password.value) { bad('Nhập mật khẩu.', f.password); return; }
+            if (mode === 'register' && f.password.value.length < 8) { bad('Mật khẩu cần có ít nhất 8 ký tự.', f.password); return; }
             var body = {username: f.username.value.trim(), password: f.password.value};
             if (mode === 'register') {
                 body.email = f.email.value.trim();
@@ -983,7 +998,7 @@
                 btn.disabled = false;
                 var msg = authError(err.data, err.status);
                 if (mode === 'register' && err.data) {
-                    msg = Object.keys(err.data).length ? 'We could not create the account: ' + Object.keys(err.data).map(function (k) { return k + ' ' + err.data[k]; }).join(', ') + '.' : msg;
+                    msg = Object.keys(err.data).length ? 'Chưa tạo được tài khoản: ' + Object.keys(err.data).map(function (k) { return k + ' ' + err.data[k]; }).join(', ') + '.' : msg;
                 }
                 bad(msg, f.password);
             });
@@ -993,7 +1008,7 @@
     pages.account = gated('/account', function () {
         var root = q('#swMain');
         var wrap = q('#swAccount');
-        var ordersBox = q('[data-sw-orders-state]');
+        var ordersBox = q('[data-kn-orders-state]');
         var table = q('#swOrders');
 
         function profileRow(dl, label, value) {
@@ -1003,25 +1018,25 @@
         }
         var account = null;
         var form = q('#swProfileForm');
-        function dateText(ms) {
+        function isoDate(ms) {
             return ms > 0 ? new Date(ms).toISOString().slice(0, 10) : '';
         }
         function fillForm(a) {
             form.elements.displayName.value = a.displayName || '';
             form.elements.phone.value = a.phoneNumber || '';
-            form.elements.birthDate.value = dateText(a.dateOfBirth);
+            form.elements.birthDate.value = isoDate(a.dateOfBirth);
             form.elements.address.value = a.addressNumber || a.address || '';
         }
         function showProfile(a) {
             account = a;
             var dl = q('#swProfile');
             clear(dl);
-            profileRow(dl, 'Name', a.displayName);
-            profileRow(dl, 'Username', a.username);
+            profileRow(dl, 'Họ tên', a.displayName);
+            profileRow(dl, 'Tên đăng nhập', a.username);
             profileRow(dl, 'Email', a.email);
-            profileRow(dl, 'Phone', a.phoneNumber);
-            profileRow(dl, 'Birth date', dateText(a.dateOfBirth));
-            profileRow(dl, 'Address', a.address || a.addressNumber);
+            profileRow(dl, 'Số điện thoại', a.phoneNumber);
+            profileRow(dl, 'Ngày sinh', a.dateOfBirth > 0 ? dateText(a.dateOfBirth) : '');
+            profileRow(dl, 'Địa chỉ', a.address || a.addressNumber);
             fillForm(a);
         }
         function clearErrors() {
@@ -1036,10 +1051,10 @@
             var input = form.elements[key];
             if (input) { input.setAttribute('aria-invalid', 'true'); }
             if (box) {
-                box.textContent = msg === 'required' ? 'This field is required.'
-                    : (msg === 'duplicated' ? 'This value is already used by another account.'
-                        : (name === 'phone' ? 'Enter digits only, optionally starting with + (for example +6591112233). Spaces and dashes are removed for you.'
-                            : 'Enter a valid value.'));
+                box.textContent = msg === 'required' ? 'Vui lòng điền thông tin này.'
+                    : (msg === 'duplicated' ? 'Giá trị này đã được tài khoản khác sử dụng.'
+                        : (name === 'phone' ? 'Chỉ nhập chữ số, có thể bắt đầu bằng + (ví dụ +84912345678). Khoảng trắng và dấu gạch ngang sẽ được tự bỏ.'
+                            : 'Vui lòng nhập giá trị hợp lệ.'));
                 box.hidden = false;
                 return true;
             }
@@ -1088,13 +1103,13 @@
                 }
                 var box = q('#swProfileErr');
                 box.textContent = shown
-                    ? 'We could not save your profile. Please check the highlighted fields.'
-                    : 'We could not save your profile. Please try again.';
+                    ? 'Chưa lưu được hồ sơ. Vui lòng kiểm tra các ô được đánh dấu.'
+                    : 'Chưa lưu được hồ sơ. Vui lòng thử lại.';
                 box.hidden = false;
             });
         });
         function load() {
-            setState(root, 'loading', 'Loading your account…');
+            setState(root, 'loading', 'Đang tải tài khoản…');
             api('/ezyaccount/api/v1/account').then(function (a) {
                 setState(root, null);
                 showProfile(a);
@@ -1102,42 +1117,42 @@
                 loadOrders();
             }).catch(function (e) {
                 if (e.status === 401) { goLogin('/account'); return; }
-                setState(root, 'error', 'We could not load your account.', load);
+                setState(root, 'error', 'Chưa tải được tài khoản.', load);
             });
         }
         function loadOrders() {
             clear(ordersBox);
-            ordersBox.appendChild(el('div', {'class': 'sw-state', role: 'status'}, [el('span', {'class': 'sw-spin', 'aria-hidden': 'true'}), d.createTextNode('Loading orders…')]));
+            ordersBox.appendChild(el('div', {'class': 'kn-state', role: 'status'}, [el('span', {'class': 'kn-spin', 'aria-hidden': 'true'}), d.createTextNode('Đang tải đơn hàng…')]));
             api('/api/v1/orders?limit=20').then(function (r) {
                 clear(ordersBox);
                 var items = Array.isArray(r) ? r : (r.items || []);
                 var body = q('tbody', table);
                 clear(body);
                 if (!items.length) {
-                    ordersBox.appendChild(el('p', {'class': 'sw-note', text: 'You have no orders yet.'}));
+                    ordersBox.appendChild(el('p', {'class': 'kn-note', text: 'Bạn chưa có đơn hàng nào.'}));
                     table.hidden = true;
                     return;
                 }
                 items.forEach(function (o) {
-                    var when = o.createdAt ? new Date(o.createdAt).toLocaleDateString('en-GB') : '';
+                    var when = o.createdAt ? dateText(o.createdAt) : '';
                     var total = orderMoney(o.formattedTotalAmountMoneyIncludeSymbol || o.formattedTotalAmountIncludeSymbol || o.formattedAmountIncludeSymbol || o.totalAmount || '');
                     body.appendChild(el('tr', {}, [
                         el('td', {}, [
-                            el('a', {'class': 'sw-u', href: '/orders/' + o.id, text: '#' + (o.code || o.id)}),
+                            el('a', {'class': 'kn-link', href: '/orders/' + o.id, text: '#' + (o.code || o.id)}),
                             d.createTextNode(' '),
-                            el('a', {'class': 'sw-u', href: '/order-status?order=' + encodeURIComponent(o.id), text: 'Tra cứu đơn / Order Status'})
+                            el('a', {'class': 'kn-link', href: '/order-status?order=' + encodeURIComponent(o.id), text: 'Tra cứu đơn hàng'})
                         ]),
                         el('td', {text: when}),
-                        el('td', {text: String(o.status || o.paymentStatus || '')}),
+                        el('td', {text: statusText(o.status || o.paymentStatus)}),
                         el('td', {text: String(total)})
                     ]));
                 });
                 table.hidden = false;
             }).catch(function () {
                 clear(ordersBox);
-                var retry = el('button', {type: 'button', 'class': 'sw-btn', text: 'Try again'});
+                var retry = el('button', {type: 'button', 'class': 'kn-btn kn-btn--ghost kn-btn--inline', text: 'Thử lại'});
                 retry.addEventListener('click', loadOrders);
-                ordersBox.appendChild(el('div', {'class': 'sw-state', 'data-kind': 'error', role: 'alert'}, [d.createTextNode('We could not load your orders.'), el('div', {}, [retry])]));
+                ordersBox.appendChild(el('div', {'class': 'kn-state', 'data-kind': 'error', role: 'alert'}, [d.createTextNode('Chưa tải được đơn hàng.'), el('div', {}, [retry])]));
             });
         }
         q('#swLogout').addEventListener('click', function () { signOut(); });
@@ -1148,27 +1163,27 @@
         var root = q('#swMain');
         var list = q('#swStores');
         function load() {
-            setState(root, 'loading', 'Loading stores…');
+            setState(root, 'loading', 'Đang tải danh sách cửa hàng…');
             api('/data/stores.json').then(function (data) {
                 var stores = (data && data.stores) || [];
                 setState(root, null);
                 clear(list);
-                if (!stores.length) { setState(root, 'empty', 'No stores to show yet.'); return; }
+                if (!stores.length) { setState(root, 'empty', 'Chưa có cửa hàng để hiển thị.'); return; }
                 stores.forEach(function (s) {
-                    list.appendChild(el('li', {'class': 'sw-store'}, [
+                    list.appendChild(el('li', {}, [
                         el('h2', {text: s.name}),
                         el('p', {text: s.address}),
-                        el('p', {'class': 'sw-store-hours', text: 'Opening hours: ' + s.hours}),
+                        el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}),
                         el('p', {}, [el('a', {
-                            'class': 'sw-u',
+                            'class': 'kn-link',
                             href: '/book-an-appointment?store=' + encodeURIComponent(s.id),
-                            text: 'Book an appointment'
+                            text: 'Đặt lịch hẹn'
                         })])
                     ]));
                 });
                 q('#swStoresNote').textContent = data.note || '';
             }).catch(function () {
-                setState(root, 'error', 'We could not load the stores.', load);
+                setState(root, 'error', 'Chưa tải được danh sách cửa hàng.', load);
             });
         }
         load();
@@ -1199,17 +1214,17 @@
             var email = q('#swStatusEmail').value.trim();
             resetResult();
             if (!/^[0-9]+$/.test(id) || email.indexOf('@') < 1) {
-                msg.textContent = 'Enter your order number and a valid email address.';
+                msg.textContent = 'Nhập mã đơn hàng và địa chỉ email hợp lệ.';
                 return;
             }
-            msg.textContent = 'Checking…';
+            msg.textContent = 'Đang kiểm tra…';
             btn.disabled = true;
             api('/api/v1/ecm/order-status?' + qs({orderId: id, email: email})).then(function (r) {
                 msg.textContent = '';
                 q('#swStatusOrder').textContent = '#' + r.orderId;
-                q('#swStatusValue').textContent = String(r.status || '').replace(/_/g, ' ').toLowerCase();
-                q('#swStatusPlaced').textContent = r.createdAt ? new Date(r.createdAt).toLocaleString('en-GB') : '-';
-                q('#swStatusUpdated').textContent = r.updatedAt ? new Date(r.updatedAt).toLocaleString('en-GB') : '-';
+                q('#swStatusValue').textContent = statusText(r.status);
+                q('#swStatusPlaced').textContent = r.createdAt ? dateText(r.createdAt, true) : '-';
+                q('#swStatusUpdated').textContent = r.updatedAt ? dateText(r.updatedAt, true) : '-';
                 result.hidden = false;
                 if (Array.isArray(r.items) && r.items.length) {
                     r.items.forEach(function (it) {
@@ -1224,10 +1239,10 @@
             }).catch(function (err) {
                 resetResult();
                 msg.textContent = err.status === 429
-                    ? 'Too many attempts. Please wait a minute and try again.'
+                    ? 'Bạn thử quá nhiều lần. Vui lòng đợi một phút rồi thử lại.'
                     : err.status === 404 || err.status === 400
-                        ? 'We could not find an order with these details.'
-                        : 'We could not check the order. Please try again.';
+                        ? 'Không tìm thấy đơn hàng với thông tin này.'
+                        : 'Chưa kiểm tra được đơn hàng. Vui lòng thử lại.';
             }).then(function () { btn.disabled = false; });
         });
     };
@@ -1242,7 +1257,7 @@
             var code = form.elements.code;
             out.textContent = '';
             if (!code.value.trim()) {
-                err.textContent = 'Enter the card number.';
+                err.textContent = 'Nhập số thẻ.';
                 err.hidden = false;
                 code.setAttribute('aria-invalid', 'true');
                 code.focus();
@@ -1250,7 +1265,7 @@
             }
             err.hidden = true;
             code.removeAttribute('aria-invalid');
-            out.textContent = 'Gift card balance is not available in this demo.';
+            out.textContent = 'Tính năng tra cứu số dư thẻ quà tặng hiện chưa mở.';
         });
     };
 
@@ -1300,11 +1315,11 @@
     function showServerErrors(msgs, data, labels) {
         var shown = false;
         Object.keys(data || {}).forEach(function (k) {
-            var what = labels[k] || 'This value';
+            var what = labels[k] || 'Thông tin này';
             var code = data[k];
-            var text = code === 'required' ? what + ' is required.'
-                : code === 'too-long' ? what + ' is too long.'
-                    : what + ' is not valid.';
+            var text = code === 'required' ? what + ' là thông tin bắt buộc.'
+                : code === 'too-long' ? what + ' quá dài.'
+                    : what + ' chưa hợp lệ.';
             if (msgs.field(k, text)) { shown = true; }
         });
         return shown;
@@ -1318,13 +1333,13 @@
             done(msgs);
         }).catch(function (err) {
             if (err.status === 429) {
-                msgs.error('Too many requests. Please wait a minute and try again.');
+                msgs.error('Bạn gửi quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.');
             } else if (err.status === 400 && err.data && typeof err.data === 'object'
                 && showServerErrors(msgs, err.data, labels)) {
                 var bad = form.querySelector('[aria-invalid]');
                 if (bad) { bad.focus(); }
             } else {
-                msgs.error('We could not send your request. Please try again.');
+                msgs.error('Chưa gửi được yêu cầu. Vui lòng thử lại.');
             }
         }).then(function () { btn.disabled = false; });
     }
@@ -1336,16 +1351,16 @@
             var msgs = formMessages(form);
             msgs.reset();
             var email = form.elements.email.value.trim();
-            if (!EMAIL_RE.test(email)) { msgs.error('Enter a valid email address.', form.elements.email); return; }
+            if (!EMAIL_RE.test(email)) { msgs.error('Nhập địa chỉ email hợp lệ.', form.elements.email); return; }
             var btn = q('#swFormBtn', form);
             btn.disabled = true;
             // the answer is the same whether or not the address is registered
             api('/ezylogin/api/v1/forgot-password', {method: 'POST', body: {email: email}}).then(function () {
-                msgs.ok('If this email address is registered, a link to reset your password is on its way.');
+                msgs.ok('Nếu email này đã đăng ký, đường dẫn đặt lại mật khẩu sẽ được gửi đến hộp thư của bạn.');
             }).catch(function (err) {
                 msgs.error(err.status === 429
-                    ? 'Too many requests. Please wait a minute and try again.'
-                    : 'We could not send the link. Please try again.');
+                    ? 'Bạn gửi quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.'
+                    : 'Chưa gửi được đường dẫn. Vui lòng thử lại.');
             }).then(function () { btn.disabled = false; });
         });
     };
@@ -1360,8 +1375,8 @@
         if (history.replaceState) { history.replaceState(null, '', location.pathname); }
         if (!uuid || !token) {
             form.hidden = true;
-            var box = el('p', {'class': 'sw-form-err', role: 'alert',
-                text: 'This reset link is not valid. Please request a new one.'});
+            var box = el('p', {'class': 'kn-error', role: 'alert',
+                text: 'Đường dẫn đặt lại mật khẩu không hợp lệ. Vui lòng yêu cầu đường dẫn mới.'});
             form.parentNode.insertBefore(box, form);
             return;
         }
@@ -1369,8 +1384,8 @@
             e.preventDefault();
             msgs.reset();
             var f = form.elements;
-            if (f.password.value.length < 8) { msgs.error('Use at least 8 characters for your password.', f.password); return; }
-            if (f.password.value !== f.confirm.value) { msgs.error('The two passwords do not match.', f.confirm); return; }
+            if (f.password.value.length < 8) { msgs.error('Mật khẩu cần có ít nhất 8 ký tự.', f.password); return; }
+            if (f.password.value !== f.confirm.value) { msgs.error('Hai mật khẩu chưa khớp nhau.', f.confirm); return; }
             var btn = q('#swFormBtn', form);
             btn.disabled = true;
             api('/ezylogin/api/v1/reset-password', {
@@ -1378,22 +1393,22 @@
                 body: {userUuid: uuid, forgotPasswordToken: token, newPassword: f.password.value}
             }).then(function () {
                 form.reset();
-                msgs.ok('Your password has been changed. You can now sign in.');
+                msgs.ok('Mật khẩu đã được đổi. Bạn có thể đăng nhập ngay.');
                 btn.hidden = true;
-                form.appendChild(el('a', {'class': 'sw-btn sw-btn--dark sw-wide', href: '/login', text: 'Sign in'}));
+                form.appendChild(el('a', {'class': 'kn-btn kn-btn--wide', href: '/login', text: 'Đăng nhập'}));
             }).catch(function (err) {
                 btn.disabled = false;
                 msgs.error(err.status === 429
-                    ? 'Too many requests. Please wait a minute and try again.'
+                    ? 'Bạn gửi quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.'
                     : err.status === 400 && err.data && typeof err.data === 'object' && err.data.newPassword
-                        ? 'This password is not accepted. Choose a longer one with more variety.'
-                        : 'This reset link is invalid or has expired. Please request a new one.');
+                        ? 'Mật khẩu này chưa được chấp nhận. Hãy chọn mật khẩu dài hơn và đa dạng ký tự hơn.'
+                        : 'Đường dẫn đặt lại mật khẩu không hợp lệ hoặc đã hết hạn. Vui lòng yêu cầu đường dẫn mới.');
             });
         });
     };
 
-    var CONTACT_LABELS = {name: 'Your name', email: 'Your email', phone: 'Your phone number',
-        topic: 'The topic', message: 'Your message'};
+    var CONTACT_LABELS = {name: 'Họ tên', email: 'Email', phone: 'Số điện thoại',
+        topic: 'Chủ đề', message: 'Nội dung tin nhắn'};
 
     pages.wishlist = gated('/wishlist', function () {
         var root = q('#swMain');
@@ -1404,15 +1419,15 @@
         var shown = 0;
         var total = 0;
         function summary() {
-            count.textContent = total === 1 ? '1 item' : total + ' items';
+            count.textContent = total + ' sản phẩm';
             more.hidden = shown >= total;
             if (total === 0) {
-                setState(root, 'empty', 'Your wish list is empty. Tap the heart on a product to save it here.');
+                setState(root, 'empty', 'Danh sách yêu thích đang trống. Chạm vào biểu tượng trái tim trên sản phẩm để lưu vào đây.');
                 count.textContent = '';
             }
         }
         function fetchPage() {
-            setState(root, 'loading', 'Loading your wish list…');
+            setState(root, 'loading', 'Đang tải danh sách yêu thích…');
             more.disabled = true;
             api('/api/v1/ecm/wishlist?' + qs({page: page, size: 24})).then(function (r) {
                 setState(root, null);
@@ -1422,7 +1437,7 @@
                 summary();
             }).catch(function (e) {
                 if (e.status === 401) { goLogin('/wishlist'); return; }
-                setState(root, 'error', 'We could not load your wish list.', fetchPage);
+                setState(root, 'error', 'Chưa tải được danh sách yêu thích.', fetchPage);
             }).then(function () { more.disabled = false; });
         }
         more.addEventListener('click', function () { page += 1; fetchPage(); });
@@ -1444,16 +1459,16 @@
         var ok = q('#swNlOk');
         // keep the one-time token out of the address bar, history and Referer headers
         if (history.replaceState) { history.replaceState(null, '', location.pathname); }
-        q('#swNlTitle').textContent = unsub ? 'Unsubscribe from the newsletter' : 'Confirm your subscription';
+        q('#swNlTitle').textContent = unsub ? 'Hủy đăng ký bản tin' : 'Xác nhận đăng ký';
         if (!/^[0-9a-f]{64}$/.test(token)) {
-            err.textContent = 'This link is not valid. Please use the link from your email.';
+            err.textContent = 'Đường dẫn không hợp lệ. Vui lòng dùng đường dẫn trong email của bạn.';
             err.hidden = false;
             return;
         }
         q('#swNlText').textContent = unsub
-            ? 'Press the button to stop receiving our newsletter.'
-            : 'Press the button to confirm that you want to receive our newsletter.';
-        btn.textContent = unsub ? 'Unsubscribe' : 'Confirm subscription';
+            ? 'Nhấn nút bên dưới để ngừng nhận bản tin của chúng tôi.'
+            : 'Nhấn nút bên dưới để xác nhận bạn muốn nhận bản tin của chúng tôi.';
+        btn.textContent = unsub ? 'Hủy đăng ký' : 'Xác nhận đăng ký';
         btn.hidden = false;
         btn.addEventListener('click', function () {
             err.hidden = true;
@@ -1463,15 +1478,15 @@
                     btn.hidden = true;
                     q('#swNlText').textContent = '';
                     ok.textContent = unsub
-                        ? 'You have been unsubscribed. You will not receive our newsletter.'
-                        : 'Thank you. Your subscription is confirmed.';
+                        ? 'Bạn đã hủy đăng ký. Bạn sẽ không nhận bản tin của chúng tôi nữa.'
+                        : 'Cảm ơn bạn. Đăng ký của bạn đã được xác nhận.';
                     ok.hidden = false;
                 }).catch(function (e) {
                     err.textContent = e.status === 404
-                        ? 'This link is not valid any more. Please use the latest email we sent you.'
+                        ? 'Đường dẫn này không còn hiệu lực. Vui lòng dùng email mới nhất chúng tôi đã gửi.'
                         : e.status === 429
-                            ? 'Too many requests. Please wait a minute and try again.'
-                            : 'Something went wrong. Please try again.';
+                            ? 'Bạn gửi quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.'
+                            : 'Đã có lỗi xảy ra. Vui lòng thử lại.';
                     err.hidden = false;
                     btn.disabled = false;
                 });
@@ -1485,13 +1500,13 @@
             var msgs = formMessages(form);
             msgs.reset();
             var ok = checkFields(form, msgs, [
-                {name: 'name', test: function (v) { return v ? '' : 'Enter your name.'; }},
-                {name: 'email', test: function (v) { return EMAIL_RE.test(v) ? '' : 'Enter a valid email address.'; }},
+                {name: 'name', test: function (v) { return v ? '' : 'Nhập họ tên.'; }},
+                {name: 'email', test: function (v) { return EMAIL_RE.test(v) ? '' : 'Nhập địa chỉ email hợp lệ.'; }},
                 {name: 'phone', test: function (v) {
                     var p = v.replace(/[\s-]/g, '');
-                    return !p || PHONE_RE.test(p) ? '' : 'Enter digits only, optionally starting with +.';
+                    return !p || PHONE_RE.test(p) ? '' : 'Chỉ nhập chữ số, có thể bắt đầu bằng +.';
                 }},
-                {name: 'message', test: function (v) { return v ? '' : 'Write your message.'; }}
+                {name: 'message', test: function (v) { return v ? '' : 'Nhập nội dung tin nhắn.'; }}
             ]);
             if (!ok) { return; }
             var f = form.elements;
@@ -1500,13 +1515,13 @@
                 topic: f.topic.value, message: f.message.value.trim(), website: f.website.value
             }, CONTACT_LABELS, function (done) {
                 form.reset();
-                done.ok('Thank you. We have received your message and will reply by email.');
+                done.ok('Cảm ơn bạn. Chúng tôi đã nhận được tin nhắn và sẽ trả lời qua email.');
             });
         });
     };
 
-    var APPT_LABELS = {storeId: 'The store', date: 'The date', time: 'The time', name: 'Your name',
-        phone: 'Your phone number', email: 'Your email', note: 'Your note'};
+    var APPT_LABELS = {storeId: 'Cửa hàng', date: 'Ngày hẹn', time: 'Giờ hẹn', name: 'Họ tên',
+        phone: 'Số điện thoại', email: 'Email', note: 'Ghi chú'};
 
     pages.appointment = function () {
         var root = q('#swMain');
@@ -1521,26 +1536,26 @@
         var last = new Date(today.getTime() + 90 * 24 * 3600 * 1000);
         dateInput.min = iso(today);
         dateInput.max = iso(last);
-        timeSel.appendChild(el('option', {value: '', text: 'Choose a time'}));
+        timeSel.appendChild(el('option', {value: '', text: 'Chọn giờ hẹn'}));
         for (var h = 10; h <= 21; h++) {
             ['00', '30'].forEach(function (m) {
                 timeSel.appendChild(el('option', {value: h + ':' + m, text: h + ':' + m}));
             });
         }
         function load() {
-            setState(root, 'loading', 'Loading stores…');
+            setState(root, 'loading', 'Đang tải danh sách cửa hàng…');
             api('/data/stores.json').then(function (data) {
                 var stores = (data && data.stores) || [];
-                if (!stores.length) { setState(root, 'empty', 'No stores are open for appointments yet.'); return; }
+                if (!stores.length) { setState(root, 'empty', 'Chưa có cửa hàng nhận lịch hẹn.'); return; }
                 setState(root, null);
-                storeSel.appendChild(el('option', {value: '', text: 'Choose a store'}));
+                storeSel.appendChild(el('option', {value: '', text: 'Chọn cửa hàng'}));
                 stores.forEach(function (s) { storeSel.appendChild(el('option', {value: s.id, text: s.name})); });
                 var want = new URLSearchParams(location.search).get('store') || '';
                 storeSel.value = want;
                 if (storeSel.value !== want) { storeSel.value = ''; }
                 form.hidden = false;
             }).catch(function () {
-                setState(root, 'error', 'We could not load the stores.', load);
+                setState(root, 'error', 'Chưa tải được danh sách cửa hàng.', load);
             });
         }
         form.addEventListener('submit', function (e) {
@@ -1548,16 +1563,16 @@
             var msgs = formMessages(form);
             msgs.reset();
             var ok = checkFields(form, msgs, [
-                {name: 'storeId', test: function (v) { return v ? '' : 'Choose a store.'; }},
+                {name: 'storeId', test: function (v) { return v ? '' : 'Chọn cửa hàng.'; }},
                 {name: 'date', test: function (v) {
-                    return v && v >= dateInput.min && v <= dateInput.max ? '' : 'Choose a date within the next 90 days.';
+                    return v && v >= dateInput.min && v <= dateInput.max ? '' : 'Chọn ngày trong vòng 90 ngày tới.';
                 }},
-                {name: 'time', test: function (v) { return v ? '' : 'Choose a time.'; }},
-                {name: 'name', test: function (v) { return v ? '' : 'Enter your name.'; }},
+                {name: 'time', test: function (v) { return v ? '' : 'Chọn giờ hẹn.'; }},
+                {name: 'name', test: function (v) { return v ? '' : 'Nhập họ tên.'; }},
                 {name: 'phone', test: function (v) {
-                    return PHONE_RE.test(v.replace(/[\s-]/g, '')) ? '' : 'Enter digits only, optionally starting with +.';
+                    return PHONE_RE.test(v.replace(/[\s-]/g, '')) ? '' : 'Chỉ nhập chữ số, có thể bắt đầu bằng +.';
                 }},
-                {name: 'email', test: function (v) { return EMAIL_RE.test(v) ? '' : 'Enter a valid email address.'; }}
+                {name: 'email', test: function (v) { return EMAIL_RE.test(v) ? '' : 'Nhập địa chỉ email hợp lệ.'; }}
             ]);
             if (!ok) { return; }
             var f = form.elements;
@@ -1567,7 +1582,7 @@
                 note: f.note.value.trim(), website: f.website.value
             }, APPT_LABELS, function (done) {
                 form.reset();
-                done.ok('Thank you. Your request is with the store, which will confirm your visit by email or phone.');
+                done.ok('Cảm ơn bạn. Yêu cầu đã được gửi đến cửa hàng, cửa hàng sẽ xác nhận lịch hẹn qua email hoặc điện thoại.');
             });
         });
         load();
@@ -1588,19 +1603,19 @@
             dl.appendChild(el('dd', {text: value}));
         }
         function load() {
-            setState(root, 'loading', 'Loading your order…');
+            setState(root, 'loading', 'Đang tải đơn hàng…');
             api('/api/v1/orders/' + encodeURIComponent(id)).then(function (o) {
                 setState(root, null);
                 var paid = o.paymentStatus === 'PAID';
-                q('#swOrderTitle').textContent = paid ? 'Thank you for your order' : 'Your order';
+                q('#swOrderTitle').textContent = paid ? 'Cảm ơn bạn đã đặt hàng' : 'Đơn hàng của bạn';
                 var st = q('#swOrderStatus');
-                st.textContent = paid ? 'Payment received. Order #' + o.id + ' is confirmed.' : 'Order #' + o.id + ' is ' + String(o.status || '').toLowerCase().replace(/_/g, ' ') + '.';
+                st.textContent = paid ? 'Đã nhận thanh toán. Đơn hàng #' + o.id + ' đã được xác nhận.' : 'Đơn hàng #' + o.id + ' ' + statusText(o.status) + '.';
                 var meta = q('#swOrderMeta');
                 clear(meta);
-                row(meta, 'Order', '#' + o.id);
-                row(meta, 'Status', String(o.status || '').replace(/_/g, ' '));
-                row(meta, 'Payment', String(o.paymentStatus || '').replace(/_/g, ' '));
-                row(meta, 'Placed', o.createdAt ? new Date(o.createdAt).toLocaleString('en-GB') : '');
+                row(meta, 'Mã đơn hàng', '#' + o.id);
+                row(meta, 'Trạng thái', statusText(o.status));
+                row(meta, 'Thanh toán', statusText(o.paymentStatus));
+                row(meta, 'Ngày đặt', o.createdAt ? dateText(o.createdAt, true) : '');
                 var lines = q('#swOrderLines');
                 clear(lines);
                 (o.products || []).forEach(function (l) {
@@ -1613,11 +1628,11 @@
                 var track = q('#swOrderTrack');
                 if (track) { track.setAttribute('href', '/order-status?order=' + encodeURIComponent(o.id)); }
                 q('#swOrder').hidden = false;
-                d.title = 'Order #' + o.id + ' | Khang Nguyen';
+                d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';
             }).catch(function (e) {
                 if (e.status === 401) { goLogin(location.pathname); return; }
-                if (e.status === 403 || e.status === 404) { setState(root, 'empty', 'We could not find this order.'); return; }
-                setState(root, 'error', 'We could not load your order.', load);
+                if (e.status === 403 || e.status === 404) { setState(root, 'empty', 'Không tìm thấy đơn hàng này.'); return; }
+                setState(root, 'error', 'Chưa tải được đơn hàng.', load);
             });
         }
         load();
@@ -1628,40 +1643,33 @@
     /* ---------- chrome ---------- */
     function initChrome() {
         var drawer = q('#swDrawer');
-        var menuBtn = q('[data-sw-menu]');
+        var menuBtn = q('[data-kn-menu]');
         function openDrawer(open) {
-            b.classList.toggle('sw-drawer-open', open);
+            d.body.classList.toggle('kn-drawer-open', open);
             drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
             menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
-            if (open) { q('.sw-drawer-x', drawer).focus(); } else { menuBtn.focus(); }
+            if (open) { q('.kn-drawer__x', drawer).focus(); } else { menuBtn.focus(); }
         }
-        menuBtn.addEventListener('click', function () { openDrawer(true); });
-        qa('[data-sw-close]').forEach(function (n) { n.addEventListener('click', function () { openDrawer(false); }); });
-        d.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape' && b.classList.contains('sw-drawer-open')) { openDrawer(false); }
-        });
-        var promo = q('#swPromo');
-        if (sessionStorage.getItem('ecm.promo') === 'closed') { promo.hidden = true; }
-        q('[data-sw-promo-x]').addEventListener('click', function () {
-            promo.hidden = true;
-            try { sessionStorage.setItem('ecm.promo', 'closed'); } catch (e) { /* ignore */ }
-        });
-        var searchForm = q('#swSearch');
-        var searchBtn = q('[data-sw-search-toggle]');
-        searchBtn.addEventListener('click', function () {
-            var show = searchForm.hidden;
-            searchForm.hidden = !show;
-            searchBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
-            if (show) { q('#swSearchInput').focus(); }
-        });
-        qa('.sw-acc-btn').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                btn.setAttribute('aria-expanded', btn.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+        if (drawer && menuBtn) {
+            menuBtn.addEventListener('click', function () { openDrawer(true); });
+            qa('[data-kn-close]').forEach(function (n) { n.addEventListener('click', function () { openDrawer(false); }); });
+            d.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && d.body.classList.contains('kn-drawer-open')) { openDrawer(false); }
             });
-        });
-        qa('[data-sw-auth-link]').forEach(function (a) {
+        }
+        var searchForm = q('#swSearch');
+        var searchBtn = q('[data-kn-search-toggle]');
+        if (searchForm && searchBtn) {
+            searchBtn.addEventListener('click', function () {
+                var show = searchForm.hidden;
+                searchForm.hidden = !show;
+                searchBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
+                if (show) { q('#swSearchInput').focus(); }
+            });
+        }
+        qa('[data-kn-auth-link]').forEach(function (a) {
             loggedIn().then(function (ok) {
-                if (ok) { a.textContent = 'My account'; a.setAttribute('href', '/account'); }
+                if (ok) { a.textContent = 'Tài khoản của tôi'; a.setAttribute('href', '/account'); }
             });
         });
         renderBagCount();
@@ -1682,7 +1690,7 @@
             input.removeAttribute('aria-invalid');
             var email = input.value.trim();
             if (!EMAIL_RE.test(email)) {
-                err.textContent = 'Enter a valid email address.';
+                err.textContent = 'Nhập địa chỉ email hợp lệ.';
                 err.hidden = false;
                 input.setAttribute('aria-invalid', 'true');
                 input.focus();
@@ -1693,14 +1701,14 @@
             api('/api/v1/ecm/newsletter', {method: 'POST', body: {email: email, website: form.elements.website.value}})
                 .then(function () {
                     form.reset();
-                    ok.textContent = 'Thanks for subscribing. Please check your inbox to confirm your address.';
+                    ok.textContent = 'Cảm ơn bạn đã đăng ký. Vui lòng kiểm tra hộp thư để xác nhận địa chỉ email.';
                     ok.hidden = false;
                 }).catch(function (e2) {
                     err.textContent = e2.status === 429
-                        ? 'Too many requests. Please wait a minute and try again.'
+                        ? 'Bạn gửi quá nhiều yêu cầu. Vui lòng đợi một phút rồi thử lại.'
                         : e2.status === 400
-                            ? 'Enter a valid email address.'
-                            : 'We could not subscribe you. Please try again.';
+                            ? 'Nhập địa chỉ email hợp lệ.'
+                            : 'Chưa đăng ký được. Vui lòng thử lại.';
                     err.hidden = false;
                 }).then(function () { btn.disabled = false; });
         });

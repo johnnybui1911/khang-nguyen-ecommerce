@@ -180,8 +180,37 @@
 </div></section>
 
 <!-- 9. Spacing and radius -->
+<section class="sg-sec" id="storefront"><div class="kn-wrap">
+  <h2>9. Thành phần trang động của cửa hàng</h2>
+  <p class="sg-intro">Các thành phần này do theme dựng bằng script (danh mục, giỏ, tài khoản, biểu mẫu). Mỗi thành phần đều dùng token, không thêm màu mới.</p>
+  <div class="sg-sub">Thanh công cụ, nút biểu tượng, ô tìm kiếm</div>
+  <div class="sg-row">
+    <a class="kn-ico" href="#storefront" aria-label="Tìm kiếm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></a>
+    <a class="kn-ico" href="#storefront" aria-label="Yêu thích"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20.5S3.5 15 3.5 9.2A4.7 4.7 0 0112 6.7a4.7 4.7 0 018.5 2.5C20.5 15 12 20.5 12 20.5z"/></svg></a>
+    <a class="kn-bag" href="#storefront">Giỏ hàng <b class="kn-badge">2</b></a>
+  </div>
+  <div class="sg-sub">Trạng thái: đang tải, lỗi, thông báo</div>
+  <div class="sg-col">
+    <div class="kn-state" data-kind="loading" role="status"><span class="kn-spin" aria-hidden="true"></span>Đang tải sản phẩm...</div>
+    <div class="kn-state" data-kind="error" role="alert">Không tải được dữ liệu. <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline">Thử lại</button></div>
+  </div>
+  <div class="sg-sub">Quantity, chip lựa chọn, ô lọc</div>
+  <div class="sg-row">
+    <div class="kn-qty"><button type="button" aria-label="Giảm">&minus;</button><input type="number" value="1" min="1" aria-label="Số lượng" /><button type="button" aria-label="Tăng">+</button></div>
+    <button type="button" class="kn-chip" aria-pressed="true">Xanh lam</button>
+    <button type="button" class="kn-chip" aria-pressed="false">Trắng ngà</button>
+  </div>
+  <div class="sg-sub">Thẻ thông tin, danh sách mô tả, bảng đơn hàng</div>
+  <div class="kn-card">
+    <h2>Hồ sơ</h2>
+    <dl class="kn-dl"><dt>Tên hiển thị</dt><dd>Nguyễn Văn A</dd><dt>Điện thoại</dt><dd>0900 000 000</dd></dl>
+    <div class="kn-scroll"><table class="kn-orders"><thead><tr><th scope="col">Đơn hàng</th><th scope="col">Ngày</th><th scope="col">Trạng thái</th><th scope="col">Tổng</th></tr></thead><tbody><tr><td><a href="#storefront">#1001</a></td><td>22/11/2026</td><td>Đã đặt</td><td>18.500.000 ₫</td></tr></tbody></table></div>
+    <p class="kn-total"><span>Tổng cộng</span><strong>18.500.000 ₫</strong></p>
+  </div>
+</div></section>
+
 <section class="sg-sec" id="layout"><div class="kn-wrap">
-  <h2>9. Khoảng cách, bo góc, bề mặt</h2>
+  <h2>10. Khoảng cách, bo góc, bề mặt</h2>
   <p class="sg-intro">Khung nội dung tối đa 1216px, padding 32px (mobile 16px). Bo góc chỉ có bốn mức: 0, 6px (nút chính), 10px (khung ảnh, ô nhập, khung tóm tắt), viên thuốc. Không dùng box-shadow.</p>
   <div id="scale"></div>
   <p class="sg-sub">Bo góc</p>
@@ -200,7 +229,7 @@
 
 <!-- 10. Do and don't -->
 <section class="sg-sec" id="rules"><div class="kn-wrap">
-  <h2>10. Nên và không nên</h2>
+  <h2>11. Nên và không nên</h2>
   <div class="sg-twocol">
     <div class="sg-col">
       <div class="sg-rule sg-do">Giữ nền tối cho khu bán hàng và nền giấy cho khu đọc.</div>
