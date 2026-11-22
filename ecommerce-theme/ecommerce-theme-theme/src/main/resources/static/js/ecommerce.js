@@ -712,9 +712,9 @@
                 if (src) { box.appendChild(el('img', {src: src, alt: p.name})); }
                 q('#swPdpDescText').textContent = p.description || p.name;
                 paintAddState();
-                // a single piece cannot be ordered twice, so the quantity picker is not offered
+                // the quantity picker is offered only when more than one piece is in stock
                 var qtyRow = q('#swPdpQtyRow');
-                if (qtyRow) { qtyRow.hidden = p.amount === 1; }
+                if (qtyRow) { qtyRow.hidden = p.amount <= 1; }
                 if (p.amount === 1) { qty.value = '1'; }
                 wishBtn.setAttribute('data-pid', String(p.id));
                 wishBtn.setAttribute('aria-pressed', 'false');
@@ -744,6 +744,7 @@
         wishBtn.setAttribute('data-wish-label', '');
         wishBtn.addEventListener('click', function () { if (product) { toggleWish(product.id); } });
         q('#swAddBtn').addEventListener('click', function () {
+            if (!product) { return; }
             var n = Math.max(1, Math.floor(Number(qty.value) || 1));
             if (product.amount && n > product.amount) { n = product.amount; qty.value = n; }
             var room = product.amount > 0 ? product.amount - bagQty(product.id) : n;
@@ -1674,6 +1675,7 @@
             d.body.classList.toggle('kn-drawer-open', open);
             drawer.setAttribute('aria-hidden', open ? 'false' : 'true');
             menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+            menuBtn.setAttribute('aria-label', open ? 'Đóng menu' : 'Mở menu');
             if (open) { q('.kn-drawer__x', drawer).focus(); } else { menuBtn.focus(); }
         }
         if (drawer && menuBtn) {
@@ -1686,11 +1688,14 @@
         var searchForm = q('#swSearch');
         var searchBtn = q('[data-kn-search-toggle]');
         if (searchForm && searchBtn) {
-            searchBtn.addEventListener('click', function () {
-                var show = searchForm.hidden;
+            var toggleSearch = function (show) {
                 searchForm.hidden = !show;
                 searchBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
-                if (show) { q('#swSearchInput').focus(); }
+                if (show) { q('#swSearchInput').focus(); } else { searchBtn.focus(); }
+            };
+            searchBtn.addEventListener('click', function () { toggleSearch(searchForm.hidden); });
+            searchForm.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && !searchForm.hidden) { e.stopPropagation(); toggleSearch(false); }
             });
         }
         qa('[data-kn-auth-link]').forEach(function (a) {
