@@ -78,7 +78,7 @@ body.kn{color-scheme:dark}
 .kn-field{display:grid;gap:8px;margin:0 0 20px}
 .kn-field label{font-size:13px;color:var(--kn-body)}
 .kn-field--flush{margin:0;min-width:200px}
-.kn-input{width:100%;height:48px;padding:0 16px;border-radius:10px;border:1px solid var(--kn-edge);background:rgba(12,15,21,.6);color:var(--kn-text);font:300 16px/1 var(--kn-sans)}
+.kn-input{width:100%;height:48px;padding:0 16px;border-radius:10px;border:1px solid var(--kn-muted);background:rgba(12,15,21,.6);color:var(--kn-text);font:300 16px/1 var(--kn-sans)}
 .kn-input::placeholder{color:var(--kn-muted)}
 .kn-input:focus,.kn-input.is-focus{border-color:var(--kn-gold);outline:2px solid var(--kn-gold);outline-offset:2px}
 .kn-input.is-error{border-color:var(--kn-crimson)}
@@ -294,7 +294,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 /* quantity and choice chips */
 .kn-qty-row{display:flex;align-items:center;gap:16px;margin:0 0 20px}
 .kn-qty-row label{font-size:13px;color:var(--kn-body)}
-.kn-qty{display:inline-flex;align-items:center;height:44px;border:1px solid var(--kn-edge);border-radius:9999px;overflow:hidden}
+.kn-qty{display:inline-flex;align-items:center;height:44px;border:1px solid var(--kn-muted);border-radius:9999px;overflow:hidden}
 .kn-qty button{width:44px;height:44px;font-size:18px;color:var(--kn-body)}
 .kn-qty button:hover{color:var(--kn-white)}
 .kn-qty input{width:48px;height:44px;border:0;background:transparent;color:var(--kn-text);text-align:center;font:400 15px/1 var(--kn-sans);-moz-appearance:textfield}
