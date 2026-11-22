@@ -199,10 +199,16 @@
         localStorage.setItem(BAG_KEY, JSON.stringify(lines));
         renderBagCount();
     }
-    function addToBag(id, qty) {
+    function bagQty(id) {
+        var line = readBag().filter(function (l) { return l.id === id; })[0];
+        return line ? line.qty : 0;
+    }
+    // max is the stock on hand; the bag never holds more of a product than that
+    function addToBag(id, qty, max) {
         var lines = readBag();
         var line = lines.filter(function (l) { return l.id === id; })[0];
-        if (line) { line.qty += qty; } else { lines.push({id: id, qty: qty}); }
+        var cap = max > 0 ? max : Infinity;
+        if (line) { line.qty = Math.min(line.qty + qty, cap); } else { lines.push({id: id, qty: Math.min(qty, cap)}); }
         writeBag(lines);
     }
     function renderBagCount() {
@@ -705,12 +711,7 @@
                 var src = imageUrl(p.bannerImage || p.iconImage);
                 if (src) { box.appendChild(el('img', {src: src, alt: p.name})); }
                 q('#swPdpDescText').textContent = p.description || p.name;
-                var inStock = p.amount > 0;
-                var addBtn = q('#swAddBtn');
-                addBtn.disabled = !inStock;
-                addBtn.textContent = inStock ? 'Thêm vào giỏ hàng' : 'Hết hàng';
-                q('#swPdpQty').disabled = !inStock;
-                qa('[data-qty-dec],[data-qty-inc]').forEach(function (n) { n.disabled = !inStock; });
+                paintAddState();
                 // a single piece cannot be ordered twice, so the quantity picker is not offered
                 var qtyRow = q('#swPdpQtyRow');
                 if (qtyRow) { qtyRow.hidden = p.amount === 1; }
@@ -728,6 +729,16 @@
                 }
             });
         }
+        // add button follows stock and what the bag already holds
+        function paintAddState() {
+            var inStock = product.amount > 0;
+            var full = inStock && bagQty(product.id) >= product.amount;
+            var addBtn = q('#swAddBtn');
+            addBtn.disabled = !inStock || full;
+            addBtn.textContent = !inStock ? 'Hết hàng' : (full ? 'Đã có trong giỏ' : 'Thêm vào giỏ hàng');
+            q('#swPdpQty').disabled = !inStock || full;
+            qa('[data-qty-dec],[data-qty-inc]').forEach(function (n) { n.disabled = !inStock || full; });
+        }
         q('[data-qty-dec]').addEventListener('click', function () { qty.value = Math.max(1, (Number(qty.value) || 1) - 1); });
         q('[data-qty-inc]').addEventListener('click', function () { qty.value = (Number(qty.value) || 1) + 1; });
         wishBtn.setAttribute('data-wish-label', '');
@@ -735,7 +746,11 @@
         q('#swAddBtn').addEventListener('click', function () {
             var n = Math.max(1, Math.floor(Number(qty.value) || 1));
             if (product.amount && n > product.amount) { n = product.amount; qty.value = n; }
-            addToBag(product.id, n);
+            var room = product.amount > 0 ? product.amount - bagQty(product.id) : n;
+            if (n > room) { n = room; qty.value = n; }
+            if (n < 1) { paintAddState(); return; }
+            addToBag(product.id, n, product.amount);
+            paintAddState();
             var note = q('#swAddNote');
             note.textContent = '';
             var link = el('a', {href: '/shopping-cart', 'class': 'kn-link', text: 'Xem giỏ hàng'});
@@ -755,7 +770,11 @@
                 });
         })).then(function (rows) {
             var good = rows.filter(Boolean);
-            if (good.length !== bag.length) {
+            var clamped = false;
+            good.forEach(function (r) {
+                if (r.product.amount > 0 && r.line.qty > r.product.amount) { r.line.qty = r.product.amount; clamped = true; }
+            });
+            if (clamped || good.length !== bag.length) {
                 writeBag(good.map(function (r) { return r.line; }));
             }
             return good;
