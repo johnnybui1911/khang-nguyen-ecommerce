@@ -46,6 +46,11 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
 .kn :focus-visible{outline:2px solid var(--kn-gold);outline-offset:3px}
 .kn em{font-style:italic}
 .kn :where(h1,h2,h3){font-family:var(--kn-serif);font-weight:400;margin:0;letter-spacing:.01em;text-wrap:balance}
+html.kn{background:var(--kn-canvas)}
+body.kn{color-scheme:dark}
+.kn [hidden]{display:none!important}
+.kn-skip{position:absolute;left:16px;top:-80px;z-index:40;padding:12px 20px;border-radius:6px;background:var(--kn-white);color:var(--kn-black);font-weight:600;font-size:14px}
+.kn-skip:focus{top:12px}
 .kn-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .kn-wrap{max-width:var(--kn-wrap);margin:0 auto;padding:0 var(--kn-pad)}
 .kn-eyebrow{font:600 12px/1 var(--kn-sans);letter-spacing:.02em;text-transform:uppercase;color:var(--kn-gold);margin:0 0 20px}
@@ -227,8 +232,148 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
 .kn-util a:hover{opacity:.7}
 .kn-legal{max-width:var(--kn-wrap);margin:40px auto 0;padding-top:24px;border-top:1px solid var(--kn-black);text-align:left;font:400 13px/1.5 var(--kn-serif);color:var(--kn-paper-muted)}
 
+/* storefront chrome: tools, search, drawer */
+.kn-nav__tools{display:flex;align-items:center;gap:4px}
+.kn-ico{position:relative;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--kn-body);transition:color .15s}
+.kn-ico:hover{color:var(--kn-white)}
+.kn-ico svg{width:22px;height:22px}
+.kn-ico .kn-badge{position:absolute;top:0;right:0}
+.kn-menu-btn{display:none}
+.kn-bag__ico{display:none;width:20px;height:20px}
+
+.kn-search{border-bottom:1px solid var(--kn-edge);background:var(--kn-canvas)}
+.kn-search .kn-wrap{display:flex;gap:12px;align-items:center;padding-top:16px;padding-bottom:16px}
+.kn-search .kn-input{flex:1}
+.kn-search .kn-btn{width:auto;height:48px}
+.kn-scrim{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
+.kn-drawer{position:fixed;top:0;left:0;bottom:0;z-index:31;width:min(360px,88vw);padding:24px 28px;overflow-y:auto;background:var(--kn-panel);border-right:1px solid var(--kn-edge);transform:translateX(-100%);visibility:hidden;transition:transform .25s,visibility .25s}
+.kn-drawer__x{display:inline-grid;place-items:center;width:40px;height:40px;margin:0 0 16px -8px;font-size:28px;line-height:1;color:var(--kn-body)}
+.kn-drawer ul{list-style:none;margin:0 0 24px;padding:0}
+.kn-drawer li a{display:block;padding:12px 0;border-bottom:1px solid var(--kn-rule);font:400 24px/1.2 var(--kn-serif)}
+.kn-drawer__sec li a{font:300 15px/1.4 var(--kn-sans);color:var(--kn-body)}
+.kn-drawer li a:hover{color:var(--kn-gold-light)}
+body.kn-drawer-open{overflow:hidden}
+body.kn-drawer-open .kn-scrim{opacity:1;visibility:visible}
+body.kn-drawer-open .kn-drawer{transform:none;visibility:visible}
+
+/* page shell and states */
+.kn-page{padding-bottom:96px;min-height:60vh}
+.kn-narrow.kn-page{padding-bottom:96px}
+.kn-auth{max-width:480px;margin:0 auto;padding:48px var(--kn-pad) 96px}
+.kn-auth h1,.kn-narrow h1{font-size:44px;line-height:1.1;margin-bottom:20px}
+.kn-auth p{color:var(--kn-body)}
+.kn-alt{margin:16px 0 0;font-size:14px;color:var(--kn-body)}
+.kn-alt a{text-decoration:underline;text-underline-offset:4px}
+.kn-state{display:grid;justify-items:center;gap:12px;margin:24px 0;padding:48px 24px;text-align:center;border:1px solid var(--kn-edge);border-radius:10px;color:var(--kn-body)}
+.kn-state[data-kind="error"]{border-color:var(--kn-crimson);color:var(--kn-danger-text)}
+.kn-state .kn-btn{width:auto;height:44px}
+.kn-spin{width:28px;height:28px;border-radius:50%;border:2px solid var(--kn-edge);border-top-color:var(--kn-gold);animation:kn-spin .8s linear infinite}
+@keyframes kn-spin{to{transform:rotate(360deg)}}
+.kn-toast{position:fixed;left:50%;bottom:24px;z-index:50;transform:translateX(-50%);max-width:calc(100vw - 32px);padding:14px 20px;border-radius:10px;border:1px solid var(--kn-edge);background:var(--kn-panel);color:var(--kn-text);font-size:14px}
+.kn-count{margin-left:12px;font-size:14px;color:var(--kn-muted)}
+.kn-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:16px;align-items:end;padding:24px 0}
+.kn-filters .kn-btn{width:auto;height:48px}
+textarea.kn-input{height:auto;min-height:140px;padding:14px 16px;line-height:1.5;resize:vertical}
+select.kn-input{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:linear-gradient(45deg,transparent 50%,var(--kn-muted) 50%),linear-gradient(135deg,var(--kn-muted) 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+label.kn-field{font-size:13px;color:var(--kn-body)}
+.kn-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.kn-btn--wide{width:100%}
+.kn-btn--outline{background:transparent;color:var(--kn-white);border:1px solid var(--kn-outline)}
+.kn-btn--outline:hover{background:transparent;border-color:var(--kn-muted)}
+
+/* product cards built by script (li.kn-cell) */
+.kn-cells ul,ul.kn-cells{list-style:none;margin:0;padding:0}
+.kn-cell{position:relative}
+.kn-cell>a{display:flex;flex-direction:column;flex:1}
+.kn-cell figure{position:relative;margin:0;background:var(--kn-panel)}
+.kn-cell .kn-tag{position:absolute;top:12px;left:12px;background:rgba(5,7,11,.72)}
+.kn-cell__code{margin:4px 0 0;font:300 12px/1.2 var(--kn-sans);color:var(--kn-muted)}
+.kn-cell__price{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.kn-cell__price s{font-weight:300;font-size:13px;color:var(--kn-muted)}
+.kn-heart{position:absolute;top:12px;right:12px;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:rgba(5,7,11,.72);color:var(--kn-body);transition:color .15s}
+.kn-heart:hover{color:var(--kn-white)}
+.kn-heart svg{width:20px;height:20px}
+.kn-heart[aria-pressed="true"]{color:var(--kn-gold-light)}
+.kn-heart[aria-pressed="true"] svg{fill:currentColor}
+.kn-price s{font:300 16px/1 var(--kn-sans);-webkit-text-fill-color:var(--kn-muted);color:var(--kn-muted)}
+.kn-code{margin:0 0 12px;font-size:13px;color:var(--kn-muted)}
+
+/* quantity and choice chips */
+.kn-qty-row{display:flex;align-items:center;gap:16px;margin:0 0 20px}
+.kn-qty-row label{font-size:13px;color:var(--kn-body)}
+.kn-qty{display:inline-flex;align-items:center;height:44px;border:1px solid var(--kn-edge);border-radius:9999px;overflow:hidden}
+.kn-qty button{width:44px;height:44px;font-size:18px;color:var(--kn-body)}
+.kn-qty button:hover{color:var(--kn-white)}
+.kn-qty input{width:48px;height:44px;border:0;background:transparent;color:var(--kn-text);text-align:center;font:400 15px/1 var(--kn-sans);-moz-appearance:textfield}
+.kn-qty input::-webkit-outer-spin-button,.kn-qty input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.kn-swatches{margin:0 0 20px}
+.kn-swatches p{margin:0 0 8px;font-size:13px;color:var(--kn-body)}
+.kn-swatches ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.kn-stock{margin:0 0 20px;font-size:13px;color:var(--kn-muted)}
+.kn-wish{margin-top:12px}
+.kn-wish[aria-pressed="true"]{border-color:var(--kn-gold);color:var(--kn-gold-light)}
+.kn-buy>div>.kn-btn{margin-top:0}
+
+/* cart lines built by script */
+.kn-line__img{display:block}
+.kn-line__end{display:grid;justify-items:end;gap:8px}
+.kn-line .kn-qty{height:36px}
+.kn-line .kn-qty button{width:36px;height:36px}
+.kn-line .kn-qty input{width:40px;height:36px}
+.kn-rm{font-size:13px;color:var(--kn-body);text-decoration:underline;text-underline-offset:4px}
+.kn-rm:hover{color:var(--kn-white)}
+
+/* account, order, data blocks */
+.kn-card{margin:0 0 24px;padding:24px;border:1px solid var(--kn-edge);border-radius:10px;background:linear-gradient(201deg,var(--kn-panel) 14%,var(--kn-black))}
+.kn-card h2{font-size:28px;margin-bottom:16px}
+.kn-card h3{font-size:22px;margin-bottom:8px}
+.kn-card p{color:var(--kn-body)}
+.kn-card .kn-btn{width:auto;height:44px;margin:4px 8px 4px 0}
+.kn-dl{display:grid;grid-template-columns:160px 1fr;gap:8px 16px;margin:0 0 16px}
+.kn-dl dt{color:var(--kn-muted)}
+.kn-dl dd{margin:0;color:var(--kn-text)}
+.kn-total{display:flex;justify-content:space-between;margin:12px 0 0;padding-top:16px;border-top:1px solid var(--kn-edge);font-size:18px}
+.kn-orders{width:100%;border-collapse:collapse;font-size:14px}
+.kn-orders th,.kn-orders td{text-align:left;padding:12px 12px 12px 0;border-top:1px solid var(--kn-rule)}
+.kn-orders th{font-weight:400;color:var(--kn-muted);font-size:13px}
+.kn-orders a{text-decoration:underline;text-underline-offset:4px}
+.kn-scroll{overflow-x:auto}
+.kn-ok{margin:0 0 16px;color:var(--kn-gold-light)}
+.kn-contact{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 0 24px}
+.kn-contact .kn-card{margin:0}
+.kn-stores{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.kn-stores li{padding:24px;border:1px solid var(--kn-edge);border-radius:10px}
+.kn-stores h3{font-size:24px;margin-bottom:8px}
+.kn-stores p{margin:0 0 6px;color:var(--kn-body)}
+.kn-faq{margin:32px 0}
+.kn-faq h2{font-size:28px;margin-bottom:16px}
+.kn-lede{margin:0 0 32px;max-width:576px;color:var(--kn-body);font-size:17px;line-height:1.55}
+
+/* footer newsletter (on the white colophon) */
+.kn-news{max-width:480px;margin:56px auto 0;text-align:left}
+.kn-news h3{font:400 12px/1.25 Arial,sans-serif;text-transform:uppercase;margin-bottom:12px}
+.kn-news p{margin:0 0 16px;font:400 15px/1.5 var(--kn-serif)}
+.kn-news__row{display:flex;gap:12px}
+.kn-news .kn-input{flex:1;background:transparent;border-color:var(--kn-paper-muted);color:var(--kn-paper-ink)}
+.kn-news .kn-input::placeholder{color:var(--kn-paper-muted)}
+.kn-news .kn-btn{width:auto;background:var(--kn-black);color:var(--kn-white)}
+.kn-news .kn-btn:hover{background:var(--kn-paper-ink)}
+.kn-news .kn-error{margin:10px 0 0;color:var(--kn-crimson)}
+.kn-news .kn-note{margin:10px 0 0;color:var(--kn-gold-ink)}
+
+[data-kn-state]:empty{display:none}
+.kn-stage [data-kn-state]{grid-column:1/-1}
+.kn-shot:empty{display:none}
+/* listing filters */
+.kn-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px;align-items:end;padding:24px 0 8px}
+.kn-tools .kn-field{margin:0}
+.kn-tools .kn-field--wide{grid-column:span 2}
+.kn-tools .kn-btn{width:100%}
+.kn-count{margin:8px 0 0;min-height:20px;font-size:13px;color:var(--kn-muted)}
+
 /* responsive */
 @media (max-width:1023px){
+  .kn-tools{grid-template-columns:repeat(2,1fr)}
   .kn-stage .kn-wrap{grid-template-columns:1fr;gap:32px}
   .kn-buy{position:static}
   .kn-buy h1{font-size:44px}
@@ -248,8 +393,23 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
   .kn-cell:nth-child(2n){border-right:0}
 }
 @media (max-width:767px){
+  .kn-tools{grid-template-columns:1fr}
+  .kn-tools .kn-field--wide{grid-column:auto}
   :root{--kn-pad:16px}
   .kn-nav__links{display:none}
+  .kn-menu-btn{display:inline-grid}
+  .kn-brand small{display:none}
+  .kn-nav .kn-wrap{gap:8px}
+  .kn-hide-sm{display:none}
+  .kn-bag__txt{display:none}
+  .kn-bag__ico{display:block}
+  .kn-bag{padding:0 10px}
+  .kn-news__row{flex-direction:column}
+  .kn-news .kn-btn{width:100%}
+  .kn-contact{grid-template-columns:1fr}
+  .kn-dl{grid-template-columns:110px 1fr}
+  .kn-auth h1,.kn-narrow h1{font-size:36px}
+  .kn-search .kn-wrap{flex-wrap:wrap}
   .kn-stage{padding:24px 0 64px}
   .kn-buy h1,.kn-hero__copy h1,.kn-page-title h1{font-size:36px}
   .kn-story h2{font-size:36px}
@@ -274,39 +434,36 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
 </style>
 </head>
 <body class="kn">
-<!-- Reference page: product detail. Name, price, size and policies are sample data. -->
-<header class="kn-nav">
-  <div class="kn-wrap">
-    <a class="kn-brand" href="/home" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
-      <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
-      <span>Khang Nguyên<small>Ngọc Bảo</small></span>
-    </a>
-    <nav aria-label="Danh mục"><ul class="kn-nav__links">
-      <li><a href="/necklaces">Vòng ngọc</a></li>
-      <li><a href="/necklaces">Nhẫn ngọc</a></li>
-      <li><a href="/necklaces">Chuỗi ngọc</a></li>
-      <li><a href="#kien-thuc">Kiến thức về ngọc</a></li>
-    </ul></nav>
-    <a class="kn-bag" href="/shopping-cart" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge" id="bagCount">0</b></a>
-  </div>
-</header>
+<ezy:block ezy:replace="~{ecommerce/header :: content}" />
 
 <main>
-<section class="kn-stage">
+<section class="kn-stage" id="swMain" tabindex="-1">
   <div class="kn-wrap">
-    <nav class="kn-crumb" aria-label="Breadcrumb"><a href="/home">Trang chủ</a> / <a href="/necklaces">Vòng ngọc</a> / Phỉ thúy xanh lam</nav>
-    <figure class="kn-shot">
+    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/products">Vòng ngọc</a> / <span id="swBcCur">Vòng ngọc phỉ thúy xanh lam</span></nav>
+    <div data-kn-state></div>
+    <figure class="kn-shot" id="swPdpImg">
       <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
     </figure>
-    <div class="kn-buy">
-      <p class="kn-eyebrow">Phỉ thúy · Vòng tay</p>
-      <h1>Vòng ngọc phỉ thúy <em>xanh lam</em></h1>
-      <p class="kn-lead">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
-      <p class="kn-price" data-demo="true">18.500.000 ₫</p>
-      <p class="kn-once">Sản phẩm duy nhất · còn 1 chiếc</p>
-      <button type="button" class="kn-btn" id="addBtn" data-product-id="">Thêm vào giỏ</button>
-      <p class="kn-note" id="addNote" role="status" aria-live="polite"></p>
+    <div class="kn-buy" id="swPdp">
+      <div>
+      <p class="kn-code" id="swPdpCode">Mã KN-DEMO-001</p>
+      <h1 id="swPdpName">Vòng ngọc phỉ thúy xanh lam</h1>
+      <p class="kn-lead" id="swPdpDescText">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
+      <p class="kn-price" id="swPdpPrice" data-demo="true">18.500.000 ₫</p>
+      <p class="kn-stock" id="swPdpStock">Sản phẩm duy nhất · còn 1 chiếc</p>
+      <div class="kn-swatches" id="swPdpSwatches" hidden>
+        <p>Màu sắc: <strong id="swPdpColor"></strong></p>
+        <ul id="swPdpSwatchList"></ul>
+      </div>
+      <div class="kn-qty-row" id="swPdpQtyRow" hidden>
+        <label for="swPdpQty">Số lượng</label>
+        <div class="kn-qty"><button type="button" data-qty-dec aria-label="Giảm số lượng">&minus;</button><input id="swPdpQty" type="number" min="1" value="1" inputmode="numeric" /><button type="button" data-qty-inc aria-label="Tăng số lượng">+</button></div>
+      </div>
+      <button type="button" class="kn-btn" id="swAddBtn">Thêm vào giỏ hàng</button>
+      <button type="button" class="kn-btn kn-btn--ghost kn-wish" id="swWishBtn" aria-pressed="false" data-wish-label>Lưu vào yêu thích</button>
+      <p class="kn-note" id="swAddNote" role="status" aria-live="polite"></p>
       <a class="kn-braced" href="/customer-service">Tư vấn chọn vòng</a>
+      </div>
 
       <details class="kn-acc" open>
         <summary>Thông số</summary>
@@ -319,11 +476,11 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
       </details>
       <details class="kn-acc">
         <summary>Cách đo size tay</summary>
-        <div><p>Chụm các ngón tay lại, đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14 để ra đường kính trong cần chọn.</p></div>
+        <div><p>Chụm các ngón tay lại, đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14 để ra đường kính trong cần chọn. Xem thêm tại <a class="kn-link" href="/size-guide">hướng dẫn chọn size</a>.</p></div>
       </details>
       <details class="kn-acc">
         <summary>Giao hàng và đổi trả</summary>
-        <div><p>Nội dung mẫu. Chính sách giao hàng và đổi trả thật sẽ được cập nhật trước khi mở bán.</p></div>
+        <div><p>Phí giao hàng và điều kiện đổi trả được xác nhận khi chốt đơn. Cần hỗ trợ trước khi đặt, vui lòng liên hệ <a class="kn-link" href="/customer-service">chăm sóc khách hàng</a>.</p></div>
       </details>
       <details class="kn-acc">
         <summary>Bảo quản ngọc</summary>
@@ -377,30 +534,16 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
   <div class="kn-wrap">
     <h2>Chọn chiếc vòng <em>hợp với cổ tay</em> của bạn</h2>
     <p>Gửi số đo tay hoặc ảnh cổ tay, tư vấn viên sẽ gợi ý những chiếc vòng vừa size và hợp tông da.</p>
-    <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="/necklaces">Xem bộ sưu tập</a></div>
+    <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="/products">Xem bộ sưu tập</a></div>
   </div>
 </section>
 </main>
 
-<footer class="kn-colophon">
-  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
-    <ellipse cx="80" cy="71" rx="64" ry="58"/>
-    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
-    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
-  </svg>
-  <h2>Khang Nguyên · Ngọc Bảo</h2>
-  <p class="kn-motto">Trang sức ngọc phong thủy</p>
-  <div class="kn-util">
-    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
-    <div><h3>Sản phẩm</h3><ul><li><a href="/necklaces">Vòng ngọc</a></li><li><a href="/necklaces">Nhẫn ngọc</a></li><li><a href="/necklaces">Chuỗi ngọc</a></li></ul></div>
-    <div><h3>Hỗ trợ</h3><ul><li><a href="/customer-service">Chăm sóc khách hàng</a></li><li><a href="#kien-thuc">Kiến thức về ngọc</a></li></ul></div>
-  </div>
-  <p class="kn-legal">Trang minh họa. Tên sản phẩm, giá và chính sách là dữ liệu mẫu, chưa dùng để bán hàng.</p>
-</footer>
+<ezy:block ezy:replace="~{ecommerce/footer :: content}" />
 
 <script>
 (function(){
-  var btn=document.getElementById('addBtn'),note=document.getElementById('addNote'),count=document.getElementById('bagCount');
+  var btn=document.getElementById('swAddBtn'),note=document.getElementById('swAddNote'),count=document.getElementById('swBagCount');
   if(!btn){return;}
   btn.addEventListener('click',function(){
     if(btn.getAttribute('data-added')==='1'){return;}
@@ -411,5 +554,6 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/
   });
 })();
 </script>
+<ezy:block ezy:replace="~{ecommerce/theme :: foot}" />
 </body>
 </html>

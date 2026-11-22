@@ -361,8 +361,19 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 .kn-news .kn-error{margin:10px 0 0;color:var(--kn-crimson)}
 .kn-news .kn-note{margin:10px 0 0;color:var(--kn-gold-ink)}
 
+[data-kn-state]:empty{display:none}
+.kn-stage [data-kn-state]{grid-column:1/-1}
+.kn-shot:empty{display:none}
+/* listing filters */
+.kn-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px;align-items:end;padding:24px 0 8px}
+.kn-tools .kn-field{margin:0}
+.kn-tools .kn-field--wide{grid-column:span 2}
+.kn-tools .kn-btn{width:100%}
+.kn-count{margin:8px 0 0;min-height:20px;font-size:13px;color:var(--kn-muted)}
+
 /* responsive */
 @media (max-width:1023px){
+  .kn-tools{grid-template-columns:repeat(2,1fr)}
   .kn-stage .kn-wrap{grid-template-columns:1fr;gap:32px}
   .kn-buy{position:static}
   .kn-buy h1{font-size:44px}
@@ -382,6 +393,8 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
   .kn-cell:nth-child(2n){border-right:0}
 }
 @media (max-width:767px){
+  .kn-tools{grid-template-columns:1fr}
+  .kn-tools .kn-field--wide{grid-column:auto}
   :root{--kn-pad:16px}
   .kn-nav__links{display:none}
   .kn-menu-btn{display:inline-grid}
@@ -450,11 +463,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 <section class="kn-shelf" id="bo-suu-tap" aria-label="Sản phẩm mới">
   <div class="kn-shelf__head">Mới lên kệ <span><a class="kn-braced" href="/products">Xem tất cả</a></span></div>
   <div data-kn-state></div>
-  <ul class="kn-cells" id="swGrid" data-limit="6">
-      <li class="kn-cell"><a href="/products"><figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /></figure><div><h3>Vòng Hòa Điền trắng</h3><p class="kn-cell__price" data-demo="true">24.800.000 ₫</p></div></a></li>
-      <li class="kn-cell"><a href="/products"><figure><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh lam</h3><p class="kn-cell__price" data-demo="true">18.500.000 ₫</p></div></a></li>
-      <li class="kn-cell"><a href="/products"><figure><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh vân hoa</h3><p class="kn-cell__price" data-demo="true">32.000.000 ₫</p></div></a></li>
-  </ul>
+  <ul class="kn-cells" id="swGrid" data-limit="6"></ul>
 </section>
 
 <section class="kn-spread kn-spread--flip" id="kien-thuc">

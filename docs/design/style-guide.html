@@ -183,6 +183,14 @@
 <section class="sg-sec" id="storefront"><div class="kn-wrap">
   <h2>9. Thành phần trang động của cửa hàng</h2>
   <p class="sg-intro">Các thành phần này do theme dựng bằng script (danh mục, giỏ, tài khoản, biểu mẫu). Mỗi thành phần đều dùng token, không thêm màu mới.</p>
+  <div class="sg-sub">Bộ lọc danh sách sản phẩm</div>
+  <form class="kn-tools" novalidate>
+    <div class="kn-field"><label for="sg-cat">Danh mục</label><select id="sg-cat" class="kn-input"><option>Tất cả danh mục</option></select></div>
+    <div class="kn-field"><label for="sg-sort">Sắp xếp</label><select id="sg-sort" class="kn-input"><option>Mới nhất</option></select></div>
+    <div class="kn-field kn-field--wide"><label for="sg-kw">Từ khóa</label><input id="sg-kw" class="kn-input" type="search" placeholder="Tên hoặc mã sản phẩm" /></div>
+    <button type="button" class="kn-btn">Áp dụng</button>
+  </form>
+  <p class="kn-count">6 / 35 sản phẩm</p>
   <div class="sg-sub">Thanh công cụ, nút biểu tượng, ô tìm kiếm</div>
   <div class="sg-row">
     <a class="kn-ico" href="#storefront" aria-label="Tìm kiếm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></a>
