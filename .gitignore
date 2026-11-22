@@ -32,6 +32,10 @@ logs/
 **/logs/
 .claude/hooks/.logs/
 
+# Tool installs, restorable from skills-lock.json
+.omp/
+.claude/skills/
+
 # Personal / local tool state
 .claude/settings.local.json
 .claude/hooks/.agentkit-runtime.json
