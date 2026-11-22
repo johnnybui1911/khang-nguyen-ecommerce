@@ -479,14 +479,14 @@ Trang mẫu `cart.html`, `checkout.html`, `product.html` đã giữ nguyên các
 
 | Trang | Phải giữ nguyên | JS tự dựng (phải đổi class sang `kn-*`) |
 |---|---|---|
-| Chi tiết sản phẩm (`product.html`) | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDesc`, `swPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-sw-state` | Khối trạng thái trống/lỗi, ô chọn màu |
-| Giỏ hàng (`cart.html`) | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-sw-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
+| Chi tiết sản phẩm (`product.html`) | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-kn-state` | Khối trạng thái trống/lỗi, ô chọn màu |
+| Giỏ hàng (`cart.html`) | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-kn-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
 | Thanh toán (`checkout.html`) | `swCheckout`, `swCheckoutForm`, các tên trường `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (id `swCountry`), `paymentServiceCode` (id `swPay`), `swFormErr`, `swPlace`, `swMini`, `swTotal` | Các `option` của quốc gia và thanh toán, các dòng `swMini` |
 
 Lưu ý thiết kế liên quan:
 
 - Mỗi món ngọc là hàng độc nhất. Giao diện mẫu **không có ô số lượng**. Mã hiện tại có nút cộng trừ số lượng và đã chặn theo tồn kho (`product.amount`); khi tồn kho là 1, ẩn bộ chọn số lượng thay vì hiện cộng trừ.
-- Form thanh toán hiện tại đòi `deliveryPostalCode` và mặc định theo Singapore (placeholder `+65`, thành phố "Singapore"). Bản mẫu đã đổi sang giá trị cho Việt Nam; xác nhận với chủ shop xem mã bưu chính có cần bắt buộc không trước khi đổi logic kiểm tra.
+- Form thanh toán hiện tại đòi `deliveryPostalCode` và mặc định theo Singapore (placeholder `+65`, thành phố "Singapore"). Bản mẫu đã đổi sang giá trị cho Việt Nam; mã bưu chính vẫn **bắt buộc** như plan. Câu hỏi mở cho chủ shop: có nên bỏ bắt buộc không (backend nhận giá trị rỗng).
 - Mẫu hiển thị phương thức thanh toán dạng radio. Mã hiện tại dùng `select#swPay` do API đổ vào. Có thể giữ `select` (kiểu `kn-input`) hoặc đổi sang radio `kn-choice`; nếu đổi, sửa đoạn JS đọc `swPay`.
 - Nhóm accordion hiện tại do JS bật tắt qua `aria-expanded`; mẫu dùng thẻ `details`. Khi chuyển, xóa trình xử lý cũ trong `ecommerce.js` để không xung đột.
 - Dữ liệu trong mẫu (giá, tên, phương thức thanh toán) là mẫu. Đừng giữ lại trong sản phẩm thật.

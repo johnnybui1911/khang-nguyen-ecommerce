@@ -936,7 +936,7 @@
             e.preventDefault();
             showErr('');
             var f = form.elements;
-            var required = ['deliveryFullName', 'deliveryEmail', 'deliveryPhoneNumber', 'deliveryAddress', 'deliveryCityName'];
+            var required = ['deliveryFullName', 'deliveryEmail', 'deliveryPhoneNumber', 'deliveryAddress', 'deliveryCityName', 'deliveryPostalCode'];
             for (var i = 0; i < required.length; i++) {
                 if (!f[required[i]].value.trim()) { showErr('Vui lòng điền đủ thông tin giao hàng.', f[required[i]]); return; }
             }
