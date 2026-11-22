@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<footer th:fragment="footer" class="sw-foot">
+  <div class="sw-svc">
+    <a href="/customer-service"><strong>CUSTOMER SERVICE</strong>Explore answers to our FAQs or connect with our Customer Service team.</a>
+    <a href="/account"><strong>ORDER STATUS</strong>Sign in to follow your orders.</a>
+    <a href="/products"><strong>SHOP ALL</strong>Discover jewelry, watches and decorations.</a>
+  </div>
+  <div class="sw-cols">
+    <div><h3>Customer Service</h3><ul>
+      <li><a href="/customer-service">Customer Service Overview</a></li>
+      <li><a href="/order-status">Order Status</a></li>
+      <li><a href="/stores">Stores</a></li>
+      <li><a href="/book-an-appointment">Book an appointment</a></li>
+      <li><a href="/contact">Contact us</a></li>
+      <li><a href="/size-guide">Size Guide</a></li>
+      <li><a href="/gift-card-balance">Gift Card Balance</a></li>
+      <li><a href="/shopping-cart">Shopping Bag</a></li></ul></div>
+    <div><h3>Services</h3><ul>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register">Register</a></li>
+      <li><a href="/account">My Account</a></li></ul></div>
+    <div><h3>Shop</h3><ul id="swFootCats"></ul></div>
+  </div>
+  <form class="sw-news" id="swNewsForm" novalidate>
+    <h3>Newsletter</h3>
+    <p>Be the first to hear about new collections and offers.</p>
+    <div class="sw-news-row">
+      <label class="sw-sr" for="swNewsEmail">Email address</label>
+      <input id="swNewsEmail" name="email" type="email" placeholder="Email address" autocomplete="email" required>
+      <input class="sw-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="sw-btn sw-btn--dark" id="swNewsBtn">Subscribe</button>
+    </div>
+    <p class="sw-form-err" id="swNewsErr" role="alert" hidden></p>
+    <p class="sw-note" id="swNewsOk" role="status" aria-live="polite" hidden></p>
+  </form>
+  <div class="sw-bottom">
+    <div><span class="sw-pill">Singapore</span> <span class="sw-pill">English</span></div>
+    <a class="sw-logo" href="/" aria-label="Khang Nguyen home"><svg viewBox="0 0 200 24" role="img" aria-hidden="true"><text x="100" y="19" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="22" letter-spacing="5" fill="currentColor">KHANG NGUYEN</text></svg></a>
+    <small>&copy; Khang Nguyen demo storefront</small>
+  </div>
+</footer>
+</body>
+</html>

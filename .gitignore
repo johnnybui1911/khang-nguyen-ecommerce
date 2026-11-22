@@ -1,0 +1,44 @@
+# Build output
+**/target/
+node_modules/
+*.jar
+*.war
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.gz
+
+# Secrets: every dotenv variant except the example template
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example
+
+# Local artifacts, backups, DB dumps
+.artifacts/
+my-site/.artifacts/
+**/.artifacts/
+*.sql
+!ecommerce-ext/scripts/drop-ecm-tables.sql
+*.dump
+*.bak
+
+# Logs
+*.log
+logs/
+**/logs/
+.claude/hooks/.logs/
+
+# Personal / local tool state
+.claude/settings.local.json
+.claude/hooks/.agentkit-runtime.json
+
+# OS / editor
+.DS_Store
+**/.DS_Store
+.idea/
+.vscode/
+*.iml

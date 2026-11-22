@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Khang Nguyên - Ngọc Bảo | Trang sức ngọc phong thủy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet" />
+<!--kn:css--><link rel="stylesheet" href="kn.css" /><!--/kn:css-->
+</head>
+<body class="kn">
+<!-- Reference page: home. Copy and prices are sample data. -->
+<header class="kn-nav">
+  <div class="kn-wrap">
+    <a class="kn-brand" href="home.html" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
+      <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
+      <span>Khang Nguyên<small>Ngọc Bảo</small></span>
+    </a>
+    <nav aria-label="Danh mục"><ul class="kn-nav__links">
+      <li><a href="category.html">Vòng ngọc</a></li>
+      <li><a href="category.html">Nhẫn ngọc</a></li>
+      <li><a href="category.html">Chuỗi ngọc</a></li>
+      <li><a href="#kien-thuc">Kiến thức về ngọc</a></li>
+    </ul></nav>
+    <a class="kn-bag" href="/shopping-cart" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge">0</b></a>
+  </div>
+</header>
+
+<main>
+<section class="kn-hero">
+  <div class="kn-hero__copy">
+    <p class="kn-eyebrow">Ngọc phong thủy · Chọn từng món</p>
+    <h1>Ngọc quý, <em>chọn từng chiếc</em></h1>
+    <p class="kn-lead">Vòng, nhẫn và chuỗi ngọc phỉ thúy, Hòa Điền. Mỗi món đều được giới thiệu rõ chất ngọc và cách đeo.</p>
+    <div><a class="kn-btn kn-btn--inline" href="category.html">Xem bộ sưu tập</a></div>
+  </div>
+  <div class="kn-hero__stage">
+    <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
+  </div>
+</section>
+
+<section class="kn-shelf" id="bo-suu-tap">
+  <div class="kn-shelf__head">Bộ sưu tập vòng ngọc <span>Mẫu thử · 3 sản phẩm</span></div>
+  <div class="kn-cells">
+    <a class="kn-cell" href="product.html">
+      <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" />
+      <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
+    </a>
+    <a class="kn-cell" href="product.html">
+      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" />
+      <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
+    </a>
+    <a class="kn-cell" href="product.html">
+      <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" />
+      <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
+    </a>
+  </div>
+</section>
+
+<section class="kn-spread kn-spread--flip" id="kien-thuc">
+  <div class="kn-spread__inner">
+    <figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền màu trắng ngà trên khay nhung" loading="lazy" /></figure>
+    <div class="kn-story">
+      <p class="kn-eyebrow">Kiến thức về ngọc</p>
+      <h2>Ngọc Hòa Điền: <em>Tân Cương</em> và Thanh Hải</h2>
+      <p>Hai nguồn ngọc cùng gọi là Hòa Điền nhưng cho cảm giác rất khác nhau về cấu trúc, độ nhuận và màu sắc.</p>
+      <a class="kn-braced" href="product.html#kien-thuc">Đọc bài viết</a>
+    </div>
+  </div>
+</section>
+
+<section class="kn-horizon">
+  <div class="kn-wrap">
+    <h2>Chọn chiếc vòng <em>hợp với cổ tay</em> của bạn</h2>
+    <p>Gửi số đo tay hoặc ảnh cổ tay, tư vấn viên sẽ gợi ý những chiếc vòng vừa size và hợp tông da.</p>
+    <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="category.html">Xem bộ sưu tập</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="kn-colophon">
+  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <ellipse cx="80" cy="71" rx="64" ry="58"/>
+    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
+    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
+  </svg>
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <div class="kn-util">
+    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
+    <div><h3>Sản phẩm</h3><ul><li><a href="category.html">Vòng ngọc</a></li><li><a href="category.html">Nhẫn ngọc</a></li><li><a href="category.html">Chuỗi ngọc</a></li></ul></div>
+    <div><h3>Hỗ trợ</h3><ul><li><a href="/customer-service">Chăm sóc khách hàng</a></li><li><a href="#kien-thuc">Kiến thức về ngọc</a></li></ul></div>
+  </div>
+  <p class="kn-legal">Trang minh họa. Tên sản phẩm, giá và chính sách là dữ liệu mẫu, chưa dùng để bán hàng.</p>
+</footer>
+</body>
+</html>

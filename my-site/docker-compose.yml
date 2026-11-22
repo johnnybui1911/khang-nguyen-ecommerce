@@ -1,0 +1,51 @@
+# Local EzyPlatform for this site project, created by `ezy new`.
+# Start: docker compose up -d   Stop: docker compose stop   Logs: docker compose logs -f ezyplatform
+# Admin: http://127.0.0.1:${EZY_ADMIN_PORT}   Website: http://127.0.0.1:${EZY_WEB_PORT}
+# Settings and passwords are in .env (git-ignored). Data stays in the Docker volumes until `docker compose down -v`.
+name: ${COMPOSE_PROJECT_NAME}
+services:
+  mysql:
+    image: mysql:8.0
+    restart: unless-stopped
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      # TCP, not the socket: the first-run init server answers socket pings before MySQL listens
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 20s
+      retries: 60
+
+  ezyplatform:
+    image: ${EZY_IMAGE}
+    platform: linux/amd64
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      # permitMysqlScheme: the image writes jdbc:mysql:// but ships the MariaDB 3.x driver
+      DB_NAME: ${MYSQL_DATABASE}?permitMysqlScheme
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+      DB_TABLES_CREATE_MANUALLY: "false"
+      AUTO_START_WEB: "true"
+      # the first boot on an empty database (emulated amd64 on Apple silicon) takes longer than the 180s default
+      STARTUP_TIMEOUT_SECONDS: "600"
+    ports:
+      - "127.0.0.1:${EZY_ADMIN_PORT}:9090"
+      - "127.0.0.1:${EZY_WEB_PORT}:8080"
+    volumes:
+      - ezyplatform-data:/app/ezyplatform
+
+volumes:
+  mysql-data: {}
+  ezyplatform-data: {}

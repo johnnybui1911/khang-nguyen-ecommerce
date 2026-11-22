@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-auth" tabindex="-1">
+  <h1>Create account</h1>
+  <form class="sw-form" id="swAuthForm" data-mode="register" novalidate>
+    <label>Username<input name="username" required autocomplete="username"></label>
+    <label>Email<input name="email" type="email" required autocomplete="email"></label>
+    <label>Display name<input name="displayName" autocomplete="name"></label>
+    <label>Password<input name="password" type="password" required autocomplete="new-password"></label>
+    <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
+    <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swAuthBtn">Create account</button>
+  </form>
+  <p class="sw-alt">Already have an account? <a class="sw-u" href="/login" data-sw-next-link>Sign in</a></p>
+</div>
+</th:block>
+</body>
+</html>

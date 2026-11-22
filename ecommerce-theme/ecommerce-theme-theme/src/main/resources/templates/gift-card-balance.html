@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/customer-service">Customer Service</a> / Gift Card Balance</nav>
+  <h1>Gift Card Balance</h1>
+  <p class="sw-lead">Enter the card number and PIN printed on your gift card.</p>
+  <form class="sw-form" id="swGiftForm" novalidate>
+    <label>Card number<input name="code" required autocomplete="off" inputmode="numeric"></label>
+    <label>PIN<input name="pin" autocomplete="off" inputmode="numeric"></label>
+    <p class="sw-form-err" id="swGiftErr" role="alert" hidden></p>
+    <p class="sw-note" id="swGiftResult" role="status" aria-live="polite"></p>
+    <button type="submit" class="sw-btn sw-btn--dark">Check balance</button>
+  </form>
+  <p class="sw-note"><a class="sw-u" href="/customer-service">Back to Customer Service</a></p>
+</div>
+</th:block>
+</body>
+</html>

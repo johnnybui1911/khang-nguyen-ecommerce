@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-SG" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mesmera necklace, Heart, White, Rhodium plated | Khang Nguyen</title>
+<ezy:block ezy:replace="~{ecommerce/theme :: head}" />
+<style>
+.swp-bc{padding:16px var(--sw-pad);font-size:12px}.swp-bc a{text-decoration:underline;text-underline-offset:3px}
+.swp-img{position:relative;aspect-ratio:4/5;background:linear-gradient(135deg,#e4e1d6,#c9c4b3);margin-bottom:10px}
+.swp-tag{position:absolute;left:8px;top:8px;background:#383735;color:#fff;font-size:11px;padding:3px 7px}
+.swp-price s{color:#767676;margin-left:6px}
+.swd{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;padding:8px var(--sw-pad) 48px;max-width:1280px;margin:0 auto}.swd>*{min-width:0}
+.swd-gal{display:grid;grid-template-columns:1fr 1fr;gap:8px}.swd-gal .swp-img{aspect-ratio:1/1;margin:0}.swd-gal .swp-img:first-child{grid-column:1/-1;aspect-ratio:4/3}
+.swd-info h1{font:400 28px/1.2 var(--sw-serif)}.swd-sub{margin:4px 0 16px;color:#555}
+.swd-price{font-size:20px;margin:0 0 16px}.swd-price s{color:#767676;font-size:15px;margin-left:8px}.swd-price .swp-tag{position:static;margin-left:8px;vertical-align:middle}
+.swd-opts{border:1px solid var(--sw-line);padding:16px;margin:16px 0}.swd-opts label{display:block;padding:6px 0}
+.swd-info .sw-btn{width:100%;margin-bottom:12px}
+.swd-info .sw-acc{margin-top:24px}
+.swd-promo{background:#383735;color:#fff;text-align:center;padding:48px 24px}.swd-promo h2{margin-bottom:8px}.swd-promo p{margin:0 0 16px}
+@media (max-width:1023px){.swd{grid-template-columns:1fr;gap:24px}}
+@media (max-width:767px){.swd{padding-top:0}.swd-info h1{font-size:24px}}
+</style>
+</head>
+<body>
+<div class="sw">
+<ezy:block ezy:replace="~{ecommerce/header :: content}" />
+<main>
+<nav class="swp-bc" aria-label="Breadcrumb"><a href="/home">Home</a> / <a href="#">Jewelry</a> / <a href="#">Necklaces and pendants</a> / Mesmera necklace</nav>
+<div class="swd">
+<div class="swd-gal"><div class="swp-img" role="img" aria-label="Mesmera necklace, view 1"><span class="swp-tag">-20%</span></div><div class="swp-img" role="img" aria-label="View 2"></div><div class="swp-img" role="img" aria-label="View 3"></div><div class="swp-img" role="img" aria-label="View 4"></div></div>
+<div class="swd-info"><h1>Mesmera necklace</h1><p class="swd-sub">Heart, White, Rhodium plated</p>
+<p class="swd-price"><b>135$</b><s>169$</s><span class="swp-tag">-20%</span></p>
+<p><a class="sw-u" href="#">Size guide</a></p>
+<fieldset class="swd-opts"><legend>Delivery options</legend><label><input type="radio" name="dlv" checked> Ship to address</label><label><input type="radio" name="dlv"> Click &amp; Collect</label></fieldset>
+<button type="button" class="sw-btn">Click &amp; Collect: Check Availability</button>
+<button type="button" class="sw-btn sw-btn--dark">Add to bag</button>
+<div class="sw-acc"><div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Description</button><div class="sw-acc-panel"><p>A heart-shaped pendant of white crystals in a rhodium-plated setting on a fine chain.</p></div></div><div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Shipping &amp; returns</button><div class="sw-acc-panel"><p>Standard shipping and easy returns apply. See Customer Service for details.</p></div></div><div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Care &amp; maintenance</button><div class="sw-acc-panel"><p>Avoid contact with water and perfume; store in the original pouch.</p></div></div><div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Gift-giving services</button><div class="sw-acc-panel"><p>Add a personalized touch with our gift services.</p></div></div><div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Book an appointment</button><div class="sw-acc-panel"><p>Book an appointment with our Crystal Experts in your local store.</p></div></div></div>
+<p><a class="sw-u" href="/necklaces">Back to Necklaces</a></p>
+</div></div>
+<section class="swd-promo"><h2>Joy: The Khang Nguyen Musical</h2><p>Lights up on the holidays</p><a class="sw-btn" href="/home">Discover more</a></section>
+<ezy:block ezy:replace="~{ecommerce/category-strip :: content}" />
+</main>
+<ezy:block ezy:replace="~{ecommerce/footer :: content}" />
+</div>
+<ezy:block ezy:replace="~{ecommerce/theme :: foot}" />
+</body>
+</html>

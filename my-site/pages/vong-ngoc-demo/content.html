@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vòng ngọc phỉ thúy xanh lam | Khang Nguyên - Ngọc Bảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet" />
+<style>
+/*
+  kn.css - canonical stylesheet of the Khang Nguyên · Ngọc Bảo design system.
+  Source of truth for tokens and components. Spec: docs/design-brief-khang-nguyen-ngoc-bao.md
+  Rules enforced by docs/design/check-design.py:
+  - Hex colors exist ONLY inside :root below. Everywhere else use var(--kn-*).
+  - Class and custom property names use the kn- prefix.
+  - No box-shadow. Radius only via the values listed in the spec.
+*/
+:root{
+  /* dark surfaces */
+  --kn-canvas:#05070b;--kn-panel:#0c0f15;--kn-edge:#232731;--kn-rule:#171a22;
+  /* text and controls on dark */
+  --kn-black:#000000;--kn-white:#ffffff;--kn-text:#f1ede3;--kn-body:#aeb2bb;--kn-muted:#8c909c;
+  --kn-outline:#464853;--kn-btn-hover:#cfd1d8;
+  /* gold, jade, crimson */
+  --kn-gold:#bc9c5c;--kn-gold-light:#f0dfae;--kn-gold-ink:#7a6026;
+  --kn-emerald:#0e3b2c;--kn-crimson:#8c1d2c;--kn-danger-text:#e8a0aa;
+  --kn-horizon-mid:#1d2a22;--kn-horizon-end:#2e2a26;
+  /* paper (editorial area) */
+  --kn-paper:#f5f2ea;--kn-paper-ink:#14110d;--kn-paper-muted:#555555;
+  /* type */
+  --kn-serif:"Cormorant Garamond","Times New Roman",serif;
+  --kn-sans:"Be Vietnam Pro",Arial,sans-serif;
+  /* layout */
+  --kn-pad:32px;--kn-wrap:1216px;
+}
+
+/* base */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-text);font:300 16px/1.6 var(--kn-sans);-webkit-font-smoothing:antialiased}
+/* :where() keeps base rules at zero specificity so component classes always win */
+.kn :where(img){display:block;max-width:100%;height:auto}
+.kn :where(a){color:inherit;text-decoration:none}
+.kn :where(button){font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.kn :focus-visible{outline:2px solid var(--kn-gold);outline-offset:3px}
+.kn em{font-style:italic}
+.kn :where(h1,h2,h3){font-family:var(--kn-serif);font-weight:400;margin:0;letter-spacing:.01em;text-wrap:balance}
+.kn-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.kn-wrap{max-width:var(--kn-wrap);margin:0 auto;padding:0 var(--kn-pad)}
+.kn-eyebrow{font:600 12px/1 var(--kn-sans);letter-spacing:.02em;text-transform:uppercase;color:var(--kn-gold);margin:0 0 20px}
+.kn-lead{color:var(--kn-body);font-size:17px;line-height:1.55;margin:0 0 28px;max-width:440px}
+.kn-muted{color:var(--kn-muted)}
+
+/* navigation */
+.kn-nav{position:sticky;top:0;z-index:20;background:rgba(5,7,11,.72);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--kn-edge)}
+.kn-nav .kn-wrap{height:64px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+.kn-brand{display:flex;align-items:center;gap:12px;font:400 22px/1.1 var(--kn-serif)}
+.kn-brand svg{width:34px;height:34px;flex:none}
+.kn-brand small{display:block;font:300 11px/1.2 var(--kn-sans);color:var(--kn-muted);letter-spacing:.02em}
+.kn-nav__links{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--kn-body)}
+.kn-nav__links a:hover{color:var(--kn-white)}
+.kn-bag{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px;border:1px solid var(--kn-outline);border-radius:9999px;font-size:14px;font-weight:500;color:var(--kn-white);transition:border-color .15s}
+.kn-bag:hover{border-color:var(--kn-muted)}
+.kn-badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9999px;background:var(--kn-gold);color:var(--kn-black);font-size:11px;font-weight:600}
+
+/* buttons and text actions */
+.kn-btn{display:flex;align-items:center;justify-content:center;width:100%;height:52px;padding:0 24px;border-radius:6px;background:var(--kn-white);color:var(--kn-black);font-weight:600;font-size:15px;letter-spacing:-.02em;transition:background .15s}
+.kn-btn:hover,.kn-btn.is-hover{background:var(--kn-btn-hover)}
+.kn-btn.is-focus{outline:2px solid var(--kn-gold);outline-offset:3px}
+.kn-btn:disabled,.kn-btn[aria-disabled="true"]{background:var(--kn-rule);color:var(--kn-muted);cursor:not-allowed}
+.kn-btn--inline{display:inline-flex;width:auto}
+.kn-btn--ghost{background:transparent;color:var(--kn-white);border:1px solid var(--kn-outline);border-radius:9999px;height:44px}
+.kn-btn--ghost:hover,.kn-btn--ghost.is-hover{background:transparent;border-color:var(--kn-muted)}
+.kn-braced{display:inline-block;font:700 13px/1.25 Arial,sans-serif;text-transform:uppercase;color:var(--kn-text);transition:opacity .3s}
+.kn-braced::before{content:"{ "}
+.kn-braced::after{content:" }"}
+.kn-braced:hover,.kn-braced.is-hover{opacity:.7}
+.kn-note{min-height:24px;margin:10px 0 0;font-size:13px;color:var(--kn-gold-light)}
+
+/* form fields */
+.kn-field{display:grid;gap:8px;margin:0 0 20px}
+.kn-field label{font-size:13px;color:var(--kn-body)}
+.kn-field--flush{margin:0;min-width:200px}
+.kn-input{width:100%;height:48px;padding:0 16px;border-radius:10px;border:1px solid var(--kn-edge);background:rgba(12,15,21,.6);color:var(--kn-text);font:300 16px/1 var(--kn-sans)}
+.kn-input::placeholder{color:var(--kn-muted)}
+.kn-input:focus,.kn-input.is-focus{border-color:var(--kn-gold);outline:2px solid var(--kn-gold);outline-offset:2px}
+.kn-input.is-error{border-color:var(--kn-crimson)}
+.kn-input:disabled{background:var(--kn-rule);color:var(--kn-muted);cursor:not-allowed}
+.kn-error{margin:0;font-size:13px;color:var(--kn-danger-text)}
+.kn-alert{display:flex;gap:12px;padding:16px 20px;border-radius:10px;border:1px solid var(--kn-crimson);background:rgba(12,15,21,.6);color:var(--kn-danger-text);font-size:14px}
+.kn-empty{padding:64px 24px;text-align:center;border:1px solid var(--kn-edge);border-radius:10px}
+.kn-empty h3{font-size:28px;margin-bottom:8px}
+.kn-empty p{margin:0 0 24px;color:var(--kn-body)}
+.kn-chips{display:flex;flex-wrap:wrap;gap:8px}
+.kn-chip{display:inline-flex;align-items:center;height:36px;padding:0 16px;border-radius:9999px;border:1px solid var(--kn-outline);font-size:14px;color:var(--kn-body);transition:border-color .15s,color .15s}
+.kn-chip:hover,.kn-chip.is-hover{border-color:var(--kn-muted);color:var(--kn-white)}
+.kn-chip[aria-pressed="true"],.kn-chip.is-active{background:var(--kn-white);border-color:var(--kn-white);color:var(--kn-black);font-weight:500}
+.kn-tag{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;border:1px solid var(--kn-gold);color:var(--kn-gold);font:600 11px/1 var(--kn-sans);text-transform:uppercase}
+
+/* product stage */
+.kn-stage{padding:48px 0 96px}
+.kn-stage .kn-wrap{display:grid;grid-template-columns:7fr 5fr;gap:64px;align-items:start}
+.kn-crumb{grid-column:1/-1;font-size:13px;color:var(--kn-muted)}
+.kn-crumb a:hover{color:var(--kn-white)}
+.kn-crumb--page{padding-top:24px}
+.kn-shot{position:relative;margin:0;border-radius:10px;overflow:hidden;background:linear-gradient(201deg,var(--kn-panel) 14%,var(--kn-black))}
+.kn-shot img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.kn-shot::after{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.6);border-radius:10px;mix-blend-mode:overlay;-webkit-mask-image:linear-gradient(var(--kn-white),rgba(0,0,0,0));mask-image:linear-gradient(var(--kn-white),rgba(0,0,0,0));pointer-events:none}
+.kn-buy{position:sticky;top:96px}
+.kn-buy h1{font-size:56px;line-height:1.05;margin-bottom:20px}
+.kn-price{display:flex;align-items:baseline;gap:16px;margin:0 0 4px;font:500 34px/1 var(--kn-sans);letter-spacing:-.02em;background:linear-gradient(103deg,var(--kn-gold),var(--kn-gold-light) 40%,var(--kn-gold) 70%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:var(--kn-gold)}
+.kn-once{margin:0 0 28px;color:var(--kn-muted);font-size:13px}
+.kn-buy .kn-braced{margin:8px 0 28px}
+
+/* accordion */
+.kn-acc{border-top:1px solid var(--kn-rule)}
+.kn-acc:last-of-type{border-bottom:1px solid var(--kn-rule)}
+.kn-acc summary{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:18px 0;font-size:16px;font-weight:400;cursor:pointer}
+.kn-acc summary::-webkit-details-marker{display:none}
+.kn-acc summary::after{content:"+";font-size:22px;line-height:1;color:var(--kn-muted)}
+.kn-acc[open] summary::after{content:"\2212"}
+.kn-acc>div{padding:0 0 18px;color:var(--kn-body);font-size:15px}
+.kn-acc p{margin:0 0 8px}
+.kn-spec{display:grid;grid-template-columns:140px 1fr;gap:8px 16px;margin:0}
+.kn-spec dt{color:var(--kn-muted)}
+.kn-spec dd{margin:0;color:var(--kn-text)}
+
+/* home hero */
+.kn-hero{position:relative;display:grid;grid-template-columns:44fr 56fr;min-height:760px;overflow:hidden}
+.kn-hero__copy{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;padding:64px var(--kn-pad) 64px max(var(--kn-pad),calc((100vw - var(--kn-wrap))/2 + var(--kn-pad)))}
+.kn-hero__copy h1{font-size:56px;line-height:1.05;margin-bottom:20px}
+.kn-hero__stage{position:relative}
+.kn-hero__stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 58%}
+.kn-hero__stage::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,var(--kn-canvas),rgba(5,7,11,0) 38%)}
+.kn-hero__stage::after{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(rgba(5,7,11,0) 70%,var(--kn-canvas))}
+
+/* editorial spread on paper */
+.kn-spread{background:var(--kn-paper);color:var(--kn-paper-ink)}
+.kn-spread__inner{display:grid;grid-template-columns:1fr 1fr;max-width:1440px;margin:0 auto}
+.kn-spread figure{margin:0;min-height:100%}
+.kn-spread figure img{width:100%;height:100%;object-fit:cover;min-height:520px}
+.kn-spread--flip figure{order:2}
+.kn-story{padding:80px 64px;display:flex;flex-direction:column;justify-content:center;gap:32px}
+.kn-story .kn-eyebrow{color:var(--kn-gold-ink);margin:0}
+.kn-story h2{font-size:48px;line-height:1.1;color:var(--kn-paper-ink)}
+.kn-story h2 em{color:var(--kn-gold-ink)}
+.kn-story p{margin:0;font:400 19px/1.45 var(--kn-serif);max-width:520px}
+.kn-story .kn-braced{color:var(--kn-paper-ink);justify-self:start}
+.kn-table{width:100%;border-collapse:collapse;font-size:14px}
+.kn-table th,.kn-table td{text-align:left;vertical-align:top;padding:14px 12px 14px 0;border-top:1px solid var(--kn-paper-ink)}
+.kn-table tr:last-child td,.kn-table tr:last-child th{border-bottom:1px solid var(--kn-paper-ink)}
+.kn-table thead th{font:italic 400 18px/1.2 var(--kn-serif);text-transform:uppercase;letter-spacing:.02em;border-top:0;padding-top:0}
+.kn-table tbody th{width:28%;font-weight:600;font-size:13px}
+.kn-caveat{font:italic 400 19px/1.4 var(--kn-serif);border-left:2px solid var(--kn-crimson);padding-left:16px;max-width:520px}
+
+/* shelf and ruled cells */
+.kn-shelf{padding:96px 0 0}
+.kn-shelf__head{border-top:1px solid var(--kn-edge);border-bottom:1px solid var(--kn-edge);padding:40px 0;text-align:center;font:italic 400 18px/1.25 var(--kn-serif);text-transform:uppercase;letter-spacing:.02em}
+.kn-shelf__head span{font:400 12px/1 Arial,sans-serif;font-style:normal;color:var(--kn-muted);margin-left:12px}
+.kn-cells{display:grid;grid-template-columns:repeat(3,1fr)}
+.kn-cell{display:flex;flex-direction:column;border-right:1px solid var(--kn-edge);border-bottom:1px solid var(--kn-edge)}
+.kn-cell:nth-child(3n){border-right:0}
+.kn-cell img{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 62%}
+.kn-cell div{padding:20px 24px 28px;display:flex;justify-content:space-between;align-items:baseline;gap:16px}
+.kn-cell h3{font-size:24px;line-height:1.15}
+.kn-cell p{margin:0;font-weight:500;font-size:15px;color:var(--kn-gold-light);white-space:nowrap}
+.kn-cell:hover img{opacity:.86}
+.kn-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px 0}
+.kn-page-title{padding:48px 0 8px}
+.kn-page-title h1{font-size:56px;line-height:1.05}
+.kn-page-title p{margin:12px 0 0;color:var(--kn-body);max-width:576px}
+.kn-more{text-align:center;padding:48px 0 0}
+.kn-prose{max-width:576px;margin:0 auto;padding:64px var(--kn-pad) 0;color:var(--kn-body);font-size:15px}
+
+/* cart (line and summary) */
+.kn-line{display:grid;grid-template-columns:88px 1fr auto;gap:20px;align-items:center;padding:20px 0;border-top:1px solid var(--kn-rule)}
+.kn-line img{width:88px;aspect-ratio:1/1;object-fit:cover;border-radius:10px}
+.kn-line h3{font-size:22px}
+.kn-summary{padding:24px;border:1px solid var(--kn-edge);border-radius:10px;background:linear-gradient(201deg,var(--kn-panel) 14%,var(--kn-black))}
+.kn-summary p{display:flex;justify-content:space-between;margin:0 0 12px}
+
+/* warm horizon call to action */
+.kn-horizon{background:linear-gradient(rgba(0,0,0,0),var(--kn-horizon-mid) 70%,var(--kn-horizon-end));padding:224px 0 160px;text-align:center}
+.kn-horizon h2{font-size:64px;line-height:1.12;max-width:832px;margin:0 auto 24px}
+.kn-horizon p{margin:0 auto 32px;max-width:576px;color:var(--kn-body);font-size:19px;line-height:1.5}
+.kn-pill{display:inline-flex;gap:8px;padding:8px;border-radius:9999px;border:1px solid rgba(255,255,255,.1);background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.02))}
+.kn-pill a{display:inline-flex;align-items:center;height:48px;padding:0 28px;border-radius:9999px;font-weight:600;font-size:15px}
+.kn-pill a:first-child{background:var(--kn-white);color:var(--kn-rule)}
+.kn-pill a:last-child{color:var(--kn-text)}
+.kn-pill a:hover{opacity:.85}
+
+/* colophon footer */
+.kn-colophon{background:var(--kn-white);color:var(--kn-paper-ink);text-align:center;padding:64px var(--kn-pad) 40px}
+.kn-seal{width:132px;height:132px;margin:0 auto 20px;color:var(--kn-gold)}
+.kn-colophon--spaced{margin-top:96px}
+.kn-colophon h2{font:italic 400 42px/1.25 var(--kn-serif);color:var(--kn-gold-ink)}
+.kn-motto{margin:4px 0 0;font:400 18px/1.25 var(--kn-serif);color:var(--kn-gold-ink)}
+.kn-util{max-width:var(--kn-wrap);margin:80px auto 0;display:grid;grid-template-columns:2fr 1fr 1fr;gap:48px;text-align:left;font:400 15px/1.5 var(--kn-serif)}
+.kn-util h3{font:400 12px/1.25 Arial,sans-serif;text-transform:uppercase;margin-bottom:20px}
+.kn-util ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.kn-util a{transition:opacity .3s}
+.kn-util a:hover{opacity:.7}
+.kn-legal{max-width:var(--kn-wrap);margin:40px auto 0;padding-top:24px;border-top:1px solid var(--kn-black);text-align:left;font:400 13px/1.5 var(--kn-serif);color:var(--kn-paper-muted)}
+
+/* responsive */
+@media (max-width:1023px){
+  .kn-stage .kn-wrap{grid-template-columns:1fr;gap:32px}
+  .kn-buy{position:static}
+  .kn-buy h1{font-size:44px}
+  .kn-hero{grid-template-columns:1fr;min-height:0}
+  .kn-hero__copy{padding:56px var(--kn-pad) 24px}
+  .kn-hero__stage{min-height:480px}
+  .kn-hero__stage::before{background:linear-gradient(rgba(5,7,11,0),rgba(5,7,11,0))}
+  .kn-spread__inner{grid-template-columns:1fr}
+  .kn-spread--flip figure{order:0}
+  .kn-spread figure img{min-height:360px;max-height:520px}
+  .kn-story{padding:56px var(--kn-pad)}
+  .kn-horizon h2{font-size:48px}
+  .kn-cells{grid-template-columns:repeat(2,1fr)}
+  .kn-cell:nth-child(3n){border-right:1px solid var(--kn-edge)}
+  .kn-cell:nth-child(2n){border-right:0}
+}
+@media (max-width:767px){
+  :root{--kn-pad:16px}
+  .kn-nav__links{display:none}
+  .kn-stage{padding:24px 0 64px}
+  .kn-buy h1,.kn-hero__copy h1,.kn-page-title h1{font-size:36px}
+  .kn-story h2{font-size:36px}
+  .kn-cells{grid-template-columns:1fr}
+  .kn-cell,.kn-cell:nth-child(3n),.kn-cell:nth-child(2n){border-right:0}
+  .kn-horizon{padding:120px 0 96px}
+  .kn-horizon h2{font-size:36px}
+  .kn-pill{flex-direction:column;border-radius:24px;width:100%}
+  .kn-pill a{justify-content:center}
+  .kn-util{grid-template-columns:1fr;gap:32px;margin-top:48px}
+  .kn-spec{grid-template-columns:110px 1fr}
+  .kn-line{grid-template-columns:72px 1fr}
+  .kn-line img{width:72px}
+  .kn-table th,.kn-table td{display:block;width:100%;padding:6px 0;border:0}
+  .kn-table tbody tr{display:block;padding:12px 0;border-top:1px solid var(--kn-paper-ink)}
+  .kn-table tbody th{width:100%}
+  .kn-table thead{display:none}
+  .kn-table td::before{content:attr(data-k);display:block;font:600 11px/1.4 var(--kn-sans);text-transform:uppercase;color:var(--kn-gold-ink)}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body class="kn">
+<!-- Reference page: product detail. Name, price, size and policies are sample data. -->
+<header class="kn-nav">
+  <div class="kn-wrap">
+    <a class="kn-brand" href="/home" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
+      <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
+      <span>Khang Nguyên<small>Ngọc Bảo</small></span>
+    </a>
+    <nav aria-label="Danh mục"><ul class="kn-nav__links">
+      <li><a href="/necklaces">Vòng ngọc</a></li>
+      <li><a href="/necklaces">Nhẫn ngọc</a></li>
+      <li><a href="/necklaces">Chuỗi ngọc</a></li>
+      <li><a href="#kien-thuc">Kiến thức về ngọc</a></li>
+    </ul></nav>
+    <a class="kn-bag" href="/shopping-cart" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge" id="bagCount">0</b></a>
+  </div>
+</header>
+
+<main>
+<section class="kn-stage">
+  <div class="kn-wrap">
+    <nav class="kn-crumb" aria-label="Breadcrumb"><a href="/home">Trang chủ</a> / <a href="/necklaces">Vòng ngọc</a> / Phỉ thúy xanh lam</nav>
+    <figure class="kn-shot">
+      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
+    </figure>
+    <div class="kn-buy">
+      <p class="kn-eyebrow">Phỉ thúy · Vòng tay</p>
+      <h1>Vòng ngọc phỉ thúy <em>xanh lam</em></h1>
+      <p class="kn-lead">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
+      <p class="kn-price" data-demo="true">18.500.000 ₫</p>
+      <p class="kn-once">Sản phẩm duy nhất · còn 1 chiếc</p>
+      <button type="button" class="kn-btn" id="addBtn" data-product-id="">Thêm vào giỏ</button>
+      <p class="kn-note" id="addNote" role="status" aria-live="polite"></p>
+      <a class="kn-braced" href="/customer-service">Tư vấn chọn vòng</a>
+
+      <details class="kn-acc" open>
+        <summary>Thông số</summary>
+        <div><dl class="kn-spec">
+          <dt>Chất liệu</dt><dd>Ngọc phỉ thúy</dd>
+          <dt>Màu sắc</dt><dd>Xanh lam</dd>
+          <dt>Đường kính trong</dt><dd>56 mm</dd>
+          <dt>Mã sản phẩm</dt><dd>KN-DEMO-001</dd>
+        </dl></div>
+      </details>
+      <details class="kn-acc">
+        <summary>Cách đo size tay</summary>
+        <div><p>Chụm các ngón tay lại, đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14 để ra đường kính trong cần chọn.</p></div>
+      </details>
+      <details class="kn-acc">
+        <summary>Giao hàng và đổi trả</summary>
+        <div><p>Nội dung mẫu. Chính sách giao hàng và đổi trả thật sẽ được cập nhật trước khi mở bán.</p></div>
+      </details>
+      <details class="kn-acc">
+        <summary>Bảo quản ngọc</summary>
+        <div><p>Tránh va đập mạnh và hóa chất. Lau bằng khăn mềm, cất trong hộp nhung khi không đeo.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="kn-spread" id="kien-thuc">
+  <div class="kn-spread__inner">
+    <figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền màu trắng ngà trên khay nhung" /></figure>
+    <div class="kn-story">
+      <p class="kn-eyebrow">Kiến thức về ngọc</p>
+      <h2>Ngọc Hòa Điền: <em>Tân Cương</em> và Thanh Hải</h2>
+      <p>Hai nguồn ngọc cùng gọi là Hòa Điền nhưng cho cảm giác rất khác nhau. Bảng dưới đây giúp bạn nhìn ra sự khác biệt trước khi chọn vòng.</p>
+      <table class="kn-table">
+        <thead><tr><th></th><th scope="col">Tân Cương</th><th scope="col">Thanh Hải</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Cấu trúc</th><td data-k="Tân Cương">Sợi đan xen chặt, hạt mịn, chắc.</td><td data-k="Thanh Hải">Đa dạng, nhiều mẫu, rất mịn.</td></tr>
+          <tr><th scope="row">Độ nhuận và độ trong</th><td data-k="Tân Cương">Nổi bật, ánh dầu mềm mại.</td><td data-k="Thanh Hải">Thường cao hơn, trong trẻo, thanh thoát.</td></tr>
+          <tr><th scope="row">Màu sắc</th><td data-k="Tân Cương">Trắng ngà, bạch ngọc, thanh ngọc, bích ngọc, hoàng ngọc.</td><td data-k="Thanh Hải">Trắng, xanh trắng, xanh khói, tím xám khói, xanh lục.</td></tr>
+          <tr><th scope="row">Cảm giác</th><td data-k="Tân Cương">Đằm, chắc, có chiều sâu.</td><td data-k="Thanh Hải">Trong trẻo, nhẹ nhàng, tươi sáng.</td></tr>
+          <tr><th scope="row">Đặc trưng nguồn gốc</th><td data-k="Tân Cương">Có ngọc tử liệu (籽料) với lớp vỏ tự nhiên.</td><td data-k="Thanh Hải">Có “đường nước” tự nhiên, tạo vân mềm.</td></tr>
+        </tbody>
+      </table>
+      <p class="kn-caveat">Tân Cương chưa chắc đã đắt hơn, và Thanh Hải không mặc định là rẻ. Giá trị mỗi chiếc vòng phụ thuộc vào chất ngọc, độ mịn, độ nhuận, màu sắc, độ sạch, độ hiếm và độ hoàn thiện.</p>
+    </div>
+  </div>
+</section>
+
+<section class="kn-shelf" id="bo-suu-tap">
+  <div class="kn-shelf__head">Bộ sưu tập vòng ngọc <span>Mẫu thử · 3 sản phẩm</span></div>
+  <div class="kn-cells">
+    <a class="kn-cell" href="/vong-ngoc-demo">
+      <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" />
+      <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
+    </a>
+    <a class="kn-cell" href="/vong-ngoc-demo">
+      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" />
+      <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
+    </a>
+    <a class="kn-cell" href="/vong-ngoc-demo">
+      <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" />
+      <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
+    </a>
+  </div>
+</section>
+
+<section class="kn-horizon">
+  <div class="kn-wrap">
+    <h2>Chọn chiếc vòng <em>hợp với cổ tay</em> của bạn</h2>
+    <p>Gửi số đo tay hoặc ảnh cổ tay, tư vấn viên sẽ gợi ý những chiếc vòng vừa size và hợp tông da.</p>
+    <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="/necklaces">Xem bộ sưu tập</a></div>
+  </div>
+</section>
+</main>
+
+<footer class="kn-colophon">
+  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <ellipse cx="80" cy="71" rx="64" ry="58"/>
+    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
+    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
+  </svg>
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <div class="kn-util">
+    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
+    <div><h3>Sản phẩm</h3><ul><li><a href="/necklaces">Vòng ngọc</a></li><li><a href="/necklaces">Nhẫn ngọc</a></li><li><a href="/necklaces">Chuỗi ngọc</a></li></ul></div>
+    <div><h3>Hỗ trợ</h3><ul><li><a href="/customer-service">Chăm sóc khách hàng</a></li><li><a href="#kien-thuc">Kiến thức về ngọc</a></li></ul></div>
+  </div>
+  <p class="kn-legal">Trang minh họa. Tên sản phẩm, giá và chính sách là dữ liệu mẫu, chưa dùng để bán hàng.</p>
+</footer>
+
+<script>
+(function(){
+  var btn=document.getElementById('addBtn'),note=document.getElementById('addNote'),count=document.getElementById('bagCount');
+  if(!btn){return;}
+  btn.addEventListener('click',function(){
+    if(btn.getAttribute('data-added')==='1'){return;}
+    btn.setAttribute('data-added','1');
+    count.textContent='1';
+    btn.textContent='Đã thêm vào giỏ';
+    note.textContent='Sản phẩm duy nhất, mỗi đơn chỉ thêm được 1 chiếc.';
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/products">All products</a> / <span id="swBcCur">Product</span></nav>
+  <div data-sw-state></div>
+  <article class="sw-pdp" id="swPdp" hidden>
+    <div class="sw-pdp-img" id="swPdpImg"></div>
+    <div class="sw-pdp-info">
+      <p class="sw-code" id="swPdpCode"></p>
+      <h1 id="swPdpName"></h1>
+      <p class="sw-price" id="swPdpPrice"></p>
+      <p class="sw-stock" id="swPdpStock"></p>
+      <div class="sw-swatches" id="swPdpSwatches" hidden>
+        <p class="sw-swatch-label">Colour: <strong id="swPdpColor"></strong></p>
+        <ul class="sw-swatch-list" id="swPdpSwatchList"></ul>
+      </div>
+      <div class="sw-qty-row">
+        <label for="swPdpQty">Quantity</label>
+        <div class="sw-qty"><button type="button" data-qty-dec aria-label="Decrease">&minus;</button><input id="swPdpQty" type="number" min="1" value="1" inputmode="numeric"><button type="button" data-qty-inc aria-label="Increase">+</button></div>
+      </div>
+      <button type="button" class="sw-btn sw-btn--dark sw-wide" id="swAddBtn">Add to bag</button>
+      <button type="button" class="sw-btn sw-wide sw-wish" id="swWishBtn" aria-pressed="false">Add to wish list</button>
+      <p class="sw-note" id="swAddNote" role="status" aria-live="polite"></p>
+      <div class="sw-acc" id="swPdpDesc">
+        <div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="true">Description</button><div class="sw-acc-panel"><p id="swPdpDescText"></p></div></div>
+        <div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Shipping &amp; returns</button><div class="sw-acc-panel"><p>Standard shipping is free over $129. Easy returns are available on eligible items within 30 days; pack the item with its documents.</p></div></div>
+        <div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Care &amp; maintenance</button><div class="sw-acc-panel"><p>Keep your piece away from water, perfume and harsh chemicals. Wipe it with a soft, dry cloth and store it in its pouch.</p></div></div>
+        <div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Gift-giving services</button><div class="sw-acc-panel"><p>Every order arrives in signature gift packaging. Add a gift message at checkout.</p></div></div>
+        <div class="sw-acc-item"><button type="button" class="sw-acc-btn" aria-expanded="false">Size guide</button><div class="sw-acc-panel"><p><a class="sw-u" href="/size-guide">Open the size guide</a> to find your bracelet, ring or necklace size.</p></div></div>
+      </div>
+    </div>
+  </article>
+</div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en-SG" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Khang Nguyen Official | Jewelry, Watches and Crystal Decorations</title>
+<ezy:block ezy:replace="~{ecommerce/theme :: head}" />
+<style>
+.swh-hero{position:relative;min-height:560px;color:#fff;background:#0b0b10;overflow:hidden}
+.swh-hero .sw-slide{display:none;position:absolute;inset:0;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px 80px;background:radial-gradient(circle at 30% 30%,#2b2f4a 0,#0b0b10 60%)}
+.swh-hero .sw-slide:nth-child(2){background:radial-gradient(circle at 70% 40%,#4a2b3a 0,#0b0b10 60%)}
+.swh-hero .sw-slide.is-on{display:flex}
+.swh-hero h2{margin:0 0 8px;font:300 24px/1.2 var(--sw-sans)}
+.swh-hero h3{margin:0 0 24px;font:300 44px/1.15 var(--sw-sans)}
+.swh-ctl{position:absolute;left:0;right:0;bottom:20px;display:flex;justify-content:center;align-items:center;gap:12px;z-index:3}
+.swh-ctl button{background:none;border:0;color:#fff;cursor:pointer;min-width:32px;min-height:32px;font-size:20px}
+.swh-ctl .swh-d{width:8px;height:8px;min-width:8px;min-height:8px;border-radius:50%;background:rgba(255,255,255,.4);padding:0}
+.swh-ctl .swh-d.is-on{background:#fff}
+.swh-intro{text-align:center;padding:56px var(--sw-pad) 24px}
+.swh-intro h1{margin:0 0 32px}
+.swh-cats{list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(8,1fr);gap:16px;max-width:1200px}
+.swh-cats a{display:block;padding:14px 6px;background:#fff;border:1px solid #ddd}
+.swh-ban{display:grid;grid-template-columns:1fr 1fr;min-height:420px}
+.swh-ban:nth-of-type(even) .swh-img{order:2}
+.swh-img{background:linear-gradient(135deg,#d9d5c7,#bdb8a6)}
+.swh-txt{display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:48px var(--sw-pad);gap:12px}
+.swh-txt h3{margin:0;font:400 12px/1 var(--sw-sans);letter-spacing:.1em}
+.swh-txt h2{margin:0 0 12px}
+.swh-txt .swh-links{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.swh-edit{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;padding:48px var(--sw-pad)}
+.swh-edit .swh-img{aspect-ratio:4/5;margin-bottom:12px}
+.swh-edit h2{font-size:22px;margin:0 0 8px}
+@media (max-width:1023px){.swh-cats{grid-template-columns:repeat(4,1fr)}.swh-edit{grid-template-columns:1fr}}
+@media (max-width:767px){.swh-hero{min-height:480px}.swh-hero h3{font-size:30px}.swh-cats{grid-template-columns:repeat(2,1fr)}.swh-ban{grid-template-columns:1fr}.swh-ban:nth-of-type(even) .swh-img{order:0}.swh-img{min-height:260px}}
+</style>
+</head>
+<body>
+<div class="sw sw-home">
+<ezy:block ezy:replace="~{ecommerce/header :: content}" />
+<main>
+  <section class="swh-hero" data-sw-carousel aria-roledescription="carousel" aria-label="Featured">
+    <div class="sw-slide is-on"><h2>Black Friday</h2><h3>Up to 40% off select styles*</h3><a class="sw-btn" href="/necklaces">Shop now</a></div>
+    <div class="sw-slide"><h2>New Collection</h2><h3>Crystal Brilliance</h3><a class="sw-btn" href="/necklaces">Shop now</a></div>
+    <div class="swh-ctl">
+      <button type="button" data-sw-prev aria-label="Previous slide">&#8249;</button>
+      <button type="button" class="swh-d is-on" data-sw-dot aria-label="Go to slide 1" aria-selected="true"></button>
+      <button type="button" class="swh-d" data-sw-dot aria-label="Go to slide 2" aria-selected="false"></button>
+      <button type="button" data-sw-next aria-label="Next slide">&#8250;</button>
+    </div>
+  </section>
+  <section class="swh-intro">
+    <h1>Masters of Light Since 1895</h1>
+    <h2>Shop by Category</h2>
+    <ul class="swh-cats">
+      <li><a href="/necklaces">Necklaces</a></li><li><a href="#">Rings</a></li><li><a href="#">Bracelet</a></li><li><a href="#">Decorations</a></li>
+      <li><a href="#">Gifts</a></li><li><a href="#">Earrings</a></li><li><a href="#">Watches</a></li><li><a href="#">New in</a></li>
+    </ul>
+  </section>
+  <section class="swh-ban" aria-label="Khang Nguyen Crystal Society">
+    <div class="swh-img" role="img" aria-label="Member exclusive"></div>
+    <div class="swh-txt"><h3>SCS MEMBER EXCLUSIVE</h3><p>Sign in to unlock member-only offers.</p>
+      <a class="sw-btn sw-btn--dark" href="#">Join now</a><a class="sw-btn" href="#">Sign in</a><a href="#">*Terms and Conditions</a></div>
+  </section>
+  <section class="swh-ban" aria-label="Advent calendar">
+    <div class="swh-img" role="img" aria-label="Advent Calendar"></div>
+    <div class="swh-txt"><h3>JOY EVERY DAY</h3><h2>Advent Calendar 2026</h2>
+      <div class="swh-links"><a class="sw-btn sw-btn--dark" href="#">Shop now</a><a href="#">Get inspired</a></div></div>
+  </section>
+  <section class="swh-ban" aria-label="Holiday decorations">
+    <div class="swh-img" role="img" aria-label="Holiday Decorations"></div>
+    <div class="swh-txt"><h3>DECK THE HALLS</h3><h2>Holiday Decorations</h2>
+      <div class="swh-links"><a class="sw-btn sw-btn--dark" href="#">Shop now</a><a href="#">Get inspired</a></div></div>
+  </section>
+  <ezy:block ezy:replace="~{ecommerce/category-strip :: content}" />
+  <section class="swh-edit" aria-label="Stories">
+    <article><div class="swh-img" role="img" aria-label="Ocean-Inspired Jewelry"></div><h2>Ocean-Inspired Jewelry</h2><a href="#">Read more</a></article>
+    <article><div class="swh-img" role="img" aria-label="Fall trends"></div><h2>Fall Jewelry Trends &amp; Autumn Color Palettes</h2><a href="#">Discover more</a></article>
+    <article><div class="swh-img" role="img" aria-label="About Khang Nguyen"></div><h2>About Khang Nguyen</h2><a href="#">Read more</a></article>
+  </section>
+</main>
+<ezy:block ezy:replace="~{ecommerce/footer :: content}" />
+</div>
+<ezy:block ezy:replace="~{ecommerce/theme :: foot}" />
+</body>
+</html>

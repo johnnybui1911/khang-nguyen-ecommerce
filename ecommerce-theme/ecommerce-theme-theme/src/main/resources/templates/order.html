@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
+  <h1 id="swOrderTitle">Your order</h1>
+  <div data-sw-state></div>
+  <div id="swOrder" hidden>
+    <section class="sw-card">
+      <p class="sw-order-ok" id="swOrderStatus" role="status"></p>
+      <dl class="sw-dl" id="swOrderMeta"></dl>
+    </section>
+    <section class="sw-card"><h2>Items</h2>
+      <ul class="sw-mini" id="swOrderLines"></ul>
+      <p class="sw-total"><span>Total</span><strong id="swOrderTotal"></strong></p>
+    </section>
+    <p><a class="sw-btn sw-btn--dark" href="/products">Continue shopping</a> <a class="sw-u" href="/account">View all orders</a>
+      <a class="sw-u" id="swOrderTrack" href="/order-status">Tra cứu đơn / Order Status</a></p>
+  </div>
+</div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Order status</span></nav>
+  <div class="sw-top"><h1>Order status</h1></div>
+  <p>Enter your order number and the email address used for delivery.</p>
+  <form class="sw-tools" id="swStatusForm" novalidate>
+    <label>Order number
+      <input id="swStatusId" name="orderId" type="text" inputmode="numeric" autocomplete="off" required></label>
+    <label>Email
+      <input id="swStatusEmail" name="email" type="email" autocomplete="email" required></label>
+    <button type="submit" class="sw-btn sw-btn--dark" id="swStatusBtn">Check status</button>
+  </form>
+  <p class="sw-note" id="swStatusMsg" role="status" aria-live="polite"></p>
+  <dl class="sw-status" id="swStatusResult" hidden>
+    <dt>Order</dt><dd id="swStatusOrder"></dd>
+    <dt>Status</dt><dd id="swStatusValue"></dd>
+    <dt>Placed</dt><dd id="swStatusPlaced"></dd>
+    <dt>Last updated</dt><dd id="swStatusUpdated"></dd>
+  </dl>
+  <section class="sw-card" id="swStatusSummary" hidden aria-label="Order summary">
+    <h2>Items</h2>
+    <ul class="sw-mini" id="swStatusLines"></ul>
+    <p class="sw-total"><span>Total</span><strong id="swStatusTotal"></strong></p>
+  </section>
+</div>
+</th:block>
+</body>
+</html>

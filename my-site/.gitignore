@@ -1,0 +1,4 @@
+.env
+environment.json
+.artifacts/
+*.pyc

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Contact us</span></nav>
+  <div class="sw-top"><h1>Contact us</h1></div>
+  <p>Send a message to our Customer Service team. We reply by email within 1-3 business days.</p>
+  <form class="sw-form" id="swContactForm" novalidate>
+    <label>Name<input name="name" required maxlength="100" autocomplete="name"></label>
+    <p class="sw-form-err" data-err-for="name" role="alert" hidden></p>
+    <label>Email<input name="email" type="email" required maxlength="254" autocomplete="email"></label>
+    <p class="sw-form-err" data-err-for="email" role="alert" hidden></p>
+    <label>Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label>
+    <p class="sw-form-err" data-err-for="phone" role="alert" hidden></p>
+    <label>Topic
+      <select name="topic">
+        <option value="order">My order</option>
+        <option value="product">A product</option>
+        <option value="repair">Repair</option>
+        <option value="gift-card">Gift card</option>
+        <option value="other" selected>Something else</option>
+      </select></label>
+    <label>Message<textarea name="message" required maxlength="2000" rows="6"></textarea></label>
+    <p class="sw-form-err" data-err-for="message" role="alert" hidden></p>
+    <div class="sw-hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
+    <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
+    <p class="sw-note" id="swFormOk" role="status" aria-live="polite" hidden></p>
+    <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swFormBtn">Send message</button>
+  </form>
+</div>
+</th:block>
+</body>
+</html>

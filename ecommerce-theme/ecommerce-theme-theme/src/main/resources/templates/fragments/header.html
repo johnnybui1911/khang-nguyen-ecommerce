@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<header th:fragment="header" class="sw-head">
+  <a class="sw-skip" href="#swMain">Skip to content</a>
+  <div class="sw-promo" id="swPromo" role="region" aria-label="Promotion">
+    <span>Black Friday: Up to 40% off select styles*</span>
+    <a class="sw-u" href="/products">Shop now</a>
+    <button type="button" class="sw-promo-x" data-sw-promo-x aria-label="Close promotion">&times;</button>
+  </div>
+  <div class="sw-util">
+    <div class="sw-util-l"><a href="/customer-service">Customer Service</a></div>
+    <div class="sw-util-mid">Easy returns</div>
+    <div class="sw-util-r">
+      <a href="/login" data-sw-auth-link>Login</a>
+    </div>
+  </div>
+  <div class="sw-bar">
+    <div class="sw-bar-l">
+      <button type="button" class="sw-menu-btn" data-sw-menu aria-label="Menu" aria-controls="swDrawer" aria-expanded="false">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        <span class="sw-lbl">Menu</span>
+      </button>
+    </div>
+    <a class="sw-logo" href="/" aria-label="Khang Nguyen home">
+      <svg viewBox="0 0 200 24" role="img" aria-hidden="true"><text x="100" y="19" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="22" letter-spacing="5" fill="currentColor">KHANG NGUYEN</text></svg>
+    </a>
+    <div class="sw-bar-r">
+      <button type="button" class="sw-ico" data-sw-search-toggle aria-label="Search" aria-expanded="false" aria-controls="swSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button>
+      <a class="sw-ico" href="/wishlist" aria-label="Wish list"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20.500S3.500 15 3.500 9.200A4.700 4.700 0 0112 6.700a4.700 4.700 0 018.500 2.500C20.500 15 12 20.500 12 20.500z"/></svg></a>
+      <a class="sw-ico" href="/account" aria-label="My account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6 8-6s7 1.500 8 6"/></svg></a>
+      <a class="sw-ico" href="/shopping-cart" aria-label="Shopping bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg><span class="sw-badge" id="swBagCount" hidden>0</span></a>
+    </div>
+  </div>
+  <form class="sw-search" id="swSearch" action="/search" method="get" role="search" hidden>
+    <label class="sw-sr" for="swSearchInput">Search products</label>
+    <input id="swSearchInput" type="search" name="keyword" placeholder="Search products" autocomplete="off">
+    <button type="submit" class="sw-btn sw-btn--dark">Search</button>
+  </form>
+  <div class="sw-scrim" data-sw-close></div>
+  <nav class="sw-drawer" id="swDrawer" aria-label="Main menu" aria-hidden="true">
+    <button type="button" class="sw-drawer-x" data-sw-close aria-label="Close menu">&times;</button>
+    <ul id="swCats"></ul>
+    <ul class="sw-sec">
+      <li><a href="/wishlist">Wish list</a></li>
+      <li><a href="/account">My account</a></li>
+      <li><a href="/login" data-sw-auth-link>Login</a></li>
+      <li><a href="/customer-service">Customer Service</a></li>
+    </ul>
+    <div class="sw-drawer-meta">Singapore &middot; English EN</div>
+  </nav>
+</header>
+</body>
+</html>

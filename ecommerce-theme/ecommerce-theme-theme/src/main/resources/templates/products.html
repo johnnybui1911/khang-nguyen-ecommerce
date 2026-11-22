@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span id="swBcCur">All products</span></nav>
+  <div class="sw-top"><h1 id="swListTitle">All products</h1><span class="sw-count" id="swCount" aria-live="polite"></span></div>
+  <form class="sw-tools" id="swTools">
+    <label>Category
+      <select id="swFilterCat" name="category"><option value="">All categories</option></select></label>
+    <label>Sort by
+      <select id="swSort" name="sort">
+        <option value="">Newest</option>
+        <option value="PRICE_ASC">Price: low to high</option>
+        <option value="PRICE_DESC">Price: high to low</option>
+      </select></label>
+    <label>Price from
+      <input id="swPriceMin" type="number" name="priceMin" min="0" step="any" inputmode="decimal" placeholder="Min"></label>
+    <label>Price to
+      <input id="swPriceMax" type="number" name="priceMax" min="0" step="any" inputmode="decimal" placeholder="Max"></label>
+    <label>Discount
+      <select id="swDiscount" name="discount">
+        <option value="">Any</option>
+        <option value="10">10% or more</option>
+        <option value="20">20% or more</option>
+        <option value="30">30% or more</option>
+        <option value="40">40% or more</option>
+        <option value="50">50% or more</option>
+      </select></label>
+    <label id="swColorWrap" hidden>Colour
+      <select id="swColor" name="color"><option value="">Any</option></select></label>
+    <label id="swMaterialWrap" hidden>Material
+      <select id="swMaterial" name="material"><option value="">Any</option></select></label>
+    <label class="sw-tools-kw">Search
+      <input id="swKeyword" type="search" name="keyword" placeholder="Keyword"></label>
+    <button type="submit" class="sw-btn sw-btn--dark">Apply</button>
+  </form>
+  <div data-sw-state></div>
+  <ul class="sw-grid" id="swGrid" data-limit="24" data-paged="1"></ul>
+  <div class="sw-more"><button type="button" class="sw-btn" id="swLoadMore" hidden>Load more</button></div>
+</div>
+</th:block>
+</body>
+</html>

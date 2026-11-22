@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
+  <h1>Checkout</h1>
+  <div data-sw-state></div>
+  <div class="sw-cart" id="swCheckout" hidden>
+    <form class="sw-form" id="swCheckoutForm" novalidate>
+      <h2>Delivery</h2>
+      <label>Full name<input name="deliveryFullName" required autocomplete="name"></label>
+      <label>Email<input name="deliveryEmail" type="email" required autocomplete="email"></label>
+      <label>Phone<input name="deliveryPhoneNumber" type="tel" required autocomplete="tel" placeholder="+65 8123 4567"></label>
+      <label>Address<input name="deliveryAddress" required autocomplete="street-address"></label>
+      <label>City<input name="deliveryCityName" required autocomplete="address-level2" value="Singapore"></label>
+      <label>Postal code<input name="deliveryPostalCode" required autocomplete="postal-code"></label>
+      <label>Country<select name="deliveryCountryId" id="swCountry" required></select></label>
+      <h2>Payment</h2>
+      <label>Method<select name="paymentServiceCode" id="swPay" required></select></label>
+      <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
+      <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swPlace">Place order</button>
+    </form>
+    <aside class="sw-sum">
+      <h2>Your bag</h2>
+      <ul class="sw-mini" id="swMini"></ul>
+      <p class="sw-sum-row"><span>Total</span><strong id="swTotal"></strong></p>
+    </aside>
+  </div>
+</div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main" tabindex="-1">
+  <section class="sw-hero" aria-label="Featured">
+    <p class="sw-hero-eyebrow">Black Friday</p>
+    <h1>Up to 40% off select styles*</h1>
+    <a class="sw-btn" href="/products">Shop now</a>
+  </section>
+  <section class="sw-intro">
+    <h2>Masters of Light Since 1895</h2>
+    <p class="sw-sub">Shop by Category</p>
+    <ul class="sw-cats" id="swHomeCats" aria-live="polite"></ul>
+  </section>
+  <section class="sw-block" aria-labelledby="swNewH">
+    <div class="sw-block-head"><h2 id="swNewH">New In</h2><a class="sw-u" href="/products">Explore all</a></div>
+    <div data-sw-state></div>
+    <ul class="sw-grid" id="swGrid" data-limit="8"></ul>
+  </section>
+  <section class="sw-ban"><div class="sw-ban-img" role="img" aria-label="Gifts"></div>
+    <div class="sw-ban-txt"><h3>JOY EVERY DAY</h3><h2>Gifts for every occasion</h2><a class="sw-btn sw-btn--dark" href="/products">Shop gifts</a></div></section>
+</div>
+</th:block>
+</body>
+</html>

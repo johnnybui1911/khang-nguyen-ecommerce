@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main sw-auth" tabindex="-1">
+  <h1 id="swNlTitle">Newsletter</h1>
+  <p id="swNlText"></p>
+  <p class="sw-form-err" id="swNlErr" role="alert" hidden></p>
+  <p class="sw-note" id="swNlOk" role="status" aria-live="polite" hidden></p>
+  <button type="button" class="sw-btn sw-btn--dark sw-wide" id="swNlBtn" hidden>Continue</button>
+  <p class="sw-alt"><a class="sw-u" href="/">Back to the shop</a></p>
+</div>
+</th:block>
+</body>
+</html>

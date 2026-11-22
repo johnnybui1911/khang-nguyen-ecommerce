@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Style guide | Khang Nguyên - Ngọc Bảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="kn.css" />
+<style>
+/* Styles below only lay out this guide. Components themselves come from kn.css. */
+.sg-sec{padding:64px 0;border-top:1px solid var(--kn-edge)}
+.sg-sec>.kn-wrap>h2{font-size:40px;margin-bottom:8px}
+.sg-sec>.kn-wrap>p.sg-intro{margin:0 0 32px;color:var(--kn-body);max-width:640px}
+.sg-sub{font:600 12px/1 var(--kn-sans);text-transform:uppercase;letter-spacing:.02em;color:var(--kn-muted);margin:32px 0 16px}
+.sg-row{display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+.sg-col{display:grid;gap:16px}
+.sg-swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.sg-sw{border:1px solid var(--kn-edge);border-radius:10px;overflow:hidden;background:var(--kn-panel)}
+.sg-sw__chip{height:72px;border-bottom:1px solid var(--kn-edge)}
+.sg-sw__txt{padding:12px 14px;font-size:13px;line-height:1.45}
+.sg-sw__txt code{display:block;color:var(--kn-gold-light);font-size:12px}
+.sg-sw__txt small{display:block;color:var(--kn-muted)}
+.sg-type{display:grid;grid-template-columns:160px 1fr;gap:24px;align-items:baseline;padding:16px 0;border-top:1px solid var(--kn-rule)}
+.sg-type code{font-size:12px;color:var(--kn-muted)}
+.sg-paper{background:var(--kn-paper);color:var(--kn-paper-ink);padding:32px;border-radius:0}
+.sg-bar{height:12px;background:var(--kn-gold);border-radius:0}
+.sg-scale{display:grid;grid-template-columns:72px 1fr;gap:16px;align-items:center;margin:8px 0;font-size:13px;color:var(--kn-body)}
+.sg-radius{display:grid;place-items:center;width:120px;height:72px;border:1px solid var(--kn-gold);font-size:12px;color:var(--kn-body)}
+.sg-rule{padding:16px 20px;border-radius:10px;border:1px solid var(--kn-edge);font-size:14px}
+.sg-do{border-color:var(--kn-gold)}
+.sg-dont{border-color:var(--kn-crimson)}
+.sg-twocol{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.sg-note{color:var(--kn-muted);font-size:13px}
+@media (max-width:767px){.sg-twocol{grid-template-columns:1fr}.sg-type{grid-template-columns:1fr;gap:8px}}
+</style>
+</head>
+<body class="kn">
+<header class="kn-nav"><div class="kn-wrap">
+  <a class="kn-brand" href="home.html">Khang Nguyên<small>Style guide</small></a>
+  <nav aria-label="Trang mẫu"><ul class="kn-nav__links">
+    <li><a href="home.html">Trang chủ</a></li><li><a href="category.html">Danh mục</a></li><li><a href="product.html">Sản phẩm</a></li>
+  </ul></nav>
+  <span class="kn-tag">Bản tham chiếu</span>
+</div></header>
+
+<main>
+<section class="kn-wrap" style="padding-top:64px">
+  <p class="kn-eyebrow">Style guide · Khang Nguyên · Ngọc Bảo</p>
+  <h1 style="font-size:64px;line-height:1.05">Mọi thành phần, <em>một nguồn</em></h1>
+  <p class="kn-lead" style="margin-top:20px;max-width:640px">Trang này hiển thị đúng những gì <code>kn.css</code> định nghĩa. Khi dựng giao diện mới, chỉ dùng token và class có ở đây. Cần thành phần mới thì thêm vào <code>kn.css</code> và vào trang này trước, rồi mới dùng.</p>
+</section>
+
+<!-- 1. Colors -->
+<section class="sg-sec" id="colors"><div class="kn-wrap">
+  <h2>1. Màu</h2>
+  <p class="sg-intro">Mọi màu chỉ tồn tại dưới dạng token trong <code>:root</code>. Ngoài <code>:root</code> không được viết mã hex. Mỗi màu có một vai trò, không đổi vai trò.</p>
+  <div class="sg-swatches" id="swatches"></div>
+  <p class="sg-note" style="margin-top:16px">Tương phản đã tính: vàng trên nền tối khoảng 7.7:1, chữ phụ trên nền tối khoảng 6.1:1, vàng đậm trên giấy khoảng 5.3:1. Vàng sáng trên nền giấy chỉ khoảng 2.4:1, KHÔNG dùng làm chữ.</p>
+</div></section>
+
+<!-- 2. Type -->
+<section class="sg-sec" id="type"><div class="kn-wrap">
+  <h2>2. Chữ</h2>
+  <p class="sg-intro">Cormorant Garamond cho tiêu đề, Be Vietnam Pro cho giao diện. Cả hai có đủ dấu tiếng Việt. Một cụm in nghiêng có nghĩa trong mỗi tiêu đề, không đổi màu.</p>
+  <div class="sg-type"><code>display 56/1.05</code><h1 style="font-size:56px;line-height:1.05">Vòng ngọc phỉ thúy <em>xanh lam</em></h1></div>
+  <div class="sg-type"><code>chapter 64/1.12</code><h2 style="font-size:64px;line-height:1.12">Chọn chiếc vòng <em>hợp với cổ tay</em></h2></div>
+  <div class="sg-type"><code>heading 48/1.1</code><h2 style="font-size:48px;line-height:1.1">Ngọc Hòa Điền: <em>Tân Cương</em> và Thanh Hải</h2></div>
+  <div class="sg-type"><code>card-title 24/1.15</code><h3 style="font-size:24px;line-height:1.15">Vòng phỉ thúy xanh lam</h3></div>
+  <div class="sg-type"><code>lead sans 300 17</code><p class="kn-lead" style="margin:0">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn.</p></div>
+  <div class="sg-type"><code>body sans 300 16</code><p style="margin:0;max-width:560px">Tránh va đập mạnh và hóa chất. Lau bằng khăn mềm, cất trong hộp nhung khi không đeo.</p></div>
+  <div class="sg-type"><code>eyebrow sans 600 12</code><p class="kn-eyebrow" style="margin:0">Phỉ thúy · Vòng tay</p></div>
+  <div class="sg-type"><code>price sans 500 34</code><p class="kn-price" style="margin:0">18.500.000 ₫</p></div>
+  <div class="sg-type"><code>action Arial 700 13</code><a class="kn-braced" href="#type">Tư vấn chọn vòng</a></div>
+</div></section>
+
+<!-- 3. Buttons -->
+<section class="sg-sec" id="buttons"><div class="kn-wrap">
+  <h2>3. Nút và hành động</h2>
+  <p class="sg-intro">Một nút chính mỗi khu, nền trắng chữ đen. Hành động phụ là nút chữ có ngoặc nhọn hoặc nút viền mảnh. Vàng không bao giờ là nền nút.</p>
+  <p class="sg-sub">Nút chính (4 trạng thái)</p>
+  <div class="sg-row">
+    <button type="button" class="kn-btn kn-btn--inline">Mặc định</button>
+    <button type="button" class="kn-btn kn-btn--inline is-hover">Hover</button>
+    <button type="button" class="kn-btn kn-btn--inline is-focus">Focus</button>
+    <button type="button" class="kn-btn kn-btn--inline" disabled>Vô hiệu</button>
+  </div>
+  <p class="sg-sub">Nút viền mảnh (hành động phụ)</p>
+  <div class="sg-row">
+    <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline">Mặc định</button>
+    <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline is-hover">Hover</button>
+    <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline is-focus">Focus</button>
+  </div>
+  <p class="sg-sub">Nút chữ có ngoặc nhọn</p>
+  <div class="sg-row"><a class="kn-braced" href="#buttons">Mặc định</a><a class="kn-braced is-hover" href="#buttons">Hover</a></div>
+  <p class="sg-sub">Cặp nút viên thuốc (chỉ ở dải kêu gọi cuối trang)</p>
+  <div class="kn-pill"><a href="#buttons">Nhận tư vấn</a><a href="#buttons">Xem bộ sưu tập</a></div>
+</div></section>
+
+<!-- 4. Forms -->
+<section class="sg-sec" id="forms"><div class="kn-wrap">
+  <h2>4. Ô nhập liệu</h2>
+  <p class="sg-intro">Luôn có nhãn nhìn thấy được. Lỗi hiển thị bằng viền đỏ rượu, văn bản lỗi dùng màu chữ lỗi riêng để đọc được trên nền tối, kèm lời giải thích.</p>
+  <div class="sg-twocol">
+    <div>
+      <div class="kn-field"><label for="f1">Họ và tên</label><input id="f1" class="kn-input" placeholder="Nguyễn Văn A" /></div>
+      <div class="kn-field"><label for="f2">Số điện thoại (focus)</label><input id="f2" class="kn-input is-focus" value="0901234567" /></div>
+    </div>
+    <div>
+      <div class="kn-field"><label for="f3">Email (lỗi)</label><input id="f3" class="kn-input is-error" value="abc@" aria-describedby="f3e" aria-invalid="true" /><p class="kn-error" id="f3e">Email chưa đúng định dạng, ví dụ ten@mail.com.</p></div>
+      <div class="kn-field"><label for="f4">Mã giảm giá (vô hiệu)</label><input id="f4" class="kn-input" value="Chưa có mã" disabled /></div>
+    </div>
+  </div>
+  <p class="sg-sub">Bộ lọc, nhãn, huy hiệu</p>
+  <div class="sg-row">
+    <div class="kn-chips"><button type="button" class="kn-chip" aria-pressed="true">Tất cả</button><button type="button" class="kn-chip" aria-pressed="false">Hòa Điền</button><button type="button" class="kn-chip is-hover">Hover</button></div>
+    <span class="kn-tag">Mới về</span><span class="kn-badge">2</span>
+  </div>
+</div></section>
+
+<!-- 5. Accordion and spec -->
+<section class="sg-sec" id="accordion"><div class="kn-wrap">
+  <h2>5. Accordion và thông số</h2>
+  <p class="sg-intro">Dùng thẻ <code>details</code> gốc, không cần JavaScript.</p>
+  <div style="max-width:560px">
+    <details class="kn-acc" open><summary>Thông số</summary><div><dl class="kn-spec"><dt>Chất liệu</dt><dd>Ngọc phỉ thúy</dd><dt>Đường kính trong</dt><dd>56 mm</dd></dl></div></details>
+    <details class="kn-acc"><summary>Cách đo size tay</summary><div><p>Đo chu vi chỗ rộng nhất của bàn tay rồi chia cho 3,14.</p></div></details>
+  </div>
+</div></section>
+
+<!-- 6. Editorial paper -->
+<section class="sg-sec" id="paper"><div class="kn-wrap">
+  <h2>6. Khu bài viết trên nền giấy</h2>
+  <p class="sg-intro">Chỉ dùng cho nội dung đọc: bài kiến thức, câu chuyện, hướng dẫn. Chữ vàng trên nền giấy luôn là vàng đậm.</p>
+  <div class="sg-paper">
+    <p class="kn-eyebrow" style="color:var(--kn-gold-ink)">Kiến thức về ngọc</p>
+    <h2 style="font-size:40px;line-height:1.1;margin-bottom:24px">Ngọc Hòa Điền: <em style="color:var(--kn-gold-ink)">Tân Cương</em> và Thanh Hải</h2>
+    <table class="kn-table">
+      <thead><tr><th></th><th scope="col">Tân Cương</th><th scope="col">Thanh Hải</th></tr></thead>
+      <tbody><tr><th scope="row">Cấu trúc</th><td data-k="Tân Cương">Sợi đan xen chặt, hạt mịn, chắc.</td><td data-k="Thanh Hải">Đa dạng, nhiều mẫu, rất mịn.</td></tr></tbody>
+    </table>
+    <p class="kn-caveat" style="margin-top:24px">Tân Cương chưa chắc đã đắt hơn, và Thanh Hải không mặc định là rẻ.</p>
+  </div>
+</div></section>
+
+<!-- 7. Cells -->
+<section class="sg-sec" id="cells"><div class="kn-wrap">
+  <h2>7. Ô sản phẩm có đường kẻ</h2>
+  <p class="sg-intro">Ô vuông liền nhau, đường kẻ 1px, không bo góc, không bóng đổ. Ảnh vuông, tên serif bên trái, giá vàng nhạt bên phải.</p>
+</div>
+<div class="kn-cells">
+  <a class="kn-cell" href="product.html"><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /><div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div></a>
+  <a class="kn-cell" href="product.html"><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /><div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div></a>
+  <a class="kn-cell" href="product.html"><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh vân hoa" loading="lazy" /><div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div></a>
+</div></section>
+
+<!-- 8. States -->
+<section class="sg-sec" id="states"><div class="kn-wrap">
+  <h2>8. Trạng thái lỗi, trống và giỏ hàng</h2>
+  <p class="sg-intro">Mọi danh sách và biểu mẫu cần trạng thái trống và lỗi. Dòng giỏ hàng và khung tóm tắt đơn dùng cho trang giỏ và thanh toán.</p>
+  <div class="sg-twocol">
+    <div class="sg-col">
+      <div class="kn-alert" role="alert">Không thể tải giỏ hàng. Vui lòng thử lại.</div>
+      <div class="kn-empty"><h3>Giỏ hàng đang trống</h3><p>Hãy chọn một chiếc vòng cho mình.</p><a class="kn-btn kn-btn--inline" href="category.html">Xem bộ sưu tập</a></div>
+    </div>
+    <div class="sg-col">
+      <div class="kn-line"><img src="img/phi-thuy-xanh-lam.jpg" width="88" height="88" alt="Vòng ngọc phỉ thúy xanh lam" /><div><h3>Vòng phỉ thúy xanh lam</h3><p class="kn-muted" style="margin:4px 0 0;font-size:13px">Đường kính trong 56 mm</p></div><p data-demo="true" style="margin:0;color:var(--kn-gold-light);font-weight:500">18.500.000 ₫</p></div>
+      <aside class="kn-summary"><p><span>Tạm tính</span><strong data-demo="true">18.500.000 ₫</strong></p><p class="kn-muted" style="font-size:13px">Phí giao hàng tính ở bước thanh toán.</p><a class="kn-btn" href="#states">Thanh toán</a></aside>
+    </div>
+  </div>
+</div></section>
+
+<!-- 9. Spacing and radius -->
+<section class="sg-sec" id="layout"><div class="kn-wrap">
+  <h2>9. Khoảng cách, bo góc, bề mặt</h2>
+  <p class="sg-intro">Khung nội dung tối đa 1216px, padding 32px (mobile 16px). Bo góc chỉ có bốn mức: 0, 6px (nút chính), 10px (khung ảnh, ô nhập, khung tóm tắt), viên thuốc. Không dùng box-shadow.</p>
+  <div id="scale"></div>
+  <p class="sg-sub">Bo góc</p>
+  <div class="sg-row">
+    <div class="sg-radius">0 · ô lưới kẻ</div>
+    <div class="sg-radius" id="r6">6px · nút chính</div>
+    <div class="sg-radius" id="r10">10px · khung ảnh</div>
+    <div class="sg-radius" id="rp">viên thuốc</div>
+  </div>
+  <p class="sg-sub">Bề mặt</p>
+  <div class="sg-twocol">
+    <div class="kn-summary">Ô trưng bày: gradient tối chéo, bo 10px, độ sâu đến từ ảnh và viền sáng mảnh.</div>
+    <div class="kn-horizon" style="padding:64px 24px"><p style="margin:0">Chân trời ấm: chuyển từ trong suốt sang xanh ngọc đậm rồi nâu than, chỉ ở dải kêu gọi cuối trang.</p></div>
+  </div>
+</div></section>
+
+<!-- 10. Do and don't -->
+<section class="sg-sec" id="rules"><div class="kn-wrap">
+  <h2>10. Nên và không nên</h2>
+  <div class="sg-twocol">
+    <div class="sg-col">
+      <div class="sg-rule sg-do">Giữ nền tối cho khu bán hàng và nền giấy cho khu đọc.</div>
+      <div class="sg-rule sg-do">Dùng một cụm in nghiêng có nghĩa trong tiêu đề.</div>
+      <div class="sg-rule sg-do">Dùng vàng cho giá, nhãn nhỏ, con dấu, huy hiệu số lượng.</div>
+      <div class="sg-rule sg-do">Ảnh sản phẩm thật, nền đen, khay nhung kem, tỷ lệ 3:4.</div>
+      <div class="sg-rule sg-do">Viết alt tiếng Việt cụ thể cho mọi ảnh.</div>
+    </div>
+    <div class="sg-col">
+      <div class="sg-rule sg-dont">Không dùng vàng làm nền khối hoặc nút chính.</div>
+      <div class="sg-rule sg-dont">Không dùng box-shadow, thẻ bo tròn lớn, gradient tím hoặc chàm.</div>
+      <div class="sg-rule sg-dont">Không dùng Bodoni, Helvetica, Georgia hoặc bất kỳ font nào ngoài hai font đã chọn.</div>
+      <div class="sg-rule sg-dont">Không viết mã hex ngoài :root. Không tạo màu mới.</div>
+      <div class="sg-rule sg-dont">Không dùng lời kêu gọi kiểu khuyến mãi dồn dập, không hứa hẹn pháp lý khi chưa có giấy tờ chứng minh.</div>
+    </div>
+  </div>
+</div></section>
+</main>
+
+<footer class="kn-colophon">
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <p class="kn-legal">Trang tham chiếu thiết kế. Tên sản phẩm, giá và chính sách là dữ liệu mẫu.</p>
+</footer>
+
+<script>
+(function(){
+  var colors=[
+    ['canvas','Nền trang','Nền nút'],['panel','Mặt phẳng nổi nhẹ, ô nhập','Chữ'],['edge','Đường viền trên nền tối','Nền lớn'],['rule','Đường kẻ mảnh, chữ trong nút trắng','Nền lớn'],
+    ['white','Tiêu đề quan trọng, nút chính','Chữ đoạn dài'],['text','Chữ chính trên nền tối','Nền'],['body','Chữ đoạn mô tả','Tiêu đề'],['muted','Metadata, nhãn phụ','Thông tin bắt buộc đọc'],
+    ['outline','Viền nút phụ','Nền'],['btn-hover','Nền nút chính khi hover','Chữ'],
+    ['gold','Giá, nhãn, con dấu, huy hiệu','Nền khối, nút chính'],['gold-light','Điểm sáng của giá, thông báo ngắn','Chữ dài'],['gold-ink','Chữ vàng trên nền giấy','Nền tối'],
+    ['emerald','Mảng nhỏ gắn với ngọc','Nút, viền'],['crimson','Viền nhấn, viền lỗi, đường trái đoạn trích','Nền khối, nút'],['danger-text','Chữ lỗi trên nền tối','Nền'],
+    ['horizon-mid','Giữa dải chân trời ấm','Nền khác'],['horizon-end','Cuối dải chân trời ấm','Nền khác'],
+    ['paper','Nền khu bài viết','Khu bán hàng'],['paper-ink','Chữ trên giấy','Nền tối'],['paper-muted','Chú thích trên nền trắng','Chữ chính'],['black','Chữ trong nút trắng','Nền trang']
+  ];
+  var host=document.getElementById('swatches');
+  colors.forEach(function(c){
+    var v=getComputedStyle(document.documentElement).getPropertyValue('--kn-'+c[0]).trim();
+    var d=document.createElement('div');d.className='sg-sw';
+    d.innerHTML='<div class="sg-sw__chip"></div><div class="sg-sw__txt"><code>--kn-'+c[0]+' '+v+'</code>'+c[1]+'<small>Không dùng cho: '+c[2]+'</small></div>';
+    d.firstChild.style.background='var(--kn-'+c[0]+')';
+    host.appendChild(d);
+  });
+  var scale=document.getElementById('scale');
+  [[8,'Khoảng cách nhỏ'],[16,'Nhóm nhỏ'],[24,'Padding ô, lưới'],[32,'Lề khung'],[48,'Giữa các nhóm'],[64,'Ảnh và thông tin'],[96,'Giữa các khu']].forEach(function(s){
+    var r=document.createElement('div');r.className='sg-scale';
+    r.innerHTML='<span>'+s[0]+'px</span><div><div class="sg-bar"></div><small>'+s[1]+'</small></div>';
+    r.querySelector('.sg-bar').style.width=s[0]*3+'px';
+    scale.appendChild(r);
+  });
+  document.getElementById('r6').style.borderRadius='6px';
+  document.getElementById('r10').style.borderRadius='10px';
+  document.getElementById('rp').style.borderRadius='9999px';
+})();
+</script>
+</body>
+</html>

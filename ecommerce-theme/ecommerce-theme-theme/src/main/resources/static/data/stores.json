@@ -1,0 +1,10 @@
+{
+ "note": "Sample data compiled from public mall directories. Addresses and opening hours are not verified.",
+ "stores": [
+  {"id": "ion-orchard", "name": "Khang Nguyen ION Orchard", "address": "#B1-17/18, ION Orchard, 2 Orchard Turn, Singapore 238801", "hours": "Daily 11am – 9pm"},
+  {"id": "marina-bay-sands", "name": "Khang Nguyen Marina Bay Sands", "address": "#B2-88, The Shoppes at Marina Bay Sands, 8 Bayfront Avenue, Singapore 018955", "hours": "Mon – Thu 11am – 9pm, Fri – Sat 11am – 10pm"},
+  {"id": "vivocity", "name": "Khang Nguyen VivoCity", "address": "#01-15, VivoCity, 1 HarbourFront Walk, Singapore 098585", "hours": "Daily 10am – 10pm"},
+  {"id": "suntec-city", "name": "Khang Nguyen Suntec City", "address": "#01-346/347, Suntec City Atrium, 3 Temasek Boulevard, Singapore 038983", "hours": "Daily 11am – 9pm"},
+  {"id": "parkway-parade", "name": "Khang Nguyen Parkway Parade", "address": "#01-09 & #01-K8, Parkway Parade, 80 Marine Parade Road, Singapore 449269", "hours": "Daily 11am – 9pm"}
+ ]
+}

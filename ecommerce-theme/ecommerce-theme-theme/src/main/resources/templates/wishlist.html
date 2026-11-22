@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head></head>
+<body>
+<th:block layout:fragment="content">
+<div id="swMain" class="sw-main" tabindex="-1">
+  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Wish list</span></nav>
+  <div class="sw-top"><h1>Wish list</h1><span class="sw-count" id="swCount" aria-live="polite"></span></div>
+  <div data-sw-state></div>
+  <ul class="sw-grid" id="swGrid"></ul>
+  <div class="sw-more"><button type="button" class="sw-btn" id="swLoadMore" hidden>Load more</button></div>
+</div>
+</th:block>
+</body>
+</html>
