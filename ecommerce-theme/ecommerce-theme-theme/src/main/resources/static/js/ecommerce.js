@@ -240,17 +240,23 @@
     function catLink(c) {
         return el('a', {href: '/categories/' + encodeURIComponent(c.name), text: c.displayName || c.name});
     }
-    function renderCategoryLists(cats) {
-        [q('#swCats'), q('#swFootCats')].forEach(function (ul) {
-            if (!ul) { return; }
-            clear(ul);
-            cats.forEach(function (c) { ul.appendChild(el('li', {}, [catLink(c)])); });
+    /* A list keeps its [data-kn-keep] items (fixed links such as the jade knowledge page) after the categories. */
+    function fillCategoryList(ul, cats) {
+        var keep = qa('[data-kn-keep]', ul);
+        clear(ul);
+        var chips = ul.hasAttribute('data-kn-chips');
+        cats.forEach(function (c) {
+            var a = catLink(c);
+            if (chips) { a.className = 'kn-chip'; }
+            ul.appendChild(el('li', {}, [a]));
         });
-        var home = q('#swHomeCats');
-        if (home) {
-            clear(home);
-            cats.forEach(function (c) { home.appendChild(el('li', {}, [catLink(c)])); });
-        }
+        keep.forEach(function (n) { ul.appendChild(n); });
+    }
+    function renderCategoryLists(cats) {
+        ['#swCats', '#swDrawerCats', '#swFootCats', '#swHomeCats'].forEach(function (sel) {
+            var ul = q(sel);
+            if (ul) { fillCategoryList(ul, cats); }
+        });
     }
 
     /* ---------- product grid ---------- */
@@ -1642,6 +1648,7 @@
 
     /* ---------- chrome ---------- */
     function initChrome() {
+        b.dataset.knChrome = '1';
         var drawer = q('#swDrawer');
         var menuBtn = q('[data-kn-menu]');
         function openDrawer(open) {

@@ -1,24 +1,41 @@
-<footer class="sw-foot">
-  <div class="sw-svc">
-    <a href="#"><strong>BOOK AN APPOINTMENT IN STORE</strong>Book an appointment with our Crystal Experts in your local store.</a>
-    <a href="/customer-service"><strong>CUSTOMER SERVICE</strong>Explore answers to our FAQs or connect with our Customer Service team.</a>
-    <a href="#"><strong>GIFT SERVICES</strong>Add a personalized touch</a>
+<footer class="kn-colophon">
+  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <ellipse cx="80" cy="71" rx="64" ry="58"/>
+    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
+    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
+  </svg>
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <div class="kn-util">
+    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
+    <div><h3>Sản phẩm</h3><ul id="swFootCats">
+      <li><a href="/categories/vong-ngoc">Vòng ngọc</a></li>
+      <li><a href="/categories/nhan-ngoc">Nhẫn ngọc</a></li>
+      <li><a href="/categories/chuoi-hat">Chuỗi hạt</a></li>
+      <li><a href="/categories/set-nhan-vong">Set nhẫn vòng</a></li>
+    </ul></div>
+    <div><h3>Hỗ trợ</h3><ul>
+      <li><a href="/customer-service">Chăm sóc khách hàng</a></li>
+      <li><a href="/order-status">Tra cứu đơn hàng</a></li>
+      <li><a href="/stores">Cửa hàng</a></li>
+      <li><a href="/book-an-appointment">Đặt lịch hẹn</a></li>
+      <li><a href="/contact">Liên hệ</a></li>
+      <li><a href="/size-guide">Cách đo size tay</a></li>
+      <li><a href="/ngoc-hoa-dien-tan-cuong-thanh-hai">Kiến thức về ngọc</a></li>
+      <li><a href="/login">Đăng nhập</a></li>
+    </ul></div>
   </div>
-  <div class="sw-cols">
-    <div><h3>Customer Service</h3><ul>
-      <li><a href="/customer-service">Customer Service Overview</a></li><li><a href="#">Order Status</a></li><li><a href="#">Gift Card Balance</a></li><li><a href="#">Shipping</a></li><li><a href="#">Returns &amp; Exchange</a></li><li><a href="#">Repair Status</a></li><li><a href="#">Contact Us</a></li><li><a href="#">Size Guide</a></li></ul></div>
-    <div><h3>Services</h3><ul>
-      <li><a href="#">Store Finder</a></li><li><a href="#">Book an Appointment</a></li><li><a href="#">Register</a></li><li><a href="#">Khang Nguyen Club</a></li><li><a href="#">Crystal Society (SCS)</a></li></ul></div>
-    <div><h3>About</h3><ul>
-      <li><a href="#">About Khang Nguyen</a></li><li><a href="#">Jobs &amp; Career</a></li><li><a href="#">Alumni Community</a></li><li><a href="#">For Professionals</a></li><li><a href="#">Sitemap</a></li><li><a href="#">Khang Nguyen Created Diamonds</a></li><li><a href="#">Kristallwelten</a></li></ul></div>
-    <div><h3>Legal</h3><ul>
-      <li><a href="#">Code of Conduct &amp; Policies</a></li><li><a href="#">EU Public CbCR</a></li><li><a href="#">Terms Of Use</a></li><li><a href="#">Terms &amp; Conditions</a></li><li><a href="#">Privacy Policy</a></li><li><a href="#">Imprint</a></li><li><a href="#">REACH information</a></li><li><a href="#">Data Protection Consent Statement</a></li></ul></div>
-  </div>
-  <div class="sw-bottom">
-    <div><a class="sw-pill" href="#">Singapore</a> <a class="sw-pill" href="#">English</a></div>
-    <a class="sw-logo" href="/home" aria-label="Khang Nguyen home"><svg viewBox="0 0 250 24" role="img" aria-hidden="true"><text x="125" y="19" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="22" letter-spacing="5" fill="currentColor">KHANG NGUYEN</text></svg></a>
-    <div class="sw-soc">
-      <a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Pinterest">P</a><a href="#" aria-label="Instagram">Ig</a><a href="#" aria-label="Youtube">Yt</a><a href="#" aria-label="Tiktok">Tt</a><a href="#" aria-label="Twitter">X</a>
+  <form class="kn-news" id="swNewsForm" novalidate>
+    <h3>Bản tin</h3>
+    <p>Nhận thông tin về những món ngọc mới và bài chia sẻ về ngọc.</p>
+    <div class="kn-news__row">
+      <label class="kn-sr" for="swNewsEmail">Địa chỉ email</label>
+      <input class="kn-input" id="swNewsEmail" name="email" type="email" placeholder="Địa chỉ email" autocomplete="email" required>
+      <input class="kn-hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <button type="submit" class="kn-btn" id="swNewsBtn">Đăng ký</button>
     </div>
-  </div>
+    <p class="kn-error" id="swNewsErr" role="alert" hidden></p>
+    <p class="kn-note" id="swNewsOk" role="status" aria-live="polite" hidden></p>
+  </form>
+  <p class="kn-legal">© Khang Nguyên · Ngọc Bảo. Mọi quyền được bảo lưu.</p>
 </footer>
