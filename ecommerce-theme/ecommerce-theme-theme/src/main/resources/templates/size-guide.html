@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/customer-service">Customer Service</a> / Size Guide</nav>
-  <h1>Size Guide</h1>
-  <p class="sw-lead">Measure a piece you already own, or the circumference of your wrist, finger or neck, then match it to the tables below. Sizes are approximate.</p>
-  <section class="sw-card"><h2>Bracelet sizes</h2><div class="sw-scroll"><table class="sw-orders"><caption class="sw-sr">Bracelet sizes</caption><thead><tr><th scope="col">Size</th><th scope="col">Wrist circumference (cm)</th><th scope="col">Bracelet length (cm)</th></tr></thead><tbody><tr><td>S</td><td>13.5 - 15</td><td>16</td></tr><tr><td>M</td><td>15 - 16.5</td><td>17.5</td></tr><tr><td>L</td><td>16.5 - 18</td><td>19</td></tr><tr><td>XL</td><td>18 - 19.5</td><td>20.5</td></tr></tbody></table></div></section>
-  <section class="sw-card"><h2>Ring sizes</h2><div class="sw-scroll"><table class="sw-orders"><caption class="sw-sr">Ring sizes</caption><thead><tr><th scope="col">EU size</th><th scope="col">Inner circumference (mm)</th><th scope="col">Inner diameter (mm)</th></tr></thead><tbody><tr><td>48</td><td>47.8</td><td>15.2</td></tr><tr><td>50</td><td>50.0</td><td>15.9</td></tr><tr><td>52</td><td>52.0</td><td>16.5</td></tr><tr><td>54</td><td>54.0</td><td>17.2</td></tr><tr><td>55</td><td>55.0</td><td>17.5</td></tr><tr><td>58</td><td>58.1</td><td>18.5</td></tr><tr><td>60</td><td>60.1</td><td>19.1</td></tr></tbody></table></div></section>
-  <section class="sw-card"><h2>Necklace lengths</h2><div class="sw-scroll"><table class="sw-orders"><caption class="sw-sr">Necklace lengths</caption><thead><tr><th scope="col">Length (cm)</th><th scope="col">Sits at</th></tr></thead><tbody><tr><td>38</td><td>Choker, at the base of the neck</td></tr><tr><td>40 - 42</td><td>Collarbone</td></tr><tr><td>45</td><td>Just below the collarbone</td></tr><tr><td>50</td><td>Upper chest</td></tr><tr><td>60</td><td>Mid chest</td></tr></tbody></table></div></section>
-  <p class="sw-note">Need more help? <a class="sw-u" href="/customer-service">Back to Customer Service</a></p>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/customer-service">Chăm sóc khách hàng</a> / Hướng dẫn chọn size</nav>
+  <div class="kn-page-title"><h1>Hướng dẫn <em>chọn size</em></h1><p>Đo một món bạn đang đeo vừa tay, hoặc đo chu vi cổ tay, ngón tay, cổ rồi đối chiếu với các bảng dưới đây. Số đo chỉ mang tính tham khảo.</p></div>
+  <section class="kn-card"><h2>Size vòng tay</h2><div class="kn-scroll"><table class="kn-orders"><caption class="kn-sr">Size vòng tay</caption><thead><tr><th scope="col">Size</th><th scope="col">Chu vi cổ tay (cm)</th><th scope="col">Chiều dài vòng (cm)</th></tr></thead><tbody><tr><td>S</td><td>13,5 - 15</td><td>16</td></tr><tr><td>M</td><td>15 - 16,5</td><td>17,5</td></tr><tr><td>L</td><td>16,5 - 18</td><td>19</td></tr><tr><td>XL</td><td>18 - 19,5</td><td>20,5</td></tr></tbody></table></div></section>
+  <section class="kn-card"><h2>Size nhẫn</h2><div class="kn-scroll"><table class="kn-orders"><caption class="kn-sr">Size nhẫn</caption><thead><tr><th scope="col">Size EU</th><th scope="col">Chu vi trong (mm)</th><th scope="col">Đường kính trong (mm)</th></tr></thead><tbody><tr><td>48</td><td>47,8</td><td>15,2</td></tr><tr><td>50</td><td>50,0</td><td>15,9</td></tr><tr><td>52</td><td>52,0</td><td>16,5</td></tr><tr><td>54</td><td>54,0</td><td>17,2</td></tr><tr><td>55</td><td>55,0</td><td>17,5</td></tr><tr><td>58</td><td>58,1</td><td>18,5</td></tr><tr><td>60</td><td>60,1</td><td>19,1</td></tr></tbody></table></div></section>
+  <section class="kn-card"><h2>Chiều dài dây chuyền</h2><div class="kn-scroll"><table class="kn-orders"><caption class="kn-sr">Chiều dài dây chuyền</caption><thead><tr><th scope="col">Chiều dài (cm)</th><th scope="col">Vị trí khi đeo</th></tr></thead><tbody><tr><td>38</td><td>Sát cổ, ở chân cổ</td></tr><tr><td>40 - 42</td><td>Ngang xương quai xanh</td></tr><tr><td>45</td><td>Dưới xương quai xanh một chút</td></tr><tr><td>50</td><td>Phần ngực trên</td></tr><tr><td>60</td><td>Giữa ngực</td></tr></tbody></table></div></section>
+  <p class="kn-note">Cần thêm trợ giúp? <a class="kn-link" href="/customer-service">Về trang chăm sóc khách hàng</a></p>
 </div>
 </th:block>
 </body>

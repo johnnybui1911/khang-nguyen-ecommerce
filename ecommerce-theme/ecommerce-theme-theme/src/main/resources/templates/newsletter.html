@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-auth" tabindex="-1">
-  <h1 id="swNlTitle">Newsletter</h1>
+<div class="kn-auth" id="swMain" tabindex="-1">
+  <h1 id="swNlTitle">Bản tin</h1>
   <p id="swNlText"></p>
-  <p class="sw-form-err" id="swNlErr" role="alert" hidden></p>
-  <p class="sw-note" id="swNlOk" role="status" aria-live="polite" hidden></p>
-  <button type="button" class="sw-btn sw-btn--dark sw-wide" id="swNlBtn" hidden>Continue</button>
-  <p class="sw-alt"><a class="sw-u" href="/">Back to the shop</a></p>
+  <p class="kn-error" id="swNlErr" role="alert" hidden></p>
+  <p class="kn-note" id="swNlOk" role="status" aria-live="polite" hidden></p>
+  <button type="button" class="kn-btn" id="swNlBtn" hidden>Tiếp tục</button>
+  <p class="kn-alt"><a href="/">Về trang chủ</a></p>
 </div>
 </th:block>
 </body>
