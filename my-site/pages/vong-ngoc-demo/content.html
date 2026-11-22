@@ -93,6 +93,8 @@ body.kn{color-scheme:dark}
 .kn-input.is-error{border-color:var(--kn-crimson)}
 .kn-input:disabled{background:var(--kn-rule);color:var(--kn-muted);cursor:not-allowed}
 .kn-error{margin:0;font-size:13px;color:var(--kn-danger-text)}
+.kn-auth .kn-error,.kn-narrow .kn-error,.kn-card .kn-error,.kn-form .kn-error{color:var(--kn-danger-text)}
+.kn-form .kn-error,.kn-form .kn-note{margin:0 0 16px}
 .kn-alert{display:flex;gap:12px;padding:16px 20px;border-radius:10px;border:1px solid var(--kn-crimson);background:rgba(12,15,21,.6);color:var(--kn-danger-text);font-size:14px}
 .kn-empty{padding:64px 24px;text-align:center;border:1px solid var(--kn-edge);border-radius:10px}
 .kn-empty h3{font-size:28px;margin-bottom:8px}
@@ -343,7 +345,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 .kn-contact .kn-card{margin:0}
 .kn-stores{list-style:none;margin:0;padding:0;display:grid;gap:16px}
 .kn-stores li{padding:24px;border:1px solid var(--kn-edge);border-radius:10px}
-.kn-stores h3{font-size:24px;margin-bottom:8px}
+.kn-stores h2{font-size:24px;margin-bottom:8px}
 .kn-stores p{margin:0 0 6px;color:var(--kn-body)}
 .kn-faq{margin:32px 0}
 .kn-faq h2{font-size:28px;margin-bottom:16px}
@@ -364,6 +366,23 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 [data-kn-state]:empty{display:none}
 .kn-stage [data-kn-state]{grid-column:1/-1}
 .kn-shot:empty{display:none}
+/* article on paper */
+.kn-article{background:var(--kn-paper);color:var(--kn-paper-ink);padding:64px var(--kn-pad) 112px}
+.kn-article__inner{max-width:720px;margin:0 auto;display:grid;gap:32px}
+.kn-article .kn-crumb{color:var(--kn-paper-muted)}
+.kn-article .kn-crumb a:hover{color:var(--kn-paper-ink)}
+.kn-article .kn-eyebrow{color:var(--kn-gold-ink);margin:0 0 16px}
+.kn-article h1{font-size:64px;line-height:1.05;color:var(--kn-paper-ink)}
+.kn-article h1 em,.kn-article h2 em{color:var(--kn-gold-ink)}
+.kn-article h2{font-size:36px;line-height:1.1;color:var(--kn-paper-ink)}
+.kn-article__lead{margin:24px 0 0;font:400 22px/1.5 var(--kn-serif)}
+.kn-article__text{margin:0;font:400 19px/1.6 var(--kn-serif)}
+.kn-article figure{margin:0}
+.kn-article figure img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:10px}
+.kn-article figcaption{margin-top:8px;font-size:13px;color:var(--kn-paper-muted)}
+.kn-article .kn-braced{color:var(--kn-paper-ink)}
+.kn-article__links{display:flex;flex-wrap:wrap;gap:16px 32px}
+
 /* listing filters */
 .kn-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px;align-items:end;padding:24px 0 8px}
 .kn-tools .kn-field{margin:0}
@@ -373,6 +392,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 
 /* responsive */
 @media (max-width:1023px){
+  .kn-article h1{font-size:44px}
   .kn-tools{grid-template-columns:repeat(2,1fr)}
   .kn-stage .kn-wrap{grid-template-columns:1fr;gap:32px}
   .kn-buy{position:static}
@@ -393,6 +413,10 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
   .kn-cell:nth-child(2n){border-right:0}
 }
 @media (max-width:767px){
+  .kn-article{padding:32px var(--kn-pad) 72px}
+  .kn-article h1{font-size:36px}
+  .kn-article h2{font-size:30px}
+  .kn-article__lead{font-size:19px}
   .kn-tools{grid-template-columns:1fr}
   .kn-tools .kn-field--wide{grid-column:auto}
   :root{--kn-pad:16px}
@@ -439,18 +463,18 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 <main>
 <section class="kn-stage" id="swMain" tabindex="-1">
   <div class="kn-wrap">
-    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/products">Vòng ngọc</a> / <span id="swBcCur">Vòng ngọc phỉ thúy xanh lam</span></nav>
+    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/products">Vòng ngọc</a> / <span id="swBcCur" data-demo="true">Vòng ngọc phỉ thúy xanh lam</span></nav>
     <div data-kn-state></div>
     <figure class="kn-shot" id="swPdpImg">
       <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
     </figure>
     <div class="kn-buy" id="swPdp">
       <div>
-      <p class="kn-code" id="swPdpCode">Mã KN-DEMO-001</p>
-      <h1 id="swPdpName">Vòng ngọc phỉ thúy xanh lam</h1>
+      <p class="kn-code" id="swPdpCode" data-demo="true">Mã KN-DEMO-001</p>
+      <h1 id="swPdpName" data-demo="true">Vòng ngọc phỉ thúy xanh lam</h1>
       <p class="kn-lead" id="swPdpDescText">Sắc xanh lam dịu, bề mặt trơn bóng, dáng vòng đầy đặn. Mỗi chiếc vòng ngọc là một món duy nhất.</p>
       <p class="kn-price" id="swPdpPrice" data-demo="true">18.500.000 ₫</p>
-      <p class="kn-stock" id="swPdpStock">Sản phẩm duy nhất · còn 1 chiếc</p>
+      <p class="kn-stock" id="swPdpStock" data-demo="true">Sản phẩm duy nhất · còn 1 chiếc</p>
       <div class="kn-swatches" id="swPdpSwatches" hidden>
         <p>Màu sắc: <strong id="swPdpColor"></strong></p>
         <ul id="swPdpSwatchList"></ul>
@@ -471,7 +495,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
           <dt>Chất liệu</dt><dd>Ngọc phỉ thúy</dd>
           <dt>Màu sắc</dt><dd>Xanh lam</dd>
           <dt>Đường kính trong</dt><dd>56 mm</dd>
-          <dt>Mã sản phẩm</dt><dd>KN-DEMO-001</dd>
+          <dt>Mã sản phẩm</dt><dd data-demo="true">KN-DEMO-001</dd>
         </dl></div>
       </details>
       <details class="kn-acc">
@@ -517,15 +541,15 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
   <div class="kn-cells">
     <a class="kn-cell" href="/vong-ngoc-demo">
       <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" />
-      <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
+      <div><h3 data-demo="true">Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="/vong-ngoc-demo">
       <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" />
-      <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
+      <div><h3 data-demo="true">Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="/vong-ngoc-demo">
       <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" />
-      <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
+      <div><h3 data-demo="true">Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
     </a>
   </div>
 </section>
@@ -541,19 +565,6 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 
 <ezy:block ezy:replace="~{ecommerce/footer :: content}" />
 
-<script>
-(function(){
-  var btn=document.getElementById('swAddBtn'),note=document.getElementById('swAddNote'),count=document.getElementById('swBagCount');
-  if(!btn){return;}
-  btn.addEventListener('click',function(){
-    if(btn.getAttribute('data-added')==='1'){return;}
-    btn.setAttribute('data-added','1');
-    count.textContent='1';
-    btn.textContent='Đã thêm vào giỏ';
-    note.textContent='Sản phẩm duy nhất, mỗi đơn chỉ thêm được 1 chiếc.';
-  });
-})();
-</script>
 <ezy:block ezy:replace="~{ecommerce/theme :: foot}" />
 </body>
 </html>

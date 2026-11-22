@@ -4,9 +4,12 @@
 Targets (repo root):
   ecommerce-theme/.../static/css/main.css            (theme stylesheet, loads fonts with @import)
   my-site/page-fragments/ecommerce/theme/head.html   (shared <head> fragment: meta, font links, <style>)
+It then runs build-pages.py so the CMS pages (which inline kn.css) are rebuilt from the same stylesheet.
 Usage: python3 -I docs/design/sync-theme.py
 """
 import os
+import subprocess
+import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
@@ -33,6 +36,7 @@ def main():
         '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>\n'
         '<link href="%s" rel="stylesheet"/>\n'
         '<style>\n%s\n</style>\n' % (FONTS.replace("&", "&amp;"), css)))
+    subprocess.check_call([sys.executable, "-I", os.path.join(HERE, "build-pages.py")], cwd=ROOT)
 
 
 if __name__ == "__main__":
