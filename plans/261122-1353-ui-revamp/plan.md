@@ -1,6 +1,7 @@
 ---
 title: Revamp UI phía khách "Khang Nguyên · Ngọc Bảo"
 status: approved-to-execute (Johnny 13:5x: team tự triển khai, giữ nền đen khu bán hàng)
+superseded_by: plans/261122-1658-ui-light-v2/plan.md (phần thị giác nền tối đã bị loại theo design v2 sáng; phần chức năng vẫn giữ)
 branch: feat/ui-redesign (worktree ezyplatform-ui), không merge vào main
 owner: Batman (tech lead) · writer duy nhất: Plastic Man · UX review (đọc): Mister Terrific · QA: Martian Manhunter · vận hành Docker local / backup / rollback: Cyborg
 created: 2026-11-22 13:53, sửa 14:1x (Asia/Saigon)

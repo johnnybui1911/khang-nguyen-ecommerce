@@ -1,0 +1,126 @@
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:17  hex #05070b is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:17  hex #0c0f15 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:17  hex #232731 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:17  hex #171a22 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:19  hex #000000 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:19  hex #f1ede3 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:19  hex #aeb2bb is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:19  hex #8c909c is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:20  hex #464853 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:20  hex #cfd1d8 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:22  hex #bc9c5c is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:22  hex #f0dfae is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:22  hex #7a6026 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:23  hex #0e3b2c is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:23  hex #8c1d2c is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:23  hex #e8a0aa is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:24  hex #1d2a22 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:24  hex #2e2a26 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:26  hex #f5f2ea is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:26  hex #14110d is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:26  hex #555555 is not a kn.css token color; do not invent colors
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:57  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:86  rgb(12, 15, 21) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:94  rgb(12, 15, 21) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:138  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:139  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:287  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:291  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:399  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:399  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:48  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:69  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:37  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:48  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:57  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:64  --kn-outline is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:66  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:69  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:70  --kn-btn-hover is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:72  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:74  --kn-outline is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:76  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:80  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:86  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:90  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:91  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:92  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:94  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:95  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:99  --kn-outline is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:101  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:110  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:110  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:115  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:120  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:121  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:130  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:142  --kn-paper is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:142  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:149  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:152  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:154  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:155  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:162  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:162  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:165  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:165  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:170  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:180  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:183  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:183  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:183  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:191  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:193  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:197  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:201  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:205  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:211  --kn-horizon-mid is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:211  --kn-horizon-end is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:216  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:217  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:221  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:231  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:231  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:242  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:247  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:247  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:250  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:252  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:265  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:266  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:268  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:270  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:270  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:270  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:279  --kn-outline is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:286  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:294  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:305  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:312  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:325  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:325  --kn-panel is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:325  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:332  --kn-text is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:333  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:335  --kn-rule is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:339  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:343  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:355  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:355  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:356  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:357  --kn-black is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:358  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:366  --kn-paper is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:366  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:368  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:369  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:371  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:373  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:378  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:379  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:408  --kn-edge is not defined in kn.css :root
+ERROR   my-site/page-fragments/ecommerce/theme/head.html:448  --kn-paper-ink is not defined in kn.css :root
+warning my-site/page-fragments/ecommerce/theme/head.html:66  gold used as a background; allowed only for the cart badge and thin rules
+
+123 error(s), 1 warning(s)

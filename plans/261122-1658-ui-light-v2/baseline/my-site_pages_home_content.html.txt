@@ -1,0 +1,126 @@
+ERROR   my-site/pages/home/content.html:21  hex #05070b is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:21  hex #0c0f15 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:21  hex #232731 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:21  hex #171a22 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:23  hex #000000 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:23  hex #f1ede3 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:23  hex #aeb2bb is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:23  hex #8c909c is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:24  hex #464853 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:24  hex #cfd1d8 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:26  hex #bc9c5c is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:26  hex #f0dfae is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:26  hex #7a6026 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:27  hex #0e3b2c is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:27  hex #8c1d2c is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:27  hex #e8a0aa is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:28  hex #1d2a22 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:28  hex #2e2a26 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:30  hex #f5f2ea is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:30  hex #14110d is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:30  hex #555555 is not a kn.css token color; do not invent colors
+ERROR   my-site/pages/home/content.html:61  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:90  rgb(12, 15, 21) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:98  rgb(12, 15, 21) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:142  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:143  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:291  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:295  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:403  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:403  rgb(5, 7, 11) is not a token color, white or black
+ERROR   my-site/pages/home/content.html:52  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   my-site/pages/home/content.html:73  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   my-site/pages/home/content.html:41  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:52  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:61  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:68  --kn-outline is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:70  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:73  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:74  --kn-btn-hover is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:76  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:78  --kn-outline is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:80  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:84  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:90  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:94  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:95  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:96  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:98  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:99  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:103  --kn-outline is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:105  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:114  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:114  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:119  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:124  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:125  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:134  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:146  --kn-paper is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:146  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:153  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:156  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:158  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:159  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:166  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:166  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:169  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:169  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:174  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:184  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:187  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:187  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:187  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:195  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:197  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:201  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:205  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:209  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:215  --kn-horizon-mid is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:215  --kn-horizon-end is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:220  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:221  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:225  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:235  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:235  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:246  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:251  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:251  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:254  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:256  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:269  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:270  --kn-danger-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:272  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:274  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:274  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:274  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:283  --kn-outline is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:290  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:298  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:309  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:316  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:329  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:329  --kn-panel is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:329  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:336  --kn-text is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:337  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:339  --kn-rule is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:343  --kn-gold-light is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:347  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:359  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:359  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:360  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:361  --kn-black is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:362  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:370  --kn-paper is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:370  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:372  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:373  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:375  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:377  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:382  --kn-paper-muted is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:383  --kn-paper-ink is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:412  --kn-edge is not defined in kn.css :root
+ERROR   my-site/pages/home/content.html:452  --kn-paper-ink is not defined in kn.css :root
+warning my-site/pages/home/content.html:70  gold used as a background; allowed only for the cart badge and thin rules
+
+123 error(s), 1 warning(s)
