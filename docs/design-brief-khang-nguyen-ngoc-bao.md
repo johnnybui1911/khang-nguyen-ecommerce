@@ -543,4 +543,4 @@ Có thể lấy lại toàn bộ chi tiết hai style bằng `refero_get_style` 
 
 ## Cập nhật 2026-11-23: bỏ nút chữ ngoặc nhọn, hero băng chuyền
 
-Nút chữ ngoặc nhọn `{ ... }` đã bị thay bằng liên kết gạch chân kèm mũi tên (`kn-more`) và, cạnh nút chính ở hero, bằng nút viền mảnh (`kn-btn--ghost`). Các dòng nhắc "ngoặc nhọn" ở trên là quyết định cũ, không còn hiệu lực. Nửa phải hero là băng chuyền 5 slide; logo header đổi sang khối cân: biểu tượng 44px cao bằng hai dòng chữ, "Ngọc Bảo" màu vàng đậm.
+Nút chữ ngoặc nhọn `{ ... }` đã bị thay bằng liên kết gạch chân kèm mũi tên (`kn-more`) và, cạnh nút chính ở hero, bằng nút viền mảnh (`kn-btn--ghost`). Các dòng nhắc "ngoặc nhọn" ở trên là quyết định cũ, không còn hiệu lực. Hero là băng chuyền 5 slide toàn trang (ảnh tràn trong khung bo 24px cách lề 32px, chữ và nút bên phải trên lớp phủ tối nhẹ; ở mobile ảnh tràn sát mép, chữ ở phần dưới ảnh); logo header đổi sang khối cân: biểu tượng 44px cao bằng hai dòng chữ, "Ngọc Bảo" màu vàng đậm.
