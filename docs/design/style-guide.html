@@ -35,6 +35,14 @@
 .sg-hero{padding-top:64px}
 .sg-hero h1{font-size:64px;line-height:1.05}
 .sg-hero .kn-lead{margin-top:20px;max-width:640px}
+.sg-static .kn-toast{position:static;transform:none;display:inline-block}
+.sg-static .kn-drawer{position:static;transform:none;visibility:visible;width:auto;max-width:360px;border:1px solid var(--kn-line);border-radius:20px}
+.sg-static .kn-scrim{position:static;opacity:1;visibility:visible;height:56px;border-radius:10px;border:1px solid var(--kn-line)}
+.sg-static .kn-skip{position:static}
+.sg-static .kn-cells{padding:0;margin:0}
+.sg-ext{margin:0 0 8px;font-size:14px;color:var(--kn-body)}
+.sg-ext code{font-size:12px;color:var(--kn-jade-deep)}
+.sg-why{margin:8px 0 0;font-size:13px;color:var(--kn-muted)}
 .sg-surface{padding:24px;border-radius:20px;border:1px solid var(--kn-line);background:var(--kn-white)}
 .sg-surface--mist{background:var(--kn-jade-mist);border-color:var(--kn-jade-soft)}
 .sg-surface--sun{background:var(--kn-sun);border-color:var(--kn-line)}
@@ -226,6 +234,80 @@
       <div class="sg-rule sg-dont">Không dùng lời kêu gọi kiểu khuyến mãi dồn dập, không hứa hẹn pháp lý khi chưa có giấy tờ chứng minh.</div>
     </div>
   </div>
+</div></section>
+
+<!-- 11. Extension for dynamic pages -->
+<section class="sg-sec sg-static" id="extension"><div class="kn-wrap">
+  <h2>11. Mở rộng cho trang động</h2>
+  <p class="sg-intro">Năm trang mẫu chỉ có phần tĩnh. Giỏ hàng, tìm kiếm, ngăn kéo menu, đăng nhập, tài khoản và thẻ sản phẩm dựng bằng script cần thêm các class dưới đây. Mọi class chỉ dùng token sẵn có (nền kem, trắng, ngọc nhạt, viền --kn-line, bo 10/20/viên thuốc), không đổ bóng, không nền tối.</p>
+
+  <p class="sg-sub">Khung trang và liên kết bỏ qua</p>
+  <p class="sg-ext"><code>.kn-skip .kn-page .kn-hp .kn-code .kn-btn--wide .kn-scroll .kn-ok</code></p>
+  <a class="kn-skip" href="#sg-ext-main">Bỏ qua điều hướng</a>
+  <p class="sg-why">Lý do: truy cập bằng bàn phím; <code>kn-hp</code> là ô bẫy thư rác ẩn khỏi mắt người dùng; <code>kn-scroll</code> cho bảng rộng trên 390px; <code>kn-ok</code> là dòng báo thành công màu ngọc.</p>
+
+  <p class="sg-sub">Thanh công cụ, tìm kiếm, ngăn kéo, màn che</p>
+  <p class="sg-ext"><code>.kn-nav__tools .kn-ico .kn-menu-btn .kn-bag__ico .kn-bag__txt .kn-hide-sm .kn-search .kn-scrim .kn-drawer .kn-drawer__x .kn-drawer__sec</code></p>
+  <div class="sg-row">
+    <div class="kn-nav__tools"><button class="kn-ico" type="button" aria-label="Tìm kiếm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="11" cy="11" r="6"/><path d="m20 20-4-4"/></svg></button><button class="kn-ico" type="button" aria-label="Yêu thích"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg><span class="kn-badge">2</span></button></div>
+  </div>
+  <div class="kn-search"><div class="kn-wrap"><input class="kn-input" type="search" placeholder="Tìm vòng ngọc, mặt dây, mã sản phẩm" aria-label="Tìm kiếm" /><button class="kn-btn" type="button">Tìm</button></div></div>
+  <div class="sg-twocol">
+    <div class="kn-drawer"><button class="kn-drawer__x" type="button" aria-label="Đóng menu">&times;</button><ul><li><a href="#">Vòng tay</a></li><li><a href="#">Mặt dây</a></li></ul><ul class="kn-drawer__sec"><li><a href="#">Chăm sóc khách hàng</a></li></ul></div>
+    <div class="kn-scrim" aria-hidden="true"></div>
+  </div>
+  <p class="sg-why">Lý do: header thật có nút tìm kiếm, yêu thích và menu di động. Màn che là kem trong mờ, ngăn kéo là thẻ trắng viền mảnh, nên không có mảng tối nào trên trang.</p>
+
+  <p class="sg-sub">Trạng thái tải, lỗi và thông báo nhanh</p>
+  <p class="sg-ext"><code>.kn-state .kn-spin .kn-toast</code></p>
+  <div class="sg-col">
+    <div class="kn-state" role="status"><span class="kn-spin" aria-hidden="true"></span>Đang tải sản phẩm…</div>
+    <div class="kn-state" data-kind="error" role="alert">Không tải được sản phẩm. <button class="kn-btn kn-btn--ghost kn-btn--inline" type="button">Thử lại</button></div>
+    <div><span class="kn-toast" role="status">Đã thêm vào giỏ hàng</span></div>
+  </div>
+  <p class="sg-why">Lý do: mọi lần gọi API đều có trạng thái tải, lỗi (có nút thử lại) và xác nhận hành động. Lỗi dùng viền --kn-crimson và chữ --kn-danger.</p>
+
+  <p class="sg-sub">Trang đăng nhập và nội dung thuần</p>
+  <p class="sg-ext"><code>.kn-auth .kn-alt .kn-faq .kn-contact .kn-stores</code></p>
+  <div class="kn-auth"><h1>Đăng nhập</h1><p>Dùng email đã đăng ký.</p><p class="kn-alt">Chưa có tài khoản? <a href="#">Đăng ký</a></p></div>
+  <p class="sg-why">Lý do: biểu mẫu tài khoản cần cột hẹp 480px và dòng liên kết phụ. <code>kn-contact</code> và <code>kn-stores</code> xếp thẻ liên hệ, cửa hàng.</p>
+
+  <p class="sg-sub">Danh mục: ô lọc và số kết quả</p>
+  <p class="sg-ext"><code>.kn-tools .kn-field--wide .kn-count</code></p>
+  <div class="kn-tools"><label class="kn-field kn-field--wide">Tìm theo tên<input class="kn-input" type="search" /></label><label class="kn-field">Sắp xếp<select class="kn-input"><option>Mới nhất</option></select></label><button class="kn-btn" type="button">Lọc</button></div>
+  <p class="kn-count">12 sản phẩm</p>
+  <p class="sg-why">Lý do: trang /products cần ô tìm, sắp xếp và đếm kết quả mà trang mẫu category chỉ có chip.</p>
+
+  <p class="sg-sub">Thẻ sản phẩm dựng bằng script</p>
+  <p class="sg-ext"><code>.kn-cell > a > figure + div (tên, giá, mã) .kn-cell s .kn-cell__code .kn-heart .kn-tag</code></p>
+  <ul class="kn-cells"><li class="kn-cell"><a href="#"><figure><img src="img/phi-thuy-xanh-lam.jpg" alt="Vòng ngọc mẫu" /><span class="kn-tag">-10%</span></figure><div><h3>Vòng ngọc mẫu</h3><p>3.200.000₫<s>3.560.000₫</s></p><p class="kn-cell__code">KN-000</p></div></a><button class="kn-heart" type="button" aria-pressed="false" aria-label="Lưu vào yêu thích"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg></button></li></ul>
+  <p class="sg-why">Lý do: thẻ thật có nút yêu thích, nhãn giảm giá và mã. Quy tắc giá: tên, rồi giá ngay dưới tên, rồi mã.</p>
+
+  <p class="sg-sub">Chi tiết sản phẩm: tồn kho, màu, số lượng, yêu thích</p>
+  <p class="sg-ext"><code>.kn-stock .kn-swatches .kn-qty-row .kn-qty .kn-wish .kn-price s</code></p>
+  <div class="kn-buy"><p class="kn-price">3.200.000₫<s>3.560.000₫</s></p><p class="kn-stock">Chỉ còn 1 chiếc</p><div class="kn-qty-row"><label for="sg-qty">Số lượng</label><div class="kn-qty"><button type="button" aria-label="Giảm số lượng">&minus;</button><input id="sg-qty" type="number" min="1" value="1" /><button type="button" aria-label="Tăng số lượng">+</button></div></div><button class="kn-btn kn-btn--ghost kn-wish" type="button" aria-pressed="false">Lưu vào yêu thích</button></div>
+  <p class="sg-why">Lý do: mỗi món ngọc là hàng độc nhất, nên bộ chọn số lượng ẩn khi tồn kho là 1. Dòng giá luôn ngay dưới tên.</p>
+
+  <p class="sg-sub">Dòng giỏ hàng và tổng tiền</p>
+  <p class="sg-ext"><code>.kn-line__img .kn-rm .kn-total</code></p>
+  <ul class="kn-lines"><li class="kn-line"><img class="kn-line__img" src="img/phi-thuy-xanh-lam.jpg" alt="Vòng ngọc mẫu" /><div><h3>Vòng ngọc mẫu</h3><p class="kn-line__price">3.200.000₫</p><p class="kn-line__meta">KN-000</p><button class="kn-rm" type="button">Xóa</button></div></li></ul>
+  <p class="kn-total"><span>Tổng cộng</span><strong>3.200.000₫</strong></p>
+  <p class="sg-why">Lý do: dòng giỏ do script dựng; nút Xóa giống liên kết. Tổng tiền là hàng nhãn trái, số tiền phải.</p>
+
+  <p class="sg-sub">Thẻ tài khoản, danh sách thông tin, bảng đơn</p>
+  <p class="sg-ext"><code>.kn-card .kn-dl .kn-orders</code></p>
+  <div class="kn-card"><h2>Tài khoản</h2><dl class="kn-dl"><dt>Họ tên</dt><dd>Nguyễn Văn A</dd><dt>Email</dt><dd>a@example.com</dd></dl><div class="kn-scroll"><table class="kn-orders"><thead><tr><th>Mã đơn</th><th>Trạng thái</th><th>Tổng</th></tr></thead><tbody><tr><td><a href="#">#000</a></td><td>Đang xử lý</td><td>3.200.000₫</td></tr></tbody></table></div></div>
+  <p class="sg-why">Lý do: trang tài khoản, đơn hàng và tra cứu đơn cần khối thông tin và bảng nhiều cột.</p>
+
+  <p class="sg-sub">Đăng ký nhận tin ở chân trang</p>
+  <p class="sg-ext"><code>.kn-news .kn-news__row</code></p>
+  <div class="kn-news"><h3>Nhận tin</h3><p>Gợi ý chọn ngọc, gửi một lần mỗi tháng.</p><div class="kn-news__row"><input class="kn-input" type="email" placeholder="Email của bạn" aria-label="Email" /><button class="kn-btn" type="button">Đăng ký</button></div></div>
+  <p class="sg-why">Lý do: chân trang jade-mist cần ô email và nút viên thuốc cùng hàng, xếp dọc dưới 768px.</p>
+
+  <p class="sg-sub">Bài viết trên mảng ngọc nhạt</p>
+  <p class="sg-ext"><code>.kn-article .kn-article__inner .kn-article__lead .kn-article__text .kn-article__links</code></p>
+  <div class="kn-article"><div class="kn-article__inner"><h1>Ngọc Hòa Điền: <em>Tân Cương</em></h1><p class="kn-article__lead">Đoạn dẫn của bài viết.</p><p class="kn-article__text">Nội dung bài viết, chữ serif trên mảng ngọc nhạt phẳng.</p></div></div>
+  <p class="sg-why">Lý do: khu bài viết về ngọc dùng một cột đọc 720px; phần chia hai nửa ảnh và chữ vẫn dùng <code>kn-spread</code>.</p>
 </div></section>
 </main>
 
