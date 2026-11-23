@@ -353,14 +353,15 @@
         if (p.discountPercent > 0) {
             imgBox.appendChild(el('span', {'class': 'kn-tag', text: '-' + Math.round(p.discountPercent) + '%'}));
         }
-        var price = priceNode(p);
-        price.className = 'kn-cell__price';
+        var price = el('p', {text: priceText(p)});
+        var was = originalText(p);
+        if (was && p.discountPercent > 0) { price.appendChild(el('s', {text: was})); }
         var a = el('a', {href: '/products/' + encodeURIComponent(p.code)}, [
             imgBox,
             el('div', {}, [
                 el('h3', {text: p.name}),
-                el('code', {'class': 'kn-cell__code', text: p.code}),
-                price
+                price,
+                el('p', {'class': 'kn-cell__code', text: p.code})
             ])
         ]);
         return el('li', {'class': 'kn-cell', 'data-pid-card': String(p.id)}, [a, heartButton(p.id)]);
@@ -654,7 +655,7 @@
 
     function stockText(p) {
         if (p.amount > 5) { return 'Còn hàng'; }
-        if (p.amount === 1) { return 'Chỉ còn 1 sản phẩm, mỗi món là duy nhất'; }
+        if (p.amount === 1) { return 'Sản phẩm duy nhất · còn 1 chiếc'; }
         if (p.amount > 0) { return 'Chỉ còn ' + p.amount + ' sản phẩm'; }
         return 'Hết hàng';
     }
