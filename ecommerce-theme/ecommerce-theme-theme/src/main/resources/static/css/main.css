@@ -318,8 +318,10 @@ body.kn-drawer-open .kn-drawer{transform:none;visibility:visible}
 .kn-alt a{color:var(--kn-jade-deep);text-decoration:underline;text-underline-offset:4px}
 
 /* product listing: tools row and result count */
-.kn-tools{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 20px;align-items:end;padding:24px 0 8px}
-.kn-tools .kn-field{margin:0}
+.kn-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 20px;align-items:end;padding:24px 0 8px}
+.kn-tools .kn-field{margin:0;min-width:0}
+.kn-tools .kn-input{width:100%;min-width:0}
+[hidden]{display:none!important}
 .kn-tools .kn-field--wide{grid-column:span 2}
 .kn-tools .kn-btn{width:100%}
 .kn-page-title h2{font-size:40px;line-height:1.1}
@@ -413,7 +415,7 @@ ul.kn-cells{list-style:none}
 
 @media (max-width:1023px){
   .kn-article h1{font-size:44px}
-  .kn-tools{grid-template-columns:repeat(2,1fr)}
+  .kn-tools{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 @media (max-width:767px){
   .kn-menu-btn{display:inline-grid}
@@ -433,6 +435,6 @@ ul.kn-cells{list-style:none}
   .kn-article h1{font-size:36px}
   .kn-article h2{font-size:30px}
   .kn-article__lead{font-size:19px}
-  .kn-tools{grid-template-columns:1fr}
+  .kn-tools{grid-template-columns:minmax(0,1fr)}
   .kn-tools .kn-field--wide{grid-column:auto}
 }
