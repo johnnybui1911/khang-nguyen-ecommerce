@@ -111,7 +111,7 @@ section_m2() {
 section_m3() {
   echo "== m3: cart -> checkout -> demo payment -> order, IDOR on $BASE_URL"
   # Needs a seeded shop/product with stock (each run buys 2 units; set PRODUCT_ID to one that has stock); override with PRODUCT_ID, CURRENCY_ID, COUNTRY_ID, PAY_CODE. PRICE is read from the catalog for CURRENCY_ID unless given.
-  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-8}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO_SG}"
+  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-6}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO_SG}"
   if [ ! -s "$JAR" ]; then
     local rc; rc=$(register_user)
     [ "$rc" = 200 ] && ok "register throw-away user" || { CODE=$rc; CTYPE=; : >"$TMP/body"; bad "register throw-away user"; }
@@ -127,7 +127,7 @@ section_m3() {
     '[ "$CODE" = 200 ] && grep -q shoppingCartId "$TMP/body"'
   local cart; cart=$(sed -E 's/.*"shoppingCartId":([0-9]+).*/\1/' "$TMP/body")
 
-  req p2 user POST /api/v1/orders/create-payment-url "{\"paymentServiceCode\":\"$code\",\"fromShoppingCartId\":${cart:-0},\"currencyId\":$cur,\"products\":[{\"productId\":$pid,\"amount\":2,\"price\":$price}],\"deliveryInformation\":{\"deliveryFullName\":\"ECM Test\",\"deliveryEmail\":\"$EMAIL\",\"deliveryPhoneNumber\":\"+6581234567\",\"deliveryAddress\":\"1 Orchard Rd\",\"deliveryCountryId\":$ctry,\"deliveryCityName\":\"Singapore\",\"deliveryPostalCode\":\"238801\"}}"
+  req p2 user POST /api/v1/orders/create-payment-url "{\"paymentServiceCode\":\"$code\",\"fromShoppingCartId\":${cart:-0},\"currencyId\":$cur,\"products\":[{\"productId\":$pid,\"amount\":2,\"price\":$price}],\"deliveryInformation\":{\"deliveryFullName\":\"ECM Test\",\"deliveryEmail\":\"$EMAIL\",\"deliveryPhoneNumber\":\"+84912345678\",\"deliveryAddress\":\"1 Nguyễn Huệ, Quận 1\",\"deliveryCountryId\":$ctry,\"deliveryCityName\":\"Hà Nội\",\"deliveryPostalCode\":\"100000\"}}"
   expect "create-payment-url returns a signed /callback/$code URL" \
     '[ "$CODE" = 200 ] && grep -q "^/callback/$code?orderId=" "$TMP/body"'
   local url oid; url=$(cat "$TMP/body"); oid=$(echo "$url" | sed -E 's/.*orderId=([0-9]+).*/\1/')
@@ -148,7 +148,7 @@ section_m3() {
   # a tampered unit price must be rejected or priced by the server, never accepted as sent
   req p7 user POST /api/v1/checkout "{\"productIds\":[$pid],\"amountByProductId\":{\"$pid\":1}}"
   local cart2; cart2=$(sed -E 's/.*"shoppingCartId":([0-9]+).*/\1/' "$TMP/body")
-  req p8 user POST /api/v1/orders/create-payment-url "{\"paymentServiceCode\":\"$code\",\"fromShoppingCartId\":${cart2:-0},\"currencyId\":$cur,\"products\":[{\"productId\":$pid,\"amount\":1,\"price\":1}],\"deliveryInformation\":{\"deliveryFullName\":\"ECM Test\",\"deliveryEmail\":\"$EMAIL\",\"deliveryPhoneNumber\":\"+6581234567\",\"deliveryAddress\":\"1 Orchard Rd\",\"deliveryCountryId\":$ctry,\"deliveryCityName\":\"Singapore\",\"deliveryPostalCode\":\"238801\"}}"
+  req p8 user POST /api/v1/orders/create-payment-url "{\"paymentServiceCode\":\"$code\",\"fromShoppingCartId\":${cart2:-0},\"currencyId\":$cur,\"products\":[{\"productId\":$pid,\"amount\":1,\"price\":1}],\"deliveryInformation\":{\"deliveryFullName\":\"ECM Test\",\"deliveryEmail\":\"$EMAIL\",\"deliveryPhoneNumber\":\"+84912345678\",\"deliveryAddress\":\"1 Nguyễn Huệ, Quận 1\",\"deliveryCountryId\":$ctry,\"deliveryCityName\":\"Hà Nội\",\"deliveryPostalCode\":\"100000\"}}"
   expect "checkout with tampered price 1 is rejected as productSizeColorPricesChanged (no payment URL)" \
     '[ "$CODE" = 400 ] && grep -q productSizeColorPricesChanged "$TMP/body"'
 
@@ -180,7 +180,7 @@ section_f1() {
     '[ "$CODE" = 200 ] && python3 -c "import sys,json;d=json.load(open(sys.argv[1]));i=d.get(\"items\",[]);sys.exit(0 if i and all(float(x.get(\"discountPercent\") or 0)>=10 for x in i) else 1)" "$TMP/body"'
 
   if [ ! -s "$JAR" ]; then register_user >/dev/null; fi
-  local upd="{\"updateUser\":true,\"updateCustomer\":true,\"displayName\":\"ECM Renamed\",\"email\":\"$EMAIL\",\"phone\":\"+658${STAMP: -8}\",\"addressNumber\":\"1 Orchard Rd\"}"
+  local upd="{\"updateUser\":true,\"updateCustomer\":true,\"displayName\":\"ECM Renamed\",\"email\":\"$EMAIL\",\"phone\":\"+849${STAMP: -8}\",\"addressNumber\":\"1 Nguyễn Huệ, Quận 1\"}"
   local saved_origin="$ORIGIN"
   ORIGIN="https://evil.example"
   req f4 user PUT /ezyaccount/api/v1/account/update "${upd//ECM Renamed/Evil}"
@@ -249,10 +249,10 @@ section_f3() {
     '[ "$CODE" = 200 ] && python3 -c "import sys,json;sys.exit(0 if any(float(p[\"price\"])>3000000 for p in json.load(open(sys.argv[1]))[\"items\"]) else 1)" "$TMP/body"'
   [ -f "$JAR" ] && [ -n "${USERNAME:-}" ] || section_m1
   local upd='{"updateUser":true,"updateCustomer":true,"displayName":"ECM Test","email":"'"$EMAIL"'","phone":"PHONE","dateOfBirth":0,"addressNumber":"","addressCountryId":0,"addressProvinceId":0,"addressDistrictId":0,"addressWardId":0}'
-  req u1 user PUT /ezyaccount/api/v1/account/update "${upd/PHONE/+65 9111 2233}"
+  req u1 user PUT /ezyaccount/api/v1/account/update "${upd/PHONE/+84 912 345 678}"
   expect "phone with spaces is refused by the account API (the form must strip them) -> 400 phone invalid" \
     '[ "$CODE" = 400 ] && grep -q "\"phone\":\"invalid\"" "$TMP/body"'
-  local ph="+65$((RANDOM % 9 + 1))$(printf '%07d' $((RANDOM * 31 % 10000000)))"
+  local ph="+84$((RANDOM % 9 + 1))$(printf '%08d' $((RANDOM * 31 % 100000000)))"
   req u2 user PUT /ezyaccount/api/v1/account/update "${upd/PHONE/$ph}"
   expect "phone without spaces is accepted -> 204" '[ "$CODE" = 204 ]'
   req u3 user GET /ezyaccount/api/v1/account
@@ -339,7 +339,7 @@ section_f4() {
   expect "forgot-password is refused with 429 after 5 requests in the window (first 429 at request $first_429 of this burst)" '[ "$first_429" -ge 4 ]'
 
   # contact: per-field validation, header injection, honeypot, then the mail
-  local c='"name":"Ann Tan","email":"ann@example.com","topic":"order","message":"Where is my order?"'
+  local c='"name":"Nguyễn Thị An","email":"ann@example.com","topic":"order","message":"Where is my order?"'
   req k1 guest POST /api/v1/ecm/contact '{}'
   expect "contact with nothing -> 400 listing name, email and message" \
     '[ "$CODE" = 400 ] && grep -q "\"name\":\"required\"" "$TMP/body" && grep -q "\"email\":\"required\"" "$TMP/body" && grep -q "\"message\":\"required\"" "$TMP/body"'
@@ -348,7 +348,7 @@ section_f4() {
   req k3 guest POST /api/v1/ecm/contact "{\"name\":\"Ann\\r\\nBcc: evil@example.com\",\"email\":\"ann@example.com\",\"message\":\"hi\"}"
   expect "CR/LF in the name -> 400" '[ "$CODE" = 400 ] && grep -q "\"name\":\"invalid\"" "$TMP/body"'
   local shop="${SHOP_MAIL:-stores@ecommerce.local}" m0; m0=$(mail_count "$shop")
-  req k4 guest POST /api/v1/ecm/contact "{$c,\"phone\":\"+65 9111 2233\",\"website\":\"\"}"
+  req k4 guest POST /api/v1/ecm/contact "{$c,\"phone\":\"+84 912 345 678\",\"website\":\"\"}"
   expect "valid contact -> 200 accepted" '[ "$CODE" = 200 ] && grep -q "\"accepted\":true" "$TMP/body"'
   expect "contact mail reaches the shop mailbox with the sender as Reply-To" \
     'mail_wait "$shop" "$m0" && mail_q "select headers from ezymail_mails where mail_to like \"%$shop%\" order by id desc limit 1" | grep -q "ann@example.com"'
@@ -364,21 +364,21 @@ section_f4() {
   req a1 guest POST /api/v1/ecm/appointments '{"storeId":"nope","date":"2020-01-01","time":"03:00","name":"","phone":"abc","email":"x"}'
   expect "appointment with bad store/date/time/phone/email -> 400 per field" \
     '[ "$CODE" = 400 ] && for f in storeId date time name phone email; do grep -q "\"$f\"" "$TMP/body" || exit 1; done'
-  req a2 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ion-orchard\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"Ann Tan\",\"phone\":\"+65 9111 2233\",\"email\":\"ann@example.com\\nBcc: evil@example.com\"}"
+  req a2 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ha-noi\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"Nguyễn Thị An\",\"phone\":\"+84 912 345 678\",\"email\":\"ann@example.com\\nBcc: evil@example.com\"}"
   expect "LF in the appointment email -> 400" '[ "$CODE" = 400 ] && grep -q "\"email\":\"invalid\"" "$TMP/body"'
   m0=$(mail_count "$shop")
-  req a3 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ion-orchard\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"Ann Tan\",\"phone\":\"+65 9111 2233\",\"email\":\"ann@example.com\",\"note\":\"Ring sizing\"}"
+  req a3 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ha-noi\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"Nguyễn Thị An\",\"phone\":\"+84 912 345 678\",\"email\":\"ann@example.com\",\"note\":\"Ring sizing\"}"
   expect "valid appointment -> 200 accepted" '[ "$CODE" = 200 ] && grep -q "\"accepted\":true" "$TMP/body"'
   expect "appointment mail names the store (display name), date and time" \
-    'mail_wait "$shop" "$m0" && mail_q "select mail_content from ezymail_mails where mail_to like \"%$shop%\" order by id desc limit 1" | grep -q "Khang Nguyen ION Orchard" '
-  req a4 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ion-orchard\",\"date\":\"$day\",\"time\":\"09:00\",\"name\":\"A\",\"phone\":\"123\",\"email\":\"ann@example.com\"}"
-  req a5 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ion-orchard\",\"date\":\"$day\",\"time\":\"11:15\",\"name\":\"A\",\"phone\":\"+6591112233\",\"email\":\"ann@example.com\"}"
-  req a6 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ion-orchard\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"A\",\"phone\":\"+6591112233\",\"email\":\"ann@example.com\"}"
+    'mail_wait "$shop" "$m0" && mail_q "select mail_content from ezymail_mails where mail_to like \"%$shop%\" order by id desc limit 1" | grep -q "Khang Nguyên Hà Nội" '
+  req a4 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ha-noi\",\"date\":\"$day\",\"time\":\"09:00\",\"name\":\"A\",\"phone\":\"123\",\"email\":\"ann@example.com\"}"
+  req a5 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ha-noi\",\"date\":\"$day\",\"time\":\"11:15\",\"name\":\"A\",\"phone\":\"+84912345678\",\"email\":\"ann@example.com\"}"
+  req a6 guest POST /api/v1/ecm/appointments "{\"storeId\":\"ha-noi\",\"date\":\"$day\",\"time\":\"11:00\",\"name\":\"A\",\"phone\":\"+84912345678\",\"email\":\"ann@example.com\"}"
   expect "6th appointment request in the window -> 429" '[ "$CODE" = 429 ]'
 
   # Origin guard: 127.0.0.1 and localhost are one site on the same port; any other origin stays refused
   [ -s "$JAR" ] || register_user >/dev/null
-  local ph="+65$((RANDOM % 9 + 1))$(printf '%07d' $(( (RANDOM * 32768 + RANDOM) % 10000000 )))" origin
+  local ph="+84$((RANDOM % 9 + 1))$(printf '%08d' $(( (RANDOM * 32768 + RANDOM) % 100000000 )))" origin
   local upd='{"updateUser":true,"updateCustomer":true,"displayName":"ECM Test","email":"'"$EMAIL"'","phone":"'"$ph"'","dateOfBirth":0,"addressNumber":"","addressCountryId":0,"addressProvinceId":0,"addressDistrictId":0,"addressWardId":0}'
   for origin in http://127.0.0.1:8080 http://localhost:8080; do
     CODE=$(curl -s -o "$TMP/body" -w '%{http_code}' -b "$JAR" -X PUT -H "Origin: $origin" -H "X-Requested-With: ecm" -H 'Content-Type: application/json' -d "$upd" "$BASE_URL/ezyaccount/api/v1/account/update"); CTYPE=
