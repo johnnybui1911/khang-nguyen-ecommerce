@@ -1817,10 +1817,97 @@
         start();
     }
 
+    /* Ambient music: a pentatonic, zither-like melody synthesised with Web Audio (no audio file, so no licensing).
+       Off by default; the choice is stored, but sound only ever starts after a visitor gesture. */
+    function initMusic() {
+        var AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC || q('.kn-music')) { return; }
+        var KEY = 'kn-music';
+        var NOTE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>';
+        var btn = el('button', {type: 'button', 'class': 'kn-music', 'aria-pressed': 'false', 'aria-label': 'Bật nhạc nền'});
+        btn.innerHTML = NOTE_SVG;
+        d.body.appendChild(btn);
+
+        var ctx = null, master = null, timer = null, playing = false, step = 0, idx = 4;
+        // D pentatonic (do re mi so la on D): D E F# A B across two octaves, in Hz
+        var SCALE = [146.83, 164.81, 185.0, 220.0, 246.94, 293.66, 329.63, 369.99, 440.0, 493.88, 587.33];
+        function pluck(freq, when, vel) {
+            var o = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+            o.type = 'triangle'; o2.type = 'sine'; o.frequency.value = freq; o2.frequency.value = freq * 2.003;
+            f.type = 'lowpass'; f.frequency.setValueAtTime(freq * 7, when); f.frequency.exponentialRampToValueAtTime(freq * 1.5, when + 1.4);
+            g.gain.setValueAtTime(0.0001, when);
+            g.gain.exponentialRampToValueAtTime(vel, when + 0.012);
+            g.gain.exponentialRampToValueAtTime(0.0001, when + 2.6);
+            o.connect(f); o2.connect(f); f.connect(g); g.connect(master);
+            o.start(when); o2.start(when); o.stop(when + 2.7); o2.stop(when + 2.7);
+        }
+        function phrase() {
+            if (!playing) { return; }
+            var now = ctx.currentTime + 0.05, t = now;
+            var len = 4 + Math.floor(Math.random() * 3);
+            for (var i = 0; i < len; i++) {
+                var move = [-2, -1, -1, 0, 1, 1, 2][Math.floor(Math.random() * 7)];
+                idx = Math.max(0, Math.min(SCALE.length - 1, idx + move));
+                if (i === 0 && step % 4 === 0) { pluck(SCALE[0], t, 0.22); }   // low anchor note
+                pluck(SCALE[idx], t, 0.18);
+                t += [0.45, 0.6, 0.9][Math.floor(Math.random() * 3)];
+            }
+            step++;
+            var wait = (t - now) * 1000 + 900 + Math.random() * 900;
+            timer = setTimeout(phrase, wait);
+        }
+        function setUi(on) {
+            btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+            btn.setAttribute('aria-label', on ? 'Tắt nhạc nền' : 'Bật nhạc nền');
+        }
+        function start() {
+            if (playing) { return; }
+            if (!ctx) {
+                ctx = new AC();
+                master = ctx.createGain(); master.gain.value = 0;
+                var delay = ctx.createDelay(1.0), fb = ctx.createGain(), wet = ctx.createGain();
+                delay.delayTime.value = 0.34; fb.gain.value = 0.35; wet.gain.value = 0.4;
+                master.connect(ctx.destination); master.connect(delay); delay.connect(fb); fb.connect(delay); delay.connect(wet); wet.connect(ctx.destination);
+            }
+            playing = true; setUi(true);
+            ctx.resume().then(function () {
+                master.gain.cancelScheduledValues(ctx.currentTime);
+                master.gain.setTargetAtTime(0.3, ctx.currentTime, 0.4);
+                phrase();
+            });
+        }
+        function stop() {
+            if (!playing) { return; }
+            playing = false; setUi(false);
+            clearTimeout(timer); timer = null;
+            master.gain.cancelScheduledValues(ctx.currentTime);
+            master.gain.setTargetAtTime(0, ctx.currentTime, 0.2);
+            setTimeout(function () { if (!playing) { ctx.suspend(); } }, 1200);
+        }
+        function remember(on) { try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) { /* storage blocked */ } }
+        btn.addEventListener('click', function () {
+            if (playing) { stop(); remember(false); } else { start(); remember(true); }
+        });
+        d.addEventListener('visibilitychange', function () { if (d.hidden && playing) { stop(); } });
+        var wanted = false;
+        try { wanted = localStorage.getItem(KEY) === '1'; } catch (e) { wanted = false; }
+        if (wanted) {
+            // browsers block autoplay: resume the saved choice on the first real gesture only
+            var resume = function (e) {
+                if (btn.contains(e.target)) { d.removeEventListener('pointerdown', resume, true); d.removeEventListener('keydown', resume, true); return; }
+                d.removeEventListener('pointerdown', resume, true); d.removeEventListener('keydown', resume, true);
+                start();
+            };
+            d.addEventListener('pointerdown', resume, true);
+            d.addEventListener('keydown', resume, true);
+        }
+    }
+
     function init() {
         initChrome();
         initNewsletter();
         initCarousel();
+        initMusic();
         var page = b.dataset.page;
         if (pages[page]) { pages[page](); }
     }

@@ -170,22 +170,35 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 
 /* shelf of products: unboxed cards on cream */
 .kn-shelf{padding:96px 0}
-.kn-shelf__head{display:flex;align-items:center;justify-content:center;gap:24px;padding:0 var(--kn-pad);text-align:center;font:italic 500 22px/1.25 var(--kn-serif);color:var(--kn-jade-deep);text-transform:uppercase;letter-spacing:.04em}
-.kn-shelf__head::before,.kn-shelf__head::after{content:"";flex:1;max-width:200px;height:1px;background:var(--kn-gold)}
-.kn-shelf__head span{font:400 12px/1 var(--kn-sans);font-style:normal;color:var(--kn-muted);margin-left:12px;letter-spacing:.04em}
+/* section heading: serif title centred on the page axis, two gold rules of equal length hugging it; no link under it */
+.kn-shelf__head{display:flex;align-items:center;justify-content:center;gap:24px;max-width:var(--kn-wrap);margin:0 auto;padding:0 var(--kn-pad);text-align:center;font:italic 500 40px/1.15 var(--kn-serif);color:var(--kn-jade-deep);text-transform:uppercase;letter-spacing:.04em}
+.kn-shelf__head::before,.kn-shelf__head::after{content:"";flex:0 1 120px;height:1px;background:var(--kn-gold)}
+/* "see all" sits under the product row: small, centred, no underline; a gold line grows from the middle on hover and keyboard focus */
+.kn-shelf__foot{margin:48px 0 0;padding:0 var(--kn-pad);text-align:center}
+.kn-all{position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 4px;font:600 14px/1.3 var(--kn-sans);letter-spacing:.06em;color:var(--kn-jade-deep);transition:color .3s}
+.kn-all::before{content:"";position:absolute;left:0;right:0;bottom:2px;height:1px;background:var(--kn-gold);transform:scaleX(0);transform-origin:50% 50%;transition:transform .35s}
+.kn-all::after{content:"\2192";content:"\2192" / "";display:inline-block;transition:transform .3s}
+.kn-all:hover,.kn-all:focus-visible{color:var(--kn-jade)}
+.kn-all:hover::before,.kn-all:focus-visible::before{transform:scaleX(1)}
+.kn-all:hover::after,.kn-all:focus-visible::after{transform:translateX(4px)}
 .kn-cells{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 24px;max-width:var(--kn-wrap);margin:40px auto 0;padding:0 var(--kn-pad)}
 .kn-cell{display:flex;flex-direction:column;gap:16px}
-.kn-cell img{width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 100%;border-radius:20px;border:1px solid var(--kn-line);transition:opacity .25s}
+.kn-cell figure{position:relative;margin:0}
+.kn-cell img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 100%;border-radius:20px;border:1px solid var(--kn-line)}
 .kn-cell div{display:flex;flex-direction:column;gap:4px;padding:0 4px}
 .kn-cell h3{font-size:26px;line-height:1.15}
 .kn-cell p{margin:0;font-weight:600;font-size:15px;color:var(--kn-jade-deep)}
-.kn-cell:hover img{opacity:.9}
-.kn-cell:hover h3{text-decoration:underline;text-decoration-color:var(--kn-gold);text-underline-offset:6px}
+.kn-cell h3{transition:color .25s}
+.kn-cell:hover h3,.kn-cell:has(:focus-visible) h3{color:var(--kn-jade)}
+/* hover and keyboard focus: a thin gold line with a travelling glint runs around the photo; only opacity and background-position change */
+.kn-cell figure::after{content:"";position:absolute;inset:0;z-index:1;border-radius:20px;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .3s;background:linear-gradient(115deg,var(--kn-gold) 0,var(--kn-gold) 38%,var(--kn-sun) 50%,var(--kn-gold) 62%,var(--kn-gold) 100%) 100% 0/300% 100%;-webkit-mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box,linear-gradient(rgba(0,0,0,1) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box exclude,linear-gradient(rgba(0,0,0,1) 0 0)}
+.kn-cell:hover figure::after,.kn-cell:has(:focus-visible) figure::after{opacity:1;animation:kn-glint 2.4s linear infinite}
+@keyframes kn-glint{from{background-position:100% 0}to{background-position:0 0}}
+@media (prefers-reduced-motion:reduce){.kn-cell figure::after,.kn-all,.kn-all::before,.kn-all::after{transition:none}.kn-cell:hover figure::after,.kn-cell:has(:focus-visible) figure::after{animation:none;background-position:50% 0}}
 .kn-toolbar{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:24px 0}
 .kn-page-title{padding:48px 0 8px}
 .kn-page-title h1{font-size:56px;line-height:1.05}
 .kn-page-title p{margin:12px 0 0;color:var(--kn-body);max-width:576px}
-.kn-more{text-align:center;padding:48px 0 0}
 .kn-prose{max-width:576px;margin:0 auto;padding:64px var(--kn-pad) 0;color:var(--kn-body);font-size:15px}
 
 /* cart and checkout. Rule: a product price always sits directly under the product name. */
@@ -283,6 +296,9 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
   .kn-carousel__dots{bottom:8px;background:transparent}
   .kn-carousel__dot::before{background:var(--kn-muted)}
   .kn-carousel__dot[aria-current="true"]::before{background:var(--kn-jade-deep)}
+  .kn-shelf__head{gap:16px;font-size:28px}
+  .kn-shelf__head::before,.kn-shelf__head::after{flex-basis:40px}
+  .kn-shelf__foot{margin-top:32px}
   .kn-story h2{font-size:36px}
   .kn-cells{grid-template-columns:1fr;gap:32px}
   .kn-horizon{padding:96px 0 80px}
@@ -537,3 +553,12 @@ ul.kn-cells{list-style:none}
   .kn-tools{grid-template-columns:minmax(0,1fr)}
   .kn-tools .kn-field--wide{grid-column:auto}
 }
+
+/* ambient music toggle: off by default, bottom-left so it never covers the cart, chat or page actions */
+.kn-music{position:fixed;left:16px;bottom:16px;z-index:25;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--kn-line-strong);border-radius:9999px;background:var(--kn-white);color:var(--kn-jade-deep);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.kn-music:hover{border-color:var(--kn-gold)}
+.kn-music svg{width:20px;height:20px}
+.kn-music[aria-pressed="true"]{background:var(--kn-jade);border-color:var(--kn-jade);color:var(--kn-white)}
+.kn-music::after{content:"";position:absolute;left:10px;right:10px;top:50%;height:2px;background:currentColor;transform:rotate(-45deg);transition:opacity .2s}
+.kn-music[aria-pressed="true"]::after{opacity:0}
+@media (prefers-reduced-motion:reduce){.kn-music{transition:none}}

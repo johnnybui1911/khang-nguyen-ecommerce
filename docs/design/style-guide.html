@@ -35,6 +35,7 @@
 .sg-hero{padding-top:64px}
 .sg-hero h1{font-size:64px;line-height:1.05}
 .sg-hero .kn-lead{margin-top:20px;max-width:640px}
+.sg-static .kn-music{position:static}
 .sg-static .kn-toast{position:static;transform:none;display:inline-block}
 .sg-static .kn-drawer{position:static;transform:none;visibility:visible;width:auto;max-width:360px;border:1px solid var(--kn-line);border-radius:20px}
 .sg-static .kn-scrim{position:static;opacity:1;visibility:visible;height:56px;border-radius:10px;border:1px solid var(--kn-line)}
@@ -175,9 +176,16 @@
   <p class="sg-intro">Thẻ không khung. Ảnh vuông bo 20px kèm viền mảnh, tên serif rồi GIÁ NGAY DƯỚI TÊN (màu ngọc đậm). Ảnh cắt lấy phần khay nhung phía dưới để giảm mảng nền tối của ảnh gốc.</p>
 </div>
 <div class="kn-cells">
-  <a class="kn-cell" href="product.html"><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /><div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div></a>
-  <a class="kn-cell" href="product.html"><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /><div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div></a>
-  <a class="kn-cell" href="product.html"><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh vân hoa" loading="lazy" /><div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div></a>
+  <a class="kn-cell" href="product.html"><figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /></figure><div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div></a>
+  <a class="kn-cell" href="product.html"><figure><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div></a>
+  <a class="kn-cell" href="product.html"><figure><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh vân hoa" loading="lazy" /></figure><div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div></a>
+</div>
+<div class="sg-static">
+  <h2 class="kn-shelf__head">Mới lên kệ</h2>
+  <p class="kn-shelf__foot"><a class="kn-all" href="#cells">Xem tất cả</a></p>
+  <p class="sg-ext"><code>.kn-shelf__head</code> Tiêu đề section nằm đúng trục giữa, hai đường kẻ vàng dài bằng nhau (120px, 40px ở 390), bên dưới không có liên kết. <code>.kn-shelf__foot .kn-all</code> "Xem tất cả" đặt dưới hàng sản phẩm, chữ nhỏ 14px, không gạch chân; hover hoặc focus bàn phím thì đường nhũ vàng chạy từ giữa ra hai bên (transform), mũi tên dịch nhẹ; tắt chuyển động khi prefers-reduced-motion. Lý do: liên kết cạnh tiêu đề làm tiêu đề lệch trục.</p>
+  <p class="sg-ext"><code>.kn-cell:hover</code> Rê chuột hoặc focus bàn phím vào thẻ: viền nhũ vàng 1,5px quanh khung ảnh có vệt sáng chạy (chỉ opacity và background-position), tên đổi sang màu ngọc nhạt, không gạch chân. <code>.kn-music</code> Nút nhạc nền 44px ở góc trái dưới, mặc định tắt, aria-pressed phản ánh trạng thái.</p>
+  <button class="kn-music" type="button" aria-pressed="false" aria-label="Bật nhạc nền"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg></button>
 </div></section>
 
 <!-- 8. States -->
