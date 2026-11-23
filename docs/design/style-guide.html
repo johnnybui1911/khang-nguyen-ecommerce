@@ -312,6 +312,18 @@
   <p class="sg-ext"><code>.kn-article .kn-article__inner .kn-article__lead .kn-article__text .kn-article__links</code></p>
   <div class="kn-article"><div class="kn-article__inner"><h1>Ngọc Hòa Điền: <em>Tân Cương</em></h1><p class="kn-article__lead">Đoạn dẫn của bài viết.</p><p class="kn-article__text">Nội dung bài viết, chữ serif trên mảng ngọc nhạt phẳng.</p></div></div>
   <p class="sg-why">Lý do: khu bài viết về ngọc dùng một cột đọc 720px; phần chia hai nửa ảnh và chữ vẫn dùng <code>kn-spread</code>.</p>
+
+  <p class="sg-sub">Cẩm nang: danh sách bài, thẻ bài, phân trang</p>
+  <p class="sg-ext"><code>.kn-blog .kn-blog__head .kn-posts .kn-post .kn-post__img .kn-post__ph .kn-post__body .kn-post__meta .kn-post__sum .kn-pager</code></p>
+  <div class="kn-blog"><div class="kn-blog__head"><p class="kn-eyebrow">Cẩm nang</p><h1>Cẩm nang về <em>ngọc</em></h1><p>Cách chọn, đeo và giữ gìn ngọc.</p></div>
+    <ul class="kn-posts"><li class="kn-post"><a class="kn-post__img" href="#" tabindex="-1" aria-hidden="true"><span class="kn-post__ph"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><path d="M30 30h40v40H30z M38 38h24v24H38z"/></svg></span></a><div class="kn-post__body"><p class="kn-post__meta"><time>23/11/2026</time></p><h2><a href="#">Cách chọn vòng ngọc phỉ thúy hợp mệnh</a></h2><p class="kn-post__sum">Tóm tắt hai dòng của bài viết.</p></div></li></ul>
+    <nav class="kn-pager" aria-label="Phân trang"><a class="kn-btn kn-btn--ghost kn-btn--inline" href="#">Bài mới hơn</a><a class="kn-btn kn-btn--ghost kn-btn--inline" href="#">Bài cũ hơn</a></nav></div>
+  <p class="sg-why">Lý do: danh sách bài là lưới thẻ trắng viền --kn-line, bo 20px, 3 cột rồi 2 cột rồi 1 cột dưới 768px. Bài chưa có ảnh đại diện dùng khung ngọc nhạt với dấu triện thay ảnh. Chữ tiêu đề giữ nguyên hoa thường như người viết nhập, không ép chữ hoa.</p>
+
+  <p class="sg-sub">Nội dung bài viết do trình soạn thảo tạo</p>
+  <p class="sg-ext"><code>.kn-prose</code> Bao nội dung HTML của quản trị: h2, h3, đoạn, danh sách, trích dẫn, ảnh, bảng, đường kẻ, chú thích ảnh.</p>
+  <div class="kn-article"><div class="kn-article__inner"><div class="kn-prose"><h2>Tiêu đề phần</h2><p>Đoạn văn cỡ 17px, dòng cao 1.7, rộng tối đa 68 ký tự, có <a href="#">liên kết</a>.</p><h3>Tiêu đề nhỏ</h3><ul><li>Mục một</li><li>Mục hai</li></ul><blockquote>Trích dẫn nổi bật.</blockquote><table><thead><tr><th>Loại</th><th>Ý nghĩa</th><th>Gợi ý</th></tr></thead><tbody><tr><td>Phỉ thúy</td><td>Bình an</td><td>Đeo hằng ngày</td></tr></tbody></table></div></div></div>
+  <p class="sg-why">Lý do: nội dung nhập từ trình soạn thảo không mang class nên cần một khung định kiểu theo thẻ. Ảnh co theo chiều rộng, bảng có khung cuộn ngang riêng để không làm tràn trang ở 390px.</p>
 </div></section>
 </main>
 
