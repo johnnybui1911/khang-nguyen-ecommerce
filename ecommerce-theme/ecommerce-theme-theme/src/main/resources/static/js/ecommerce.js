@@ -1215,6 +1215,10 @@
                         el('h2', {text: s.name}),
                         el('p', {text: s.address}),
                         s.hours ? el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}) : null,
+                        s.phone && s.phoneHref ? el('p', {}, [
+                            d.createTextNode('Điện thoại: '),
+                            el('a', {'class': 'kn-link', href: s.phoneHref, text: s.phone})
+                        ]) : null,
                         el('p', {}, [el('a', {
                             'class': 'kn-link',
                             href: '/book-an-appointment?store=' + encodeURIComponent(s.id),
