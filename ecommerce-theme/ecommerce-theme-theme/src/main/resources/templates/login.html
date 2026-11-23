@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-auth" tabindex="-1">
-  <h1>Sign in</h1>
-  <form class="sw-form" id="swAuthForm" data-mode="login" novalidate>
-    <label>Username<input name="username" required autocomplete="username"></label>
-    
-    <label>Password<input name="password" type="password" required autocomplete="current-password"></label>
-    <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
-    <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swAuthBtn">Sign in</button>
+<div class="kn-auth" id="swMain" tabindex="-1">
+  <h1>Đăng <em>nhập</em></h1>
+  <form class="kn-form" id="swAuthForm" data-mode="login" novalidate>
+    <div class="kn-field"><label for="f-username">Tên đăng nhập</label><input class="kn-input" id="f-username" name="username" required autocomplete="username" /></div>
+    <div class="kn-field"><label for="f-password">Mật khẩu</label><input class="kn-input" id="f-password" name="password" type="password" required autocomplete="current-password" /></div>
+    <p class="kn-error" id="swFormErr" role="alert" hidden></p>
+    <button type="submit" class="kn-btn" id="swAuthBtn">Đăng nhập</button>
   </form>
-  <p class="sw-alt"><a class="sw-u" href="/forgot-password">Forgot your password?</a></p>
-  <p class="sw-alt">New to Khang Nguyen? <a class="sw-u" href="/register" data-sw-next-link>Create an account</a></p>
+  <p class="kn-alt"><a href="/forgot-password">Quên mật khẩu?</a></p>
+  <p class="kn-alt">Chưa có tài khoản? <a href="/register" data-kn-next-link>Tạo tài khoản</a></p>
 </div>
 </th:block>
 </body>

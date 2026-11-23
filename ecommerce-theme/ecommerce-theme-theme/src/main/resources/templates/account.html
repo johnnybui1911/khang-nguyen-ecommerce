@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <h1>My account</h1>
-  <div data-sw-state></div>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Tài khoản</nav>
+  <h1>Tài khoản <em>của tôi</em></h1>
+  <div data-kn-state></div>
   <div id="swAccount" hidden>
-    <section class="sw-card"><h2>Profile</h2><dl class="sw-dl" id="swProfile"></dl>
-      <button type="button" class="sw-btn" id="swEditProfile" aria-expanded="false" aria-controls="swProfileForm">Edit profile</button>
-      <button type="button" class="sw-btn" id="swLogout">Sign out</button>
-      <form class="sw-form" id="swProfileForm" novalidate hidden>
-        <h2>Edit profile</h2>
-        <label>Display name<input name="displayName" autocomplete="name"></label>
-        <p class="sw-form-err" data-err-for="displayName" role="alert" hidden></p>
-        <label>Phone<input name="phone" type="tel" autocomplete="tel"></label>
-        <p class="sw-form-err" data-err-for="phone" role="alert" hidden></p>
-        <label>Birth date<input name="birthDate" type="date" autocomplete="bday"></label>
-        <p class="sw-form-err" data-err-for="dateOfBirth" role="alert" hidden></p>
-        <label>Address<input name="address" autocomplete="street-address"></label>
-        <p class="sw-form-err" data-err-for="addressNumber" role="alert" hidden></p>
-        <p class="sw-form-err" id="swProfileErr" role="alert" hidden></p>
-        <p class="sw-note" id="swProfileOk" role="status" aria-live="polite" hidden>Saved</p>
-        <button type="submit" class="sw-btn sw-btn--dark" id="swProfileSave">Save</button>
+    <section class="kn-card"><h2>Thông tin cá nhân</h2><dl class="kn-dl" id="swProfile"></dl>
+      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swEditProfile" aria-expanded="false" aria-controls="swProfileForm">Sửa thông tin</button>
+      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swLogout">Đăng xuất</button>
+      <form class="kn-form" id="swProfileForm" novalidate hidden>
+        <h2>Sửa thông tin</h2>
+    <div class="kn-field"><label for="f-displayName">Tên hiển thị</label><input class="kn-input" id="f-displayName" name="displayName" autocomplete="name" /></div>
+    <p class="kn-error" data-err-for="displayName" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-phone">Số điện thoại</label><input class="kn-input" id="f-phone" name="phone" type="tel" autocomplete="tel" /></div>
+    <p class="kn-error" data-err-for="phone" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-birthDate">Ngày sinh</label><input class="kn-input" id="f-birthDate" name="birthDate" type="date" autocomplete="bday" /></div>
+    <p class="kn-error" data-err-for="dateOfBirth" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-address">Địa chỉ</label><input class="kn-input" id="f-address" name="address" autocomplete="street-address" /></div>
+    <p class="kn-error" data-err-for="addressNumber" role="alert" hidden></p>
+    <p class="kn-error" id="swProfileErr" role="alert" hidden></p>
+        <p class="kn-note" id="swProfileOk" role="status" aria-live="polite" hidden>Đã lưu</p>
+        <button type="submit" class="kn-btn kn-btn--inline" id="swProfileSave">Lưu</button>
       </form></section>
-    <section class="sw-card"><h2>Order history</h2>
-      <p class="sw-note"><a class="sw-u" href="/order-status">Tra cứu đơn / Order Status</a></p>
-      <div data-sw-orders-state></div>
-      <table class="sw-orders" id="swOrders" hidden>
-        <thead><tr><th scope="col">Order</th><th scope="col">Date</th><th scope="col">Status</th><th scope="col">Total</th></tr></thead>
+    <section class="kn-card"><h2>Lịch sử đơn hàng</h2>
+      <p class="kn-note"><a class="kn-link" href="/order-status">Tra cứu tình trạng đơn</a></p>
+      <div data-kn-orders-state></div>
+      <table class="kn-orders" id="swOrders" hidden>
+        <thead><tr><th scope="col">Đơn hàng</th><th scope="col">Ngày đặt</th><th scope="col">Trạng thái</th><th scope="col">Tổng cộng</th></tr></thead>
         <tbody></tbody></table></section>
   </div>
 </div>

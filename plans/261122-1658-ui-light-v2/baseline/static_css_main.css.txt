@@ -1,0 +1,126 @@
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:12  hex #05070b is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:12  hex #0c0f15 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:12  hex #232731 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:12  hex #171a22 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:14  hex #000000 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:14  hex #f1ede3 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:14  hex #aeb2bb is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:14  hex #8c909c is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:15  hex #464853 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:15  hex #cfd1d8 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:17  hex #bc9c5c is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:17  hex #f0dfae is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:17  hex #7a6026 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:18  hex #0e3b2c is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:18  hex #8c1d2c is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:18  hex #e8a0aa is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:19  hex #1d2a22 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:19  hex #2e2a26 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:21  hex #f5f2ea is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:21  hex #14110d is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:21  hex #555555 is not a kn.css token color; do not invent colors
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:52  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:81  rgb(12, 15, 21) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:89  rgb(12, 15, 21) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:133  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:134  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:282  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:286  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:394  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:394  rgb(5, 7, 11) is not a token color, white or black
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:43  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:64  border-radius 6px not in spec (0, 10px, 20px, 24px, 50%, 9999px)
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:32  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:43  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:52  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:59  --kn-outline is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:61  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:64  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:65  --kn-btn-hover is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:67  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:69  --kn-outline is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:71  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:75  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:81  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:85  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:86  --kn-danger-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:87  --kn-danger-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:89  --kn-danger-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:90  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:94  --kn-outline is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:96  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:105  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:105  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:110  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:115  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:116  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:125  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:137  --kn-paper is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:137  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:144  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:147  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:149  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:150  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:157  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:157  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:160  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:160  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:165  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:175  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:178  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:178  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:178  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:186  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:188  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:192  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:196  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:200  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:206  --kn-horizon-mid is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:206  --kn-horizon-end is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:211  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:212  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:216  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:226  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:226  --kn-paper-muted is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:237  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:242  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:242  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:245  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:247  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:260  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:261  --kn-danger-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:263  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:265  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:265  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:265  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:274  --kn-outline is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:281  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:289  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:300  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:307  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:320  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:320  --kn-panel is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:320  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:327  --kn-text is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:328  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:330  --kn-rule is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:334  --kn-gold-light is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:338  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:350  --kn-paper-muted is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:350  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:351  --kn-paper-muted is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:352  --kn-black is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:353  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:361  --kn-paper is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:361  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:363  --kn-paper-muted is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:364  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:366  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:368  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:373  --kn-paper-muted is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:374  --kn-paper-ink is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:403  --kn-edge is not defined in kn.css :root
+ERROR   ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:443  --kn-paper-ink is not defined in kn.css :root
+warning ecommerce-theme/ecommerce-theme-theme/src/main/resources/static/css/main.css:61  gold used as a background; allowed only for the cart badge and thin rules
+
+123 error(s), 1 warning(s)

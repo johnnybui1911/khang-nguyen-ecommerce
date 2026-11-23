@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:ezy="http://www.ezyplatform.com/thymeleaf/layout">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Chăm sóc khách hàng | Khang Nguyên - Ngọc Bảo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;display=swap" rel="stylesheet" />
+<!--kn:css--><link rel="stylesheet" href="kn.css" /><!--/kn:css-->
+</head>
+<body class="kn">
+<!-- Reference page: cart. Real template: ecommerce-theme/.../templates/cart.html (ids swMain, swCart, swLines, swSubtotal). Data below is sample. -->
+<header class="kn-nav">
+  <div class="kn-wrap">
+    <a class="kn-brand" href="home.html" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
+      <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
+      <span>Khang Nguyên<small>Ngọc Bảo</small></span>
+    </a>
+    <nav aria-label="Danh mục"><ul class="kn-nav__links">
+      <li><a href="category.html">Vòng ngọc</a></li>
+      <li><a href="category.html">Nhẫn ngọc</a></li>
+      <li><a href="category.html">Chuỗi ngọc</a></li>
+      <li><a href="home.html#kien-thuc">Kiến thức về ngọc</a></li>
+    </ul></nav>
+    <a class="kn-bag" href="cart.html" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge">2</b></a>
+  </div>
+</header>
+<main>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="home.html">Trang chủ</a> / Chăm sóc khách hàng</nav>
+  <div class="kn-page-title"><h1>Chăm sóc <em>khách hàng</em></h1><p>Xem câu trả lời cho các câu hỏi thường gặp hoặc nhắn trực tiếp cho đội ngũ của chúng tôi.</p></div>
+  <section class="kn-faq" aria-labelledby="swFaqH"><h2 id="swFaqH">Câu hỏi thường gặp</h2><details class="kn-acc"><summary>Làm sao để xem tình trạng đơn hàng?</summary><div><p>Mở trang <a class="kn-link" href="/order-status">Tình trạng đơn hàng</a> và nhập mã đơn cùng email đã dùng khi đặt, hoặc đăng nhập vào tài khoản để xem lịch sử đơn.</p></div></details><details class="kn-acc"><summary>Phí giao hàng và thời gian giao là bao nhiêu?</summary><div><p>Phí và thời gian giao được xác nhận khi chốt đơn. Nếu cần biết trước, vui lòng <a class="kn-link" href="/contact">gửi tin nhắn cho chúng tôi</a>.</p></div></details><details class="kn-acc"><summary>Tôi có thể đổi hoặc trả sản phẩm không?</summary><div><p>Điều kiện đổi trả được xác nhận khi chốt đơn. Hãy liên hệ chăm sóc khách hàng trước khi gửi sản phẩm về.</p></div></details><details class="kn-acc"><summary>Làm sao để chọn đúng size?</summary><div><p>Xem <a class="kn-link" href="/size-guide">Hướng dẫn chọn size</a> để đo cổ tay, ngón tay hoặc chiều dài dây chuyền.</p></div></details></section>
+  <section aria-labelledby="swContactH"><h2 id="swContactH">Liên hệ</h2>
+    <div class="kn-contact"><div class="kn-card"><h3>Gửi tin nhắn</h3><p>Điền biểu mẫu, chúng tôi trả lời qua email.</p><p><a class="kn-btn kn-btn--inline" href="/contact">Viết tin nhắn</a></p></div>
+    <div class="kn-card"><h3>Đặt lịch hẹn</h3><p>Chọn cửa hàng và thời gian bạn muốn đến xem sản phẩm.</p><p><a class="kn-btn kn-btn--ghost kn-btn--inline" href="/book-an-appointment">Đặt lịch</a></p></div></div>
+  </section>
+</div>
+</main>
+<footer class="kn-colophon kn-colophon--spaced">
+  <svg class="kn-seal" viewBox="0 0 160 142" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+    <ellipse cx="80" cy="71" rx="64" ry="58"/>
+    <path d="M56 47h48v48H56z M66 57h28v28H66z M56 71h10 M94 71h10 M80 47v10 M80 85v10"/>
+    <path d="M22 71c10-6 14-16 12-26 M138 71c-10-6-14-16-12-26 M22 71c10 6 14 16 12 26 M138 71c-10 6-14 16-12 26"/>
+  </svg>
+  <h2>Khang Nguyên · Ngọc Bảo</h2>
+  <p class="kn-motto">Trang sức ngọc phong thủy</p>
+  <div class="kn-util">
+    <div><h3>Về chúng tôi</h3><p>Ngọc được chọn từng món, giới thiệu minh bạch về chất ngọc, nguồn gốc và cách đeo.</p></div>
+    <div><h3>Sản phẩm</h3><ul><li><a href="category.html">Vòng ngọc</a></li><li><a href="category.html">Nhẫn ngọc</a></li><li><a href="category.html">Chuỗi ngọc</a></li></ul></div>
+    <div><h3>Hỗ trợ</h3><ul><li><a href="/customer-service">Chăm sóc khách hàng</a></li><li><a href="home.html#kien-thuc">Kiến thức về ngọc</a></li></ul></div>
+  </div>
+  <p class="kn-legal">Trang minh họa. Tên sản phẩm, giá và chính sách là dữ liệu mẫu, chưa dùng để bán hàng.</p>
+</footer>
+</body>
+</html>

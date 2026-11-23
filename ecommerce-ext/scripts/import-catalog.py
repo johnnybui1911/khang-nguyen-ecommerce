@@ -13,7 +13,7 @@ Environment:
   ADMIN_USERNAME    default "admin"
   ADMIN_PASSWORD    required; read from the environment only, never logged
   SHOP_ID           default 1          WAREHOUSE_ID   default 1
-  VND_CURRENCY_ID   default 6          SGD_CURRENCY_ID default 8 (only for the create call)
+  VND_CURRENCY_ID   default 6
 
 Usage:
   ADMIN_BASE=http://127.0.0.1:9090 ADMIN_PASSWORD=... python3 -I ecommerce-ext/scripts/import-catalog.py [--dry-run]
@@ -41,7 +41,6 @@ PASSWORD = os.environ.get("ADMIN_PASSWORD", "")
 SHOP_ID = int(os.environ.get("SHOP_ID", "1"))
 WAREHOUSE_ID = int(os.environ.get("WAREHOUSE_ID", "1"))
 VND = int(os.environ.get("VND_CURRENCY_ID", "6"))
-SGD = int(os.environ.get("SGD_CURRENCY_ID", "8"))
 
 ECOM = BASE + "/ecommerce/api/v1"
 CORE = BASE + "/api/v1"
@@ -213,7 +212,7 @@ def sync_product(row, cats, cat_by_name):
         skeleton = {"productName": row["ten"], "productCode": sku, "shop": {"id": SHOP_ID},
                     "displayOrder": 0, "productType": "SINGLE", "status": "PUBLISHED"}
         added = call("POST", ECOM + "/products/add", product_body(
-            skeleton, SGD, round(price / 20000, 2), None, icon, stock, 0))
+            skeleton, VND, price, None, icon, stock, 0))
         pid = added.get("addedId") or added.get("id")
         call("PUT", "%s/products/%d" % (ECOM, pid), product_body(
             skeleton, VND, price, None, icon, stock, 0))

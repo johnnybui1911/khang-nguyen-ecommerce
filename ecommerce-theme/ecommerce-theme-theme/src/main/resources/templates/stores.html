@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main" tabindex="-1">
-  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Stores</span></nav>
-  <div class="sw-top"><h1>Our stores in Singapore</h1></div>
-  <div data-sw-state></div>
-  <ul class="sw-stores" id="swStores"></ul>
-  <p class="sw-note" id="swStoresNote"></p>
+<div class="kn-wrap kn-page" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Cửa hàng</nav>
+  <div class="kn-page-title"><h1>Cửa hàng <em>của chúng tôi</em></h1></div>
+  <div data-kn-state></div>
+  <ul class="kn-stores" id="swStores"></ul>
+  <p class="kn-note" id="swStoresNote"></p>
 </div>
 </th:block>
 </body>

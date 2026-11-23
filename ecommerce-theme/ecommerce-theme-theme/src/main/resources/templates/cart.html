@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <h1>Shopping bag</h1>
-  <div data-sw-state></div>
-  <div class="sw-cart" id="swCart" hidden>
-    <ul class="sw-lines" id="swLines"></ul>
-    <aside class="sw-sum">
-      <h2>Order summary</h2>
-      <p class="sw-sum-row"><span>Subtotal</span><strong id="swSubtotal"></strong></p>
-      <p class="sw-note">Shipping and taxes are calculated at checkout.</p>
-      <a class="sw-btn sw-btn--dark sw-wide" href="/checkout">Checkout</a>
-      <a class="sw-u" href="/products">Continue shopping</a>
+<div class="kn-narrow" id="swMain">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Giỏ hàng</nav>
+  <div class="kn-page-title"><h1>Giỏ <em>hàng</em></h1><p>Kiểm tra lại các sản phẩm trước khi thanh toán.</p></div>
+  <div data-kn-state></div>
+  <div class="kn-cart" id="swCart" hidden>
+    <ul class="kn-lines" id="swLines"></ul>
+    <aside class="kn-summary">
+      <h2>Tóm tắt đơn hàng</h2>
+      <p><span>Tạm tính</span><strong id="swSubtotal"></strong></p>
+      <small>Phí giao hàng được xác nhận khi chốt đơn.</small>
+      <a class="kn-btn" href="/checkout">Thanh toán</a>
+      <a class="kn-link" href="/products">Tiếp tục xem bộ sưu tập</a>
     </aside>
   </div>
 </div>
+
 </th:block>
 </body>
 </html>

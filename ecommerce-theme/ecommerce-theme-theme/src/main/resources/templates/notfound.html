@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-notfound" tabindex="-1">
-  <h1>Page not found</h1>
-  <p>The page you are looking for does not exist or has moved.</p>
-  <p class="sw-notfound-links"><a class="sw-btn sw-btn--dark" href="/">Back to home</a> <a class="sw-btn" href="/products">Browse products</a></p>
+<div class="kn-auth" id="swMain" tabindex="-1">
+  <p class="kn-eyebrow">404</p>
+  <h1>Không tìm thấy <em>trang này</em></h1>
+  <p>Trang bạn cần không tồn tại hoặc đã được chuyển đi nơi khác.</p>
+  <p class="kn-alt"><a class="kn-btn kn-btn--inline" href="/">Về trang chủ</a> <a class="kn-btn kn-btn--ghost kn-btn--inline" href="/products">Xem sản phẩm</a></p>
 </div>
 </th:block>
 </body>

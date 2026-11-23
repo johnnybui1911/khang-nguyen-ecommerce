@@ -1,32 +1,31 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/stores">Stores</a> / <span>Book an appointment</span></nav>
-  <div class="sw-top"><h1>Book an appointment</h1></div>
-  <p>Choose a store and a time. The store will confirm your visit by email or phone.</p>
-  <div data-sw-state></div>
-  <form class="sw-form" id="swApptForm" novalidate hidden>
-    <label>Store<select name="storeId" required></select></label>
-    <p class="sw-form-err" data-err-for="storeId" role="alert" hidden></p>
-    <label>Date<input name="date" type="date" required></label>
-    <p class="sw-form-err" data-err-for="date" role="alert" hidden></p>
-    <label>Time<select name="time" required></select></label>
-    <p class="sw-form-err" data-err-for="time" role="alert" hidden></p>
-    <label>Name<input name="name" required maxlength="100" autocomplete="name"></label>
-    <p class="sw-form-err" data-err-for="name" role="alert" hidden></p>
-    <label>Phone<input name="phone" type="tel" required autocomplete="tel"></label>
-    <p class="sw-form-err" data-err-for="phone" role="alert" hidden></p>
-    <label>Email<input name="email" type="email" required maxlength="254" autocomplete="email"></label>
-    <p class="sw-form-err" data-err-for="email" role="alert" hidden></p>
-    <label>Note (optional)<textarea name="note" maxlength="500" rows="3"></textarea></label>
-    <p class="sw-form-err" data-err-for="note" role="alert" hidden></p>
-    <div class="sw-hp" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div>
-    <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
-    <p class="sw-note" id="swFormOk" role="status" aria-live="polite" hidden></p>
-    <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swFormBtn">Request appointment</button>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/stores">Cửa hàng</a> / Đặt lịch hẹn</nav>
+  <div class="kn-page-title"><h1>Đặt <em>lịch hẹn</em></h1><p>Chọn cửa hàng và thời gian. Cửa hàng sẽ xác nhận lịch qua email hoặc điện thoại.</p></div>
+  <div data-kn-state></div>
+  <form class="kn-form" id="swApptForm" novalidate hidden>
+    <div class="kn-field"><label for="f-storeId">Cửa hàng</label><select class="kn-input" id="f-storeId" name="storeId" required></select></div>
+    <p class="kn-error" data-err-for="storeId" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-date">Ngày</label><input class="kn-input" id="f-date" name="date" type="date" required /></div>
+    <p class="kn-error" data-err-for="date" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-time">Giờ</label><select class="kn-input" id="f-time" name="time" required></select></div>
+    <p class="kn-error" data-err-for="time" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-name">Họ và tên</label><input class="kn-input" id="f-name" name="name" required maxlength="100" autocomplete="name" /></div>
+    <p class="kn-error" data-err-for="name" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-phone">Số điện thoại</label><input class="kn-input" id="f-phone" name="phone" type="tel" required autocomplete="tel" /></div>
+    <p class="kn-error" data-err-for="phone" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-email">Email</label><input class="kn-input" id="f-email" name="email" type="email" required maxlength="254" autocomplete="email" /></div>
+    <p class="kn-error" data-err-for="email" role="alert" hidden></p>
+    <div class="kn-field"><label for="f-note">Ghi chú (nếu có)</label><textarea class="kn-input" id="f-note" name="note" maxlength="500" rows="3"></textarea></div>
+    <p class="kn-error" data-err-for="note" role="alert" hidden></p>
+    <div class="kn-hp" aria-hidden="true"><label for="f-website">Website</label><input class="kn-input" id="f-website" name="website" tabindex="-1" autocomplete="off" /></div>
+    <p class="kn-error" id="swFormErr" role="alert" hidden></p>
+    <p class="kn-note" id="swFormOk" role="status" aria-live="polite" hidden></p>
+    <button type="submit" class="kn-btn kn-btn--inline" id="swFormBtn">Gửi yêu cầu đặt lịch</button>
   </form>
 </div>
 </th:block>

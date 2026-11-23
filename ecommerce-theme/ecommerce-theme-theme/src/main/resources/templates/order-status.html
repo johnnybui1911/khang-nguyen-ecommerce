@@ -1,32 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main" tabindex="-1">
-  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span>Order status</span></nav>
-  <div class="sw-top"><h1>Order status</h1></div>
-  <p>Enter your order number and the email address used for delivery.</p>
-  <form class="sw-tools" id="swStatusForm" novalidate>
-    <label>Order number
-      <input id="swStatusId" name="orderId" type="text" inputmode="numeric" autocomplete="off" required></label>
-    <label>Email
-      <input id="swStatusEmail" name="email" type="email" autocomplete="email" required></label>
-    <button type="submit" class="sw-btn sw-btn--dark" id="swStatusBtn">Check status</button>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Tình trạng đơn hàng</nav>
+  <div class="kn-page-title"><h1>Tình trạng <em>đơn hàng</em></h1><p>Nhập mã đơn hàng và địa chỉ email đã dùng khi đặt để xem đơn của bạn đang ở bước nào.</p></div>
+  <form class="kn-form" id="swStatusForm" novalidate>
+    <div class="kn-form__row">
+      <div class="kn-field"><label for="swStatusId">Mã đơn hàng</label><input class="kn-input" id="swStatusId" name="orderId" type="text" inputmode="numeric" autocomplete="off" required /></div>
+      <div class="kn-field"><label for="swStatusEmail">Email</label><input class="kn-input" id="swStatusEmail" name="email" type="email" autocomplete="email" required /></div>
+    </div>
+    <button type="submit" class="kn-btn kn-btn--inline" id="swStatusBtn">Kiểm tra</button>
   </form>
-  <p class="sw-note" id="swStatusMsg" role="status" aria-live="polite"></p>
-  <dl class="sw-status" id="swStatusResult" hidden>
-    <dt>Order</dt><dd id="swStatusOrder"></dd>
-    <dt>Status</dt><dd id="swStatusValue"></dd>
-    <dt>Placed</dt><dd id="swStatusPlaced"></dd>
-    <dt>Last updated</dt><dd id="swStatusUpdated"></dd>
-  </dl>
-  <section class="sw-card" id="swStatusSummary" hidden aria-label="Order summary">
-    <h2>Items</h2>
-    <ul class="sw-mini" id="swStatusLines"></ul>
-    <p class="sw-total"><span>Total</span><strong id="swStatusTotal"></strong></p>
+  <p class="kn-note" id="swStatusMsg" role="status" aria-live="polite"></p>
+  <div>
+    <dl class="kn-dl" id="swStatusResult" hidden>
+      <dt>Đơn hàng</dt><dd id="swStatusOrder"></dd>
+      <dt>Trạng thái</dt><dd id="swStatusValue"></dd>
+      <dt>Ngày đặt</dt><dd id="swStatusPlaced"></dd>
+      <dt>Cập nhật lần cuối</dt><dd id="swStatusUpdated"></dd>
+    </dl>
+  </div>
+  <section class="kn-card" id="swStatusSummary" hidden aria-label="Tóm tắt đơn hàng">
+    <h2>Sản phẩm</h2>
+    <ul class="kn-mini" id="swStatusLines"></ul>
+    <p class="kn-total"><span>Tổng cộng</span><strong id="swStatusTotal"></strong></p>
   </section>
 </div>
+
 </th:block>
 </body>
 </html>

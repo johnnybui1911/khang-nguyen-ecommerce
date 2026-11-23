@@ -1,33 +1,41 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <h1>Checkout</h1>
-  <div data-sw-state></div>
-  <div class="sw-cart" id="swCheckout" hidden>
-    <form class="sw-form" id="swCheckoutForm" novalidate>
-      <h2>Delivery</h2>
-      <label>Full name<input name="deliveryFullName" required autocomplete="name"></label>
-      <label>Email<input name="deliveryEmail" type="email" required autocomplete="email"></label>
-      <label>Phone<input name="deliveryPhoneNumber" type="tel" required autocomplete="tel" placeholder="+65 8123 4567"></label>
-      <label>Address<input name="deliveryAddress" required autocomplete="street-address"></label>
-      <label>City<input name="deliveryCityName" required autocomplete="address-level2" value="Singapore"></label>
-      <label>Postal code<input name="deliveryPostalCode" required autocomplete="postal-code"></label>
-      <label>Country<select name="deliveryCountryId" id="swCountry" required></select></label>
-      <h2>Payment</h2>
-      <label>Method<select name="paymentServiceCode" id="swPay" required></select></label>
-      <p class="sw-form-err" id="swFormErr" role="alert" hidden></p>
-      <button type="submit" class="sw-btn sw-btn--dark sw-wide" id="swPlace">Place order</button>
+<div class="kn-narrow" id="swMain">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/shopping-cart">Giỏ hàng</a> / Thanh toán</nav>
+  <div class="kn-page-title"><h1>Thanh <em>toán</em></h1></div>
+  <div data-kn-state></div>
+  <div class="kn-cart" id="swCheckout" hidden>
+    <form class="kn-form" id="swCheckoutForm" novalidate>
+      <h2>Thông tin giao hàng</h2>
+      <div class="kn-field"><label for="deliveryFullName">Họ và tên</label><input class="kn-input" id="deliveryFullName" name="deliveryFullName" required autocomplete="name" /></div>
+      <div class="kn-form__row">
+        <div class="kn-field"><label for="deliveryEmail">Email</label><input class="kn-input" id="deliveryEmail" name="deliveryEmail" type="email" required autocomplete="email" /></div>
+        <div class="kn-field"><label for="deliveryPhoneNumber">Số điện thoại</label><input class="kn-input" id="deliveryPhoneNumber" name="deliveryPhoneNumber" type="tel" required autocomplete="tel" placeholder="0901 234 567" /></div>
+      </div>
+      <div class="kn-field"><label for="deliveryAddress">Địa chỉ</label><input class="kn-input" id="deliveryAddress" name="deliveryAddress" required autocomplete="street-address" /></div>
+      <div class="kn-form__row">
+        <div class="kn-field"><label for="deliveryCityName">Tỉnh, thành phố</label><input class="kn-input" id="deliveryCityName" name="deliveryCityName" required autocomplete="address-level2" /></div>
+        <div class="kn-field"><label for="deliveryPostalCode">Mã bưu chính</label><input class="kn-input" id="deliveryPostalCode" name="deliveryPostalCode" required autocomplete="postal-code" inputmode="numeric" /></div>
+      </div>
+      <div class="kn-field"><label for="swCountry">Quốc gia</label><select class="kn-input" id="swCountry" name="deliveryCountryId" required></select></div>
+
+      <h2>Thanh toán</h2>
+      <div class="kn-field"><label for="swPay">Phương thức thanh toán</label><select class="kn-input" id="swPay" name="paymentServiceCode" required></select></div>
+      <p class="kn-error" id="swFormErr" role="alert" hidden></p>
+      <button type="submit" class="kn-btn" id="swPlace">Đặt hàng</button>
     </form>
-    <aside class="sw-sum">
-      <h2>Your bag</h2>
-      <ul class="sw-mini" id="swMini"></ul>
-      <p class="sw-sum-row"><span>Total</span><strong id="swTotal"></strong></p>
+    <aside class="kn-summary">
+      <h2>Đơn hàng của bạn</h2>
+      <ul class="kn-mini" id="swMini"></ul>
+      <p class="kn-total"><span>Tổng cộng</span><strong id="swTotal"></strong></p>
+      <small>Phí giao hàng được xác nhận khi chốt đơn.</small>
     </aside>
   </div>
 </div>
+
 </th:block>
 </body>
 </html>

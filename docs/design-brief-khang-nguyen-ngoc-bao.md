@@ -5,30 +5,32 @@ Tài liệu này là nguồn thiết kế duy nhất để một agent khác thi
 (yêu cầu của chủ shop, research Refero, hoặc quan sát từ repo). Nếu bạn muốn đi ngược lại một
 quyết định, hãy nêu lý do và hỏi lại người giao việc thay vì tự đổi.
 
-Ngày lập: 2026-11-22. Trạng thái: bản nháp đầu, đã có 1 trang demo chạy được.
+Ngày lập: 2026-11-22. Trạng thái: bản 2, hướng **sáng** (thay bản nền đen) theo phản hồi của khách:
+"nền đen trông không ổn; muốn phong cách phương Đông, xanh ngọc bích, vàng gold, trắng, nhiều ánh nắng tươi sáng".
 
 ---
 
 ## 0. Tóm tắt một đoạn
 
 Website bán trang sức ngọc (vòng, nhẫn, chuỗi) cho khách Việt, có giỏ hàng và thanh toán trực tiếp
-trên web. Cảm giác cần đạt: cổ điển phương Đông, sang trọng, tin cậy, lấy ngọc xanh lá làm trung
-tâm, vàng cổ làm điểm nhấn, đỏ rượu dùng rất ít. Ảnh sản phẩm thật và các bài chia sẻ kiến thức về
-ngọc là hai thứ quan trọng nhất. Thiết kế dựa trên hai reference Refero: **Slash** (sân khấu đen,
-serif, ánh vàng champagne) cho khu bán hàng, và **Franco Maria Ricci** (giấy, mực đen, vàng cổ,
-đường kẻ mảnh) cho khu bài viết.
+trên web. Cảm giác cần đạt: **phương Đông, tươi sáng, nhiều ánh nắng**, lấy **xanh ngọc bích** làm màu
+chủ đạo, **vàng gold** làm họa tiết và điểm nhấn, **trắng và kem nắng** làm nền; đỏ rượu dùng rất ít. Không
+có nền đen ở bất kỳ đâu. Ảnh sản phẩm thật và các bài chia sẻ kiến thức về ngọc là hai thứ quan trọng nhất.
+Thiết kế dựa trên ba reference Refero: **Sweetgreen** (nền kem nắng, mảng xanh phẳng, nút viên thuốc, thẻ không
+khung) làm nền tảng, **Franco Maria Ricci** (vàng cổ, nút chữ ngoặc nhọn, con dấu) và **Zeus Jones** (kem ấm,
+serif văn chương, cụm in nghiêng) cho chi tiết.
 
 ## 1. Brief
 
 ```text
 Designing một storefront ngọc phong thủy cho khách Việt (mua online, thanh toán trên web), web desktop + mobile.
 Goal: khách tin ngọc là thật, thấy rõ chất ngọc qua ảnh, thêm vào giỏ và thanh toán không vướng.
-Tone: cổ điển phương Đông, trầm, sang, ít chữ, nhiều ảnh. Không rực rỡ, không khuyến mãi ồn ào.
+Tone: phương Đông, tươi sáng, nhiều nắng, sang nhưng gần gũi, ít chữ, nhiều ảnh. Không khuyến mãi ồn ào.
 Main objection: "Ngọc này có thật không, giá có xứng không?" (khách Việt rất thận trọng với ngọc)
-Must remember: ảnh vòng ngọc trên nền đen + khay nhung kem, và bảng so sánh Tân Cương/Thanh Hải.
+Must remember: nền kem nắng + xanh ngọc bích + vàng gold, ảnh vòng ngọc trong khung trắng bo 20px, bảng so sánh Tân Cương/Thanh Hải.
 Constraints: chạy trên EzyPlatform (page + page fragment, Thymeleaf), font phải có đủ dấu tiếng Việt,
   chưa có giấy kiểm định riêng cho từng món, ảnh hiện có rất ít.
-Research: styles (Slash, Franco Maria Ricci), screens (Farfetch, Saint Laurent product detail).
+Research: styles (Sweetgreen, Franco Maria Ricci, Zeus Jones), screens (Farfetch, Saint Laurent product detail).
 ```
 
 ### 1.1 Người dùng và mục tiêu
@@ -36,7 +38,7 @@ Research: styles (Slash, Franco Maria Ricci), screens (Farfetch, Saint Laurent p
 | Mục | Nội dung | Nguồn |
 |---|---|---|
 | Khách hàng | Người Việt, mua ngọc để đeo, tặng, hoặc theo phong thủy | Chủ shop |
-| Cảm giác mong muốn | Cổ điển phương Đông; màu ngọc xanh lá, vàng, đỏ | Chủ shop |
+| Cảm giác mong muốn | Phương Đông; xanh ngọc bích, vàng gold, trắng; nhiều ánh nắng, tươi sáng; không nền đen | Chủ shop, khách (phản hồi 2026-11-22) |
 | Ưu tiên | Ảnh sản phẩm, các bài chia sẻ về ngọc | Chủ shop |
 | Mua hàng | Có giỏ hàng, thanh toán trực tiếp trên web | Chủ shop |
 | Giấy kiểm định | Tạm thời không có. Không thiết kế khu vực "chứng nhận" cố định | Chủ shop |
@@ -95,81 +97,98 @@ Bản thiết kế lại phải thay cả hai, và nên đổi tiền tố sang 
 
 ## 3. Hướng thiết kế (reference lock)
 
+Phản hồi của khách (2026-11-22): nền đen trông không ổn; cần phương Đông, xanh ngọc bích, vàng gold, trắng,
+nhiều ánh nắng, tươi sáng. Hướng nền đen (Slash) của bản trước đã bị loại bỏ hoàn toàn.
+
 ```text
-Primary reference/direction: Slash — "serif in the shadows" (style id 350e0391-9d87-4830-8d2b-826b3e9fc795)
-  cho toàn bộ khu bán hàng: trang chủ, danh mục, chi tiết sản phẩm, giỏ, thanh toán.
-Secondary (có vai trò riêng): Franco Maria Ricci — "the collector's cabinet" (style id 2c3b31a4-6e28-47a0-afbd-cb22e22e34fb)
-  chỉ cho khu nội dung: bài chia sẻ về ngọc, trang "câu chuyện", chân trang (colophon), ô lưới có đường kẻ.
-Preserve: canvas gần đen; serif tương phản cao weight 400 cho tiêu đề, italic thật cho 1 cụm từ có nghĩa;
-  vàng chỉ dùng cho điểm số/giá và chi tiết kim loại; viền kính (masked rim) quanh khung ảnh;
-  nút chính nền trắng trên nền tối; "dải chân trời ấm" ở cuối trang.
-Borrow only: (1) nút dạng chữ có ngoặc nhọn { ... } từ Franco; (2) con dấu vàng vẽ tay ở chân trang.
-Role rules: vàng KHÔNG làm nền khối hay nút chính; đỏ rượu chỉ là đường kẻ nhấn/dấu ấn nhỏ;
-  xanh lục đậm chỉ ở dải nền chuyển màu và con dấu, KHÔNG phải màu nút.
-Media strategy: ảnh sản phẩm thật trên nền đen + khay nhung kem. Không dùng ảnh minh họa AI cho sản phẩm.
-Reject: nền be/kem làm nền chính toàn site; serif Bodoni (không có dấu tiếng Việt);
-  gradient tím/indigo; thẻ bo tròn có bóng; banner giảm giá nhiều màu.
+Primary reference/direction: Sweetgreen — "sunlit appetite editorial" (style id d59df660-8f1a-438f-9c50-f210b2eeb229)
+  cho toàn bộ site: nền kem nắng, mảng màu phẳng, nút viên thuốc, thẻ sản phẩm không khung, bố cục hai nửa
+  (ảnh + mảng màu), chân trang dạng thư mục trên mảng nhạt.
+Secondary (mỗi nguồn một vai trò):
+  Franco Maria Ricci — "the collector's cabinet" (2c3b31a4-6e28-47a0-afbd-cb22e22e34fb): vàng cổ, nút chữ ngoặc nhọn { },
+    con dấu vàng ở chân trang, đường kẻ vàng mảnh.
+  Zeus Jones — "meaning in motion" (6151c9d4-5059-4ae0-9007-d9128207ec65): kem ấm, serif văn chương mảnh, một cụm in nghiêng
+    có nghĩa trong tiêu đề, ảnh bo 20px, khoảng thở rộng.
+Preserve: nền kem nắng và trắng, KHÔNG có nền tối; tiêu đề serif màu ngọc đậm, cụm italic màu vàng đậm;
+  nút chính viên thuốc màu ngọc; mảng ngọc nhạt PHẲNG (không gradient); quầng nắng vàng nhạt ở hero và dải kêu gọi;
+  ảnh bo 20px trong khung trắng viền mảnh; thẻ sản phẩm không khung.
+Borrow only: nút chữ ngoặc nhọn; con dấu vàng; họa tiết kim cương mảnh ngăn cách khu.
+Role rules: ngọc = hành động + tiêu đề + giá; vàng = họa tiết, đường kẻ, viền, huy hiệu (vàng đậm cho chữ);
+  đỏ rượu chỉ cho viền lỗi và đường trái đoạn trích; nắng vàng nhạt chỉ làm quầng nền, không làm nút.
+Media strategy: ảnh sản phẩm thật, ưu tiên chụp ban ngày trên nền sáng. Ảnh hiện có (nền xanh đen) được cắt lấy
+  phần khay nhung và đặt trong khung trắng bo 20px cho đến khi có ảnh mới.
+Reject: mọi nền đen hoặc gần đen; box-shadow; vàng làm nền nút; xanh chartreuse/neon của Sweetgreen (không hợp ngọc);
+  gradient tím hoặc chàm; Bodoni; infographic ảnh thay cho nội dung HTML.
+Token commitments: xem mục 4 và docs/design/kn.css.
 ```
 
-### 3.1 Vì sao dùng nền đen cho sản phẩm
+### 3.1 Vì sao đổi sang sáng, và vấn đề ảnh nền tối
 
-Ảnh sản phẩm hiện có đều chụp trên nền xanh đen sẫm (khay nhung kem, khung gỗ). Nền đen của site
-hòa vào nền ảnh nên ngọc nổi hẳn lên. Đây là lợi thế sẵn có, hãy giữ. Khi chụp ảnh mới, giữ đúng
-bộ cục này (xem mục 6).
+Khách thấy nền đen nặng và không hợp ngọc. Ngọc bích hợp nhất với nền kem nắng, trắng và xanh ngọc nhạt: màu
+ngọc đọc rõ, gợi cảm giác tươi, thanh, hợp phong thủy. Vàng được giữ làm họa tiết để vẫn sang.
+
+**Vấn đề còn lại:** ba ảnh sản phẩm hiện có chụp trên nền xanh đen sẫm, nên trên nền sáng chúng tạo ra các khối
+tối. Cách xử lý tạm trong bản mẫu: cắt ảnh lấy phần khay nhung phía dưới (`object-position` ở đáy, hoặc phóng 1.3
+lần ở khu bài viết) và đặt trong khung trắng bo 20px. Cách xử lý đúng là chụp lại bộ ảnh trên nền sáng (mục 6.2).
 
 ### 3.2 Decision ledger
 
 | Quyết định | Nguồn | Vai trò cần giữ | Lý do |
 |---|---|---|---|
-| Canvas `#05070b` | Slash (canvas `#040406`), chỉnh nhẹ sang xanh đen theo nền ảnh | Nền trang | Hòa với nền ảnh thật |
-| Serif tiêu đề, italic cho 1 cụm | Slash typography | Tiêu đề lớn | Cảm giác tạp chí, sang |
-| Cormorant Garamond thay IvyPresto/Bodoni | Kiểm tra metadata Google Fonts | Font tiêu đề | Có Vietnamese subset; Bodoni Moda thì không |
-| Vàng `#bc9c5c` | Franco (antique gold) + Slash (brushed gold) | Giá, nhãn nhỏ, con dấu | Giữ vàng hiếm để quý |
-| Nền giấy cho khu bài viết | Franco | Trang đọc dài | Dễ đọc, tạo nhịp tương phản |
-| Bảng so sánh bằng HTML | Chủ shop cần bài chia sẻ | Nội dung kiến thức | Infographic ảnh nhỏ, khó đọc trên mobile |
-| Bố cục chi tiết sản phẩm: ảnh lớn bên trái, thông tin bên phải, accordion | Farfetch, Saint Laurent | Trang sản phẩm | Mẫu luxury đã được kiểm chứng |
-| Không có khu "chứng nhận" | Chủ shop (chưa có kiểm định) | Trang sản phẩm | Không hứa điều chưa có |
+| Nền kem nắng, trắng, mảng ngọc nhạt phẳng | Sweetgreen (cream canvas, sage band) | Nền trang, mảng khu | Sáng, tươi, màu ngọc nổi |
+| Ngọc đậm cho nút chính, tiêu đề, giá | Sweetgreen (deep forest action ink), đổi sang bích ngọc theo yêu cầu khách | Hành động, tiêu đề | Màu chủ đạo của khách |
+| Nút viên thuốc 52px | Sweetgreen (action capsule) | Một nút chính mỗi khu | Mềm, thân thiện, đọc rõ |
+| Thẻ sản phẩm không khung, ảnh bo 20px | Sweetgreen, Zeus Jones | Lưới sản phẩm | Ảnh là trung tâm |
+| Bố cục hai nửa: ảnh + mảng ngọc nhạt | Sweetgreen (editorial split) | Khu bài viết | Nhịp đọc rõ, giữ bảng so sánh |
+| Vàng `#c29a3e` cho họa tiết, `#7d5f17` cho chữ | Franco (antique gold), kiểm tra tương phản | Đường kẻ, huy hiệu, nhãn, italic | Vàng sáng chỉ đạt 2.5:1 trên kem nên không làm chữ |
+| Cụm in nghiêng màu vàng đậm trong tiêu đề | Zeus Jones (mixed serif/italic), yêu cầu khách có vàng | Tiêu đề | Thêm vàng mà vẫn đọc được |
+| Nút chữ ngoặc nhọn `{ ... }` | Franco | Hành động phụ | Chi tiết riêng của thương hiệu |
+| Cormorant Garamond weight 500 + Be Vietnam Pro weight 400 | Metadata Google Fonts (có Vietnamese); nền sáng cần nét đậm hơn bản tối | Chữ | Bodoni Moda không có glyph tiếng Việt |
+| Quầng nắng vàng nhạt | Yêu cầu khách ("nhiều ánh nắng") | Nền hero và dải kêu gọi | Cảm giác nắng mà không cần ảnh |
+| Không khu "chứng nhận" | Chủ shop (chưa có kiểm định) | Trang sản phẩm | Không hứa điều chưa có |
 
 ## 4. Design tokens
-
-Đặt trong `:root`. Đây là bộ token đã dùng trong trang demo, đã kiểm tra tương phản.
 
 Nguồn duy nhất của token là khối `:root` trong **`docs/design/kn.css`**. Không sao chép giá trị
 vào tài liệu khác và không tạo token mới ngoài file đó. Nhóm token:
 
 | Nhóm | Token |
 |---|---|
-| Nền tối | `--kn-canvas`, `--kn-panel`, `--kn-edge`, `--kn-rule` |
-| Chữ và điều khiển trên nền tối | `--kn-black`, `--kn-white`, `--kn-text`, `--kn-body`, `--kn-muted`, `--kn-outline`, `--kn-btn-hover` |
-| Vàng, ngọc, đỏ rượu | `--kn-gold`, `--kn-gold-light`, `--kn-gold-ink`, `--kn-emerald`, `--kn-crimson`, `--kn-danger-text` |
-| Dải chân trời ấm | `--kn-horizon-mid`, `--kn-horizon-end` |
-| Khu bài viết | `--kn-paper`, `--kn-paper-ink`, `--kn-paper-muted` |
+| Nền sáng | `--kn-canvas` (kem nắng), `--kn-white`, `--kn-sun` (nắng vàng nhạt), `--kn-jade-mist`, `--kn-jade-soft` |
+| Ngọc | `--kn-jade` (hành động), `--kn-jade-deep` (tiêu đề, giá, hover) |
+| Vàng và đỏ | `--kn-gold`, `--kn-gold-ink`, `--kn-crimson`, `--kn-danger` |
+| Chữ và đường kẻ | `--kn-ink`, `--kn-body`, `--kn-muted`, `--kn-line`, `--kn-line-strong` |
 | Font và bố cục | `--kn-serif`, `--kn-sans`, `--kn-pad`, `--kn-wrap` |
-
 
 ### 4.1 Vai trò của từng màu (không đổi nghĩa)
 
 | Token | Dùng cho | KHÔNG dùng cho |
 |---|---|---|
-| `--kn-canvas` | Nền trang | Nền nút |
-| `--kn-white` | Tiêu đề quan trọng, nút chính (nền trắng chữ đen) | Chữ đoạn dài |
-| `--kn-body` | Đoạn mô tả | Tiêu đề |
-| `--kn-muted` | Metadata, nhãn phụ | Thông tin bắt buộc phải đọc |
-| `--kn-gold` | Giá, nhãn nhỏ viết hoa, con dấu, huy hiệu số lượng giỏ | Nền khối lớn, nút chính |
-| `--kn-gold-light` | Điểm sáng trong giá gradient, thông báo ngắn | Chữ dài |
-| `--kn-gold-ink` | Chữ vàng trên nền giấy (đậm hơn để đủ tương phản) | Trên nền tối |
-| `--kn-emerald` | Dải chuyển màu dưới cùng, mảng nền nhỏ gắn với ngọc | Nút, viền |
-| `--kn-crimson` | Đường kẻ nhấn trái của đoạn trích; con dấu | Nền khối, nút |
-| `--kn-paper` / `--kn-paper-ink` | Khu bài viết và chân trang | Khu bán hàng |
+| `--kn-canvas` | Nền trang chính | Chữ |
+| `--kn-white` | Thẻ, ô nhập, thanh điều hướng, khung ảnh, bảng | Chữ trên nền sáng |
+| `--kn-sun` | Quầng nắng ở hero, giữa dải kêu gọi | Nút, chữ |
+| `--kn-jade-mist` | Mảng khu bài viết, cuối dải kêu gọi, chân trang | Chữ |
+| `--kn-jade-soft` | Đường kẻ trên mảng ngọc nhạt | Chữ, nền lớn |
+| `--kn-jade` | Nền nút chính, chip đang chọn, viền nút phụ, viền ô nhập khi focus | Mảng nền lớn |
+| `--kn-jade-deep` | Tiêu đề, giá, chữ nút phụ, hover nút chính, focus ring | Nền trang |
+| `--kn-gold` | Họa tiết, đường kẻ, viền khung hero, viền nhãn, huy hiệu giỏ, con dấu | Chữ, nền nút |
+| `--kn-gold-ink` | Chữ vàng: nhãn nhỏ viết hoa, cụm in nghiêng, dấu +/− | Nền |
+| `--kn-crimson` | Viền lỗi, đường trái đoạn trích | Nền khối, nút |
+| `--kn-danger` | Chữ báo lỗi | Nền |
+| `--kn-ink`, `--kn-body`, `--kn-muted` | Chữ chính, chữ mô tả, chữ phụ | Nền (đặc biệt: không bao giờ làm nền) |
+| `--kn-line`, `--kn-line-strong` | Đường kẻ mảnh, viền thẻ; viền ô nhập, chip, accordion | Chữ |
 
 ### 4.2 Tương phản (đã tính xấp xỉ)
 
-| Cặp màu | Tỷ lệ | Đạt WCAG AA cho chữ thường |
+| Cặp màu | Tỷ lệ | WCAG AA cho chữ thường |
 |---|---|---|
-| `--kn-gold` trên `--kn-canvas` | khoảng 7.7 : 1 | Có |
-| `--kn-muted` trên `--kn-canvas` | khoảng 6.1 : 1 | Có |
-| `--kn-gold-ink` trên `--kn-paper` | khoảng 5.3 : 1 | Có |
-| `#bc9c5c` trên `#f5f2ea` | khoảng 2.4 : 1 | **Không**. Không dùng vàng sáng làm chữ trên nền giấy |
+| `--kn-jade-deep` trên `--kn-canvas` | khoảng 9.9 : 1 | Có |
+| `--kn-white` trên `--kn-jade` (chữ nút chính) | khoảng 6.4 : 1 | Có |
+| `--kn-gold-ink` trên `--kn-canvas` | khoảng 5.6 : 1 | Có |
+| `--kn-gold-ink` trên `--kn-jade-mist` | khoảng 5.0 : 1 | Có |
+| `--kn-muted` trên `--kn-canvas` | khoảng 5.4 : 1 | Có |
+| `--kn-danger` trên `--kn-canvas` | khoảng 7 : 1 | Có |
+| `--kn-gold` trên `--kn-canvas` | khoảng 2.5 : 1 | **Không**. Vàng sáng chỉ cho họa tiết, đường kẻ, viền, huy hiệu (chữ trong huy hiệu là `--kn-ink`) |
 
 ### 4.3 Typography
 
@@ -177,58 +196,54 @@ Font phải có Vietnamese subset (đã xác minh bằng metadata Google Fonts n
 
 | Font | Vai trò | Vietnamese | Ghi chú |
 |---|---|---|---|
-| Cormorant Garamond 400, 500, italic 400 | Tiêu đề, trích dẫn, tên sản phẩm | Có | Nét mảnh, hiển thị nhỏ hơn font khác ở cùng cỡ, nên tăng khoảng 10% |
-| Be Vietnam Pro 300, 400, 500, 600 | Giao diện, nút, giá, bảng | Có | Thiết kế cho tiếng Việt |
+| Cormorant Garamond 500, 600, italic 500 | Tiêu đề, tên sản phẩm, trích dẫn | Có | Nét mảnh; trên nền sáng dùng weight 500 để đủ đậm |
+| Be Vietnam Pro 400, 500, 600 | Giao diện, nút, giá, bảng | Có | Thiết kế cho tiếng Việt. Weight 400 cho đoạn văn (300 quá mảnh trên nền sáng) |
 | Bodoni Moda | KHÔNG dùng | Không | Thiếu glyph tiếng Việt |
 | Playfair Display, Noto Serif | Phương án dự phòng cho serif | Có | Chỉ dùng nếu Cormorant không đạt |
 
-Thang chữ (desktop, mobile ghi trong ngoặc):
+Thang chữ (desktop; mobile giảm theo `kn.css`):
 
-| Recipe | Font | Cỡ | Line-height | Dùng cho |
-|---|---|---|---|---|
-| display | serif 400 | 56 (36) | 1.05 | Tên sản phẩm lớn, mở đầu |
-| chapter | serif 400 | 64 (36) | 1.12 | Lời kêu gọi cuối trang |
-| heading | serif 400 | 48 (36) | 1.1 | Tiêu đề khu bài viết |
-| card-title | serif 400 | 24 | 1.15 | Tên sản phẩm trong ô lưới |
-| lead | sans 300 | 17 đến 19 | 1.55 | Đoạn mô tả đầu |
-| body | sans 300 hoặc 400 | 15 đến 16 | 1.6 | Nội dung |
-| price | sans 500 | 34 | 1 | Giá (gradient vàng) |
-| eyebrow | sans 600 | 12, viết hoa | 1 | Nhãn nhỏ phía trên tiêu đề |
-| action | Arial 700 | 13 đến 14, viết hoa | 1.25 | Nút chữ có ngoặc nhọn |
+| Recipe | Font | Cỡ | Dùng cho |
+|---|---|---|---|
+| display | serif 500, màu ngọc đậm | 56 đến 64 | Tiêu đề hero, tên sản phẩm lớn |
+| chapter | serif 500 | 60 | Lời kêu gọi cuối trang |
+| heading | serif 500 | 48 | Tiêu đề khu bài viết |
+| card-title | serif 500 | 26 | Tên sản phẩm trong thẻ |
+| lead | sans 400 | 18 | Đoạn mô tả đầu |
+| body | sans 400 | 15 đến 16 | Nội dung |
+| price | sans 600, màu ngọc đậm | 32 | Giá |
+| eyebrow | sans 600, viết hoa, màu vàng đậm | 12 | Nhãn phía trên tiêu đề |
+| action | Arial 700, viết hoa | 13 | Nút chữ có ngoặc nhọn |
 
-Quy tắc: tracking của serif là `+0.01em` (không âm). Dùng italic thật cho đúng một cụm có nghĩa trong
-tiêu đề (ví dụ "xanh lam", "hợp với cổ tay"), không đổi màu, không dùng chữ thảo. Dùng
-`text-wrap: balance` cho tiêu đề.
+Quy tắc: tracking serif `+0.005em`. Mỗi tiêu đề có tối đa **một cụm in nghiêng có nghĩa**, tự động đổi sang màu vàng đậm
+(`.kn h1 em, .kn h2 em`). Dùng `text-wrap: balance` cho tiêu đề.
 
 ### 4.4 Khoảng cách, bố cục, bo góc
 
 | Giá trị | Dùng cho |
 |---|---|
 | 8, 12, 16 | Khoảng cách trong thành phần nhỏ |
-| 24 | Padding trong ô, khoảng cách lưới 3 cột |
+| 24 | Khoảng cách lưới thẻ, padding thẻ |
 | 32 | Padding hai bên khung nội dung |
-| 48, 64 | Khoảng cách giữa các nhóm, khoảng cách giữa ảnh và thông tin |
+| 48, 64 | Khoảng cách giữa nhóm, giữa ảnh và thông tin |
 | 96 | Khoảng cách giữa các khu lớn |
-| 160, 224 | Đầu và cuối dải kêu gọi (chân trời ấm) |
+| 120, 160 | Đầu và cuối dải kêu gọi cuối trang |
 
-- Khung nội dung tối đa 1216px, padding 32px (mobile 16px).
-- Khu bài viết kiểu hai trang đối diện: hai nửa bằng nhau, tối đa 1440px, ảnh một nửa, chữ một nửa.
-- Bo góc: khung ảnh/ô trưng bày 10px; nút chính 6px; nút kêu gọi dạng viên thuốc 9999px; ô lưới có
-  đường kẻ 0px; không bo thêm chỗ khác.
+- Khung nội dung tối đa 1216px, padding 32px (mobile 16px). Khu hai nửa tối đa 1440px.
+- Bo góc chỉ có: **0**, **10px** (ô nhập, bảng, dòng giỏ, ảnh nhỏ), **20px** (ảnh, thẻ, khung tóm tắt, hộp trống), **viên thuốc 9999px** (nút, chip, nhãn). `24px` chỉ cho cặp nút viên thuốc xếp dọc trên mobile.
 
-### 4.5 Bề mặt và độ sâu
+### 4.5 Bề mặt và độ sâu (tất cả đều sáng)
 
-| Bề mặt | CSS | Dùng cho |
+| Bề mặt | Mô tả | Dùng cho |
 |---|---|---|
-| Canvas | `background:#05070b` | Nền trang |
-| Ô trưng bày | `linear-gradient(201deg,#0c0f15 14%,#0b0c0e)`, bo 10px | Khung chứa ảnh |
-| Viền kính | lớp phủ `border:1px solid rgba(255,255,255,.6)`, `mix-blend-mode:overlay`, mask mờ dần xuống dưới | Viền sáng mảnh quanh ảnh |
-| Kính điều hướng | `rgba(5,7,11,.72)` + `backdrop-filter:blur(24px)` + viền dưới `--kn-edge` | Thanh điều hướng dính trên đầu |
-| Chân trời ấm | `linear-gradient(transparent, #1d2a22 70%, #2e2a26)` | Dải kêu gọi cuối trang |
-| Giấy | `background:#f5f2ea` | Khu bài viết |
-| Chân trang trắng | `background:#fff` | Colophon |
+| Kem nắng | `--kn-canvas` | Nền trang |
+| Quầng nắng | `radial-gradient(--kn-sun → trong suốt)` phía trên bên phải, trên nền kem | Hero |
+| Thẻ trắng | `--kn-white` + viền `--kn-line`, bo 20px | Khung ảnh, khung tóm tắt đơn, hộp trống |
+| Mảng ngọc nhạt | `--kn-jade-mist` phẳng, không gradient | Khu bài viết, chân trang |
+| Dải bình minh | `linear-gradient(trong suốt → --kn-sun → --kn-jade-mist)` | Dải kêu gọi cuối trang (nối liền vào chân trang) |
+| Kính điều hướng | kem 90% + `backdrop-filter:blur(16px)` + viền dưới `--kn-line` | Thanh điều hướng dính |
 
-Không dùng bóng đổ cho thẻ. Độ sâu đến từ ảnh và viền sáng, không đến từ box-shadow.
+Không dùng bóng đổ. Độ sâu đến từ ảnh, khung trắng và viền mảnh, không đến từ box-shadow.
 
 ## 5. Thành phần (components)
 
@@ -236,20 +251,26 @@ Mã chạy được: class `kn-*` trong `docs/design/kn.css`, minh họa đủ t
 
 | Thành phần | Mô tả ngắn | Ghi chú |
 |---|---|---|
-| Thanh điều hướng | Cao 64px, dính trên đầu, logo con dấu nhỏ + tên, 4 liên kết giữa, nút giỏ dạng viên thuốc với huy hiệu số lượng vàng | Mobile: ẩn liên kết giữa, thêm nút menu |
-| Nút chính | Nền trắng, chữ đen, cao 52px, bo 6px, hover `#cfd1d8` | Một nút chính mỗi khu |
-| Nút chữ ngoặc nhọn | `{ TƯ VẤN CHỌN VÒNG }`, Arial 700 viết hoa, hover opacity .7 | Hành động phụ, ngoặc là bắt buộc |
-| Nút viên thuốc | Cặp nút lồng trong khung kính mờ | Chỉ ở dải kêu gọi cuối trang |
-| Khung ảnh sản phẩm | Ô trưng bày + viền kính, tỷ lệ 3:4 | Ảnh `object-fit:cover` |
-| Giá | Sans 500, gradient vàng sáng-tối-sáng | Chỉ ở giá, không dùng ở tiêu đề |
-| Accordion thông tin | Dùng thẻ `details/summary` gốc, dấu + và − | Không cần JS |
-| Bảng so sánh | Bảng HTML thật trên nền giấy, đường kẻ 1px mực đen; mobile xếp thành khối, nhãn cột hiện bằng `data-k` | Thay hẳn infographic ảnh |
+| Thanh điều hướng | Cao 68px, dính trên đầu, nền kem mờ; con dấu vàng + tên serif, 4 liên kết giữa, nút giỏ viên thuốc nền trắng với huy hiệu vàng | Mobile: ẩn liên kết giữa |
+| Nút chính | Viên thuốc, nền `--kn-jade`, chữ trắng, cao 52px, hover `--kn-jade-deep` | Một nút chính mỗi khu |
+| Nút viền ngọc | Viền 1px `--kn-jade`, chữ `--kn-jade-deep`, nền trong suốt, hover `--kn-jade-mist` | Hành động phụ |
+| Nút chữ ngoặc nhọn | `{ KIẾN THỨC VỀ NGỌC }`, Arial 700 viết hoa, màu `--kn-jade-deep` | Hành động phụ nhẹ, ngoặc là bắt buộc |
+| Cặp nút viên thuốc | Hai nút trong khung trắng bo tròn | Chỉ ở dải kêu gọi cuối trang |
+| Khung ảnh | Nền trắng, viền `--kn-line` (hero: viền `--kn-gold`), padding 12px, bo 20px; ảnh bên trong bo 10px | Ảnh nền tối được cắt lấy phần khay nhung |
+| Giá | Sans 600, màu `--kn-jade-deep` | Không gradient |
+| Accordion | Thẻ `details`, dấu +/− màu vàng đậm | Không cần JS |
+| Bảng so sánh | Bảng HTML trắng bo 10px trên mảng ngọc nhạt; tiêu đề cột màu vàng đậm viết hoa; mobile xếp thành khối nhờ `data-k` | Thay hẳn infographic ảnh |
 | Đoạn trích nhấn | Serif italic, viền trái 2px `--kn-crimson` | Câu lưu ý quan trọng |
-| Kệ sản phẩm | Lưới 3 cột liền nhau, đường kẻ 1px `--kn-edge`, ô vuông, tên serif + giá vàng | Mobile: 1 cột |
-| Dải kêu gọi cuối trang | Chân trời ấm, tiêu đề serif 64px, cặp nút viên thuốc | Luôn có ở trang chủ và trang sản phẩm |
-| Chân trang (colophon) | Con dấu vàng 132px, tên serif italic vàng, câu khẩu hiệu, rồi 3 cột liên kết, rồi dòng pháp lý nhỏ | Con dấu là SVG tự vẽ, không dùng logo thương hiệu khác |
+| Thẻ sản phẩm | Ảnh vuông bo 20px, dưới là tên serif rồi **giá nằm ngay dưới tên**; hover gạch chân vàng dưới tên | Không có khung bao quanh thẻ |
+| Dòng sản phẩm (giỏ hàng, đơn hàng, wishlist, tóm tắt đơn ở thanh toán) | Ảnh nhỏ bên trái; bên phải xếp dọc: tên, **giá ngay dưới tên**, rồi thông tin phụ (kích thước, mã) và nút Xóa | Không đặt giá ở cột phải cùng hàng với tên |
+| Đầu kệ | Chữ serif italic viết hoa ở giữa, hai đường kẻ vàng mảnh hai bên | Tiêu đề nhóm sản phẩm |
+| Dải kêu gọi cuối trang | Dải bình minh, họa tiết kim cương vàng, tiêu đề serif 60px, cặp nút viên thuốc | Có ở trang chủ và trang sản phẩm |
+| Chân trang | Mảng ngọc nhạt, con dấu vàng 132px, tên serif italic màu ngọc đậm, khẩu hiệu vàng đậm, 3 cột liên kết, dòng pháp lý | Con dấu là SVG tự vẽ |
+| Ô nhập | Nền trắng, viền `--kn-line-strong`, bo 10px, cao 48px; focus viền ngọc; lỗi viền đỏ rượu + chữ lỗi | Luôn có nhãn nhìn thấy |
+| Chip lọc | Viên thuốc nền trắng, đang chọn: nền ngọc chữ trắng | Lọc theo loại ngọc |
+| Lựa chọn (radio) | Hàng trắng bo 10px, đang chọn: viền ngọc + nền ngọc nhạt | Phương thức thanh toán |
 
-Trạng thái bắt buộc cho mọi thành phần tương tác: hover, `:focus-visible` (viền 2px `--kn-gold`, lệch 3px),
+Trạng thái bắt buộc cho mọi thành phần tương tác: hover, `:focus-visible` (viền 2px `--kn-jade-deep`, lệch 3px),
 disabled, và trạng thái lỗi/trống cho giỏ hàng và thanh toán.
 
 ## 6. Hình ảnh
@@ -258,20 +279,21 @@ disabled, và trạng thái lỗi/trống cho giỏ hàng và thanh toán.
 
 | Ảnh | Điểm | Dùng |
 |---|---|---|
-| Vòng Hòa Điền trắng, khay nhung kem, nền đen | 9/10 | Ảnh chuẩn. Dùng ở trang sản phẩm, bài kiến thức, kệ sản phẩm |
-| Vòng xanh lam trên khay nhung | 8.5/10 | Dùng. Tem mã số dán trong lòng vòng hơi lộ, nên che hoặc chụp lại |
-| Vòng xanh vân hoa | 7.5/10 | Màu đẹp nhất nhưng khay xám nhạt, khung gỗ lệch, không đồng bộ. Chụp lại theo khay kem |
+| Vòng Hòa Điền trắng, khay nhung kem | 9/10 về ảnh, **6/10 cho giao diện sáng** | Ngọc và khay đẹp nhưng nền xanh đen tạo khối tối. Dùng tạm với cắt ảnh (mục 3.1); nên chụp lại trên nền sáng |
+| Vòng xanh lam trên khay nhung | 8.5/10 ảnh, 6/10 cho giao diện sáng | Như trên. Tem mã số dán trong lòng vòng hơi lộ, nên che hoặc chụp lại |
+| Vòng xanh vân hoa | 7.5/10 | Khay nhung xám nhạt hợp giao diện sáng hơn hai ảnh kia; khung gỗ lệch, nên chụp lại cùng bộ |
 | Infographic Tân Cương/Thanh Hải | 6/10 | Giữ nội dung chữ, dựng lại bằng HTML. Không đăng nguyên ảnh |
-| Infographic cách phối trang sức, người mẫu | 6/10 | Ảnh người mẫu giống ảnh AI, làm giảm niềm tin. Chỉ dùng ở khu cảm hứng, nếu giữ |
-| Banner "Khang Nguyen - Ngoc Bao" | 5/10 | Lấy bảng màu. Không dùng nguyên: chữ trong ảnh bị lỗi, tagline tiếng Anh, sản phẩm là trang sức vàng chứ không phải ngọc |
+| Infographic cách phối trang sức, người mẫu | 6/10 | Nền kem, hoa sen, vàng rất hợp hướng mới, nhưng người mẫu giống ảnh AI làm giảm niềm tin. Có thể lấy tinh thần (nắng, hoa sen) cho khu cảm hứng nếu dùng ảnh thật |
+| Banner "Khang Nguyen - Ngoc Bao" | 5/10 | Họa tiết hồi văn vàng trên nền kem là cảm hứng tốt cho họa tiết trang trí. Không dùng nguyên: chữ trong ảnh bị lỗi, tagline tiếng Anh, sản phẩm là trang sức vàng chứ không phải ngọc |
 
-Các ảnh đã nén nằm ở `my-site/pages/vong-ngoc-demo/img/` (hoa-dien-trang.jpg, phi-thuy-xanh-lam.jpg,
-phi-thuy-xanh-hoa-van.jpg). Ảnh gốc người dùng chỉ gửi qua chat, chưa được lưu vào repo ở độ phân giải gốc.
+Các ảnh đã nén nằm ở `docs/design/img/` (hoa-dien-trang.jpg, phi-thuy-xanh-lam.jpg, phi-thuy-xanh-hoa-van.jpg).
+Ảnh gốc người dùng chỉ gửi qua chat, chưa được lưu vào repo ở độ phân giải gốc.
 
-### 6.2 Quy chuẩn chụp ảnh mới
+### 6.2 Quy chuẩn chụp ảnh mới (ưu tiên cao: thay bộ ảnh nền tối)
 
-- Nền đen xanh, khay nhung kem có khung gỗ, ngọc đặt chéo, ánh sáng mềm từ trên xuống. Giữ đúng bộ này cho cả bộ sưu tập.
-- Tỷ lệ 3:4 cho ảnh chính; luôn có thêm một ảnh cận chất ngọc và một ảnh đeo thật trên cổ tay.
+- Chụp **ban ngày hoặc ánh sáng mềm tự nhiên**, nền sáng (kem, trắng ngà, hoặc ngọc nhạt), khay nhung kem hoặc vải trắng, khung gỗ sáng. Không nền đen hay xanh đen.
+- Ngọc đặt chéo hoặc thẳng, có khoảng thở quanh vật; để thấy độ nhuận, độ trong và vân ngọc dưới ánh sáng.
+- Tỷ lệ 4:5 hoặc 1:1 cho ảnh chính; luôn có thêm một ảnh cận chất ngọc và một ảnh đeo thật trên cổ tay.
 - Không để tem mã vạch hiện trong ảnh chính.
 - Nơi cần ảnh nhưng chưa có: để khung giữ chỗ có kích thước và tỷ lệ cố định kèm ghi chú hướng ảnh. Không vẽ ngọc bằng CSS.
 - Mọi ảnh phải có `alt` mô tả bằng tiếng Việt, ví dụ "Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem".
@@ -288,27 +310,28 @@ Thiết kế lại toàn bộ web nghĩa là xử lý đủ các trang dưới �
 | 2 | Giỏ hàng | `templates/cart.html` | Danh sách dòng + tóm tắt đơn |
 | 2 | Thanh toán | `templates/checkout.html` | Địa chỉ, giao hàng, thanh toán, xác nhận |
 | 2 | Bài chia sẻ về ngọc | tạo trang `pages/` mới theo mẫu bài viết | Tiêu đề + đoạn mở, bảng so sánh, ảnh cận chất liệu, đoạn trích nhấn |
-| 3 | Tài khoản, đơn hàng, wishlist, đăng nhập, đăng ký, quên mật khẩu | các template cùng tên | Tối giản, dùng chung bề mặt tối + thành phần ở mục 5 |
-| 3 | Chăm sóc khách hàng, liên hệ, hướng dẫn size, cửa hàng | `pages/customer-service`, `size-guide`, `contact`, `stores` | Kiểu bài viết trên nền giấy |
+| 3 | Tài khoản, đơn hàng, wishlist, đăng nhập, đăng ký, quên mật khẩu | các template cùng tên | Tối giản, dùng thẻ trắng và thành phần ở mục 5 |
+| 3 | Chăm sóc khách hàng, liên hệ, hướng dẫn size, cửa hàng | `pages/customer-service`, `size-guide`, `contact`, `stores` | Kiểu bài viết: ảnh + mảng ngọc nhạt, hoặc thẻ trắng trên nền kem |
 | 3 | 404 | `notfound.html` | Một câu ngắn, kèm liên kết về bộ sưu tập |
 
 ### 7.1 Sân khấu mở đầu (trang chủ)
 
-Khung đen cao khoảng 900px. Cột chữ trái chiếm khoảng 35%: nhãn nhỏ viết hoa, tiêu đề serif 56 đến 64px
-có một cụm in nghiêng, một câu mô tả ngắn, một nút chính. Bên phải và phía dưới là một ảnh ngọc lớn
-đặt chéo, sáng mềm, rìa mờ vào nền đen. Không dùng slider, không đặt ảnh nhỏ nổi trên nền trống,
-không đặt tiêu đề giữa trang khổng lồ.
+Nền kem nắng có quầng vàng nhạt ở góc trên bên phải, cao tối thiểu 700px. Hai cột: bên trái là nhãn nhỏ viết hoa
+màu vàng đậm, tiêu đề serif 64px màu ngọc đậm có một cụm in nghiêng vàng, một câu mô tả, nút chính viên thuốc
+màu ngọc và một nút chữ ngoặc nhọn. Bên phải là một ảnh ngọc trong khung trắng viền vàng mảnh, bo 20px, tỷ lệ 1:1
+(cắt lấy phần khay nhung). Không dùng slider, không dùng nền tối hay ảnh tràn màn hình nền đen, không đặt
+tiêu đề giữa trang khổng lồ.
 
 ### 7.2 Trang chi tiết sản phẩm (mẫu đã có)
 
-Hai cột 7/5, thông tin bên phải dính khi cuộn. Vì mỗi món ngọc là hàng độc nhất, **không có ô số lượng**;
+Hai cột 7/5, thông tin bên phải dính khi cuộn. Thứ tự cột phải: nhãn, tên, **giá ngay dưới tên**, dòng "còn 1 chiếc", mô tả ngắn, nút thêm vào giỏ, accordion. Vì mỗi món ngọc là hàng độc nhất, **không có ô số lượng**;
 hiển thị "Sản phẩm duy nhất · còn 1 chiếc" và đường kính trong cố định (không phải ô chọn size).
 Mục "Cách đo size tay" giúp khách chọn đúng. Nội dung accordion: Thông số, Cách đo size tay, Giao hàng
 và đổi trả, Bảo quản ngọc.
 
 ### 7.3 Trang bài chia sẻ về ngọc
 
-Dùng khu giấy (Franco). Hai nửa bằng nhau: ảnh một bên, chữ một bên, đổi bên qua từng đoạn. Bảng so sánh
+Dùng khu hai nửa (Sweetgreen): một nửa ảnh, một nửa mảng ngọc nhạt phẳng. Hai nửa bằng nhau: ảnh một bên, chữ một bên, đổi bên qua từng đoạn. Bảng so sánh
 HTML cho dữ liệu so sánh. Nội dung chữ của bài "Ngọc Hòa Điền: Tân Cương và Thanh Hải" đã có đủ trong
 trang demo, có thể dùng làm bài đầu tiên.
 
@@ -382,7 +405,7 @@ Tối giản. Chuyển màu nút 0.15s; hover mờ chữ 0.3s; không hiệu ứ
 
 ## 13. Phạm vi và thứ tự đề xuất cho agent thiết kế lại
 
-1. Xác nhận hướng thiết kế với chủ shop (mục 3), đặc biệt: nền đen cho khu bán hàng.
+1. Xác nhận hướng thiết kế sáng (mục 3) với chủ shop nếu có thay đổi; ghi nhận rằng ảnh sản phẩm nền tối hiện chỉ là giải pháp tạm.
 2. Đổi token và font ở hai nơi (mục 2.2), đổi tiền tố sang `kn-`; cập nhật `ecommerce.js` nếu đổi class/id.
 3. Làm fragments: `header`, `footer`, `category-strip`, rồi trang `home`.
 4. Làm trang danh mục và trang chi tiết sản phẩm (cả bản tĩnh và template động).
@@ -414,8 +437,8 @@ kiểm tra tự động.
 |---|---|
 | `kn.css` | Stylesheet chuẩn: token trong `:root` và mọi thành phần `kn-*`. **Nguồn duy nhất.** |
 | `style-guide.html` | Mọi token, thang chữ, nút (4 trạng thái), ô nhập (mặc định, focus, lỗi, vô hiệu), chip, accordion, bảng, ô lưới, lỗi, trống, dòng giỏ hàng, bo góc, khoảng cách, nên/không nên |
-| `home.html`, `category.html`, `product.html` | Ba trang mẫu đầy đủ (trang chủ, danh mục, chi tiết sản phẩm) |
-| `screenshots/*.jpg` | Ảnh chụp ba trang mẫu ở desktop (1440px) và mobile (390px) để đối chiếu mắt |
+| `home.html`, `category.html`, `product.html`, `cart.html`, `checkout.html` | Năm trang mẫu đầy đủ (trang chủ, danh mục, chi tiết sản phẩm, giỏ hàng, thanh toán) |
+| `screenshots/*.jpg` | Ảnh chụp năm trang mẫu ở desktop (1440px) và mobile (390px) để đối chiếu mắt |
 | `check-design.py` | Script kiểm tra tự động (xem 14.2) |
 | `inline-css.py` | Đóng gói trang tham chiếu thành `content.html` tự chứa CSS để đăng lên EzyPlatform |
 | `img/` | Ảnh sản phẩm dùng cho các trang mẫu |
@@ -437,7 +460,8 @@ Script trả về mã thoát 1 nếu có lỗi. Các lỗi nó bắt:
 | Mã hex chỉ được nằm trong `:root`, và phải là màu đã có trong `kn.css` | `color:#6366f1`, `#bc9c5c` viết thẳng |
 | Màu `rgb()` chỉ là trắng, đen hoặc màu token; cấm `hsl()` | `rgba(99,102,241,.4)` |
 | Không `box-shadow` | `box-shadow:0 4px 12px ...` |
-| Bo góc chỉ trong 0, 6px, 10px, 24px, 50%, 9999px | `border-radius:16px` |
+| Bo góc chỉ trong 0, 10px, 20px, 24px, 50%, 9999px | `border-radius:16px`, `6px` |
+| Không nền tối (`background` là `black`, `--kn-ink`, `--kn-body`) | `background:black` |
 | Cấm font ngoài hai font đã chọn | Bodoni, Helvetica, Georgia, Inter, Roboto, Playfair |
 | Không bỏ `outline` | `outline:none` |
 | Mọi custom property dùng tiền tố `--kn-` và phải có trong `kn.css` | `--brand`, `--sw-pad` |
@@ -446,7 +470,7 @@ Script trả về mã thoát 1 nếu có lỗi. Các lỗi nó bắt:
 | Cấm cụm từ khuyến mãi ồn ào và lời hứa pháp lý | "siêu hot", "giá sốc", "cam kết 100%" |
 | Không `style=""` trong `my-site/` (ở nơi khác chỉ cảnh báo) | `style="color:red"` |
 | Không hex trong thuộc tính SVG | `stroke="#bc9c5c"`; dùng `currentColor` |
-| Cảnh báo khi dùng vàng làm nền | `background:var(--kn-gold)` |
+| Cảnh báo khi dùng vàng hoặc ngọc đậm làm nền | `background:var(--kn-gold)`, `background:var(--kn-jade-deep)` |
 
 Script đã được thử: bộ tham chiếu đạt 0 lỗi; một file cố ý vi phạm bị bắt 15 lỗi; fragment cũ
 `page-fragments/ecommerce/theme/head.html` bị bắt 113 lỗi (đúng, vì nó chính là thứ cần thay).
@@ -454,7 +478,7 @@ Script không kiểm tra được bố cục, nhịp, hay "cảm giác"; phần 
 
 ### 14.3 Quy trình bắt buộc cho Agent
 
-1. Mở `style-guide.html` và ba trang mẫu, xem ảnh chụp, rồi mới sửa mã.
+1. Mở `style-guide.html` và năm trang mẫu, xem ảnh chụp, rồi mới sửa mã.
 2. Chỉ dùng token và class `kn-*` có sẵn. Cần cái mới thì thêm vào `kn.css` **và** `style-guide.html` trong cùng thay đổi, kèm lý do.
 3. Với mỗi trang: dựng trang tham chiếu (hoặc sửa template) rồi chạy `check-design.py`. Lỗi phải bằng 0.
 4. Trang trong `my-site/pages/`: dựng bằng `inline-css.py`, ví dụ  
@@ -466,10 +490,32 @@ Script không kiểm tra được bố cục, nhịp, hay "cảm giác"; phần 
 
 ### 14.4 Điều script KHÔNG chặn được (Agent tự chịu trách nhiệm)
 
-- Chỉ dùng một nút chính mỗi khu; vàng không làm nền khối; mỗi tiêu đề chỉ một cụm in nghiêng có nghĩa.
+- **Giá luôn nằm ngay dưới tên sản phẩm**, ở mọi nơi hiển thị sản phẩm (thẻ, giỏ, đơn, wishlist, tóm tắt thanh toán, trang chi tiết). Không đặt giá ở cột bên phải cùng hàng với tên, không để mô tả chen giữa tên và giá (trang chi tiết: tên, giá, số lượng còn, rồi mới đến mô tả).
+- Chỉ dùng một nút chính mỗi khu; vàng chỉ cho họa tiết, đường kẻ, viền, huy hiệu và chữ vàng đậm; mỗi tiêu đề chỉ một cụm in nghiêng có nghĩa.
+- Không đưa lại nền tối: kể cả khi ảnh sản phẩm có nền tối, đặt trong khung trắng và cắt ảnh, không tô nền trang bằng màu tối.
 - Ảnh phải là ảnh sản phẩm thật theo quy chuẩn mục 6; không vẽ ngọc bằng CSS, không dùng ảnh AI làm ảnh chính.
 - Không bịa số liệu, chính sách, chứng nhận. Dữ liệu mẫu phải có `data-demo="true"` hoặc dòng chú thích.
-- Luồng giỏ hàng, thanh toán phải chạy thật với sản phẩm trong DB sau khi đổi class/id.
+- Luồng giỏ hàng, thanh toán phải chạy thật với sản phẩm trong DB sau khi đổi class/id (xem 14.5).
+
+### 14.5 Hợp đồng với `ecommerce.js` (không được làm hỏng)
+
+`ecommerce-theme/.../static/js/ecommerce.js` đọc các id và tên trường dưới đây, và tự dựng thêm DOM với class `sw-*`.
+Trang mẫu `cart.html`, `checkout.html`, `product.html` đã giữ nguyên các id và tên này. Khi đổi sang `kn-*`:
+đổi class trong template **và** trong đoạn JS tạo DOM, hoặc giữ id và chỉ đổi class; sau đó chạy lại cả luồng.
+
+| Trang | Phải giữ nguyên | JS tự dựng (phải đổi class sang `kn-*`) |
+|---|---|---|
+| Chi tiết sản phẩm (`product.html`) | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDesc`, `swPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-sw-state` | Khối trạng thái trống/lỗi, ô chọn màu |
+| Giỏ hàng (`cart.html`) | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-sw-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
+| Thanh toán (`checkout.html`) | `swCheckout`, `swCheckoutForm`, các tên trường `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (id `swCountry`), `paymentServiceCode` (id `swPay`), `swFormErr`, `swPlace`, `swMini`, `swTotal` | Các `option` của quốc gia và thanh toán, các dòng `swMini` |
+
+Lưu ý thiết kế liên quan:
+
+- Mỗi món ngọc là hàng độc nhất. Giao diện mẫu **không có ô số lượng**. Mã hiện tại có nút cộng trừ số lượng và đã chặn theo tồn kho (`product.amount`); khi tồn kho là 1, ẩn bộ chọn số lượng thay vì hiện cộng trừ.
+- Form thanh toán đòi `deliveryPostalCode`; giá trị mặc định là của Việt Nam (số điện thoại `+84`, quốc gia Việt Nam đứng đầu và chọn sẵn). Xác nhận với chủ shop xem mã bưu chính có cần bắt buộc không trước khi đổi logic kiểm tra.
+- Mẫu hiển thị phương thức thanh toán dạng radio. Mã hiện tại dùng `select#swPay` do API đổ vào. Có thể giữ `select` (kiểu `kn-input`) hoặc đổi sang radio `kn-choice`; nếu đổi, sửa đoạn JS đọc `swPay`.
+- Nhóm accordion hiện tại do JS bật tắt qua `aria-expanded`; mẫu dùng thẻ `details`. Khi chuyển, xóa trình xử lý cũ trong `ecommerce.js` để không xung đột.
+- Dữ liệu trong mẫu (giá, tên, phương thức thanh toán) là mẫu. Đừng giữ lại trong sản phẩm thật.
 
 ## 15. Câu hỏi còn mở (cần chủ shop trả lời)
 
@@ -484,10 +530,17 @@ Script không kiểm tra được bố cục, nhịp, hay "cảm giác"; phần 
 
 | Nguồn | Dùng cho |
 |---|---|
-| Refero style Slash, id `350e0391-9d87-4830-8d2b-826b3e9fc795` | Khu bán hàng: canvas, serif, viền kính, chân trời ấm |
-| Refero style Franco Maria Ricci, id `2c3b31a4-6e28-47a0-afbd-cb22e22e34fb` | Khu bài viết: giấy, vàng cổ, ô lưới kẻ, nút ngoặc nhọn, colophon |
+| Refero style Sweetgreen, id `d59df660-8f1a-438f-9c50-f210b2eeb229` | Nền tảng: nền kem nắng, mảng phẳng, nút viên thuốc, thẻ không khung, hai nửa ảnh + mảng màu, chân trang thư mục |
+| Refero style Franco Maria Ricci, id `2c3b31a4-6e28-47a0-afbd-cb22e22e34fb` | Vàng cổ, nút chữ ngoặc nhọn, con dấu, đường kẻ mảnh |
+| Refero style Zeus Jones, id `6151c9d4-5059-4ae0-9007-d9128207ec65` | Kem ấm, serif văn chương, cụm in nghiêng, ảnh bo 20px |
+| Refero style Slash, id `350e0391-9d87-4830-8d2b-826b3e9fc795` | **Đã loại bỏ** (hướng nền đen, khách không chấp nhận). Chỉ giữ để tham khảo lịch sử |
 | Refero screens: Farfetch (trang đồng hồ), Saint Laurent (nhiều trang sản phẩm) | Bố cục trang chi tiết sản phẩm |
 | `docs/design/` | Bộ tham chiếu chạy được: `kn.css`, `style-guide.html`, `home.html`, `category.html`, `product.html`, ảnh chụp trong `screenshots/` (mở trước khi làm) |
 | `.claude/skills/refero-design/` | Phương pháp nghiên cứu và reference lock |
 
 Có thể lấy lại toàn bộ chi tiết hai style bằng `refero_get_style` với id ở trên khi cần kiểm tra token gốc.
+
+
+## Cập nhật 2026-11-23: bỏ nút chữ ngoặc nhọn, hero băng chuyền
+
+Nút chữ ngoặc nhọn `{ ... }` đã bị thay bằng liên kết gạch chân kèm mũi tên (`kn-more`) và, cạnh nút chính ở hero, bằng nút viền mảnh (`kn-btn--ghost`). Các dòng nhắc "ngoặc nhọn" ở trên là quyết định cũ, không còn hiệu lực. Hero là băng chuyền 5 slide toàn trang (ảnh tràn trong khung bo 24px cách lề 32px, chữ và nút bên phải trên lớp phủ tối nhẹ; ở mobile ảnh tràn sát mép, chữ ở phần dưới ảnh); logo header đổi sang khối cân: biểu tượng 44px cao bằng hai dòng chữ, "Ngọc Bảo" màu vàng đậm.

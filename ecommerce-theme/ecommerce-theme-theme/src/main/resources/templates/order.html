@@ -1,24 +1,26 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main sw-narrow" tabindex="-1">
-  <h1 id="swOrderTitle">Your order</h1>
-  <div data-sw-state></div>
+<div class="kn-narrow" id="swMain" tabindex="-1">
+  <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Đơn hàng</nav>
+  <div class="kn-page-title"><h1 id="swOrderTitle">Đơn hàng của bạn</h1></div>
+  <div data-kn-state></div>
   <div id="swOrder" hidden>
-    <section class="sw-card">
-      <p class="sw-order-ok" id="swOrderStatus" role="status"></p>
-      <dl class="sw-dl" id="swOrderMeta"></dl>
+    <section class="kn-card">
+      <p id="swOrderStatus" role="status"></p>
+      <dl class="kn-dl" id="swOrderMeta"></dl>
     </section>
-    <section class="sw-card"><h2>Items</h2>
-      <ul class="sw-mini" id="swOrderLines"></ul>
-      <p class="sw-total"><span>Total</span><strong id="swOrderTotal"></strong></p>
+    <section class="kn-card">
+      <h2>Sản phẩm</h2>
+      <ul class="kn-mini" id="swOrderLines"></ul>
+      <p class="kn-total"><span>Tổng cộng</span><strong id="swOrderTotal"></strong></p>
     </section>
-    <p><a class="sw-btn sw-btn--dark" href="/products">Continue shopping</a> <a class="sw-u" href="/account">View all orders</a>
-      <a class="sw-u" id="swOrderTrack" href="/order-status">Tra cứu đơn / Order Status</a></p>
+    <p><a class="kn-btn kn-btn--inline" href="/products">Tiếp tục xem sản phẩm</a> <a class="kn-link" href="/account">Xem tất cả đơn hàng</a> <a class="kn-link" id="swOrderTrack" href="/order-status">Tra cứu tình trạng đơn</a></p>
   </div>
 </div>
+
 </th:block>
 </body>
 </html>

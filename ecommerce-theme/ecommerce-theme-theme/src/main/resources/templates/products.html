@@ -1,45 +1,55 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
-<head></head>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" class="sw-main" tabindex="-1">
-  <nav class="sw-bc" aria-label="Breadcrumb"><a href="/">Home</a> / <span id="swBcCur">All products</span></nav>
-  <div class="sw-top"><h1 id="swListTitle">All products</h1><span class="sw-count" id="swCount" aria-live="polite"></span></div>
-  <form class="sw-tools" id="swTools">
-    <label>Category
-      <select id="swFilterCat" name="category"><option value="">All categories</option></select></label>
-    <label>Sort by
-      <select id="swSort" name="sort">
-        <option value="">Newest</option>
-        <option value="PRICE_ASC">Price: low to high</option>
-        <option value="PRICE_DESC">Price: high to low</option>
-      </select></label>
-    <label>Price from
-      <input id="swPriceMin" type="number" name="priceMin" min="0" step="any" inputmode="decimal" placeholder="Min"></label>
-    <label>Price to
-      <input id="swPriceMax" type="number" name="priceMax" min="0" step="any" inputmode="decimal" placeholder="Max"></label>
-    <label>Discount
-      <select id="swDiscount" name="discount">
-        <option value="">Any</option>
-        <option value="10">10% or more</option>
-        <option value="20">20% or more</option>
-        <option value="30">30% or more</option>
-        <option value="40">40% or more</option>
-        <option value="50">50% or more</option>
-      </select></label>
-    <label id="swColorWrap" hidden>Colour
-      <select id="swColor" name="color"><option value="">Any</option></select></label>
-    <label id="swMaterialWrap" hidden>Material
-      <select id="swMaterial" name="material"><option value="">Any</option></select></label>
-    <label class="sw-tools-kw">Search
-      <input id="swKeyword" type="search" name="keyword" placeholder="Keyword"></label>
-    <button type="submit" class="sw-btn sw-btn--dark">Apply</button>
+
+<div id="swMain" tabindex="-1">
+<div class="kn-wrap">
+  <nav class="kn-crumb kn-crumb--page" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <span id="swBcCur">Sản phẩm</span></nav>
+  <div class="kn-page-title">
+    <h1 id="swListTitle">Sản phẩm</h1>
+    <p class="kn-count" id="swCount" aria-live="polite"></p>
+  </div>
+  <form class="kn-tools" id="swTools" novalidate>
+    <div class="kn-field"><label for="swFilterCat">Danh mục</label>
+      <select id="swFilterCat" name="category" class="kn-input"><option value="">Tất cả danh mục</option></select></div>
+    <div class="kn-field"><label for="swSort">Sắp xếp</label>
+      <select id="swSort" name="sort" class="kn-input">
+        <option value="">Mới nhất</option>
+        <option value="PRICE_ASC">Giá tăng dần</option>
+        <option value="PRICE_DESC">Giá giảm dần</option>
+      </select></div>
+    <div class="kn-field"><label for="swPriceMin">Giá từ (₫)</label>
+      <input id="swPriceMin" name="priceMin" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Thấp nhất" /></div>
+    <div class="kn-field"><label for="swPriceMax">Giá đến (₫)</label>
+      <input id="swPriceMax" name="priceMax" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Cao nhất" /></div>
+    <div class="kn-field"><label for="swDiscount">Giảm giá</label>
+      <select id="swDiscount" name="discount" class="kn-input">
+        <option value="">Bất kỳ</option>
+        <option value="10">Từ 10%</option>
+        <option value="20">Từ 20%</option>
+        <option value="30">Từ 30%</option>
+        <option value="40">Từ 40%</option>
+        <option value="50">Từ 50%</option>
+      </select></div>
+    <div class="kn-field" id="swColorWrap" hidden><label for="swColor">Màu sắc</label>
+      <select id="swColor" name="color" class="kn-input"><option value="">Bất kỳ</option></select></div>
+    <div class="kn-field" id="swMaterialWrap" hidden><label for="swMaterial">Chất liệu</label>
+      <select id="swMaterial" name="material" class="kn-input"><option value="">Bất kỳ</option></select></div>
+    <div class="kn-field kn-field--wide"><label for="swKeyword">Từ khóa</label>
+      <input id="swKeyword" name="keyword" class="kn-input" type="search" placeholder="Tên hoặc mã sản phẩm" /></div>
+    <button type="submit" class="kn-btn">Áp dụng</button>
   </form>
-  <div data-sw-state></div>
-  <ul class="sw-grid" id="swGrid" data-limit="24" data-paged="1"></ul>
-  <div class="sw-more"><button type="button" class="sw-btn" id="swLoadMore" hidden>Load more</button></div>
+  <div data-kn-state></div>
 </div>
+
+<ul class="kn-cells" id="swGrid" data-limit="24" data-paged="1"></ul>
+
+<div class="kn-more"><button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swLoadMore" hidden>Xem thêm</button></div>
+<p class="kn-prose">Vòng ngọc phỉ thúy và Hòa Điền tại Khang Nguyên · Ngọc Bảo được giới thiệu theo từng món: chất ngọc, màu sắc, đường kính trong. Nếu chưa chắc về size, hãy xem hướng dẫn đo tay hoặc nhờ tư vấn.</p>
+</div>
+
 </th:block>
 </body>
 </html>

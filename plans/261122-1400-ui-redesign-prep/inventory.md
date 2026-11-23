@@ -1,3 +1,5 @@
+> **LỖI THỜI (2026-11-22 16:58):** kiểm kê này viết cho design cũ (nền tối/vàng champagne, tiền tố sw-). Design đã đổi sang v2 sáng. Dùng `plans/261122-1658-ui-light-v2/plan.md`.
+
 # Kiểm kê UI/UX trước khi thiết kế lại (READ-ONLY, LOCAL)
 
 Không sửa code/CSS trong bước này. Theme: `ecommerce-theme/ecommerce-theme-theme/src/main/resources`. Ảnh chụp thật (Chrome, 1280px, desktop) ở `screenshots/`. Mobile: **chưa chụp** (công cụ trình duyệt không đổi được kích thước cửa sổ); CSS có 1 breakpoint mobile (cuối phần đầu `main.css`, `--sw-pad:16px`, lưới 2 cột).

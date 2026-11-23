@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<th:block layout:fragment="content">
+<article class="kn-article kn-post-page" id="swMain" tabindex="-1" th:if="${blog != null}">
+  <div class="kn-article__inner">
+    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> › <a href="/blog">Cẩm nang</a> › <span aria-current="page" th:text="${blog.title}">Bài viết</span></nav>
+    <header>
+      <p class="kn-eyebrow">Cẩm nang</p>
+      <h1 th:text="${blog.title}">Tiêu đề bài viết</h1>
+      <p class="kn-post__meta"><time th:text="${knContent.date(blog.publishedAt > 0 ? blog.publishedAt : blog.createdAt)}">01/01/2026</time></p>
+      <p class="kn-article__lead" th:if="${!#strings.isEmpty(blog.summary)}" th:text="${blog.summary}">Tóm tắt.</p>
+    </header>
+    <figure th:if="${blog.featuredImage != null and !#strings.isEmpty(blog.featuredImage.url)}">
+      <img th:src="${blog.featuredImage.url}" th:alt="${#strings.isEmpty(blog.featuredImage.alternativeText) ? blog.title : blog.featuredImage.alternativeText}">
+      <figcaption th:if="${!#strings.isEmpty(blog.featuredImage.caption)}" th:text="${blog.featuredImage.caption}"></figcaption>
+    </figure>
+    <div class="kn-prose" th:utext="${blog.content}"></div>
+    <div class="kn-article__links"><a class="kn-more" href="/blog">Tất cả bài viết</a><a class="kn-more" href="/products">Xem sản phẩm</a></div>
+  </div>
+</article>
+</th:block>
+</body>
+</html>

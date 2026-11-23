@@ -23,39 +23,59 @@
       <li><a href="category.html">Chuỗi ngọc</a></li>
       <li><a href="#kien-thuc">Kiến thức về ngọc</a></li>
     </ul></nav>
-    <a class="kn-bag" href="/shopping-cart" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge">0</b></a>
+    <a class="kn-bag" href="cart.html" aria-label="Giỏ hàng">Giỏ hàng <b class="kn-badge">0</b></a>
   </div>
 </header>
 
 <main>
-<section class="kn-hero">
-  <div class="kn-hero__copy">
-    <p class="kn-eyebrow">Ngọc phong thủy · Chọn từng món</p>
-    <h1>Ngọc quý, <em>chọn từng chiếc</em></h1>
-    <p class="kn-lead">Vòng, nhẫn và chuỗi ngọc phỉ thúy, Hòa Điền. Mỗi món đều được giới thiệu rõ chất ngọc và cách đeo.</p>
-    <div><a class="kn-btn kn-btn--inline" href="category.html">Xem bộ sưu tập</a></div>
-  </div>
-  <div class="kn-hero__stage">
-    <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem, nền đen" />
+<section class="kn-hero kn-carousel" data-kn-carousel role="region" aria-roledescription="carousel" aria-label="Món mới và ưu đãi">
+  <ul class="kn-carousel__track" tabindex="0" aria-label="Danh sách slide">
+    <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="1 / 5">
+      <img src="img/phi-thuy-xanh-lam.jpg" width="1050" height="1400" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem" fetchpriority="high" />
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Ngọc phong thủy · Chọn từng món</p><h1>Ngọc quý, <em>chọn từng chiếc</em></h1><p class="kn-slide__sub">Vòng, nhẫn và chuỗi ngọc phỉ thúy, Hòa Điền. Mỗi món đều được giới thiệu rõ chất ngọc và cách đeo.</p><a class="kn-btn kn-btn--inline" href="category.html">Xem bộ sưu tập</a></div>
+    </li>
+    <!-- PLACEHOLDER: slide 2 and 4 promo copy is sample text awaiting approval -->
+    <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="2 / 5">
+      <img src="img/hoa-dien-trang.jpg" width="1050" height="1400" alt="Vòng ngọc Hòa Điền màu trắng ngà trên khay nhung" loading="lazy" />
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Ưu đãi</p><h2>Miễn phí đo size tay khi chọn vòng</h2><p class="kn-slide__sub">Đặt lịch để chuyên viên đo size tay giúp bạn chọn đúng vòng.</p><a class="kn-btn kn-btn--inline" href="/book-an-appointment">Đặt lịch đo size</a></div>
+    </li>
+    <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="3 / 5">
+      <img src="img/kn-031.jpg" width="960" height="1280" alt="Vòng ngọc phỉ thúy Type A màu sơn thủy trên khay nhung" loading="lazy" />
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Mới về</p><h2>Vòng phỉ thúy Type A sơn thủy phiêu hoa</h2><p class="kn-slide__sub">4.800.000 ₫</p><a class="kn-btn kn-btn--inline" href="product.html">Xem sản phẩm</a></div>
+    </li>
+    <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="4 / 5">
+      <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1050" height="1400" alt="Vòng ngọc phỉ thúy xanh hoa vân" loading="lazy" />
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Tư vấn</p><h2>Chọn vòng ngọc hợp mệnh cùng chuyên viên</h2><p class="kn-slide__sub">Chuyên viên tư vấn chất ngọc và màu hợp mệnh của bạn.</p><a class="kn-btn kn-btn--inline" href="/customer-service">Nhận tư vấn</a></div>
+    </li>
+    <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="5 / 5">
+      <img src="img/kn-035.jpg" width="720" height="1280" alt="Set nhẫn và chuỗi ngọc lam băng trên đĩa sứ trắng" loading="lazy" />
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Mới về</p><h2>Set nhẫn và chuỗi lam băng 3.8ly</h2><p class="kn-slide__sub">3.500.000 ₫</p><a class="kn-btn kn-btn--inline" href="product.html">Xem sản phẩm</a></div>
+    </li>
+  </ul>
+  <div class="kn-carousel__bar">
+    <button type="button" class="kn-carousel__nav" data-dir="-1" aria-label="Slide trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button>
+    <div class="kn-carousel__dots"><button type="button" class="kn-carousel__dot" aria-label="Chuyển tới slide 1" aria-current="true"></button><button type="button" class="kn-carousel__dot" aria-label="Chuyển tới slide 2"></button><button type="button" class="kn-carousel__dot" aria-label="Chuyển tới slide 3"></button><button type="button" class="kn-carousel__dot" aria-label="Chuyển tới slide 4"></button><button type="button" class="kn-carousel__dot" aria-label="Chuyển tới slide 5"></button></div>
+    <button type="button" class="kn-carousel__nav" data-dir="1" aria-label="Slide sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button>
   </div>
 </section>
 
 <section class="kn-shelf" id="bo-suu-tap">
-  <div class="kn-shelf__head">Bộ sưu tập vòng ngọc <span>Mẫu thử · 3 sản phẩm</span></div>
+  <h2 class="kn-shelf__head">Bộ sưu tập vòng ngọc</h2>
   <div class="kn-cells">
     <a class="kn-cell" href="product.html">
-      <img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" />
+      <figure><img src="img/hoa-dien-trang.jpg" width="1080" height="1440" alt="Vòng ngọc Hòa Điền trắng" loading="lazy" /></figure>
       <div><h3>Vòng Hòa Điền trắng</h3><p data-demo="true">24.800.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="product.html">
-      <img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" />
+      <figure><img src="img/phi-thuy-xanh-lam.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh lam" loading="lazy" /></figure>
       <div><h3>Vòng phỉ thúy xanh lam</h3><p data-demo="true">18.500.000 ₫</p></div>
     </a>
     <a class="kn-cell" href="product.html">
-      <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" />
+      <figure><img src="img/phi-thuy-xanh-hoa-van.jpg" width="1080" height="1440" alt="Vòng ngọc phỉ thúy xanh có vân hoa" loading="lazy" /></figure>
       <div><h3>Vòng phỉ thúy xanh vân hoa</h3><p data-demo="true">32.000.000 ₫</p></div>
     </a>
   </div>
+  <p class="kn-shelf__foot"><a class="kn-all" href="category.html">Xem tất cả</a></p>
 </section>
 
 <section class="kn-spread kn-spread--flip" id="kien-thuc">
@@ -65,13 +85,14 @@
       <p class="kn-eyebrow">Kiến thức về ngọc</p>
       <h2>Ngọc Hòa Điền: <em>Tân Cương</em> và Thanh Hải</h2>
       <p>Hai nguồn ngọc cùng gọi là Hòa Điền nhưng cho cảm giác rất khác nhau về cấu trúc, độ nhuận và màu sắc.</p>
-      <a class="kn-braced" href="product.html#kien-thuc">Đọc bài viết</a>
+      <a class="kn-more" href="product.html#kien-thuc">Đọc bài viết</a>
     </div>
   </div>
 </section>
 
 <section class="kn-horizon">
   <div class="kn-wrap">
+    <svg class="kn-ornament" viewBox="0 0 160 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M0 8h64 M96 8h64"/><path d="M80 1l7 7-7 7-7-7z"/><path d="M80 5l3 3-3 3-3-3z"/></svg>
     <h2>Chọn chiếc vòng <em>hợp với cổ tay</em> của bạn</h2>
     <p>Gửi số đo tay hoặc ảnh cổ tay, tư vấn viên sẽ gợi ý những chiếc vòng vừa size và hợp tông da.</p>
     <div class="kn-pill"><a href="/customer-service">Nhận tư vấn</a><a href="category.html">Xem bộ sưu tập</a></div>

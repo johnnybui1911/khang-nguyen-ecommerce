@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html
+<html lang="vi"
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:th="http://www.thymeleaf.org"
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -7,7 +7,17 @@
 
 <head th:remove="tag">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title th:text="${pageTitle != null ? #messages.msgOrNull(pageTitle) : null} ?: 'Khang Nguyen'">Khang Nguyen</title>
+    <title th:text="${knMetaTitle != null ? knMetaTitle : (pageTitle != null ? #messages.msgOrNull(pageTitle) : null)} ?: 'Khang Nguyên · Ngọc Bảo'">Khang Nguyên · Ngọc Bảo</title>
+    <th:block th:if="${knMetaTitle != null}">
+        <meta name="description" th:content="${knMetaDescription}">
+        <meta property="og:type" content="article">
+        <meta property="og:site_name" content="Khang Nguyên · Ngọc Bảo">
+        <meta property="og:title" th:content="${knMetaHeading}">
+        <meta property="og:description" th:content="${knMetaDescription}">
+        <meta property="og:url" th:content="${knMetaUrl}">
+        <meta property="og:image" th:if="${knMetaImage != null}" th:content="${knMetaImage}">
+        <meta name="twitter:card" th:attr="content=${knMetaImage != null ? 'summary_large_image' : 'summary'}">
+    </th:block>
     <link th:if="${siteIconUrl == null}" rel="icon" type="image/svg+xml" ezy:vhref="/images/favicon.svg">
     <th:block th:if="${commonFragments == null || commonFragments.get('styles') == null || commonFragments.get('styles').content == 'styles'}">
         <th:block th:if="${themeStyles == null}">
@@ -34,7 +44,8 @@
 <script th:inline="javascript">
 /*<![CDATA[*/
 var root = document.documentElement;
-root.classList.add('sw');
+root.classList.add('kn');
+document.addEventListener('DOMContentLoaded', function () { document.body.classList.add('kn'); });
 root.dataset.page = /*[[${currentPage}]]*/ '';
 root.dataset.param = /*[[${pageParam}]]*/ '';
 /*]]>*/

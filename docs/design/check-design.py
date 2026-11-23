@@ -21,7 +21,7 @@ FORBIDDEN_FONTS = ["bodoni", "helvetica", "georgia", "inter", "roboto", "poppins
                    "playfair", "noto serif"]
 BANNED_PHRASES = ["siêu hot", "giá sốc", "đột phá", "cam kết 100%", "hàng thật 100%",
                   "100% chính hãng", "flash sale", "hot deal", "giảm sốc"]
-ALLOWED_RADII = {"0", "6px", "10px", "50%", "9999px", "24px"}
+ALLOWED_RADII = {"0", "10px", "20px", "24px", "50%", "9999px"}
 LEGACY = re.compile(r"(--sw-|\bsw-[a-z]|\bswp-[a-z]|\bswd-[a-z])")
 
 HEX = re.compile(r"#[0-9a-fA-F]{3,8}\b")
@@ -125,7 +125,7 @@ def check_file(path, hexes, rgbs, props, is_kn_css):
                 tok = tok.strip().rstrip("!important")
                 if tok.startswith("var(") or tok in ALLOWED_RADII or tok == "inherit":
                     continue
-                err("border-radius %s not in spec (0, 6px, 10px, 24px, 50%%, 9999px)" % tok, off + css[:m.start()].count("\n") + 1)
+                err("border-radius %s not in spec (0, 10px, 20px, 24px, 50%%, 9999px)" % tok, off + css[:m.start()].count("\n") + 1)
         for m in re.finditer(r"font(?:-family)?\s*:\s*([^;}]+)", css):
             val = m.group(1).lower()
             for bad in FORBIDDEN_FONTS:
@@ -140,8 +140,12 @@ def check_file(path, hexes, rgbs, props, is_kn_css):
             name = m.group(1)
             if name.startswith("--kn-") and name not in props:
                 err("%s is not defined in kn.css :root" % name, off + css[:m.start()].count("\n") + 1)
-        for m in re.finditer(r"background(?:-color)?\s*:\s*var\(--kn-gold(?:-light|-ink)?\)", css):
-            warn("gold used as a background; allowed only for the cart badge and tags", off + css[:m.start()].count("\n") + 1)
+        for m in re.finditer(r"background(?:-color)?\s*:\s*var\(--kn-gold(?:-ink)?\)", css):
+            warn("gold used as a background; allowed only for the cart badge and thin rules", off + css[:m.start()].count("\n") + 1)
+        for m in re.finditer(r"background(?:-color)?\s*:\s*(black|var\(--kn-ink\)|var\(--kn-body\))", css):
+            err("dark background; the site uses light surfaces only (cream, white, sun, jade mist)", off + css[:m.start()].count("\n") + 1)
+        for m in re.finditer(r"background(?:-color)?\s*:\s*var\(--kn-jade-deep\)", css):
+            warn("jade-deep used as a background; it is a text and hover color, not a surface", off + css[:m.start()].count("\n") + 1)
 
     if is_html:
         low = text.lower()
