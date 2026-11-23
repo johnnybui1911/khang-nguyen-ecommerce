@@ -805,11 +805,8 @@
                 clear(list);
                 if (!rows.length) {
                     wrap.hidden = true;
-                    var empty = el('div', {'class': 'kn-state', role: 'status'}, [
-                        el('p', {text: 'Giỏ hàng của bạn đang trống.'}),
-                        el('a', {'class': 'kn-btn kn-btn--inline', href: '/products', text: 'Tiếp tục xem sản phẩm'})
-                    ]);
-                    q('[data-kn-state]', root).appendChild(empty);
+                    setState(root, 'empty', 'Giỏ hàng của bạn đang trống.');
+                    q('[data-kn-state]', root).firstChild.appendChild(el('div', {}, [el('a', {'class': 'kn-btn kn-btn--inline', href: '/products', text: 'Tiếp tục xem sản phẩm'})]));
                     return;
                 }
                 rows.forEach(function (r) { list.appendChild(lineNode(r, render)); });
@@ -849,14 +846,12 @@
         });
         var info = el('div', {}, [
             el('h3', {}, [el('a', {href: '/products/' + encodeURIComponent(p.code), text: p.name})]),
-            el('p', {'class': 'kn-line__meta', text: 'Mã ' + p.code}),
-            p.amount === 1 ? null : el('div', {'class': 'kn-qty'}, [minus, input, plus])
-        ]);
-        var end = el('div', {'class': 'kn-line__end'}, [
             el('p', {'class': 'kn-line__price', text: lineTotalText(p, r.line.qty)}),
+            el('p', {'class': 'kn-line__meta', text: 'Mã ' + p.code}),
+            p.amount === 1 ? null : el('div', {'class': 'kn-qty'}, [minus, input, plus]),
             remove
         ]);
-        return el('li', {'class': 'kn-line'}, [imgBox, info, end]);
+        return el('li', {'class': 'kn-line'}, [imgBox, info]);
     }
 
     function lineTotalText(p, qty) {
