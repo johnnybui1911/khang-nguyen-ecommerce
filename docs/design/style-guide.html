@@ -88,13 +88,13 @@
   <div class="sg-type"><code>body sans 400 16</code><p class="sg-tight sg-narrow">Tránh va đập mạnh và hóa chất. Lau bằng khăn mềm, cất trong hộp nhung khi không đeo.</p></div>
   <div class="sg-type"><code>eyebrow sans 600 12</code><p class="kn-eyebrow sg-tight">Phỉ thúy · Vòng tay</p></div>
   <div class="sg-type"><code>price sans 600 32</code><p class="kn-price sg-tight">18.500.000 ₫</p></div>
-  <div class="sg-type"><code>action Arial 700 13</code><a class="kn-braced" href="#type">Tư vấn chọn vòng</a></div>
+  <div class="sg-type"><code>link sans 600 15</code><a class="kn-more" href="#type">Tư vấn chọn vòng</a></div>
 </div></section>
 
 <!-- 3. Buttons -->
 <section class="sg-sec" id="buttons"><div class="kn-wrap">
   <h2>3. Nút và hành động</h2>
-  <p class="sg-intro">Một nút chính mỗi khu: viên thuốc màu ngọc, chữ trắng. Hành động phụ là nút viền ngọc hoặc nút chữ có ngoặc nhọn. Vàng không bao giờ là nền nút.</p>
+  <p class="sg-intro">Một nút chính mỗi khu: viên thuốc màu ngọc, chữ trắng. Hành động phụ là nút viền ngọc hoặc nút chữ gạch chân kèm mũi tên. Vàng không bao giờ là nền nút.</p>
   <p class="sg-sub">Nút chính (4 trạng thái)</p>
   <div class="sg-row">
     <button type="button" class="kn-btn kn-btn--inline">Mặc định</button>
@@ -108,8 +108,9 @@
     <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline is-hover">Hover</button>
     <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline is-focus">Focus</button>
   </div>
-  <p class="sg-sub">Nút chữ có ngoặc nhọn</p>
-  <div class="sg-row"><a class="kn-braced" href="#buttons">Mặc định</a><a class="kn-braced is-hover" href="#buttons">Hover</a></div>
+  <p class="sg-sub">Nút chữ gạch chân kèm mũi tên</p>
+  <div class="sg-row"><a class="kn-more" href="#buttons">Mặc định</a><a class="kn-more is-hover" href="#buttons">Hover</a></div>
+  <p class="sg-ext"><code>.kn-more</code> Liên kết hành động phụ: chữ thường 15px đậm vừa, gạch chân mảnh 1px, mũi tên → ở cuối; khi hover mũi tên dịch ra và chữ chuyển sang màu ngọc. Đứng cạnh nút chính thì dùng nút viền <code>.kn-btn--ghost</code> thay vì liên kết.</p>
   <p class="sg-sub">Cặp nút viên thuốc (chỉ ở dải kêu gọi cuối trang)</p>
   <div class="kn-pill"><a href="#buttons">Nhận tư vấn</a><a href="#buttons">Xem bộ sưu tập</a></div>
 </div></section>
@@ -312,6 +313,12 @@
   <p class="sg-ext"><code>.kn-article .kn-article__inner .kn-article__lead .kn-article__text .kn-article__links</code></p>
   <div class="kn-article"><div class="kn-article__inner"><h1>Ngọc Hòa Điền: <em>Tân Cương</em></h1><p class="kn-article__lead">Đoạn dẫn của bài viết.</p><p class="kn-article__text">Nội dung bài viết, chữ serif trên mảng ngọc nhạt phẳng.</p></div></div>
   <p class="sg-why">Lý do: khu bài viết về ngọc dùng một cột đọc 720px; phần chia hai nửa ảnh và chữ vẫn dùng <code>kn-spread</code>.</p>
+
+  <p class="sg-sub">Băng chuyền ở đầu trang chủ</p>
+  <p class="sg-ext"><code>.kn-carousel .kn-carousel__track .kn-slide .kn-slide__link .kn-slide__cap .kn-carousel__bar .kn-carousel__nav .kn-carousel__dots .kn-carousel__dot</code></p>
+  <div class="kn-hero__stage kn-carousel"><ul class="kn-carousel__track"><li class="kn-slide"><span class="kn-slide__link"><img src="img/kn-031.jpg" width="720" height="1280" alt="Vòng ngọc phỉ thúy" loading="lazy" /><span class="kn-slide__cap"><span class="kn-eyebrow">Mới về</span><strong>Vòng phỉ thúy Type A</strong><span>4.800.000 ₫</span></span></span></li></ul>
+    <div class="kn-carousel__bar"><button type="button" class="kn-carousel__nav" aria-label="Slide trước"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><div class="kn-carousel__dots"><button type="button" class="kn-carousel__dot" aria-label="Slide 1" aria-current="true"></button><button type="button" class="kn-carousel__dot" aria-label="Slide 2"></button></div><button type="button" class="kn-carousel__nav" aria-label="Slide sau"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div></div>
+  <p class="sg-why">Lý do: nửa phải của hero luân phiên 5 slide (món mới và ưu đãi) trong khung trắng viền vàng cũ, tỷ lệ cố định 6:7 nên không nhảy bố cục. Trượt bằng scroll-snap, mũi tên và chấm đều có tên truy cập, vùng bấm 44px; tự chạy 5 giây, dừng khi rê chuột hoặc tập trung, tắt hẳn khi người dùng chọn giảm chuyển động.</p>
 
   <p class="sg-sub">Cẩm nang: danh sách bài, thẻ bài, phân trang</p>
   <p class="sg-ext"><code>.kn-blog .kn-blog__head .kn-posts .kn-post .kn-post__img .kn-post__ph .kn-post__body .kn-post__meta .kn-post__sum .kn-pager</code></p>

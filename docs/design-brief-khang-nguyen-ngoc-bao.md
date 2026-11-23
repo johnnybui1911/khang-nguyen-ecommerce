@@ -539,3 +539,8 @@ Lưu ý thiết kế liên quan:
 | `.claude/skills/refero-design/` | Phương pháp nghiên cứu và reference lock |
 
 Có thể lấy lại toàn bộ chi tiết hai style bằng `refero_get_style` với id ở trên khi cần kiểm tra token gốc.
+
+
+## Cập nhật 2026-11-23: bỏ nút chữ ngoặc nhọn, hero băng chuyền
+
+Nút chữ ngoặc nhọn `{ ... }` (class `kn-braced`) đã bị thay bằng liên kết gạch chân kèm mũi tên (`kn-more`) và, cạnh nút chính ở hero, bằng nút viền mảnh (`kn-btn--ghost`). Các dòng nhắc "ngoặc nhọn" ở trên là quyết định cũ, không còn hiệu lực. Nửa phải hero là băng chuyền 5 slide; logo header đổi sang khối cân: biểu tượng 44px cao bằng hai dòng chữ, "Ngọc Bảo" màu vàng đậm.
