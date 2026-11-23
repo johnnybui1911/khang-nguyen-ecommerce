@@ -55,13 +55,13 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 /* navigation */
 .kn-nav{position:sticky;top:0;z-index:20;background:rgba(251,248,239,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--kn-line)}
 .kn-nav .kn-wrap{height:68px;display:flex;align-items:center;justify-content:space-between;gap:24px}
-.kn-brand{display:flex;align-items:center;gap:14px;color:var(--kn-jade-deep)}
+.kn-brand{display:flex;flex:none;align-items:center;gap:14px;white-space:nowrap;color:var(--kn-jade-deep)}
 .kn-brand svg{width:44px;height:44px;margin:0;flex:none}
 .kn-brand>span{display:grid;gap:4px;font:600 24px/1 var(--kn-serif)}
 .kn-brand small{display:block;font:600 11px/1 var(--kn-sans);color:var(--kn-gold-ink);letter-spacing:.16em}
-.kn-nav__links{display:flex;gap:28px;list-style:none;margin:0;padding:0;font-size:14px;color:var(--kn-body)}
+.kn-nav__links{display:flex;gap:28px;white-space:nowrap;list-style:none;margin:0;padding:0;font-size:14px;color:var(--kn-body)}
 .kn-nav__links a:hover{color:var(--kn-jade)}
-.kn-bag{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 14px;border:1px solid var(--kn-line-strong);border-radius:9999px;background:var(--kn-white);font-size:14px;font-weight:500;color:var(--kn-jade-deep);transition:border-color .2s}
+.kn-bag{display:inline-flex;flex:none;align-items:center;gap:8px;height:36px;white-space:nowrap;padding:0 14px;border:1px solid var(--kn-line-strong);border-radius:9999px;background:var(--kn-white);font-size:14px;font-weight:500;color:var(--kn-jade-deep);transition:border-color .2s}
 .kn-bag:hover{border-color:var(--kn-jade)}
 .kn-badge{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:9999px;background:var(--kn-gold);color:var(--kn-ink);font-size:11px;font-weight:600}
 
@@ -201,7 +201,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-cell h3{transition:color .25s}
 .kn-cell:hover h3,.kn-cell:has(:focus-visible) h3{color:var(--kn-jade)}
 /* hover and keyboard focus: a thin gold line with a travelling glint runs around the photo; only opacity and background-position change */
-.kn-cell figure::after{content:"";position:absolute;inset:0;z-index:1;border-radius:20px;padding:1.5px;pointer-events:none;opacity:0;transition:opacity .3s;background:linear-gradient(115deg,var(--kn-gold) 0,var(--kn-gold) 38%,var(--kn-sun) 50%,var(--kn-gold) 62%,var(--kn-gold) 100%) 100% 0/300% 100%;-webkit-mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box,linear-gradient(rgba(0,0,0,1) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box exclude,linear-gradient(rgba(0,0,0,1) 0 0)}
+.kn-cell figure::after{content:"";position:absolute;inset:0;z-index:1;border-radius:20px;padding:6px;pointer-events:none;opacity:0;transition:opacity .3s;background:linear-gradient(115deg,var(--kn-gold) 0,var(--kn-gold) 38%,var(--kn-sun) 50%,var(--kn-gold) 62%,var(--kn-gold) 100%) 100% 0/300% 100%;-webkit-mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box,linear-gradient(rgba(0,0,0,1) 0 0);-webkit-mask-composite:xor;mask:linear-gradient(rgba(0,0,0,1) 0 0) content-box exclude,linear-gradient(rgba(0,0,0,1) 0 0)}
 .kn-cell:hover figure::after,.kn-cell:has(:focus-visible) figure::after{opacity:1;animation:kn-glint 2.4s linear infinite}
 @keyframes kn-glint{from{background-position:100% 0}to{background-position:0 0}}
 @media (prefers-reduced-motion:reduce){.kn-cell figure::after,.kn-all,.kn-all::before,.kn-all::after{transition:none}.kn-cell:hover figure::after,.kn-cell:has(:focus-visible) figure::after{animation:none;background-position:50% 0}}
@@ -212,7 +212,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-prose{max-width:576px;margin:0 auto;padding:64px var(--kn-pad) 0;color:var(--kn-body);font-size:15px}
 
 /* cart and checkout. Rule: a product price always sits directly under the product name. */
-.kn-narrow{max-width:1100px;margin:0 auto;padding:24px var(--kn-pad) 0}
+.kn-narrow{max-width:1100px;margin:0 auto;padding:24px var(--kn-pad) 64px}
 .kn-cart{display:grid;grid-template-columns:1fr 360px;gap:48px;align-items:start;padding-top:24px}
 .kn-cart>aside{position:sticky;top:96px}
 .kn-lines{list-style:none;margin:0;padding:0}
@@ -253,7 +253,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-pill a:last-child:hover{background:var(--kn-jade-mist)}
 
 /* colophon footer on jade mist */
-.kn-colophon{background:var(--kn-jade-mist);color:var(--kn-ink);text-align:center;padding:64px var(--kn-pad) 40px}
+.kn-colophon{background:var(--kn-jade-mist);color:var(--kn-ink);text-align:center;padding:64px var(--kn-pad) 84px}
 .kn-colophon--spaced{margin-top:96px}
 .kn-seal{width:132px;height:132px;margin:0 auto 20px;color:var(--kn-gold)}
 .kn-colophon h2{font:italic 500 42px/1.25 var(--kn-serif);color:var(--kn-jade-deep)}
@@ -273,7 +273,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
   .kn-slide__copy{width:58%;padding-right:88px}
   .kn-slide__copy :is(h1,h2){font-size:42px}
   .kn-spread__inner{grid-template-columns:1fr}
-  .kn-cart{grid-template-columns:1fr;gap:32px}
+  .kn-cart{grid-template-columns:1fr;gap:48px}
   .kn-cart>aside{position:static}
   .kn-spread--flip figure{order:0}
   .kn-spread figure img{min-height:360px;max-height:520px}
@@ -292,11 +292,12 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
   .kn-slide{display:flex;flex-direction:column}
   .kn-slide>img{position:static;height:auto;aspect-ratio:4/5;max-width:none;-webkit-mask-image:none;mask-image:none}
   .kn-slide::after{display:none}
-  .kn-slide__copy{position:static;flex:1;width:auto;justify-content:flex-start;padding:20px 20px 56px;color:var(--kn-ink)}
+  /* the copy block reserves the height of the longest slide (2-line title, 3-line text) as a whole, so short slides keep even spacing and spare room sits under the button */
+  .kn-slide__copy{position:static;flex:1;min-height:306px;width:auto;justify-content:flex-start;padding:20px 20px 56px;color:var(--kn-ink)}
   .kn-slide__copy .kn-eyebrow{margin-bottom:10px;color:var(--kn-gold-ink)}
-  .kn-slide__copy :is(h1,h2){font-size:30px;min-height:2.08em;margin-bottom:10px;color:var(--kn-jade-deep)}
+  .kn-slide__copy :is(h1,h2){font-size:30px;margin-bottom:10px;color:var(--kn-jade-deep)}
   .kn .kn-slide__copy em{color:var(--kn-gold-ink)}
-  .kn-slide__sub{min-height:3.1em;margin-bottom:18px;font-size:15px;color:var(--kn-body)}
+  .kn-slide__sub{margin-bottom:18px;font-size:15px;color:var(--kn-body)}
   .kn-slide__copy .kn-btn{height:48px;background:var(--kn-jade);color:var(--kn-white)}
   .kn-slide__copy .kn-btn:hover{background:var(--kn-jade-deep)}
   .kn-hero :focus-visible{outline-color:var(--kn-jade-deep)}
@@ -357,7 +358,7 @@ label.kn-field{font-size:13px;color:var(--kn-body)}
 .kn-ok{margin:0 0 16px;color:var(--kn-jade)}
 
 /* storefront chrome: tool icons, search bar, drawer, scrim */
-.kn-nav__tools{display:flex;align-items:center;gap:4px}
+.kn-nav__tools{display:flex;flex:none;align-items:center;gap:4px}
 .kn-ico{position:relative;display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--kn-body);transition:color .15s,background .15s}
 .kn-ico:hover{color:var(--kn-jade-deep);background:var(--kn-jade-mist)}
 .kn-ico svg{width:22px;height:22px}
@@ -565,13 +566,43 @@ ul.kn-cells{list-style:none}
 }
 
 /* ambient music toggle: off by default, bottom-left so it never covers the cart, chat or page actions */
-.kn-music{position:fixed;right:16px;bottom:16px;z-index:25;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--kn-line-strong);border-radius:9999px;background:var(--kn-white);color:var(--kn-jade-deep);cursor:pointer;transition:background .25s,color .25s,border-color .25s}
-.kn-music:hover{border-color:var(--kn-gold)}
+.kn-music{position:fixed;right:16px;bottom:16px;z-index:25;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--kn-jade);border-radius:9999px;background:var(--kn-jade);color:var(--kn-white);cursor:pointer;transition:background .25s,border-color .25s}
+.kn-music:focus-visible{background:var(--kn-jade-deep);border-color:var(--kn-gold)}
+@media (hover:hover){.kn-music:hover{background:var(--kn-jade-deep);border-color:var(--kn-gold)}}
 .kn-music svg{width:20px;height:20px}
-.kn-music[aria-pressed="true"]{background:var(--kn-jade);border-color:var(--kn-jade);color:var(--kn-white)}
 .kn-music::after{content:"";position:absolute;left:10px;right:10px;top:50%;height:2px;background:currentColor;transform:rotate(-45deg);transition:opacity .2s}
+.kn-music[aria-pressed="true"]{outline:2px solid var(--kn-gold);outline-offset:0}
 .kn-music[aria-pressed="true"]::after{opacity:0}
+/* on phones the button lives in the header next to the bag, same height as the bag */
+.kn-nav__tools .kn-music{position:relative;right:auto;bottom:auto;z-index:auto;width:36px;height:36px;margin:0 6px 0 4px}
+.kn-nav__tools .kn-music::after{left:8px;right:8px}
 @media (prefers-reduced-motion:reduce){.kn-music{transition:none}}
+
+/* header at mid widths: the menu items never wrap, so below 1160px they move into the drawer (same as phones) and between 1160 and 1279px the gaps tighten; the bag button stays one line and never shrinks */
+@media (max-width:1159px){
+  .kn-menu-btn{display:inline-grid}
+  .kn-nav__links{display:none}
+  .kn-brand{margin-right:auto}
+}
+@media (min-width:1160px) and (max-width:1279px){
+  .kn-nav .kn-wrap{gap:16px}
+  .kn-nav__links{gap:20px}
+}
+
+/* phones: the header (menu, brand, search, music, bag) must fit 320-479px with side margins; the bag shrinks to an icon with its count as a corner badge, and below 360px the seal gives way to the wordmark */
+@media (max-width:479px){
+  .kn-nav .kn-wrap{gap:4px}
+  .kn-nav .kn-ico{width:36px;height:36px}
+  .kn-brand{gap:8px;min-width:0}
+  .kn-brand svg{width:32px;height:32px}
+  .kn-brand>span{font-size:18px;gap:3px}
+  .kn-brand small{font-size:9px}
+  .kn-nav__tools{gap:2px}
+  .kn-nav__tools .kn-music{margin:0 2px}
+  .kn-bag{position:relative;width:36px;padding:0;justify-content:center;gap:0}
+  .kn-bag .kn-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;font-size:10px}
+}
+@media (max-width:359px){.kn-brand svg{display:none}}
 </style>
 </head>
 <body class="kn">

@@ -1769,7 +1769,6 @@
         var count = slides.length;
         var current = 0;
         var timer = null;
-        var held = false;
         var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         function mark(i) {
@@ -1785,33 +1784,41 @@
         }
         function stop() { if (timer) { clearInterval(timer); timer = null; } }
         function start() {
-            if (reduced || held || timer || d.hidden) { return; }
+            if (reduced || timer || d.hidden) { return; }
             timer = setInterval(function () { go(current + 1); }, 5000);
         }
-        function hold() { held = true; stop(); }
-        function release() { held = false; start(); }
+        // Autoplay pauses only while the visitor is really engaged: a mouse pointer over the hero, a finger on it, or keyboard focus inside it.
+        // A tap or click is not "engaged": touch browsers fire emulated mouse events and keep focus on the tapped button, so those must not pause for good.
+        var hovering = false, touching = false, focused = false;
+        function sync() { stop(); if (!hovering && !touching && !focused) { start(); } }
+        // after a manual move, restart the 5s countdown so the new slide is shown for a full interval
+        function moved() { sync(); }
 
         track.addEventListener('scroll', function () {
             var i = Math.round(track.scrollLeft / track.clientWidth);
             if (i !== current && i >= 0 && i < count) { mark(i); }
         }, {passive: true});
         root.querySelectorAll('.kn-carousel__nav').forEach(function (btn) {
-            btn.addEventListener('click', function () { hold(); go(current + Number(btn.dataset.dir)); });
+            btn.addEventListener('click', function () { go(current + Number(btn.dataset.dir)); moved(); });
         });
         dots.forEach(function (dot, i) {
-            dot.addEventListener('click', function () { hold(); go(i); });
+            dot.addEventListener('click', function () { go(i); moved(); });
         });
         track.addEventListener('keydown', function (e) {
-            if (e.key === 'ArrowRight') { e.preventDefault(); hold(); go(current + 1); }
-            if (e.key === 'ArrowLeft') { e.preventDefault(); hold(); go(current - 1); }
+            if (e.key === 'ArrowRight') { e.preventDefault(); go(current + 1); moved(); }
+            if (e.key === 'ArrowLeft') { e.preventDefault(); go(current - 1); moved(); }
         });
-        root.addEventListener('mouseenter', hold);
-        root.addEventListener('mouseleave', release);
-        root.addEventListener('focusin', hold);
-        root.addEventListener('focusout', release);
-        root.addEventListener('touchstart', hold, {passive: true});
-        root.addEventListener('touchend', release, {passive: true});
-        root.addEventListener('touchcancel', release, {passive: true});
+        root.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') { hovering = true; sync(); } });
+        root.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { hovering = false; sync(); } });
+        root.addEventListener('focusin', function (e) {
+            var kb = true;
+            try { kb = e.target.matches(':focus-visible'); } catch (err) { kb = true; }
+            if (kb) { focused = true; sync(); }
+        });
+        root.addEventListener('focusout', function () { focused = false; sync(); });
+        root.addEventListener('touchstart', function () { touching = true; sync(); }, {passive: true});
+        root.addEventListener('touchend', function () { touching = false; sync(); }, {passive: true});
+        root.addEventListener('touchcancel', function () { touching = false; sync(); }, {passive: true});
         d.addEventListener('visibilitychange', function () { if (d.hidden) { stop(); } else { start(); } });
         window.addEventListener('resize', function () { track.scrollTo({left: current * track.clientWidth, behavior: 'auto'}); });
         start();
@@ -1826,7 +1833,14 @@
         var NOTE_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>';
         var btn = el('button', {type: 'button', 'class': 'kn-music', 'aria-pressed': 'false', 'aria-label': 'Bật nhạc nền'});
         btn.innerHTML = NOTE_SVG;
-        d.body.appendChild(btn);
+        // phones: the button sits in the header beside the bag; wider screens keep it floating bottom-right
+        var phone = window.matchMedia ? window.matchMedia('(max-width: 767px)') : null;
+        function place() {
+            var tools = q('.kn-nav__tools'), bag = tools && tools.querySelector('.kn-bag');
+            if (phone && phone.matches && tools && bag) { tools.insertBefore(btn, bag); } else { d.body.appendChild(btn); }
+        }
+        place();
+        if (phone) { if (phone.addEventListener) { phone.addEventListener('change', place); } else if (phone.addListener) { phone.addListener(place); } }
 
         var ctx = null, master = null, timer = null, playing = false, step = 0, idx = 4;
         // D pentatonic (do re mi so la on D): D E F# A B across two octaves, in Hz
