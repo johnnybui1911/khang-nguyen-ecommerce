@@ -17,7 +17,7 @@
       <figcaption th:if="${!#strings.isEmpty(blog.featuredImage.caption)}" th:text="${blog.featuredImage.caption}"></figcaption>
     </figure>
     <div class="kn-prose" th:utext="${blog.content}"></div>
-    <div class="kn-article__links"><a class="kn-braced" href="/blog">Tất cả bài viết</a><a class="kn-braced" href="/products">Xem sản phẩm</a></div>
+    <div class="kn-article__links"><a class="kn-more" href="/blog">Tất cả bài viết</a><a class="kn-more" href="/products">Xem sản phẩm</a></div>
   </div>
 </article>
 </th:block>
