@@ -32,6 +32,20 @@
             <scope>system</scope>
             <systemPath>${ezyplatform.home}/web/lib/ezyplatform-web-${ezy.platform.version}.jar</systemPath>
         </dependency>
+        <dependency>
+            <groupId>org.youngmonkeys</groupId>
+            <artifactId>ezyarticle-sdk</artifactId>
+            <version>${ezyarticle.version}</version>
+            <scope>system</scope>
+            <systemPath>${ezyplatform.home}/web/plugins/ezyarticle/lib/ezyarticle-sdk-${ezyarticle.version}.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.youngmonkeys</groupId>
+            <artifactId>ezyarticle-web-plugin</artifactId>
+            <version>${ezyarticle.version}</version>
+            <scope>system</scope>
+            <systemPath>${ezyplatform.home}/web/plugins/ezyarticle/lib/ezyarticle-web-plugin-${ezyarticle.version}.jar</systemPath>
+        </dependency>
     </dependencies>
     <profiles>
         <profile>

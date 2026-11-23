@@ -18,6 +18,7 @@
         <!--suppress UnresolvedMavenProperty -->
         <ezyplatform.home>${env.EZYPLATFORM_HOME}</ezyplatform.home>
         <socket.monitor.version>0.0.3</socket.monitor.version>
+        <ezyarticle.version>1.5.6</ezyarticle.version>
     </properties>
 
     <modules>
