@@ -4,28 +4,28 @@
 <body>
 <th:block layout:fragment="content">
 
-<div id="swMain" tabindex="-1">
+<div id="knMain" tabindex="-1">
 <div class="kn-wrap">
-  <nav class="kn-crumb kn-crumb--page" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <span id="swBcCur">Sản phẩm</span></nav>
+  <nav class="kn-crumb kn-crumb--page" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <span id="knBcCur">Sản phẩm</span></nav>
   <div class="kn-page-title">
-    <h1 id="swListTitle">Sản phẩm</h1>
-    <p class="kn-count" id="swCount" aria-live="polite"></p>
+    <h1 id="knListTitle">Sản phẩm</h1>
+    <p class="kn-count" id="knCount" aria-live="polite"></p>
   </div>
-  <form class="kn-tools" id="swTools" novalidate>
-    <div class="kn-field"><label for="swFilterCat">Danh mục</label>
-      <select id="swFilterCat" name="category" class="kn-input"><option value="">Tất cả danh mục</option></select></div>
-    <div class="kn-field"><label for="swSort">Sắp xếp</label>
-      <select id="swSort" name="sort" class="kn-input">
+  <form class="kn-tools" id="knTools" novalidate>
+    <div class="kn-field"><label for="knFilterCat">Danh mục</label>
+      <select id="knFilterCat" name="category" class="kn-input"><option value="">Tất cả danh mục</option></select></div>
+    <div class="kn-field"><label for="knSort">Sắp xếp</label>
+      <select id="knSort" name="sort" class="kn-input">
         <option value="">Mới nhất</option>
         <option value="PRICE_ASC">Giá tăng dần</option>
         <option value="PRICE_DESC">Giá giảm dần</option>
       </select></div>
-    <div class="kn-field"><label for="swPriceMin">Giá từ (₫)</label>
-      <input id="swPriceMin" name="priceMin" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Thấp nhất" /></div>
-    <div class="kn-field"><label for="swPriceMax">Giá đến (₫)</label>
-      <input id="swPriceMax" name="priceMax" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Cao nhất" /></div>
-    <div class="kn-field"><label for="swDiscount">Giảm giá</label>
-      <select id="swDiscount" name="discount" class="kn-input">
+    <div class="kn-field"><label for="knPriceMin">Giá từ (₫)</label>
+      <input id="knPriceMin" name="priceMin" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Thấp nhất" /></div>
+    <div class="kn-field"><label for="knPriceMax">Giá đến (₫)</label>
+      <input id="knPriceMax" name="priceMax" class="kn-input" type="number" min="0" step="any" inputmode="decimal" placeholder="Cao nhất" /></div>
+    <div class="kn-field"><label for="knDiscount">Giảm giá</label>
+      <select id="knDiscount" name="discount" class="kn-input">
         <option value="">Bất kỳ</option>
         <option value="10">Từ 10%</option>
         <option value="20">Từ 20%</option>
@@ -33,20 +33,20 @@
         <option value="40">Từ 40%</option>
         <option value="50">Từ 50%</option>
       </select></div>
-    <div class="kn-field" id="swColorWrap" hidden><label for="swColor">Màu sắc</label>
-      <select id="swColor" name="color" class="kn-input"><option value="">Bất kỳ</option></select></div>
-    <div class="kn-field" id="swMaterialWrap" hidden><label for="swMaterial">Chất liệu</label>
-      <select id="swMaterial" name="material" class="kn-input"><option value="">Bất kỳ</option></select></div>
-    <div class="kn-field kn-field--wide"><label for="swKeyword">Từ khóa</label>
-      <input id="swKeyword" name="keyword" class="kn-input" type="search" placeholder="Tên hoặc mã sản phẩm" /></div>
+    <div class="kn-field" id="knColorWrap" hidden><label for="knColor">Màu sắc</label>
+      <select id="knColor" name="color" class="kn-input"><option value="">Bất kỳ</option></select></div>
+    <div class="kn-field" id="knMaterialWrap" hidden><label for="knMaterial">Chất liệu</label>
+      <select id="knMaterial" name="material" class="kn-input"><option value="">Bất kỳ</option></select></div>
+    <div class="kn-field kn-field--wide"><label for="knKeyword">Từ khóa</label>
+      <input id="knKeyword" name="keyword" class="kn-input" type="search" placeholder="Tên hoặc mã sản phẩm" /></div>
     <button type="submit" class="kn-btn">Áp dụng</button>
   </form>
   <div data-kn-state></div>
 </div>
 
-<ul class="kn-cells" id="swGrid" data-limit="24" data-paged="1"></ul>
+<ul class="kn-cells" id="knGrid" data-limit="24" data-paged="1"></ul>
 
-<div class="kn-more"><button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swLoadMore" hidden>Xem thêm</button></div>
+<div class="kn-more"><button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="knLoadMore" hidden>Xem thêm</button></div>
 <p class="kn-prose">Vòng ngọc phỉ thúy và Hòa Điền tại Khang Nguyên · Ngọc Bảo được giới thiệu theo từng món: chất ngọc, màu sắc, đường kính trong. Nếu chưa chắc về size, hãy xem hướng dẫn đo tay hoặc nhờ tư vấn.</p>
 </div>
 

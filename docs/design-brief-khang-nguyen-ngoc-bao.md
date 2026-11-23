@@ -90,8 +90,8 @@ Bản thiết kế lại phải thay cả hai, và nên đổi tiền tố sang 
 ### 2.3 Hành vi mua hàng hiện có (đừng phá)
 
 - Trang sản phẩm thật (`product.html`) lấy dữ liệu từ `/api/v1/products/{id}` rồi tự render bằng
-  `ecommerce.js` (id như `swPdp`, `swAddBtn`, `swPdpPrice`). Giỏ dùng hàm `addToBag(product.id, qty)`.
-- `cart.html` hiển thị `#swLines`, tổng tạm tính `#swSubtotal`, nút sang `/checkout`.
+  `ecommerce.js` (id như `knPdp`, `knAddBtn`, `knPdpPrice`). Giỏ dùng hàm `addToBag(product.id, qty)`.
+- `cart.html` hiển thị `#knLines`, tổng tạm tính `#knSubtotal`, nút sang `/checkout`.
 - Khi đổi tên class/id, phải sửa `ecommerce.js` tương ứng. Cách an toàn nhất: giữ id, chỉ đổi class
   và CSS, hoặc đổi đồng bộ cả hai và chạy lại luồng thêm vào giỏ, giỏ, thanh toán.
 - Trang demo `vong-ngoc-demo` chưa nối giỏ thật (nút chỉ đổi giao diện). Khi làm thật, dùng
@@ -507,15 +507,15 @@ Trang mẫu `cart.html`, `checkout.html`, `product.html` đã giữ nguyên các
 
 | Trang | Phải giữ nguyên | JS tự dựng (phải đổi class sang `kn-*`) |
 |---|---|---|
-| Chi tiết sản phẩm (`product.html`) | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDesc`, `swPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-sw-state` | Khối trạng thái trống/lỗi, ô chọn màu |
-| Giỏ hàng (`cart.html`) | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-sw-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
-| Thanh toán (`checkout.html`) | `swCheckout`, `swCheckoutForm`, các tên trường `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (id `swCountry`), `paymentServiceCode` (id `swPay`), `swFormErr`, `swPlace`, `swMini`, `swTotal` | Các `option` của quốc gia và thanh toán, các dòng `swMini` |
+| Chi tiết sản phẩm (`product.html`) | `knMain`, `knBcCur`, `knPdp`, `knPdpImg`, `knPdpCode`, `knPdpName`, `knPdpPrice`, `knPdpStock`, `knPdpSwatches`, `knPdpSwatchList`, `knPdpColor`, `knPdpQty`, `knAddBtn`, `knWishBtn`, `knAddNote`, `knPdpDesc`, `knPdpDescText`, thuộc tính `data-qty-dec`, `data-qty-inc`, `data-sw-state` | Khối trạng thái trống/lỗi, ô chọn màu |
+| Giỏ hàng (`cart.html`) | `knMain`, `knCart`, `knLines`, `knSubtotal`, `data-sw-state` | Mỗi dòng giỏ: `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
+| Thanh toán (`checkout.html`) | `knCheckout`, `knCheckoutForm`, các tên trường `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (id `knCountry`), `paymentServiceCode` (id `knPay`), `knFormErr`, `knPlace`, `knMini`, `knTotal` | Các `option` của quốc gia và thanh toán, các dòng `knMini` |
 
 Lưu ý thiết kế liên quan:
 
 - Mỗi món ngọc là hàng độc nhất. Giao diện mẫu **không có ô số lượng**. Mã hiện tại có nút cộng trừ số lượng và đã chặn theo tồn kho (`product.amount`); khi tồn kho là 1, ẩn bộ chọn số lượng thay vì hiện cộng trừ.
 - Form thanh toán đòi `deliveryPostalCode`; giá trị mặc định là của Việt Nam (số điện thoại `+84`, quốc gia Việt Nam đứng đầu và chọn sẵn). Xác nhận với chủ shop xem mã bưu chính có cần bắt buộc không trước khi đổi logic kiểm tra.
-- Mẫu hiển thị phương thức thanh toán dạng radio. Mã hiện tại dùng `select#swPay` do API đổ vào. Có thể giữ `select` (kiểu `kn-input`) hoặc đổi sang radio `kn-choice`; nếu đổi, sửa đoạn JS đọc `swPay`.
+- Mẫu hiển thị phương thức thanh toán dạng radio. Mã hiện tại dùng `select#knPay` do API đổ vào. Có thể giữ `select` (kiểu `kn-input`) hoặc đổi sang radio `kn-choice`; nếu đổi, sửa đoạn JS đọc `knPay`.
 - Nhóm accordion hiện tại do JS bật tắt qua `aria-expanded`; mẫu dùng thẻ `details`. Khi chuyển, xóa trình xử lý cũ trong `ecommerce.js` để không xung đột.
 - Dữ liệu trong mẫu (giá, tên, phương thức thanh toán) là mẫu. Đừng giữ lại trong sản phẩm thật.
 

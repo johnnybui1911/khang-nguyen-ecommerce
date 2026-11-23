@@ -3,15 +3,15 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>header</title></head>
 <body>
 <th:block th:fragment="header">
-<a class="kn-skip" href="#swMain">Bỏ qua, đến nội dung chính</a>
+<a class="kn-skip" href="#knMain">Bỏ qua, đến nội dung chính</a>
 <header class="kn-nav">
   <div class="kn-wrap">
-    <button type="button" class="kn-menu-btn kn-ico" data-kn-menu aria-label="Mở menu" aria-controls="swDrawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+    <button type="button" class="kn-menu-btn kn-ico" data-kn-menu aria-label="Mở menu" aria-controls="knDrawer" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
     <a class="kn-brand" href="/" aria-label="Khang Nguyên - Ngọc Bảo, trang chủ">
       <svg class="kn-seal" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg>
       <span>Khang Nguyên<small>Ngọc Bảo</small></span>
     </a>
-    <nav aria-label="Danh mục"><ul class="kn-nav__links" id="swCats">
+    <nav aria-label="Danh mục"><ul class="kn-nav__links" id="knCats">
       <li><a href="/categories/set-nhan-vong">Set nhẫn &amp; vòng</a></li>
       <li><a href="/categories/vong-ngoc">Vòng ngọc</a></li>
       <li><a href="/categories/chuoi-hat">Chuỗi hạt</a></li>
@@ -20,27 +20,27 @@
       <li data-kn-keep><a href="/blog/ngoc-hoa-dien-tan-cuong-thanh-hai">Kiến thức về ngọc</a></li>
     </ul></nav>
     <div class="kn-nav__tools">
-      <button type="button" class="kn-ico" data-kn-search-toggle aria-label="Tìm kiếm" aria-expanded="false" aria-controls="swSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button>
+      <button type="button" class="kn-ico" data-kn-search-toggle aria-label="Tìm kiếm" aria-expanded="false" aria-controls="knSearch"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l5 5"/></svg></button>
       <a class="kn-ico kn-hide-sm" href="/wishlist" aria-label="Danh sách yêu thích"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20.5S3.5 15 3.5 9.2A4.7 4.7 0 0112 6.7a4.7 4.7 0 018.5 2.5C20.5 15 12 20.5 12 20.5z"/></svg></a>
       <a class="kn-ico kn-hide-sm" href="/account" aria-label="Tài khoản"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6 8-6s7 1.5 8 6"/></svg></a>
       <a class="kn-bag" href="/shopping-cart" aria-label="Giỏ hàng">
         <svg class="kn-bag__ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 016 0v2"/></svg>
-        <span class="kn-bag__txt">Giỏ hàng</span> <b class="kn-badge" id="swBagCount" hidden>0</b>
+        <span class="kn-bag__txt">Giỏ hàng</span> <b class="kn-badge" id="knBagCount" hidden>0</b>
       </a>
     </div>
   </div>
-  <form class="kn-search" id="swSearch" action="/search" method="get" role="search" hidden>
+  <form class="kn-search" id="knSearch" action="/search" method="get" role="search" hidden>
     <div class="kn-wrap">
-      <label class="kn-sr" for="swSearchInput">Tìm sản phẩm</label>
-      <input class="kn-input" id="swSearchInput" type="search" name="keyword" placeholder="Tìm vòng, nhẫn, chuỗi ngọc..." autocomplete="off">
+      <label class="kn-sr" for="knSearchInput">Tìm sản phẩm</label>
+      <input class="kn-input" id="knSearchInput" type="search" name="keyword" placeholder="Tìm vòng, nhẫn, chuỗi ngọc..." autocomplete="off">
       <button type="submit" class="kn-btn kn-btn--inline">Tìm</button>
     </div>
   </form>
 </header>
 <div class="kn-scrim" data-kn-close></div>
-<nav class="kn-drawer" id="swDrawer" aria-label="Menu chính" aria-hidden="true">
+<nav class="kn-drawer" id="knDrawer" aria-label="Menu chính" aria-hidden="true">
   <button type="button" class="kn-drawer__x" data-kn-close aria-label="Đóng menu">&times;</button>
-  <ul id="swDrawerCats">
+  <ul id="knDrawerCats">
     <li><a href="/categories/set-nhan-vong">Set nhẫn &amp; vòng</a></li>
     <li><a href="/categories/vong-ngoc">Vòng ngọc</a></li>
     <li><a href="/categories/chuoi-hat">Chuỗi hạt</a></li>

@@ -25,19 +25,19 @@ trên Docker local.
 - Docker local: `ezy-my-site-e29d88-ezyplatform-1` (127.0.0.1:8080 web, :9090 admin) + `ezy-my-site-e29d88-mysql-1`.
   Static (`main.css`, `ecommerce.js`) phục vụ ngay sau `docker cp`; **template Thymeleaf bị cache, cần restart container
   web** (xác nhận ở `.artifacts/reports/logo-fix/report.md`).
-- `check-design.py` bắt `\bsw-[a-z]`, `swp-`, `swd-`, `--sw-`, **không** bắt id camelCase `swMain`… → giữ id theo §14.5
+- `check-design.py` bắt `\bsw-[a-z]`, `swp-`, `swd-`, `--sw-`, **không** bắt id camelCase `knMain`… → giữ id theo §14.5
   vẫn đạt 0 lỗi.
-- `ecommerce.js` (1716 dòng): accordion bật tắt bằng `aria-expanded` (~dòng 1051), số lượng `#swPdpQty` (~671–720),
+- `ecommerce.js` (1716 dòng): accordion bật tắt bằng `aria-expanded` (~dòng 1051), số lượng `#knPdpQty` (~671–720),
   gợi ý điện thoại `+65` (~1041). Có `messages/messages_vi.properties` + `messages.properties`.
 
 ## 3. Quyết định đã chốt (Batman)
-1. **Giữ toàn bộ id/field §14.5 nguyên tên** (`swMain`, `swLines`, `deliveryPostalCode`…), chỉ đổi class `sw-*` → `kn-*`
+1. **Giữ toàn bộ id/field §14.5 nguyên tên** (`knMain`, `knLines`, `deliveryPostalCode`…), chỉ đổi class `sw-*` → `kn-*`
    trong template + đoạn JS dựng DOM + CSS **trong cùng một commit**. Lý do: ít rủi ro vỡ luồng mua nhất; id camelCase
    không vi phạm check-design. Ghi là lệch có chủ đích ("còn id `sw*` theo hợp đồng JS").
-2. `select#swPay` giữ dạng `select` style `kn-input` (không đổi sang radio) → không phải sửa logic JS đọc `swPay`.
+2. `select#knPay` giữ dạng `select` style `kn-input` (không đổi sang radio) → không phải sửa logic JS đọc `knPay`.
 3. Accordion: chuyển sang `<details>` như mẫu, **xoá trình xử lý `aria-expanded` cũ của accordion** trong `ecommerce.js`
    (giữ handler menu/search).
-4. Số lượng: khi `product.amount <= 1` ẩn `#swPdpQty` cùng nút cộng/trừ (vẫn giữ phần tử trong DOM, qty = 1), hiện
+4. Số lượng: khi `product.amount <= 1` ẩn `#knPdpQty` cùng nút cộng/trừ (vẫn giữ phần tử trong DOM, qty = 1), hiện
    "Sản phẩm duy nhất · còn 1 chiếc".
 5. Mã bưu chính: **giữ trường, giữ bắt buộc** như hiện tại (không biết kiểm tra nằm ở JS hay Java; không đụng Java).
    Đổi placeholder/mặc định sang Việt Nam. Ghi vào câu hỏi mở.
@@ -81,9 +81,9 @@ Viết tắt: `T/` = `ecommerce-theme/ecommerce-theme-theme/src/main/resources/t
 ## 7. Hợp đồng `ecommerce.js` phải giữ (brief §14.5)
 | Trang | Giữ nguyên id / field | JS tự dựng (đổi class → `kn-*`) |
 |---|---|---|
-| `product.html` | `swMain`, `swBcCur`, `swPdp`, `swPdpImg`, `swPdpCode`, `swPdpName`, `swPdpPrice`, `swPdpStock`, `swPdpSwatches`, `swPdpSwatchList`, `swPdpColor`, `swPdpQty`, `swAddBtn`, `swWishBtn`, `swAddNote`, `swPdpDesc`, `swPdpDescText`, `data-qty-dec`, `data-qty-inc`, `data-sw-state` | khối trống/lỗi, ô chọn màu |
-| `cart.html` | `swMain`, `swCart`, `swLines`, `swSubtotal`, `data-sw-state` | `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
-| `checkout.html` | `swCheckout`, `swCheckoutForm`, `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (`#swCountry`), `paymentServiceCode` (`#swPay`), `swFormErr`, `swPlace`, `swMini`, `swTotal` | `option` quốc gia/thanh toán, dòng `swMini` |
+| `product.html` | `knMain`, `knBcCur`, `knPdp`, `knPdpImg`, `knPdpCode`, `knPdpName`, `knPdpPrice`, `knPdpStock`, `knPdpSwatches`, `knPdpSwatchList`, `knPdpColor`, `knPdpQty`, `knAddBtn`, `knWishBtn`, `knAddNote`, `knPdpDesc`, `knPdpDescText`, `data-qty-dec`, `data-qty-inc`, `data-sw-state` | khối trống/lỗi, ô chọn màu |
+| `cart.html` | `knMain`, `knCart`, `knLines`, `knSubtotal`, `data-sw-state` | `li.sw-line`, `.sw-img`, `.sw-qty`, `.sw-rm`, `.sw-line-end`, `.sw-pcode` |
+| `checkout.html` | `knCheckout`, `knCheckoutForm`, `deliveryFullName`, `deliveryEmail`, `deliveryPhoneNumber`, `deliveryAddress`, `deliveryCityName`, `deliveryPostalCode`, `deliveryCountryId` (`#knCountry`), `paymentServiceCode` (`#knPay`), `knFormErr`, `knPlace`, `knMini`, `knTotal` | `option` quốc gia/thanh toán, dòng `knMini` |
 
 Kiểm sau Phase 1: `grep -rnE '\bsw[pd]?-[a-z]|--sw-' <phạm vi UI>` = 0; mỗi id trong bảng còn xuất hiện ở cả template và JS
 (script nhỏ đếm, lưu output vào report).

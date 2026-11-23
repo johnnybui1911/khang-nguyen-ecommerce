@@ -27,11 +27,11 @@
   </div>
 </header>
 <main>
-<div class="kn-narrow" id="swMain">
+<div class="kn-narrow" id="knMain">
   <nav class="kn-crumb" aria-label="Breadcrumb"><a href="home.html">Trang chủ</a> / <a href="cart.html">Giỏ hàng</a> / Thanh toán</nav>
   <div class="kn-page-title"><h1>Thanh <em>toán</em></h1></div>
-  <div class="kn-cart" id="swCheckout">
-    <form class="kn-form" id="swCheckoutForm" novalidate>
+  <div class="kn-cart" id="knCheckout">
+    <form class="kn-form" id="knCheckoutForm" novalidate>
       <h2>Thông tin giao hàng</h2>
       <div class="kn-field"><label for="deliveryFullName">Họ và tên</label><input class="kn-input" id="deliveryFullName" name="deliveryFullName" required autocomplete="name" /></div>
       <div class="kn-form__row">
@@ -43,24 +43,24 @@
         <div class="kn-field"><label for="deliveryCityName">Tỉnh, thành phố</label><input class="kn-input" id="deliveryCityName" name="deliveryCityName" required autocomplete="address-level2" /></div>
         <div class="kn-field"><label for="deliveryPostalCode">Mã bưu chính</label><input class="kn-input" id="deliveryPostalCode" name="deliveryPostalCode" required autocomplete="postal-code" /></div>
       </div>
-      <div class="kn-field"><label for="swCountry">Quốc gia</label><select class="kn-input" id="swCountry" name="deliveryCountryId" required><option value="1">Việt Nam</option></select></div>
+      <div class="kn-field"><label for="knCountry">Quốc gia</label><select class="kn-input" id="knCountry" name="deliveryCountryId" required><option value="1">Việt Nam</option></select></div>
 
       <h2>Thanh toán</h2>
-      <!-- Real template renders a select#swPay (name paymentServiceCode) from the API; the design renders the same options as radio choices. Labels below are sample. -->
-      <div id="swPay" role="radiogroup" aria-label="Phương thức thanh toán">
+      <!-- Real template renders a select#knPay (name paymentServiceCode) from the API; the design renders the same options as radio choices. Labels below are sample. -->
+      <div id="knPay" role="radiogroup" aria-label="Phương thức thanh toán">
         <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="bank-transfer" checked /> <span data-demo="true">Chuyển khoản ngân hàng</span></label>
         <label class="kn-choice"><input type="radio" name="paymentServiceCode" value="cod" /> <span data-demo="true">Thanh toán khi nhận hàng</span></label>
       </div>
-      <p class="kn-error" id="swFormErr" role="alert" hidden></p>
-      <button type="submit" class="kn-btn" id="swPlace">Đặt hàng</button>
+      <p class="kn-error" id="knFormErr" role="alert" hidden></p>
+      <button type="submit" class="kn-btn" id="knPlace">Đặt hàng</button>
     </form>
     <aside class="kn-summary">
       <h2>Đơn hàng của bạn</h2>
-      <ul class="kn-mini" id="swMini">
+      <ul class="kn-mini" id="knMini">
         <li><span>1 × Vòng phỉ thúy xanh lam</span><span data-demo="true">18.500.000 ₫</span></li>
         <li><span>1 × Vòng Hòa Điền trắng</span><span data-demo="true">24.800.000 ₫</span></li>
       </ul>
-      <p class="kn-total"><span>Tổng cộng</span><strong id="swTotal" data-demo="true">43.300.000 ₫</strong></p>
+      <p class="kn-total"><span>Tổng cộng</span><strong id="knTotal" data-demo="true">43.300.000 ₫</strong></p>
       <small>Phí giao hàng sẽ được xác nhận trước khi bạn thanh toán.</small>
     </aside>
   </div>

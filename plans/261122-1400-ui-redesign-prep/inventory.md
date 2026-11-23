@@ -4,7 +4,7 @@
 
 Không sửa code/CSS trong bước này. Theme: `ecommerce-theme/ecommerce-theme-theme/src/main/resources`. Ảnh chụp thật (Chrome, 1280px, desktop) ở `screenshots/`. Mobile: **chưa chụp** (công cụ trình duyệt không đổi được kích thước cửa sổ); CSS có 1 breakpoint mobile (cuối phần đầu `main.css`, `--sw-pad:16px`, lưới 2 cột).
 
-## 1. Trang / template (24 file) — đếm `sw-` (class) và `swXxx` (id/hook JS)
+## 1. Trang / template (24 file) — đếm `sw-` (class) và `knXxx` (id/hook JS)
 | Template | URL | `sw-` | id `sw*` | Ghi chú |
 |---|---|---|---|---|
 | page.html (layout chung, 96 dòng) | mọi trang | 0 | 0 | nạp `/css/main.css`, `/js/jquery.min.js`, `/js/ecommerce.js`; chèn fragment `head`/`scripts` từ DB |

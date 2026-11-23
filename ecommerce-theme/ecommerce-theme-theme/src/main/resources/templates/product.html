@@ -3,29 +3,29 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<section class="kn-stage" id="swMain" tabindex="-1">
+<section class="kn-stage" id="knMain" tabindex="-1">
   <div class="kn-wrap">
-    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/products">Sản phẩm</a> / <span id="swBcCur">Sản phẩm</span></nav>
+    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/products">Sản phẩm</a> / <span id="knBcCur">Sản phẩm</span></nav>
     <div data-kn-state></div>
-    <figure class="kn-shot" id="swPdpImg"></figure>
-    <div class="kn-buy" id="swPdp" hidden>
+    <figure class="kn-shot" id="knPdpImg"></figure>
+    <div class="kn-buy" id="knPdp" hidden>
       <div>
-      <p class="kn-code" id="swPdpCode"></p>
-      <h1 id="swPdpName"></h1>
-      <p class="kn-price" id="swPdpPrice"></p>
-      <p class="kn-stock" id="swPdpStock"></p>
-      <p class="kn-lead" id="swPdpDescText"></p>
-      <div class="kn-swatches" id="swPdpSwatches" hidden>
-        <p>Màu sắc: <strong id="swPdpColor"></strong></p>
-        <ul id="swPdpSwatchList"></ul>
+      <p class="kn-code" id="knPdpCode"></p>
+      <h1 id="knPdpName"></h1>
+      <p class="kn-price" id="knPdpPrice"></p>
+      <p class="kn-stock" id="knPdpStock"></p>
+      <p class="kn-lead" id="knPdpDescText"></p>
+      <div class="kn-swatches" id="knPdpSwatches" hidden>
+        <p>Màu sắc: <strong id="knPdpColor"></strong></p>
+        <ul id="knPdpSwatchList"></ul>
       </div>
-      <div class="kn-qty-row" id="swPdpQtyRow" hidden>
-        <label for="swPdpQty">Số lượng</label>
-        <div class="kn-qty"><button type="button" data-qty-dec aria-label="Giảm số lượng">&minus;</button><input id="swPdpQty" type="number" min="1" value="1" inputmode="numeric" /><button type="button" data-qty-inc aria-label="Tăng số lượng">+</button></div>
+      <div class="kn-qty-row" id="knPdpQtyRow" hidden>
+        <label for="knPdpQty">Số lượng</label>
+        <div class="kn-qty"><button type="button" data-qty-dec aria-label="Giảm số lượng">&minus;</button><input id="knPdpQty" type="number" min="1" value="1" inputmode="numeric" /><button type="button" data-qty-inc aria-label="Tăng số lượng">+</button></div>
       </div>
-      <button type="button" class="kn-btn" id="swAddBtn" disabled>Thêm vào giỏ hàng</button>
-      <button type="button" class="kn-btn kn-btn--ghost kn-wish" id="swWishBtn" aria-pressed="false" data-wish-label>Lưu vào yêu thích</button>
-      <p class="kn-note" id="swAddNote" role="status" aria-live="polite"></p>
+      <button type="button" class="kn-btn" id="knAddBtn" disabled>Thêm vào giỏ hàng</button>
+      <button type="button" class="kn-btn kn-btn--ghost kn-wish" id="knWishBtn" aria-pressed="false" data-wish-label>Lưu vào yêu thích</button>
+      <p class="kn-note" id="knAddNote" role="status" aria-live="polite"></p>
       <a class="kn-more" href="/customer-service">Tư vấn chọn sản phẩm</a>
       </div>
       <details class="kn-acc" open>

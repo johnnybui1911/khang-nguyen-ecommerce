@@ -65,11 +65,11 @@ Nơi dùng: header (drawer, search, skip link, menu), footer (newsletter, honeyp
 |---|---|---|
 | Thẻ sản phẩm `productCard()` (`ecommerce.js` ~347) → trang chủ, `/products`, gợi ý, wishlist | Thứ tự `h3` → `code.kn-cell__code` → giá; CSS cũ `.kn-cell div{justify-content:space-between}` đặt giá bên phải | `h3` → giá (`p`) → mã; dùng `.kn-cell` v2 (cột dọc) |
 | Dòng giỏ `lineNode()` (~825), `/shopping-cart` | Giá trong `.kn-line__end` cột phải (grid `88px 1fr auto`) | Cột tên: `h3` → `p.kn-line__price` → `p.kn-line__meta` (mã) → số lượng (nếu tồn kho > 1) → nút Xóa `kn-link`; grid v2 `88px 1fr` |
-| Tóm tắt thanh toán `#swMini` (~916) | `li > span(tên) + span(giá)`, CSS cũ hàng ngang | Giữ markup (giống mockup), CSS v2 `.kn-mini li{flex-direction:column}` xếp dọc |
-| Đơn hàng `#swOrderLines` (~1647, `/order`) | Như `#swMini` | Như trên; kiểm #77 = 10.740.000₫ |
+| Tóm tắt thanh toán `#knMini` (~916) | `li > span(tên) + span(giá)`, CSS cũ hàng ngang | Giữ markup (giống mockup), CSS v2 `.kn-mini li{flex-direction:column}` xếp dọc |
+| Đơn hàng `#knOrderLines` (~1647, `/order`) | Như `#knMini` | Như trên; kiểm #77 = 10.740.000₫ |
 | Tra cứu đơn `/order-status` (~1256) | `span(số lượng × tên (đơn giá))` + `span(thành tiền)` | Tách tên / giá thành 2 dòng dọc |
 | Chi tiết sản phẩm `product.html` | `code` → `h1` → **mô tả** → giá → tồn kho | nhãn/mã → `h1` → giá → "còn 1 chiếc" → mô tả → nút thêm vào giỏ |
-| Bảng đơn của tài khoản `#swOrders` | Bảng (mã đơn, ngày, trạng thái, tổng) | Không phải dòng sản phẩm, giữ bảng `kn-table` |
+| Bảng đơn của tài khoản `#knOrders` | Bảng (mã đơn, ngày, trạng thái, tổng) | Không phải dòng sản phẩm, giữ bảng `kn-table` |
 | Tổng tiền (tạm tính, tổng cộng) | nhãn trái / số phải | Giữ đúng như quy tắc |
 
 ### 2.5 Nội dung trong DB local (Docker `127.0.0.1:9090`, schema `blog`) cần đổi
@@ -109,7 +109,7 @@ Mọi phase chạy **tuần tự** (đều đụng `kn.css`/`main.css`/`ecommerc
 | **P2** Fragments | `templates/fragments/header.html`, `templates/fragments/footer.html`, `my-site/page-fragments/ecommerce/{header,footer,category-strip}/content.html`, `theme/foot.html` (nếu cần) | Nav kính kem 68px + con dấu vàng + nút giỏ viên thuốc trắng huy hiệu vàng; footer mảng `--kn-jade-mist`, con dấu 132px, 3 cột, khẩu hiệu vàng đậm; giữ drawer/search/newsletter đang chạy | 1,5 h |
 | **P3** Trang chủ | `templates/home.html`; `docs/design/home.html` chỉ đọc → `build-pages.py` sinh `my-site/pages/home/content.html` | Hero kem + quầng nắng, ảnh khung trắng viền vàng; kệ sản phẩm (JS); khu bài viết hai nửa; dải bình minh + kim cương vàng. Mục chưa có dữ liệu: `data-demo` | 1,5 h |
 | **P4** Danh mục + chi tiết | `templates/products.html`, `templates/product.html`, `ecommerce.js` (`productCard`, PDP), `vong-ngoc-demo` sinh lại | Thẻ không khung, gap 24, ảnh vuông bo 20 cắt đáy, tên → giá → mã; chip lọc; PDP: tên → giá → còn 1 chiếc → mô tả → nút | 2 h |
-| **P5** Giỏ + thanh toán + đơn | `templates/cart.html`, `checkout.html`, `order.html`, `order-status.html`, `ecommerce.js` (`lineNode`, `#swMini`, `#swOrderLines`, order-status) | Dòng giỏ xếp dọc (2.4), khung tóm tắt trắng bo 20, ô nhập trắng viền `--kn-line-strong` focus ngọc, lỗi `--kn-crimson`/`--kn-danger`; `select#swPay` giữ dạng `kn-input` | 2 h |
+| **P5** Giỏ + thanh toán + đơn | `templates/cart.html`, `checkout.html`, `order.html`, `order-status.html`, `ecommerce.js` (`lineNode`, `#knMini`, `#knOrderLines`, order-status) | Dòng giỏ xếp dọc (2.4), khung tóm tắt trắng bo 20, ô nhập trắng viền `--kn-line-strong` focus ngọc, lỗi `--kn-crimson`/`--kn-danger`; `select#knPay` giữ dạng `kn-input` | 2 h |
 | **P6** Khu bài viết | `docs/design/article.html` (mockup team, chuyển sang `kn-spread` hai nửa + bảng `kn-table`), sinh `my-site/pages/ngoc-hoa-dien-tan-cuong-thanh-hai`; `templates/page.html` | Một nửa ảnh, một nửa `--kn-jade-mist` phẳng; bảng so sánh trắng bo 10 | 1 h |
 | **P7** Tài khoản | `account.html`, `wishlist.html`, `login.html`, `register.html`, `forgot-password.html`, `reset-password.html`, `newsletter.html` | Thẻ trắng bo 20, form v2, bảng đơn `kn-table`, wishlist dùng `productCard` | 1,5 h |
 | **P8** Trang nội dung + 404 | `customer-service.html` (template + `docs/design/customer-service.html` → page), `contact.html`, `size-guide.html`, `stores.html`, `appointment.html`, `gift-card-balance.html`, `notfound.html` | Áp v2; FAQ dùng `kn-acc`; nội dung chưa có → `data-demo` | 1,5 h |
