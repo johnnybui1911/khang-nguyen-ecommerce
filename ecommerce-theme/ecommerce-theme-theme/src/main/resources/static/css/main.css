@@ -271,7 +271,10 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-code{margin:0 0 8px;font-size:13px;color:var(--kn-muted)}
 .kn-narrow h1,.kn-auth h1{font-size:44px;line-height:1.1;margin-bottom:20px}
 textarea.kn-input{height:auto;min-height:140px;padding:14px 16px;line-height:1.5;resize:vertical}
-select.kn-input{appearance:none;-webkit-appearance:none;padding-right:40px;background-image:linear-gradient(45deg,transparent 50%,var(--kn-muted) 50%),linear-gradient(135deg,var(--kn-muted) 50%,transparent 50%);background-position:calc(100% - 20px) 21px,calc(100% - 15px) 21px;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+/* Select: native arrow removed, chevron drawn from tokens 16px from the right edge, text kept clear of it */
+select.kn-input,.kn-select{appearance:none;-webkit-appearance:none;padding-right:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;cursor:pointer;background-color:var(--kn-white);background-image:linear-gradient(45deg,transparent 50%,var(--kn-jade-deep) 50%),linear-gradient(135deg,var(--kn-jade-deep) 50%,transparent 50%);background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px,6px 6px;background-repeat:no-repeat}
+select.kn-input:focus-visible,.kn-select:focus-visible{outline:2px solid var(--kn-jade-deep);outline-offset:3px}
+select.kn-input:disabled,.kn-select:disabled{background-color:var(--kn-line);cursor:not-allowed;background-image:linear-gradient(45deg,transparent 50%,var(--kn-muted) 50%),linear-gradient(135deg,var(--kn-muted) 50%,transparent 50%)}
 label.kn-field{font-size:13px;color:var(--kn-body)}
 .kn-btn--wide{width:100%}
 [data-kn-state]:empty{display:none}
