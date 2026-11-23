@@ -111,7 +111,7 @@ section_m2() {
 section_m3() {
   echo "== m3: cart -> checkout -> demo payment -> order, IDOR on $BASE_URL"
   # Needs a seeded shop/product with stock (each run buys 2 units; set PRODUCT_ID to one that has stock); override with PRODUCT_ID, CURRENCY_ID, COUNTRY_ID, PAY_CODE. PRICE is read from the catalog for CURRENCY_ID unless given.
-  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-6}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO_SG}"
+  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-6}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO}"
   if [ ! -s "$JAR" ]; then
     local rc; rc=$(register_user)
     [ "$rc" = 200 ] && ok "register throw-away user" || { CODE=$rc; CTYPE=; : >"$TMP/body"; bad "register throw-away user"; }
