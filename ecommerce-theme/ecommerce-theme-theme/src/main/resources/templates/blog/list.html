@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<th:block layout:fragment="content">
+<section class="kn-blog" id="swMain" tabindex="-1">
+  <div class="kn-blog__head">
+    <p class="kn-eyebrow">Cẩm nang</p>
+    <h1 th:if="${selectedTerm == null}">Cẩm nang về <em>ngọc</em></h1>
+    <h1 th:if="${selectedTerm != null}" th:text="${selectedTerm.name}">Chủ đề</h1>
+    <p>Cách chọn, cách đeo và cách giữ gìn ngọc phong thủy, do Khang Nguyên · Ngọc Bảo biên soạn.</p>
+  </div>
+  <ul class="kn-posts" th:if="${pagination != null and !#lists.isEmpty(pagination.items)}">
+    <li class="kn-post" th:each="post : ${pagination.items}">
+      <a class="kn-post__img" th:href="'/blog/' + ${post.slug}" tabindex="-1" aria-hidden="true">
+        <img th:if="${post.featuredImage != null and !#strings.isEmpty(post.featuredImage.url)}" th:src="${post.featuredImage.url}" th:alt="${post.title}" loading="lazy">
+        <span class="kn-post__ph" th:unless="${post.featuredImage != null and !#strings.isEmpty(post.featuredImage.url)}"><svg viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="50" cy="50" r="46"/><circle cx="50" cy="50" r="40" stroke-width=".8"/><path d="M30 30h40v40H30z M38 38h24v24H38z M30 50h8 M62 50h8 M50 30v8 M50 62v8"/></svg></span>
+      </a>
+      <div class="kn-post__body">
+        <p class="kn-post__meta"><time th:text="${knContent.date(post.publishedAt > 0 ? post.publishedAt : post.createdAt)}">01/01/2026</time></p>
+        <h2><a th:href="'/blog/' + ${post.slug}" th:text="${post.title}">Tiêu đề bài viết</a></h2>
+        <p class="kn-post__sum" th:text="${knContent.excerpt(post.summary, post.shortedContent)}">Tóm tắt.</p>
+      </div>
+    </li>
+  </ul>
+  <div class="kn-empty kn-blog__empty" th:if="${pagination == null or #lists.isEmpty(pagination.items)}">
+    <h3>Chưa có bài viết nào</h3>
+    <p>Các bài về cách chọn và giữ gìn ngọc sẽ xuất hiện ở đây.</p>
+    <a class="kn-btn kn-btn--inline" href="/products">Xem sản phẩm</a>
+  </div>
+  <nav class="kn-pager" aria-label="Phân trang" th:if="${pagination != null and pagination.continuation != null and (pagination.continuation.hasNext or pagination.continuation.hasPrevious)}">
+    <a class="kn-btn kn-btn--ghost kn-btn--inline" th:if="${pagination.continuation.hasPrevious}" th:href="@{${selectedTerm != null ? '/blogs/' + selectedTerm.slug : '/blog'}(prevPageToken=${pagination.pageToken.prev})}" rel="prev">Bài mới hơn</a>
+    <a class="kn-btn kn-btn--ghost kn-btn--inline" th:if="${pagination.continuation.hasNext}" th:href="@{${selectedTerm != null ? '/blogs/' + selectedTerm.slug : '/blog'}(nextPageToken=${pagination.pageToken.next})}" rel="next">Bài cũ hơn</a>
+  </nav>
+</section>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{page}">
+<head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
+<body>
+<th:block layout:fragment="content">
+<article class="kn-article kn-post-page" id="swMain" tabindex="-1" th:if="${page != null}">
+  <div class="kn-article__inner">
+    <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> › <span aria-current="page" th:text="${page.title}">Trang</span></nav>
+    <header>
+      <h1 th:text="${page.title}">Tiêu đề trang</h1>
+      <p class="kn-article__lead" th:if="${!#strings.isEmpty(page.summary)}" th:text="${page.summary}">Tóm tắt.</p>
+    </header>
+    <figure th:if="${page.featuredImage != null and !#strings.isEmpty(page.featuredImage.url)}">
+      <img th:src="${page.featuredImage.url}" th:alt="${#strings.isEmpty(page.featuredImage.alternativeText) ? page.title : page.featuredImage.alternativeText}">
+    </figure>
+    <div class="kn-prose" th:utext="${page.content}"></div>
+  </div>
+</article>
+</th:block>
+</body>
+</html>
