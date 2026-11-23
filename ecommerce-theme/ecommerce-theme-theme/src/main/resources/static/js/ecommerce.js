@@ -1288,28 +1288,6 @@
         });
     };
 
-    pages.giftcard = function () {
-        // no gift-card service exists in this demo: nothing is sent, every code gets the same answer
-        var form = q('#swGiftForm');
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var err = q('#swGiftErr');
-            var out = q('#swGiftResult');
-            var code = form.elements.code;
-            out.textContent = '';
-            if (!code.value.trim()) {
-                err.textContent = 'Nhập số thẻ.';
-                err.hidden = false;
-                code.setAttribute('aria-invalid', 'true');
-                code.focus();
-                return;
-            }
-            err.hidden = true;
-            code.removeAttribute('aria-invalid');
-            out.textContent = 'Tính năng tra cứu số dư thẻ quà tặng hiện chưa mở.';
-        });
-    };
-
     /* ---------- password reset, contact, appointment ---------- */
     var EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
     var PHONE_RE = /^\+?[0-9]{8,15}$/;

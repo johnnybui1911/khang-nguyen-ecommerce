@@ -164,13 +164,15 @@ section_m3() {
 section_f1() {
   echo "== f1: storefront filters, static pages, profile update on $BASE_URL"
   local pg
-  for pg in size-guide gift-card-balance; do
+  for pg in size-guide; do
     req f1 guest GET "/$pg"
     expect "GET /$pg -> 200 HTML that links back to /customer-service" \
       '[ "$CODE" = 200 ] && [[ "$CTYPE" == text/html* ]] && grep -q "href=\"/customer-service\"" "$TMP/body"'
     req f1 guest GET /customer-service
     expect "customer service page links to /$pg" '[ "$CODE" = 200 ] && grep -q "href=\"/$pg\"" "$TMP/body"'
   done
+  req f1 guest GET /gift-card-balance
+  expect "GET /gift-card-balance -> 404 (gift cards are not sold)" '[ "$CODE" = 404 ]'
 
   req f2 guest GET "/api/v1/products?productTypes=SINGLE&limit=100&priceGte=2000000&priceLte=3000000"
   expect "price filter: every item price is inside the requested range" \

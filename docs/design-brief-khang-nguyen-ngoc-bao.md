@@ -73,7 +73,7 @@ Fragments trong `my-site/page-fragments/ecommerce/`: `theme` (chứa CSS dùng c
 Templates theme (đây là các trang động do hệ thống render, cũng phải được thiết kế lại):
 `home`, `products`, `product`, `cart`, `checkout`, `order`, `order-status`, `account`, `login`,
 `register`, `forgot-password`, `reset-password`, `wishlist`, `stores`, `size-guide`,
-`gift-card-balance`, `appointment`, `contact`, `customer-service`, `newsletter`, `notfound`, `page`,
+`appointment`, `contact`, `customer-service`, `newsletter`, `notfound`, `page`,
 cùng `fragments/header.html` và `fragments/footer.html`.
 
 ### 2.2 Giao diện hiện tại

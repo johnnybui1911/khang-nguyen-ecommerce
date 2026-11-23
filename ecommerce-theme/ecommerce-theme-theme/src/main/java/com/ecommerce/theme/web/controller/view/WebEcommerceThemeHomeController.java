@@ -121,11 +121,6 @@ public class WebEcommerceThemeHomeController {
         return views.newView("sizeguide", "size-guide", "page.sizeGuide");
     }
 
-    @DoGet("/gift-card-balance")
-    public View giftCardBalance() {
-        return views.newView("giftcard", "gift-card-balance", "page.giftCardBalance");
-    }
-
     @DoGet("/order-status")
     public View orderStatus() {
         return views.newView("orderstatus", "order-status", "page.orderStatus");
