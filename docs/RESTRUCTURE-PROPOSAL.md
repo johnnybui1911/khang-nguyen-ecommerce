@@ -92,7 +92,7 @@ Ký hiệu: **X** = xoá được ngay, **C** = cần anh quyết về nghiệp 
 |---|---|---|---|
 | A1 | `ecommerce-ext/scripts/__pycache__/import-catalog.cpython-39.pyc` | File build của Python, đang bị track trong git | **X** + thêm `__pycache__/` vào `.gitignore` |
 | A2 | `ecommerce-ext-admin-plugin/src/main/resources/messages/messages*.properties` (267 key × 2 ngôn ngữ) | 0/267 key được tham chiếu ở bất kỳ file `.java/.html/.js` nào. Nội dung là scaffold CLI: `cosmo_waving`, `exp_rate`, `gold_rate`, `dashboard.bots`… | **X**. Giữ lại đúng 1 key `ecommerce_ext` nếu admin cần tên plugin |
-| A3 | `static/js/jquery.min.js` (88 KB) và thẻ `<script>` ở `templates/page.html:83` | `ecommerce.js`: 0 lần gọi `$(`, `$.`, `jQuery`. Template và CMS: 0. HTML render của `/`, `/products`, `/checkout`, `/shopping-cart`: 0. Mỗi trang chỉ nạp 2 script: jQuery và `ecommerce.js`. ✅ **trình duyệt (không sửa code):** nạp HTML thật của từng trang vào một iframe sạch, đã bỏ thẻ jQuery (`typeof jQuery` = `undefined`). **11 trang** (`/`, `/products`, `/products/KN-031`, `/shopping-cart`, `/login`, `/account`, `/blog`, `/stores`, `/customer-service`, `/size-guide`, `/book-an-appointment`) đều có **0 lỗi JS**. **Thêm vào giỏ** chạy đúng (nút đổi sang "Đã có trong giỏ", `ecm.bag` ghi 1 dòng), **trang giỏ hàng** hiện đúng sản phẩm và tạm tính 4.800.000 ₫. Đã xoá giỏ thử sau khi kiểm. **Chưa kiểm:** bước đặt đơn trong `/checkout`, vì trang này bắt đăng nhập (chuyển sang `/login`), mà đặt đơn sẽ ghi vào DB, trái với ràng buộc chỉ đọc | **Hoãn, chờ anh Johnny quyết.** Lý do G5: layout mẫu và ví dụ trong tài liệu chính thức EzyPlatform dùng jQuery; plugin chính thức (ezylogin/ezyaccount) có thể cần; lợi ích bỏ chỉ ~30 KB gzip, đã cache. Giữ nguyên `jquery.min.js` và thẻ script ở `page.html:83` |
+| A3 | `static/js/jquery.min.js` (88 KB) và thẻ `<script>` ở `templates/page.html:83` | `ecommerce.js`: 0 lần gọi `$(`, `$.`, `jQuery`. Template và CMS: 0. HTML render của `/`, `/products`, `/checkout`, `/shopping-cart`: 0. Mỗi trang chỉ nạp 2 script: jQuery và `ecommerce.js`. ✅ **trình duyệt (không sửa code):** nạp HTML thật của từng trang vào một iframe sạch, đã bỏ thẻ jQuery (`typeof jQuery` = `undefined`). **11 trang** (`/`, `/products`, `/products/KN-031`, `/shopping-cart`, `/login`, `/account`, `/blog`, `/stores`, `/customer-service`, `/size-guide`, `/book-an-appointment`) đều có **0 lỗi JS**. **Thêm vào giỏ** chạy đúng (nút đổi sang "Đã có trong giỏ", `ecm.bag` ghi 1 dòng), **trang giỏ hàng** hiện đúng sản phẩm và tạm tính 4.800.000 ₫. Đã xoá giỏ thử sau khi kiểm. **Chưa kiểm:** bước đặt đơn trong `/checkout`, vì trang này bắt đăng nhập (chuyển sang `/login`), mà đặt đơn sẽ ghi vào DB, trái với ràng buộc chỉ đọc | **Đã chốt: giữ jQuery (anh Johnny, 2026-11-24).** Lý do G5: layout mẫu và ví dụ trong tài liệu chính thức EzyPlatform dùng jQuery; plugin chính thức (ezylogin/ezyaccount) có thể cần; lợi ích bỏ chỉ ~30 KB gzip, đã cache. Giữ nguyên `jquery.min.js` và thẻ script ở `page.html:83` |
 | A4 | `static/images/kn-033.jpg` | Không file nào tham chiếu (5 ảnh còn lại đều có) | **X** |
 | A5 | `ecommerce-theme/scripts/phase-07-rollback-theme.sh` | Script rollback dùng 1 lần về theme "Freestyle 0.2.9" và `EcmOrderViewController` (class này không còn). Cần file backup trong `.artifacts/tmp-p7/` | **X**, hoặc chuyển vào `plans/archive/` |
 | A6 | `my-site/AGENTS_UPDATED.md` (16 dòng) | Bản nháp đi kèm `AGENTS.md`, không đổi từ lúc clone | **X** (gộp vào `AGENTS.md` nếu còn ý) |
@@ -137,7 +137,7 @@ Không đổi từ lúc clone: toàn bộ `ecommerce-ext/` (trừ `EcmStoreConta
 | **0. Đồng bộ** | ✏️ **Đã xong phần đồng bộ** (`main` = `origin/main` = `eef4086`, bản dở cất ở `backup/local-wip-2026-11-24`). Còn lại: tạo nhánh `chore/cleanup-p1` từ `main` | Batman | `git status` sạch, HEAD = `origin/main` | Thấp |
 | **1. Sửa lỗi khách thấy** | Publish bài Hòa Điền thành BLOG post, đổi 8 link sang `/blog/…` (R2). Unpublish "bài thử" (B7). Xử lý `/stores` (B6) | Pixel (link), Lin (DB/CMS) | `curl` mọi link trong header/footer/home trả 200. Không còn 404 | Thấp. Revert commit, re-publish |
 | **2. Xoá dead code (không ảnh hưởng runtime)** | A1, A2, A4, A5, A6, B1, B2, C7 (chuyển vào archive). Thêm `.gitignore` cho `__pycache__` | Lin | `mvn clean install` xanh, `tests/api/run.sh` xanh, grep 0 reference | Rất thấp. `git revert` |
-| **3. Xoá phần có ảnh hưởng runtime** (A3 jQuery hoãn, xem G5) | B5 (gift card: route, template, JS, i18n), C1 (nếu đồng ý) | Pixel (template/JS), Lin (controller) | Build xanh. QA trên trình duyệt ở 390/1280: console 0 lỗi, add-to-cart → checkout → order chạy được. `/gift-card-balance` trả 404 | Thấp–TB. Backup theme jar, redeploy bản cũ |
+| **3. Xoá phần có ảnh hưởng runtime** (A3 đã chốt giữ jQuery, xem G5) | B5 (gift card: route, template, JS, i18n), C1 (nếu đồng ý) | Pixel (template/JS), Lin (controller) | Build xanh. QA trên trình duyệt ở 390/1280: console 0 lỗi, add-to-cart → checkout → order chạy được. `/gift-card-balance` trả 404 | Thấp–TB. Backup theme jar, redeploy bản cũ |
 | **4. Một nguồn UI duy nhất** | Quyết B3: theme là nguồn thật, xoá bản sao CMS của home/customer-service/fragments (hoặc chiều ngược lại). Xoá các bản CSS inline | Batman quyết → Pixel | Grep: CSS chỉ còn ở `main.css` (+ mockup). UI không đổi (so ảnh chụp trước/sau) | TB. Backup bản ghi `ezyarticle_posts` |
 | **5. Đổi tên trong code (không đổi định danh module)** | R1 (`sw*`→`kn*`, có script, 1 commit), A9 (bỏ menu hardcode, hoặc đồng bộ cho khớp API), R4 (`Ecm*`/`WebEcommerceTheme*`→`Kn*`), R7, R9 | Pixel (R1), Lin (R4, R7, R9) | `grep -E '\bsw[A-Z]'` = 0. Build và test xanh. QA toàn bộ 25 route | TB. `git revert` + redeploy |
 | **6. (Tuỳ chọn) Đổi định danh module** | R3, R5, R6, R8: đổi package, thư mục, artifact, module. **Giữ** bảng `ecm_*` và API path (R10) | Lin, Rigel dry-run rollback | Plugin/theme mới cài và active, bản cũ đã gỡ. Bảng `ecm_*` giữ nguyên số dòng. Script drop **không** chạy lại | **Cao**. Làm theo mẫu `plans/261122-1215-rename-ecommerce` (backup DB + sha256, ghi lịch sử script trước khi boot). Cần anh duyệt riêng |
@@ -152,7 +152,7 @@ Không đổi từ lúc clone: toàn bộ `ecommerce-ext/` (trừ `EcmStoreConta
 3. Phase 6 (đổi tên module/package): làm hay không?
 
 ### Phần chưa kiểm chứng (bản 2)
-- Checkout đặt đơn khi không có jQuery: không còn cần chạy, vì A3 (bỏ jQuery) đã hoãn. Nếu sau này bỏ jQuery thì phải chạy lại E2E đăng nhập → đặt đơn bằng tài khoản test.
+- Checkout đặt đơn khi không có jQuery: không còn cần chạy, vì A3 đã chốt giữ jQuery (anh Johnny, 2026-11-24). Nếu sau này bỏ jQuery thì phải chạy lại E2E đăng nhập → đặt đơn bằng tài khoản test.
 - A9 (menu nháy): mới quan sát qua snapshot ngay sau khi tải trang, chưa đo thời gian và chưa chụp ảnh trước/sau.
 
 ---
@@ -182,7 +182,7 @@ ezyplatform/                                   repo khang-nguyen-ecommerce
 │   │   └── src/main/resources/
 │   │       ├── templates/                     Thymeleaf: page.html (layout), fragments/, blog/, pages/, *.html
 │   │       │   └── gift-card-balance.html     [−] nếu shop không bán thẻ quà tặng (C-B5) + route + JS + i18n
-│   │       ├── static/js/jquery.min.js        (giữ, A3 hoãn)
+│   │       ├── static/js/jquery.min.js        (giữ, đã chốt 2026-11-24)
 │   │       ├── static/images/kn-033.jpg       [−] (C-A4)
 │   │       ├── static/{css,js,data}/          main.css (NGUỒN CSS DUY NHẤT), ecommerce.js, stores.json (điền địa chỉ thật, C-B6)
 │   │       └── messages/                      chữ hiển thị en + vi của theme
@@ -255,12 +255,13 @@ ezyplatform/                                   [✎ tuỳ chọn] tên repo/thư
 1. **Plugin/theme cài từ marketplace KHÔNG nằm trong repo.** Chúng được cài vào `$EZYPLATFORM_HOME/{admin,web,socket}/{plugins,themes}/<tên>/` trên server. Repo chỉ **ghi lại sự phụ thuộc**: `dependencies=` trong `module.properties` và `<tên>.version` trong `pom.xml` gốc. Docs ghi rõ: *"Never edit files of installed plugins"*. Muốn đổi hành vi thì extend từ project của mình (subclass, override hook, template riêng).
 2. **Chỉ có 1 theme active** trên một site. Thêm trang thì thêm vào theme của shop, không thêm theme mới.
 3. **Tính năng mới nhỏ** (liên quan shop): đặt trong plugin `ecommerce-ext` (sau Phase 6 là `khangnguyen-ext`). **Chỉ tạo plugin riêng** khi đó là một miền độc lập, có thể bật/tắt riêng hoặc dùng lại cho site khác.
-4. **Lệnh `ezy dev …` cần một EzyPlatform cài native** (file trên đĩa). Docs viết: *"A Docker-only install cannot be used for development"*. Máy này đang có **2 môi trường**, xem cảnh báo F-1 bên dưới.
+4. **Lệnh `ezy dev …` cần một EzyPlatform cài native** (file trên đĩa). Docs viết: *"A Docker-only install cannot be used for development"*. Máy này đang có **2 môi trường**, xem cảnh báo F-1 bên dưới. **Đã chốt: Docker :8080 là môi trường chính, native tắt và giữ lại (anh Johnny, 2026-11-24).**
 
 ### Bảng: Loại → Đặt ở đâu → Lệnh/cách tạo → Tên ví dụ
 
 | Loại | Đặt ở đâu | Lệnh / cách tạo | Tên ví dụ |
 |---|---|---|---|
+| **Cách cài chính thức (đã chốt 2026-11-24)** | Plugin/theme marketplace cài trên site Docker :8080 | Trang quản trị bản A `:9090`: **Add New → Active**. Code tự viết deploy như hiện nay (`docker cp` + restart). `ezy dev` chỉ dùng trên bản native khi cần thử plugin lạ | |
 | **Plugin có sẵn trên marketplace** (vd giao hàng, thanh toán) | **Không vào repo.** Cài vào `$EZYPLATFORM_HOME/web/plugins/<tên>`, `admin/plugins/<tên>`. Repo: thêm `<tên>` vào `dependencies=` của `module.properties` bị ảnh hưởng, version vào `pom.xml` gốc, và [+] 1 dòng trong `docs/MODULES.md` | Tìm: `ezy dev market search <từ khoá>`, `ezy dev market info <tên>`, `ezy dev market docs <tên>`. Cài: `ezy dev install-plugin <tên>` (tự cài plugin phụ thuộc, activate, restart). Code mình cần gọi plugin đó: `ezy dev link <tên> -m web-plugin,theme` (tự thêm `dependencies=`, sync version), rồi `ezy dev export`. Nâng version: nâng trong admin (Modules) → `ezy dev sync-versions` → `ezy dev export` | `ezydelivery` (free, 0.7.7), `ezypayment` (free, 0.2.5), kết quả `market search` |
 | **Theme có sẵn trên marketplace** | Không vào repo. `$EZYPLATFORM_HOME/web/themes/<tên>` | `ezy dev install-plugin <tên> --activate-theme`. ⚠ Theme mới active sẽ **thay** theme Khang Nguyên (chỉ 1 theme active). Chỉ dùng để tham khảo hoặc làm lại toàn bộ giao diện | `fashion` ($25) |
 | **Plugin tự viết, tính năng nhỏ** (vd trả góp, khắc chữ lên nhẫn) | Trong plugin có sẵn: entity/repo trong `ecommerce-ext-sdk`, API trong `ecommerce-ext-web-plugin/.../controller/api`, script SQL **file mới** trong `ecommerce-ext-admin-plugin/src/main/resources/scripts/`, menu admin trong `menus.properties` | Viết code theo lớp ở `ecommerce-theme/SKILL.md` mục 2 và 11 (entity → model → service → request/validator → response → controller). Không sửa file SQL đã chạy, luôn thêm file mới. Build + cài: `ezy dev export` | `KnEngravingApiController`, bảng `ecm_engraving_request`, script `create_ecm_engraving_tables.sql` |
@@ -279,18 +280,38 @@ ezyplatform/                                   [✎ tuỳ chọn] tên repo/thư
 
 ### Cảnh báo F-1: máy đang có 2 EzyPlatform, chỉ 1 cái dùng được cho `ezy dev`
 
+> **Đã chốt: Docker :8080 là môi trường chính, native tắt và giữ lại (anh Johnny, 2026-11-24).** Phần "Đề xuất" ở cuối mục này là bản trước khi chốt, không còn áp dụng.
+
 | Môi trường | Cổng | Đang chạy (đã kiểm 24/11) | Vai trò |
 |---|---|---|---|
 | Docker `ezy-my-site-…` (từ `my-site/docker-compose.yml`) | web `:8080`, admin `:9090` | theme `ecommerce-theme`, plugin `ecommerce-ext` (đã kiểm trong container) | Site local team QA đang dùng. Deploy bằng `docker cp` + restart (`.artifacts/releases/*/deploy.sh`) |
 | Native `~/ezyplatform-dev-site` | web `:18080`, admin `:19090` | `ezy dev status`: theme **`swarovski-theme`**, plugin **`swarovski-ext`** (tên cũ, chưa có bản đổi tên) | Môi trường duy nhất `ezy dev install-plugin/link/export` dùng được |
 
-Hệ quả: nếu sau này chạy `ezy dev install-plugin` hay `ezy dev export` thì plugin sẽ vào bản **native** (tên swarovski cũ), không vào site Docker `:8080` mà team đang QA. **Đề xuất:** chọn native làm môi trường dev chính, đưa `ecommerce-ext` + `ecommerce-theme` lên đó một lần (`ezy dev export --dir ~/ezyplatform-dev-site`), và giữ Docker cho QA hoặc tắt hẳn. Việc này cần anh duyệt vì có cài/gỡ module trên local (thêm thành câu hỏi 4 bên dưới).
+Hệ quả: nếu sau này chạy `ezy dev install-plugin` hay `ezy dev export` thì plugin sẽ vào bản **native** (tên swarovski cũ), không vào site Docker `:8080` mà team đang QA. **Đề xuất cũ (đã thay bởi quyết định trên):** chọn native làm môi trường dev chính, đưa `ecommerce-ext` + `ecommerce-theme` lên đó một lần (`ezy dev export --dir ~/ezyplatform-dev-site`), và giữ Docker cho QA hoặc tắt hẳn. Việc này cần anh duyệt vì có cài/gỡ module trên local (thêm thành câu hỏi 4 bên dưới).
+
+### Bật lại bản native
+
+Bản native `~/ezyplatform-dev-site` đã tắt từ 2026-11-24 và được giữ nguyên (file, `mysql-data`, `jdk`, `mysql-src`). Môi trường chính là Docker (web `:8080`, admin `:9090`).
+
+```bash
+# bật (lần đầu mất vài phút: chờ admin tối đa 420s, web 300s)
+bash ~/ezyplatform-dev-site/ezyplatform-ctl.sh start --dir ~/ezyplatform-dev-site
+# kiểm tra / tắt
+bash ~/ezyplatform-dev-site/ezyplatform-ctl.sh status --dir ~/ezyplatform-dev-site
+bash ~/ezyplatform-dev-site/ezyplatform-ctl.sh stop --dir ~/ezyplatform-dev-site
+```
+
+- Cổng: web `http://127.0.0.1:18080`, admin `http://127.0.0.1:19090`. MySQL riêng của bản native, cấu hình ở `~/ezyplatform-dev-site/mysql.cnf`, dữ liệu ở `mysql-data`.
+- Luôn truyền `--dir ~/ezyplatform-dev-site` để script không nhầm sang thư mục khác.
+- Không dùng `ezy dev` hay lệnh Docker của bản Docker cho bản native: hai môi trường độc lập.
+- **Không chạy `uninstall`**: lệnh này xoá cả thư mục (`mysql-data`, `jdk`).
+- Không có LaunchAgent, crontab hay login item nào tự bật bản native.
 
 ### Cập nhật "Cần anh Johnny quyết" (bản 3)
 1. B3: theme là nguồn UI duy nhất (khuyến nghị) hay CMS? Quyết định này xác định dòng "Page do CMS quản lý" trong bảng (f) có dùng hay không.
 2. B5/B6: thẻ quà tặng, địa chỉ cửa hàng thật cho `/stores`.
 3. Phase 6 (đổi tên module/package): làm hay không.
-4. 🆕 F-1: môi trường dev chính là native `~/ezyplatform-dev-site` (khuyến nghị) hay Docker `:8080`?
+4. 🆕 F-1: **Đã chốt: Docker :8080 là môi trường chính, native tắt và giữ lại (anh Johnny, 2026-11-24).**
 
 ### Phần chưa kiểm chứng (bản 3)
 - `ezy dev create`, `install-plugin`, `link`, `export`: mới đọc `--help` và docs, **chưa chạy** (chạy sẽ cài/sửa module, ngoài phạm vi chỉ đọc).
@@ -331,7 +352,7 @@ Ký hiệu: ✅ xác nhận · ❌ sai/cần sửa · ⚠️ đúng một phần
 
 ### G5. Phát hiện thêm liên quan Phase 3 (bỏ jQuery)
 
-Layout mẫu `page.html` trong tài liệu chính thức nạp **jQuery** và gọi `$(document).ready(… ezyweb.format…Elements() …)`; ví dụ JS cho web dùng `$.ajax` với `ezyweb.processUpdateApiErrors` ([Designing a theme](https://youngmonkeys.org/ezyplatform/guides/designing-and-programming-a-theme), [JS functions in web](https://youngmonkeys.org/ezyplatform/guides/available-javascript-functions-in-web)). Nghĩa là các fragment của plugin chính thức (`ezylogin`, `ezyaccount`…) **có thể cần jQuery**. Đã kiểm theme của mình: không gọi `ezyweb.*`, chỉ dùng fragment `ezycommon/loading` (fragment này không dùng `$`, chỉ có `${…}` của Thymeleaf). Quyết định của anh Johnny: giữ jQuery, A3 hoãn. Nếu bỏ jQuery về sau thì **điều kiện:** nếu sau này nhúng fragment của `ezylogin`/`ezyaccount` vào theme thì phải nạp lại jQuery.
+Layout mẫu `page.html` trong tài liệu chính thức nạp **jQuery** và gọi `$(document).ready(… ezyweb.format…Elements() …)`; ví dụ JS cho web dùng `$.ajax` với `ezyweb.processUpdateApiErrors` ([Designing a theme](https://youngmonkeys.org/ezyplatform/guides/designing-and-programming-a-theme), [JS functions in web](https://youngmonkeys.org/ezyplatform/guides/available-javascript-functions-in-web)). Nghĩa là các fragment của plugin chính thức (`ezylogin`, `ezyaccount`…) **có thể cần jQuery**. Đã kiểm theme của mình: không gọi `ezyweb.*`, chỉ dùng fragment `ezycommon/loading` (fragment này không dùng `$`, chỉ có `${…}` của Thymeleaf). Đã chốt: giữ jQuery (anh Johnny, 2026-11-24). Nếu về sau bỏ jQuery thì **điều kiện:** nếu nhúng fragment của `ezylogin`/`ezyaccount` vào theme thì phải nạp lại jQuery.
 
 ### Cập nhật "Phần chưa kiểm chứng" (bản 4)
 - ~~"Không có theme con"~~ → tài liệu chính thức không có cơ chế này (G1). Chưa hỏi trực tiếp đội EzyPlatform (Discord).
