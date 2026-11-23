@@ -1,4 +1,11 @@
 {
  "note": "",
- "stores": []
+ "stores": [
+  {
+   "id": "dang-dung",
+   "name": "Khang Nguyên · Ngọc Bảo",
+   "address": "Số 5 Đặng Dung, Ba Đình, Hà Nội",
+   "hours": ""
+  }
+ ]
 }

@@ -1214,7 +1214,7 @@
                     list.appendChild(el('li', {}, [
                         el('h2', {text: s.name}),
                         el('p', {text: s.address}),
-                        el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}),
+                        s.hours ? el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}) : null,
                         el('p', {}, [el('a', {
                             'class': 'kn-link',
                             href: '/book-an-appointment?store=' + encodeURIComponent(s.id),
@@ -1285,28 +1285,6 @@
                         ? 'Không tìm thấy đơn hàng với thông tin này.'
                         : 'Chưa kiểm tra được đơn hàng. Vui lòng thử lại.';
             }).then(function () { btn.disabled = false; });
-        });
-    };
-
-    pages.giftcard = function () {
-        // no gift-card service exists in this demo: nothing is sent, every code gets the same answer
-        var form = q('#swGiftForm');
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            var err = q('#swGiftErr');
-            var out = q('#swGiftResult');
-            var code = form.elements.code;
-            out.textContent = '';
-            if (!code.value.trim()) {
-                err.textContent = 'Nhập số thẻ.';
-                err.hidden = false;
-                code.setAttribute('aria-invalid', 'true');
-                code.focus();
-                return;
-            }
-            err.hidden = true;
-            code.removeAttribute('aria-invalid');
-            out.textContent = 'Tính năng tra cứu số dư thẻ quà tặng hiện chưa mở.';
         });
     };
 
