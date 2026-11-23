@@ -14,8 +14,8 @@
     var CAT_KEY = 'ecm.categories';
     var CAT_TTL = 5 * 60 * 1000;
     var FALLBACK_CATEGORIES = [
-        ['vong-ngoc', 'Vòng ngọc'], ['nhan-ngoc', 'Nhẫn ngọc'],
-        ['chuoi-hat', 'Chuỗi hạt'], ['set-nhan-vong', 'Set nhẫn vòng']
+        ['set-nhan-vong', 'Set nhẫn & vòng'], ['vong-ngoc', 'Vòng ngọc'],
+        ['chuoi-hat', 'Chuỗi hạt'], ['nhan-ngoc', 'Nhẫn ngọc']
     ].map(function (c, i) { return {name: c[0], displayName: c[1], displayOrder: i + 1}; });
 
     function q(sel, root) { return (root || d).querySelector(sel); }
