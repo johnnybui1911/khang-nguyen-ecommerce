@@ -1214,7 +1214,7 @@
                     list.appendChild(el('li', {}, [
                         el('h2', {text: s.name}),
                         el('p', {text: s.address}),
-                        el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}),
+                        s.hours ? el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}) : null,
                         el('p', {}, [el('a', {
                             'class': 'kn-link',
                             href: '/book-an-appointment?store=' + encodeURIComponent(s.id),
