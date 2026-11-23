@@ -1810,6 +1810,8 @@
         root.addEventListener('focusin', hold);
         root.addEventListener('focusout', release);
         root.addEventListener('touchstart', hold, {passive: true});
+        root.addEventListener('touchend', release, {passive: true});
+        root.addEventListener('touchcancel', release, {passive: true});
         d.addEventListener('visibilitychange', function () { if (d.hidden) { stop(); } else { start(); } });
         window.addEventListener('resize', function () { track.scrollTo({left: current * track.clientWidth, behavior: 'auto'}); });
         start();

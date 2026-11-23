@@ -126,18 +126,21 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-spec dd{margin:0;color:var(--kn-ink)}
 
 /* home hero: sunlit cream with a framed photograph */
-.kn-hero{position:relative;margin:24px var(--kn-pad) 0;border-radius:24px;overflow:hidden;background:var(--kn-jade-mist)}
+.kn-hero{position:relative;margin:24px var(--kn-pad) 0;border-radius:24px;overflow:hidden;background:var(--kn-jade)}
 .kn-carousel__track{display:flex;height:clamp(440px,44vw,640px);margin:0;padding:0;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
 .kn-carousel__track::-webkit-scrollbar{display:none}
 .kn-carousel__track:focus-visible{outline-offset:-4px}
 .kn-hero :focus-visible{outline-color:var(--kn-gold)}
 .kn-slide{position:relative;flex:0 0 100%;min-width:0;scroll-snap-align:start}
-.kn-slide>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.kn-slide>img{position:absolute;top:0;left:0;width:100%;height:100%;max-width:1050px;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,1) 82%,rgba(0,0,0,0));mask-image:linear-gradient(90deg,rgba(0,0,0,1) 82%,rgba(0,0,0,0))}
+/* never enlarge a photo beyond its own pixels; a narrower photo sits left on the brand colour */
+.kn-slide:nth-child(3)>img{max-width:960px}
+.kn-slide:nth-child(5)>img{max-width:720px}
 .kn-slide:nth-child(1)>img{object-position:50% 52%}
 .kn-slide:nth-child(2)>img{object-position:50% 55%}
 .kn-slide:nth-child(3)>img{object-position:50% 58%}
-.kn-slide:nth-child(4)>img{object-position:50% 55%}
-.kn-slide:nth-child(5)>img{object-position:50% 62%}
+.kn-slide:nth-child(4)>img{object-position:50% 40%}
+.kn-slide:nth-child(5)>img{object-position:50% 100%}
 .kn-slide::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(270deg,rgba(20,34,29,.88) 0,rgba(20,34,29,.8) 46%,rgba(20,34,29,0) 78%)}
 .kn-slide__copy{position:absolute;z-index:1;top:0;right:0;bottom:0;width:min(50%,640px);display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:0 104px 0 24px;color:var(--kn-white)}
 .kn-slide__copy .kn-eyebrow{margin:0 0 16px;color:var(--kn-white)}
@@ -270,17 +273,26 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
   .kn-nav__links{display:none}
   .kn-stage{padding:24px 0 64px}
   .kn-buy h1,.kn-page-title h1{font-size:36px}
-  .kn-hero{margin:0;border-radius:0}
-  .kn-carousel__track{height:auto;aspect-ratio:4/5}
-  .kn-slide::after{background:linear-gradient(0deg,rgba(20,34,29,.92) 0,rgba(20,34,29,.84) 56%,rgba(20,34,29,0) 88%)}
-  .kn-slide__copy{top:auto;left:0;width:auto;justify-content:flex-end;padding:0 20px 60px}
-  .kn-slide__copy .kn-eyebrow{margin-bottom:10px}
-  .kn-slide__copy :is(h1,h2){font-size:32px;margin-bottom:10px}
-  .kn-slide__sub{margin-bottom:18px;font-size:15px}
-  .kn-slide__copy .kn-btn{height:48px}
-  .kn-carousel__nav{top:36%;width:40px;height:40px;margin-top:-20px}
+  /* mobile hero: photo edge to edge at 4:5, no overlay; the words sit below it on the light page */
+  .kn-hero{margin:0;border-radius:0;background:var(--kn-canvas)}
+  .kn-carousel__track{height:auto}
+  .kn-slide{display:flex;flex-direction:column}
+  .kn-slide>img{position:static;height:auto;aspect-ratio:4/5;max-width:none;-webkit-mask-image:none;mask-image:none}
+  .kn-slide::after{display:none}
+  .kn-slide__copy{position:static;flex:1;width:auto;justify-content:flex-start;padding:20px 20px 56px;color:var(--kn-ink)}
+  .kn-slide__copy .kn-eyebrow{margin-bottom:10px;color:var(--kn-gold-ink)}
+  .kn-slide__copy :is(h1,h2){font-size:30px;min-height:2.08em;margin-bottom:10px;color:var(--kn-jade-deep)}
+  .kn .kn-slide__copy em{color:var(--kn-gold-ink)}
+  .kn-slide__sub{min-height:3.1em;margin-bottom:18px;font-size:15px;color:var(--kn-body)}
+  .kn-slide__copy .kn-btn{height:48px;background:var(--kn-jade);color:var(--kn-white)}
+  .kn-slide__copy .kn-btn:hover{background:var(--kn-jade-deep)}
+  .kn-hero :focus-visible{outline-color:var(--kn-jade-deep)}
+  .kn-carousel__nav{top:calc(125vw - 52px);width:40px;height:40px;margin-top:0}
   .kn-carousel__nav[data-dir="-1"]{left:10px}
   .kn-carousel__nav[data-dir="1"]{right:10px}
+  .kn-carousel__dots{bottom:8px;background:transparent}
+  .kn-carousel__dot::before{background:var(--kn-muted)}
+  .kn-carousel__dot[aria-current="true"]::before{background:var(--kn-jade-deep)}
   .kn-story h2{font-size:36px}
   .kn-cells{grid-template-columns:1fr;gap:32px}
   .kn-horizon{padding:96px 0 80px}
@@ -547,9 +559,10 @@ ul.kn-cells{list-style:none}
       <img src="img/phi-thuy-xanh-lam.jpg" width="1050" height="1400" alt="Vòng ngọc phỉ thúy sắc xanh lam đặt trên khay nhung kem" fetchpriority="high" />
       <div class="kn-slide__copy"><p class="kn-eyebrow">Ngọc phong thủy · Chọn từng món</p><h1>Ngọc quý, <em>chọn từng chiếc</em></h1><p class="kn-slide__sub">Vòng, nhẫn và chuỗi ngọc phỉ thúy, Hòa Điền. Mỗi món đều được giới thiệu rõ chất ngọc và cách đeo.</p><a class="kn-btn kn-btn--inline" href="/products">Xem bộ sưu tập</a></div>
     </li>
+    <!-- PLACEHOLDER: slide 2 and 4 promo copy is sample text awaiting approval -->
     <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="2 / 5">
       <img src="img/hoa-dien-trang.jpg" width="1050" height="1400" alt="Vòng ngọc Hòa Điền màu trắng ngà trên khay nhung" loading="lazy" />
-      <div class="kn-slide__copy"><p class="kn-eyebrow">Ưu đãi (nội dung mẫu)</p><h2>Miễn phí đo size tay khi chọn vòng</h2><p class="kn-slide__sub">Nội dung mẫu, chờ duyệt: đặt lịch để chuyên viên đo size tay giúp bạn chọn đúng vòng.</p><a class="kn-btn kn-btn--inline" href="/book-an-appointment">Đặt lịch đo size</a></div>
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Ưu đãi</p><h2>Miễn phí đo size tay khi chọn vòng</h2><p class="kn-slide__sub">Đặt lịch để chuyên viên đo size tay giúp bạn chọn đúng vòng.</p><a class="kn-btn kn-btn--inline" href="/stores">Đặt lịch đo size</a></div>
     </li>
     <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="3 / 5">
       <img src="img/kn-031.jpg" width="960" height="1280" alt="Vòng ngọc phỉ thúy Type A màu sơn thủy trên khay nhung" loading="lazy" />
@@ -557,7 +570,7 @@ ul.kn-cells{list-style:none}
     </li>
     <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="4 / 5">
       <img src="img/phi-thuy-xanh-hoa-van.jpg" width="1050" height="1400" alt="Vòng ngọc phỉ thúy xanh hoa vân" loading="lazy" />
-      <div class="kn-slide__copy"><p class="kn-eyebrow">Tư vấn (nội dung mẫu)</p><h2>Chọn vòng ngọc hợp mệnh cùng chuyên viên</h2><p class="kn-slide__sub">Nội dung mẫu, chờ duyệt: chuyên viên tư vấn chất ngọc và màu hợp mệnh của bạn.</p><a class="kn-btn kn-btn--inline" href="/customer-service">Nhận tư vấn</a></div>
+      <div class="kn-slide__copy"><p class="kn-eyebrow">Tư vấn</p><h2>Chọn vòng ngọc hợp mệnh cùng chuyên viên</h2><p class="kn-slide__sub">Chuyên viên tư vấn chất ngọc và màu hợp mệnh của bạn.</p><a class="kn-btn kn-btn--inline" href="/customer-service">Nhận tư vấn</a></div>
     </li>
     <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="5 / 5">
       <img src="img/kn-035.jpg" width="720" height="1280" alt="Set nhẫn và chuỗi ngọc lam băng trên đĩa sứ trắng" loading="lazy" />
