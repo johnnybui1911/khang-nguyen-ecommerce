@@ -19,7 +19,7 @@ node_modules/
 
 # Local artifacts, backups, DB dumps
 .artifacts/
-my-site/.artifacts/
+khang-nguyen-site/.artifacts/
 **/.artifacts/
 *.sql
 !ecommerce-ext/scripts/drop-ecm-tables.sql
