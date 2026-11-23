@@ -1,5 +1,7 @@
 # Design Brief: Khang Nguyên · Ngọc Bảo (storefront ngọc phong thủy)
 
+> ✏️ **Cập nhật 2026-11-24:** theme là nguồn UI duy nhất. `my-site/pages/{home,customer-service}` và `my-site/page-fragments/ecommerce/*` (bản sao CMS) đã bị xoá, `docs/design/build-pages.py` cũng vậy. CSS thật chỉ nằm ở `ecommerce-theme/.../static/css/main.css`; `docs/design/kn.css` là bản mockup, đồng bộ bằng `docs/design/sync-theme.py`. Các đoạn dưới đây nói về page/fragment trong `my-site` là lịch sử.
+
 Tài liệu này là nguồn thiết kế duy nhất để một agent khác thiết kế lại toàn bộ UI/UX của website.
 Đọc hết mục 0 đến 3 trước khi làm bất cứ việc gì. Mọi quyết định thiết kế ở đây đều có nguồn
 (yêu cầu của chủ shop, research Refero, hoặc quan sát từ repo). Nếu bạn muốn đi ngược lại một

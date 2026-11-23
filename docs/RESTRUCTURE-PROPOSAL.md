@@ -104,7 +104,7 @@ Ký hiệu: **X** = xoá được ngay, **C** = cần anh quyết về nghiệp 
 |---|---|---|---|
 | B1 | `my-site/pages/example-page/` | Scaffold CLI (`"title": "Example Page"`), không có trong DB, 0 link tới, `/example-page` trả 404 | **X** |
 | B2 | `my-site/pages/vong-ngoc-demo/` (kèm 3 ảnh) | Page demo, không có trong DB, chỉ tự link tới chính nó, `/vong-ngoc-demo` trả 404. Đã có trang sản phẩm thật `/products/{code}` | **X**. ✏️ Bản sửa dở cũ của file này nằm ở nhánh `backup/local-wip-2026-11-24`, `main` đã sạch |
-| B3 | `my-site/pages/home/`, `customer-service/` và 4 fragment | Trong DB đều DRAFT; storefront dùng `templates/home.html` và `customer-service.html`. ✏️ Mỗi file nhúng sẵn toàn bộ 596 dòng CSS | **C**: nếu chọn theme là nguồn UI duy nhất thì xoá (khuyến nghị). Nếu muốn sửa nội dung qua CMS thì phải publish và bỏ template trùng |
+| B3 | `my-site/pages/home/`, `customer-service/` và 4 fragment | Trong DB đều DRAFT; storefront dùng `templates/home.html` và `customer-service.html`. ✏️ Mỗi file nhúng sẵn toàn bộ 596 dòng CSS | **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).** Xoá `pages/home`, `pages/customer-service` và `page-fragments/ecommerce/*`. Bản ghi DRAFT tương ứng trong DB (`ezyarticle_posts`: 4 FRAGMENT, 2 STANDALONE_PAGE) giữ nguyên, không được serve |
 | B4 | `my-site/pages/ngoc-hoa-dien-tan-cuong-thanh-hai/` | Có nội dung thật, nhưng không có trong DB và URL trả 404, trong khi menu đang link tới | **Giữ nội dung, chuyển thành BLOG post**, rồi sửa link (R2) |
 | B5 | `/gift-card-balance` + `templates/gift-card-balance.html` + `pages.giftcard` trong JS + key `page.giftCardBalance` | 0 link tới (chỉ có controller). JS ghi chú không có dịch vụ thẻ quà tặng, mọi mã đều nhận cùng một câu trả lời | **X** (hoặc **C** nếu shop định bán thẻ quà tặng) |
 | B6 | `/stores` + `stores.json` rỗng | Footer và `appointment.html` link tới. ✅ trình duyệt: trang hiện "Chưa có cửa hàng để hiển thị." | **C**: điền địa chỉ thật (ví dụ cửa hàng 5 Đặng Dung, Ba Đình nếu anh xác nhận), hoặc bỏ link và bỏ route |
@@ -147,7 +147,7 @@ Không đổi từ lúc clone: toàn bộ `ecommerce-ext/` (trừ `EcmStoreConta
 ### Cần anh Johnny quyết
 (✏️ Đã bỏ câu hỏi về 48 commit / 15 file sửa dở, vì đã xử lý xong như ghi ở đầu báo cáo.)
 > Bản 3: danh sách mới nhất (thêm câu 4) nằm ở cuối mục (f).
-1. B3: dùng theme templates làm nguồn UI duy nhất (khuyến nghị), hay quản lý nội dung qua CMS?
+1. B3: ✅ **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).**
 2. B5/B6: shop có bán thẻ quà tặng không? Có địa chỉ cửa hàng thật để đưa vào `/stores` không?
 3. Phase 6 (đổi tên module/package): làm hay không?
 
@@ -308,7 +308,7 @@ bash ~/ezyplatform-dev-site/ezyplatform-ctl.sh stop --dir ~/ezyplatform-dev-site
 - Không có LaunchAgent, crontab hay login item nào tự bật bản native.
 
 ### Cập nhật "Cần anh Johnny quyết" (bản 3)
-1. B3: theme là nguồn UI duy nhất (khuyến nghị) hay CMS? Quyết định này xác định dòng "Page do CMS quản lý" trong bảng (f) có dùng hay không.
+1. B3: ✅ **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).** Dòng "Page do CMS quản lý" trong bảng (f) không dùng.
 2. B5/B6: thẻ quà tặng, địa chỉ cửa hàng thật cho `/stores`.
 3. Phase 6 (đổi tên module/package): làm hay không.
 4. 🆕 F-1: **Đã chốt: Docker :8080 là môi trường chính, native tắt và giữ lại (anh Johnny, 2026-11-24).**
