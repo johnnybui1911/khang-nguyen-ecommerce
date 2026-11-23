@@ -16,12 +16,10 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 
-LINKS = ["home.html=/", "category.html=/products", "product.html=/vong-ngoc-demo"]
 # (reference page, page folder, href rewrites, extra literal rewrites)
 PAGES = [
     ("home.html", "home", ["home.html=/", "category.html=/products", "product.html=/products"],
-     [('href="/products#kien-thuc"', 'href="/ngoc-hoa-dien-tan-cuong-thanh-hai"')]),
-    ("product.html", "vong-ngoc-demo", LINKS, []),
+     [('href="/products#kien-thuc"', 'href="/blog/ngoc-hoa-dien-tan-cuong-thanh-hai"')]),
     ("customer-service.html", "customer-service", ["home.html=/"], []),
     ("article.html", "ngoc-hoa-dien-tan-cuong-thanh-hai", ["home.html=/", "category.html=/products"], []),
 ]
