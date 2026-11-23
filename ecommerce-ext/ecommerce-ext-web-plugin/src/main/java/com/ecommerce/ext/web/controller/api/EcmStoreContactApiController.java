@@ -50,14 +50,14 @@ public class EcmStoreContactApiController {
         Pattern.compile("^[A-Za-z0-9._%+'-]{1,64}@[A-Za-z0-9.-]{1,190}\\.[A-Za-z]{2,24}$");
     private static final Pattern PHONE = Pattern.compile("^\\+?[0-9]{8,15}$");
     private static final Pattern TIME = Pattern.compile("^(1[0-9]|2[01]):[03]0$");
-    private static final ZoneId SHOP_ZONE = ZoneId.of("Asia/Singapore");
+    private static final ZoneId SHOP_ZONE = ZoneId.of("Asia/Ho_Chi_Minh");
     private static final int MAX_DAYS_AHEAD = 90;
     private static final List<String> TOPICS = Arrays.asList(
         "order", "product", "repair", "gift-card", "other"
     );
     private static final Map<String, String> STORE_NAMES = storeNames();
     private static final String DEFAULT_STORES =
-        "ion-orchard,marina-bay-sands,vivocity,suntec-city,parkway-parade";
+        "ha-noi,tp-ho-chi-minh";
 
     private final EcmRateLimiter limiter = new EcmRateLimiter(
         intProperty("ecm.ratelimit.contact.max", 5),
@@ -264,11 +264,8 @@ public class EcmStoreContactApiController {
 
     private static Map<String, String> storeNames() {
         Map<String, String> names = new LinkedHashMap<>();
-        names.put("ion-orchard", "Khang Nguyen ION Orchard");
-        names.put("marina-bay-sands", "Khang Nguyen Marina Bay Sands");
-        names.put("vivocity", "Khang Nguyen VivoCity");
-        names.put("suntec-city", "Khang Nguyen Suntec City");
-        names.put("parkway-parade", "Khang Nguyen Parkway Parade");
+        names.put("ha-noi", "Khang Nguyên Hà Nội");
+        names.put("tp-ho-chi-minh", "Khang Nguyên TP. Hồ Chí Minh");
         return names;
     }
 

@@ -59,6 +59,26 @@
         });
     }
 
+    /* The shop sells in Vietnam: Vietnam is always first in a country list and is the default for any address. */
+    function isVietnam(c) {
+        var label = (c.localName || '') + ' ' + (c.internationalName || '');
+        return /^(vn|vnm)$/i.test(c.countryCode || c.code || '') || /viet\s?nam|việt\s?nam/i.test(label);
+    }
+    function vietnamFirst(list) {
+        var rows = Array.isArray(list) ? list : ((list && list.items) || []);
+        return rows.filter(isVietnam).concat(rows.filter(function (c) { return !isVietnam(c); }));
+    }
+    var vietnamIdCache;
+    function vietnamId() {
+        if (!vietnamIdCache) {
+            vietnamIdCache = api('/api/v1/countries').then(function (list) {
+                var first = vietnamFirst(list)[0];
+                return first && isVietnam(first) ? Number(first.id) : 0;
+            }).catch(function () { return 0; });
+        }
+        return vietnamIdCache;
+    }
+
     function qs(params) {
         var out = [];
         Object.keys(params).forEach(function (k) {
@@ -892,16 +912,13 @@
                     q('[data-kn-state]', root).firstChild.appendChild(el('div', {}, [el('a', {'class': 'kn-btn kn-btn--inline', href: '/products', text: 'Tiếp tục xem sản phẩm'})]));
                     return;
                 }
-                var countries = Array.isArray(res[2]) ? res[2] : (res[2].items || []);
+                var countries = vietnamFirst(res[2]);
                 var cSel = q('#swCountry');
                 clear(cSel);
-                var vietnam = '';
                 countries.forEach(function (c) {
-                    var label = c.localName || c.internationalName || c.code;
-                    if (/^(vn|vnm)$/i.test(c.code || '') || /viet\s?nam/i.test(label + ' ' + (c.internationalName || ''))) { vietnam = String(c.id); }
-                    cSel.appendChild(el('option', {value: String(c.id), text: label}));
+                    cSel.appendChild(el('option', {value: String(c.id), text: c.localName || c.internationalName || c.code}));
                 });
-                if (vietnam) { cSel.value = vietnam; }
+                if (countries.length && isVietnam(countries[0])) { cSel.value = String(countries[0].id); }
                 var services = Array.isArray(res[3]) ? res[3] : (res[3].items || res[3].paymentServices || []);
                 var pSel = q('#swPay');
                 clear(pSel);
@@ -1039,6 +1056,8 @@
             dl.appendChild(el('dd', {text: value}));
         }
         var account = null;
+        var vnId = 0;
+        vietnamId().then(function (id) { vnId = id; });
         var form = q('#swProfileForm');
         function isoDate(ms) {
             return ms > 0 ? new Date(ms).toISOString().slice(0, 10) : '';
@@ -1102,7 +1121,7 @@
                 phone: form.elements.phone.value.replace(/[\s\-.()]/g, ''),
                 dateOfBirth: born ? Date.parse(born + 'T00:00:00Z') : 0,
                 addressNumber: form.elements.address.value.trim(),
-                addressCountryId: account.addressCountryId || 0,
+                addressCountryId: account.addressCountryId || vnId,
                 addressProvinceId: account.addressProvinceId || 0,
                 addressDistrictId: account.addressDistrictId || 0,
                 addressWardId: account.addressWardId || 0
