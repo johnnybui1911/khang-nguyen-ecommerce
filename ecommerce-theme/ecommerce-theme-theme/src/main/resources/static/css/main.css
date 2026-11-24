@@ -593,4 +593,17 @@ ul.kn-cells{list-style:none}
   .kn-bag{position:relative;width:36px;padding:0;justify-content:center;gap:0}
   .kn-bag .kn-badge{position:absolute;top:-6px;right:-6px;min-width:18px;height:18px;padding:0 4px;font-size:10px}
 }
+.kn-pay{margin:0 0 20px;padding:0;border:0;display:grid;gap:12px}
+.kn-pay legend{padding:0;margin:0 0 8px;font-size:13px;color:var(--kn-body)}
+.kn-pay__opt{position:relative;display:flex;align-items:flex-start;gap:12px;padding:16px;border:1px solid var(--kn-line-strong);border-radius:14px;background:var(--kn-white)}
+.kn-pay__opt:has(input:checked){border-color:var(--kn-jade);background:var(--kn-jade-mist)}
+.kn-pay__opt input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--kn-jade)}
+.kn-pay__opt label{display:grid;gap:4px;cursor:pointer;color:var(--kn-ink)}
+.kn-pay__opt label small{color:var(--kn-muted);font-size:13px}
+.kn-bank__body{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;margin:0 0 16px}
+.kn-bank__qr{width:220px;height:220px;border:1px solid var(--kn-line);border-radius:12px;background:var(--kn-white)}
+.kn-bank__body .kn-dl{flex:1 1 260px;margin:0}
+.kn-bank__copy{margin-left:12px;min-height:32px;padding:0 12px;border:1px solid var(--kn-line-strong);border-radius:9999px;background:var(--kn-white);color:var(--kn-jade-deep);font:500 13px/1 var(--kn-sans);cursor:pointer}
+.kn-bank__copy:hover{border-color:var(--kn-jade)}
+@media (max-width:640px){.kn-bank__qr{width:100%;max-width:260px;height:auto}.kn-bank .kn-dl{grid-template-columns:1fr}.kn-bank__copy{margin:4px 0 0}}
 @media (max-width:359px){.kn-brand svg{display:none}}

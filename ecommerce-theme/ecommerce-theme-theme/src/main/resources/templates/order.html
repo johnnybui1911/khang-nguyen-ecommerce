@@ -12,6 +12,19 @@
       <p id="knOrderStatus" role="status"></p>
       <dl class="kn-dl" id="knOrderMeta"></dl>
     </section>
+    <section class="kn-card kn-bank" id="knOrderBank" hidden>
+      <h2>Chuyển khoản ngân hàng</h2>
+      <p id="knBankNote"></p>
+      <div class="kn-bank__body">
+        <img class="kn-bank__qr" id="knBankQr" alt="Mã QR chuyển khoản" width="220" height="220" hidden />
+        <dl class="kn-dl" id="knBankInfo"></dl>
+      </div>
+      <p class="kn-muted" id="knBankWait" role="status">Đơn sẽ tự chuyển sang “Đã thanh toán” sau khi chúng tôi nhận được tiền. Trang này tự cập nhật.</p>
+    </section>
+    <section class="kn-card" id="knOrderCod" hidden>
+      <h2>Thanh toán khi nhận hàng</h2>
+      <p>Bạn thanh toán bằng tiền mặt cho nhân viên giao hàng khi nhận được sản phẩm.</p>
+    </section>
     <section class="kn-card">
       <h2>Sản phẩm</h2>
       <ul class="kn-mini" id="knOrderLines"></ul>

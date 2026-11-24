@@ -920,11 +920,27 @@
                 });
                 if (countries.length && isVietnam(countries[0])) { cSel.value = String(countries[0].id); }
                 var services = Array.isArray(res[3]) ? res[3] : (res[3].items || res[3].paymentServices || []);
-                var pSel = q('#knPay');
-                clear(pSel);
-                services.forEach(function (s) {
+                var pBox = q('#knPay');
+                qa('.kn-pay__opt', pBox).forEach(function (n) { pBox.removeChild(n); });
+                var payLabels = {
+                    KN_BANK: ['Chuyển khoản ngân hàng', 'Quét mã QR, đơn tự xác nhận khi tiền về.'],
+                    KN_COD: ['Thanh toán khi nhận hàng (COD)', 'Áp dụng cho đơn đến 5.000.000 ₫.']
+                };
+                services.filter(function (s) {
+                    return (s.code || s.paymentServiceCode || s.name) !== 'ECM_DEMO';
+                }).forEach(function (s, idx) {
                     var code = s.code || s.paymentServiceCode || s.name;
-                    pSel.appendChild(el('option', {value: code, text: s.displayName || s.name || code}));
+                    var lab = payLabels[code] || [s.displayName || s.name || code, ''];
+                    var id = 'knPay' + idx;
+                    var input = el('input', {type: 'radio', id: id, name: 'paymentServiceCode', value: code});
+                    if (idx === 0) { input.checked = true; }
+                    pBox.appendChild(el('div', {'class': 'kn-pay__opt'}, [
+                        input,
+                        el('label', {'for': id}, [
+                            el('strong', {text: lab[0]}),
+                            el('small', {text: lab[1]})
+                        ])
+                    ]));
                 });
                 var mini = q('#knMini');
                 clear(mini);
@@ -955,7 +971,7 @@
                 if (!f[required[i]].value.trim()) { showErr('Vui lòng điền đủ thông tin giao hàng.', f[required[i]]); return; }
             }
             if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Nhập địa chỉ email hợp lệ.', f.deliveryEmail); return; }
-            if (!f.paymentServiceCode.value) { showErr('Hiện chưa có phương thức thanh toán nào.', f.paymentServiceCode); return; }
+            if (!f.paymentServiceCode || !f.paymentServiceCode.value) { showErr('Vui lòng chọn phương thức thanh toán.', q('#knPay input')); return; }
             var btn = q('#knPlace');
             btn.disabled = true;
             btn.textContent = 'Đang đặt hàng…';
@@ -1625,6 +1641,55 @@
             dl.appendChild(el('dt', {text: label}));
             dl.appendChild(el('dd', {text: value}));
         }
+        var pollTimer = 0;
+        var pollUntil = Date.now() + 30 * 60 * 1000;
+        function copyButton(text) {
+            var btn = el('button', {type: 'button', 'class': 'kn-bank__copy', text: 'Sao chép'});
+            btn.addEventListener('click', function () {
+                var done = function () { btn.textContent = 'Đã chép'; setTimeout(function () { btn.textContent = 'Sao chép'; }, 1500); };
+                if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function () {}); }
+            });
+            return btn;
+        }
+        function showPayment(o, paid) {
+            var bank = q('#knOrderBank');
+            var cod = q('#knOrderCod');
+            bank.hidden = true;
+            cod.hidden = !(/[?&]pay=cod\b/.test(location.search) && !paid);
+            if (paid) { return; }
+            api('/api/v1/orders/' + encodeURIComponent(id) + '/bank-transfer').then(function (b) {
+                if (!b || !b.available) { return; }
+                var info = q('#knBankInfo');
+                var qr = q('#knBankQr');
+                clear(info);
+                var amount = money(b.amount, 'VND');
+                if (b.configured) {
+                    qr.hidden = !b.qrUrl;
+                    if (b.qrUrl) { qr.src = b.qrUrl; }
+                    q('#knBankNote').textContent = 'Quét mã QR hoặc chuyển khoản theo thông tin dưới đây. Giữ nguyên nội dung chuyển khoản để đơn được xác nhận tự động.';
+                    [['Ngân hàng', b.bankName], ['Số tài khoản', b.accountNumber, true], ['Chủ tài khoản', b.accountOwner], ['Số tiền', amount], ['Nội dung', b.content, true]].forEach(function (r) {
+                        info.appendChild(el('dt', {text: r[0]}));
+                        info.appendChild(el('dd', {}, r[2] ? [el('strong', {text: r[1]}), copyButton(r[1])] : [el('strong', {text: r[1]})]));
+                    });
+                } else {
+                    qr.hidden = true;
+                    q('#knBankNote').textContent = 'Thông tin tài khoản nhận tiền sẽ được gửi cho bạn qua email. Mã nội dung chuyển khoản của đơn này:';
+                    info.appendChild(el('dt', {text: 'Nội dung'}));
+                    info.appendChild(el('dd', {}, [el('strong', {text: b.content}), copyButton(b.content)]));
+                    info.appendChild(el('dt', {text: 'Số tiền'}));
+                    info.appendChild(el('dd', {}, [el('strong', {text: amount})]));
+                }
+                bank.hidden = false;
+                if (!pollTimer) {
+                    pollTimer = setInterval(function () {
+                        if (Date.now() > pollUntil) { clearInterval(pollTimer); return; }
+                        api('/api/v1/orders/' + encodeURIComponent(id)).then(function (fresh) {
+                            if (fresh.paymentStatus === 'PAID') { clearInterval(pollTimer); load(); }
+                        }).catch(function () { /* next tick retries */ });
+                    }, 10000);
+                }
+            }).catch(function () { /* the order page still works without the transfer block */ });
+        }
         function load() {
             setState(root, 'loading', 'Đang tải đơn hàng…');
             api('/api/v1/orders/' + encodeURIComponent(id)).then(function (o) {
@@ -1651,6 +1716,7 @@
                 var track = q('#knOrderTrack');
                 if (track) { track.setAttribute('href', '/order-status?order=' + encodeURIComponent(o.id)); }
                 q('#knOrder').hidden = false;
+                showPayment(o, paid);
                 d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';
             }).catch(function (e) {
                 if (e.status === 401) { goLogin(location.pathname); return; }
