@@ -166,14 +166,17 @@
     }
 
     var STATUS_VI = {
-        pending: 'đang chờ xử lý', unpaid: 'chưa thanh toán', paid: 'đã thanh toán', processing: 'đang xử lý',
-        confirmed: 'đã xác nhận', shipping: 'đang giao hàng', shipped: 'đã giao cho đơn vị vận chuyển',
-        delivered: 'đã giao hàng', completed: 'hoàn tất', cancelled: 'đã hủy', canceled: 'đã hủy',
-        refunded: 'đã hoàn tiền', failed: 'thất bại', waiting_payment: 'chờ thanh toán', created: 'đã tạo đơn'
+        waiting_for_payment: 'CHỜ THANH TOÁN', waiting_payment: 'CHỜ THANH TOÁN', pending: 'CHỜ XỬ LÝ',
+        unpaid: 'CHƯA THANH TOÁN', paid: 'ĐÃ THANH TOÁN', partially_paid: 'THANH TOÁN MỘT PHẦN',
+        processing: 'ĐANG XỬ LÝ', confirmed: 'ĐÃ XÁC NHẬN', shipping: 'ĐANG GIAO HÀNG',
+        shipped: 'ĐÃ GIAO CHO VẬN CHUYỂN', delivering: 'ĐANG GIAO HÀNG', delivered: 'ĐÃ GIAO HÀNG',
+        completed: 'HOÀN TẤT', cancelled: 'ĐÃ HỦY', canceled: 'ĐÃ HỦY', refunded: 'ĐÃ HOÀN TIỀN',
+        refunding: 'ĐANG HOÀN TIỀN', failed: 'THẤT BẠI', created: 'ĐÃ TẠO ĐƠN', cod: 'THANH TOÁN KHI NHẬN HÀNG',
+        cash_on_delivery: 'THANH TOÁN KHI NHẬN HÀNG', bank_transfer: 'CHUYỂN KHOẢN'
     };
     function statusText(v) {
-        var key = String(v || '').toLowerCase();
-        return STATUS_VI[key] || key.replace(/_/g, ' ');
+        var raw = String(v || '');
+        return STATUS_VI[raw.toLowerCase()] || raw;
     }
     function dateText(ms, withTime) {
         if (!ms) { return ''; }
