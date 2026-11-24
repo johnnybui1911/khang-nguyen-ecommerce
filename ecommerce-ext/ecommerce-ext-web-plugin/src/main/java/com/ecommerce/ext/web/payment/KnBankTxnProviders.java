@@ -2,6 +2,7 @@ package com.ecommerce.ext.web.payment;
 
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,13 +11,19 @@ import java.util.Optional;
 public class KnBankTxnProviders {
 
     @EzyAutoBind
-    private List<KnBankTxnProvider> providers;
+    private KnSepayProvider sepay;
+
+    @EzyAutoBind
+    private KnPayosProvider payos;
+
+    @EzyAutoBind
+    private KnCassoProvider casso;
 
     public Optional<KnBankTxnProvider> find(String name) {
-        return providers.stream().filter(p -> p.getName().equals(name)).findFirst();
+        return all().stream().filter(p -> p.getName().equals(name)).findFirst();
     }
 
     public List<KnBankTxnProvider> all() {
-        return providers;
+        return Arrays.asList(sepay, payos, casso);
     }
 }
