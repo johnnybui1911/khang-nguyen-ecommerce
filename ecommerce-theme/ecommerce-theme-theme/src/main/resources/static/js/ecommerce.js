@@ -850,9 +850,15 @@
         if (src) { imgBox.appendChild(el('img', {src: src, alt: ''})); }
         var minus = el('button', {type: 'button', 'aria-label': 'Giảm số lượng ' + p.name, text: '−'});
         var plus = el('button', {type: 'button', 'aria-label': 'Tăng số lượng ' + p.name, text: '+'});
-        var input = el('input', {type: 'number', min: '1', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Số lượng ' + p.name});
+        var input = el('input', {type: 'number', min: '0', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Số lượng ' + p.name});
+        function removeLine() {
+            writeBag(readBag().filter(function (l) { return l.id !== p.id; }));
+            rerender();
+        }
         function setQty(n) {
-            n = Math.max(1, Math.floor(n) || 1);
+            n = Math.floor(n);
+            // going below 1 (minus at 1, or typing 0) takes the item out of the bag
+            if (n < 1) { removeLine(); return; }
             if (p.amount && n > p.amount) { n = p.amount; }
             var lines = readBag();
             lines.forEach(function (l) { if (l.id === p.id) { l.qty = n; } });
@@ -861,12 +867,12 @@
         }
         minus.addEventListener('click', function () { setQty(r.line.qty - 1); });
         plus.addEventListener('click', function () { setQty(r.line.qty + 1); });
-        input.addEventListener('change', function () { setQty(Number(input.value)); });
-        var remove = el('button', {type: 'button', 'class': 'kn-rm', text: 'Xóa khỏi giỏ'});
-        remove.addEventListener('click', function () {
-            writeBag(readBag().filter(function (l) { return l.id !== p.id; }));
-            rerender();
+        input.addEventListener('change', function () {
+            var v = input.value.trim();
+            setQty(v === '' || isNaN(Number(v)) ? r.line.qty : Number(v));
         });
+        var remove = el('button', {type: 'button', 'class': 'kn-rm', text: 'Xóa khỏi giỏ'});
+        remove.addEventListener('click', removeLine);
         var info = el('div', {}, [
             el('h3', {}, [el('a', {href: '/products/' + encodeURIComponent(p.code), text: p.name})]),
             el('p', {'class': 'kn-line__price', text: lineTotalText(p, r.line.qty)}),
