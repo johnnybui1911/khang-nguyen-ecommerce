@@ -13,10 +13,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.LongSupplier;
 import java.util.function.LongConsumer;
 
 /**
- * SePay. The webhook carries {@code Authorization: Apikey <key>}; the poll job reads incoming
+ * SePay. The webhook is signed ({@code X-SePay-Signature: sha256=<hex>} over
+ * {@code <X-SePay-Timestamp>.<raw body>}) or, as a fallback, carries
+ * {@code Authorization: Apikey <key>}; the poll job reads incoming
  * transactions from the v2 list API with a bearer token as a safety net when a webhook is lost.
  * The base URL is a setting so the sandbox ({@code https://userapi-sandbox.sepay.vn/v2}) works.
  */
@@ -29,6 +32,7 @@ public class KnSepayProvider implements KnBankTxnProvider {
     static final int MAX_PAGES = 20;
     /** The API allows 3 calls per second. */
     static final long MIN_CALL_GAP_MS = 350;
+    static final long MAX_CLOCK_SKEW_SECONDS = 300;
     private static final long FIRST_POLL_LOOKBACK_DAYS = 2;
     private static final DateTimeFormatter DATE_TIME =
         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -41,6 +45,7 @@ public class KnSepayProvider implements KnBankTxnProvider {
     private final Function<String, String> keyOverride;
     private final BiFunction<String, String, String> fetcher;
     private final LongConsumer pause;
+    private final LongSupplier clockSeconds;
 
     /** Id of the newest transaction read so far; only the polling thread touches it. */
     private volatile String lastSeenId = "";
@@ -49,6 +54,7 @@ public class KnSepayProvider implements KnBankTxnProvider {
         this.keyOverride = null;
         this.fetcher = KnHttp::get;
         this.pause = KnSepayProvider::sleep;
+        this.clockSeconds = () -> System.currentTimeMillis() / 1000;
     }
 
     KnSepayProvider(Function<String, String> keys) {
@@ -60,6 +66,20 @@ public class KnSepayProvider implements KnBankTxnProvider {
         BiFunction<String, String, String> fetcher,
         LongConsumer pause
     ) {
+        this(keys, fetcher, pause, () -> System.currentTimeMillis() / 1000);
+    }
+
+    KnSepayProvider(Function<String, String> keys, LongSupplier clockSeconds) {
+        this(keys, KnHttp::get, millis -> { }, clockSeconds);
+    }
+
+    private KnSepayProvider(
+        Function<String, String> keys,
+        BiFunction<String, String, String> fetcher,
+        LongConsumer pause,
+        LongSupplier clockSeconds
+    ) {
+        this.clockSeconds = clockSeconds;
         this.keyOverride = keys;
         this.fetcher = fetcher;
         this.pause = pause;
@@ -84,7 +104,8 @@ public class KnSepayProvider implements KnBankTxnProvider {
 
     @Override
     public boolean isEnabled() {
-        return !key(KnPaymentSettings.SEPAY_WEBHOOK_KEY).isEmpty();
+        return !key(KnPaymentSettings.SEPAY_WEBHOOK_KEY).isEmpty()
+            || !key(KnPaymentSettings.SEPAY_HMAC_SECRET).isEmpty();
     }
 
     @Override
@@ -94,11 +115,7 @@ public class KnSepayProvider implements KnBankTxnProvider {
 
     @Override
     public List<KnBankTxn> parseWebhook(Map<String, String> headers, String body) {
-        String expected = key(KnPaymentSettings.SEPAY_WEBHOOK_KEY);
-        String authorization = headers.getOrDefault("authorization", "");
-        if (!KnSecrets.sameSecret(expected, authorization.replaceFirst("(?i)^apikey\\s+", ""))) {
-            throw new KnWebhookRejectedException("invalid api key", true);
-        }
+        authenticate(headers, body);
         JsonNode node = readJson(body);
         List<KnBankTxn> result = new ArrayList<>();
         if (!"in".equalsIgnoreCase(node.path("transferType").asText())) {
@@ -116,6 +133,42 @@ public class KnSepayProvider implements KnBankTxnProvider {
             contentOf(node.path("content"), node.path("code"))
         ));
         return result;
+    }
+
+    /**
+     * A signed request must carry a valid, fresh signature; there is no fallback once the
+     * signature header is present. Only unsigned requests fall back to the API key.
+     */
+    private void authenticate(Map<String, String> headers, String body) {
+        String hmacSecret = key(KnPaymentSettings.SEPAY_HMAC_SECRET);
+        String signature = headers.getOrDefault("x-sepay-signature", "");
+        if (!hmacSecret.isEmpty() && !signature.isEmpty()) {
+            verifySignature(hmacSecret, signature, headers.getOrDefault("x-sepay-timestamp", ""),
+                body == null ? "" : body);
+            return;
+        }
+        String expected = key(KnPaymentSettings.SEPAY_WEBHOOK_KEY);
+        String authorization = headers.getOrDefault("authorization", "");
+        if (!KnSecrets.sameSecret(expected, authorization.replaceFirst("(?i)^apikey\\s+", ""))) {
+            throw new KnWebhookRejectedException("invalid api key", true);
+        }
+    }
+
+    private void verifySignature(String secret, String signature, String timestamp, String body) {
+        long sentAt;
+        try {
+            sentAt = Long.parseLong(timestamp.trim());
+        } catch (NumberFormatException e) {
+            throw new KnWebhookRejectedException("invalid timestamp", true);
+        }
+        if (Math.abs(clockSeconds.getAsLong() - sentAt) > MAX_CLOCK_SKEW_SECONDS) {
+            throw new KnWebhookRejectedException("stale timestamp", true);
+        }
+        String signed = timestamp.trim() + "." + body;
+        String expected = "sha256=" + KnSecrets.hmacSha256Hex(secret, signed);
+        if (!KnSecrets.sameSecret(expected, signature.trim().toLowerCase())) {
+            throw new KnWebhookRejectedException("invalid signature", true);
+        }
     }
 
     @Override
