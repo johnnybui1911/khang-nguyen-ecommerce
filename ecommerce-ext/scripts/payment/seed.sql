@@ -1,7 +1,7 @@
 -- Payment methods for the storefront: cash on delivery (KN_COD) and bank transfer (KN_BANK),
 -- plus the shop bank account shown to customers. Safe to run more than once.
--- The account number is a placeholder until the shop gives the real one; the order page
--- shows no QR code and no transfer details while it is still PLACEHOLDER.
+-- The shop account is Techcombank 19020221216026 (LE HONG NGHIA). A database seeded earlier
+-- with the PLACEHOLDER account is updated to it; an account edited since is left alone.
 -- Undo with rollback.sql.
 
 SET NAMES utf8mb4;
@@ -21,9 +21,14 @@ FROM (
 WHERE NOT EXISTS (SELECT 1 FROM ecommerce_banks b WHERE b.bank_code = v.bank_code);
 
 INSERT INTO ecommerce_shop_bank_accounts (shop_id, bank_id, bank_branch_of_account, account_number, account_owner_name, account_qr_code_image_id, display_order, status, created_at, updated_at)
-SELECT 1, (SELECT id FROM ecommerce_banks WHERE bank_code = 'MB'), '', 'PLACEHOLDER', 'KHANG NGUYEN', 0, 1, 'ACTIVATED', NOW(), NOW()
+SELECT 1, (SELECT id FROM ecommerce_banks WHERE bank_code = 'TCB'), '', '19020221216026', 'LE HONG NGHIA', 0, 1, 'ACTIVATED', NOW(), NOW()
 FROM DUAL
 WHERE NOT EXISTS (SELECT 1 FROM ecommerce_shop_bank_accounts WHERE shop_id = 1);
+
+UPDATE ecommerce_shop_bank_accounts
+SET bank_id = (SELECT id FROM ecommerce_banks WHERE bank_code = 'TCB'),
+    account_number = '19020221216026', account_owner_name = 'LE HONG NGHIA', updated_at = NOW()
+WHERE shop_id = 1 AND account_number = 'PLACEHOLDER';
 
 INSERT INTO ecommerce_payment_service_settings (payment_service_code, payment_service_name, payment_service_version, logo_image_id, banner_image_id, bank_id, currency_id, priority, handling_service, status, created_at, updated_at)
 SELECT 'KN_BANK', 'Chuyển khoản ngân hàng', '1', 0, 0, 0, 6, 2, 'KN_BANK', 'ACTIVATED', NOW(), NOW() FROM DUAL
