@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <name>ecommerce-theme</name>
-    <description>Ecommerce Theme</description>
+    <description>Khang Nguyên Theme</description>
 
     <properties>
         <!--suppress UnresolvedMavenProperty -->

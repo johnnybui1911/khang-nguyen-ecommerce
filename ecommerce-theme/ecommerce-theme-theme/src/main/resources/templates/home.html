@@ -3,7 +3,7 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div id="swMain" tabindex="-1">
+<div id="knMain" tabindex="-1">
 <section class="kn-hero kn-carousel" data-kn-carousel role="region" aria-roledescription="carousel" aria-label="Món mới và ưu đãi">
   <ul class="kn-carousel__track" tabindex="0" aria-label="Danh sách slide">
     <li class="kn-slide" role="group" aria-roledescription="slide" aria-label="1 / 5">
@@ -41,11 +41,11 @@
     <h2 id="kn-strip-h">Chọn theo <em>loại trang sức</em></h2>
   </div>
   <div class="kn-toolbar">
-    <ul class="kn-chips" id="swHomeCats" data-kn-chips>
+    <ul class="kn-chips" id="knHomeCats" data-kn-chips>
+      <li><a class="kn-chip" href="/categories/set-nhan-vong">Set nhẫn &amp; vòng</a></li>
       <li><a class="kn-chip" href="/categories/vong-ngoc">Vòng ngọc</a></li>
-      <li><a class="kn-chip" href="/categories/nhan-ngoc">Nhẫn ngọc</a></li>
       <li><a class="kn-chip" href="/categories/chuoi-hat">Chuỗi hạt</a></li>
-      <li><a class="kn-chip" href="/categories/set-nhan-vong">Set nhẫn vòng</a></li>
+      <li><a class="kn-chip" href="/categories/nhan-ngoc">Nhẫn ngọc</a></li>
     </ul>
   </div>
 </section>
@@ -53,7 +53,7 @@
 <section class="kn-shelf" id="bo-suu-tap" aria-label="Sản phẩm mới">
   <h2 class="kn-shelf__head">Mới lên kệ</h2>
   <div data-kn-state></div>
-  <ul class="kn-cells" id="swGrid" data-limit="6"></ul>
+  <ul class="kn-cells" id="knGrid" data-limit="6"></ul>
   <p class="kn-shelf__foot"><a class="kn-all" href="/products">Xem tất cả</a></p>
 </section>
 

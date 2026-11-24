@@ -3,13 +3,13 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div class="kn-auth" id="swMain" tabindex="-1">
+<div class="kn-auth" id="knMain" tabindex="-1">
   <h1>Đăng <em>nhập</em></h1>
-  <form class="kn-form" id="swAuthForm" data-mode="login" novalidate>
+  <form class="kn-form" id="knAuthForm" data-mode="login" novalidate>
     <div class="kn-field"><label for="f-username">Tên đăng nhập</label><input class="kn-input" id="f-username" name="username" required autocomplete="username" /></div>
     <div class="kn-field"><label for="f-password">Mật khẩu</label><input class="kn-input" id="f-password" name="password" type="password" required autocomplete="current-password" /></div>
-    <p class="kn-error" id="swFormErr" role="alert" hidden></p>
-    <button type="submit" class="kn-btn" id="swAuthBtn">Đăng nhập</button>
+    <p class="kn-error" id="knFormErr" role="alert" hidden></p>
+    <button type="submit" class="kn-btn" id="knAuthBtn">Đăng nhập</button>
   </form>
   <p class="kn-alt"><a href="/forgot-password">Quên mật khẩu?</a></p>
   <p class="kn-alt">Chưa có tài khoản? <a href="/register" data-kn-next-link>Tạo tài khoản</a></p>

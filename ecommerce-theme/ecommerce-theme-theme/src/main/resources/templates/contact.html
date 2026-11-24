@@ -3,10 +3,10 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div class="kn-narrow" id="swMain" tabindex="-1">
+<div class="kn-narrow" id="knMain" tabindex="-1">
   <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/customer-service">Chăm sóc khách hàng</a> / Liên hệ</nav>
   <div class="kn-page-title"><h1>Liên hệ <em>với chúng tôi</em></h1><p>Gửi tin nhắn cho đội ngũ chăm sóc khách hàng. Chúng tôi sẽ trả lời qua email.</p></div>
-  <form class="kn-form" id="swContactForm" novalidate>
+  <form class="kn-form" id="knContactForm" novalidate>
     <div class="kn-field"><label for="f-name">Họ và tên</label><input class="kn-input" id="f-name" name="name" required maxlength="100" autocomplete="name" /></div>
     <p class="kn-error" data-err-for="name" role="alert" hidden></p>
     <div class="kn-field"><label for="f-email">Email</label><input class="kn-input" id="f-email" name="email" type="email" required maxlength="254" autocomplete="email" /></div>
@@ -17,9 +17,9 @@
     <div class="kn-field"><label for="f-message">Nội dung</label><textarea class="kn-input" id="f-message" name="message" required maxlength="2000" rows="6"></textarea></div>
     <p class="kn-error" data-err-for="message" role="alert" hidden></p>
     <div class="kn-hp" aria-hidden="true"><label for="f-website">Website</label><input class="kn-input" id="f-website" name="website" tabindex="-1" autocomplete="off" /></div>
-    <p class="kn-error" id="swFormErr" role="alert" hidden></p>
-    <p class="kn-note" id="swFormOk" role="status" aria-live="polite" hidden></p>
-    <button type="submit" class="kn-btn kn-btn--inline" id="swFormBtn">Gửi tin nhắn</button>
+    <p class="kn-error" id="knFormErr" role="alert" hidden></p>
+    <p class="kn-note" id="knFormOk" role="status" aria-live="polite" hidden></p>
+    <button type="submit" class="kn-btn kn-btn--inline" id="knFormBtn">Gửi tin nhắn</button>
   </form>
 </div>
 </th:block>

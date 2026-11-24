@@ -12,7 +12,7 @@
     <packaging>pom</packaging>
 
     <name>ecommerce-ext</name>
-    <description>Ecommerce Ext</description>
+    <description>Khang Nguyên Ext</description>
 
     <properties>
         <!--suppress UnresolvedMavenProperty -->

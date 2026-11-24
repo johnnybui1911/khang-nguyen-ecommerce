@@ -1,1 +1,1 @@
-# Ecommerce Theme
+# Khang Nguyên Theme

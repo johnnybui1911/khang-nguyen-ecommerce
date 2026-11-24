@@ -3,11 +3,11 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div class="kn-narrow" id="swMain" tabindex="-1">
+<div class="kn-narrow" id="knMain" tabindex="-1">
   <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / <a href="/stores">Cửa hàng</a> / Đặt lịch hẹn</nav>
   <div class="kn-page-title"><h1>Đặt <em>lịch hẹn</em></h1><p>Chọn cửa hàng và thời gian. Cửa hàng sẽ xác nhận lịch qua email hoặc điện thoại.</p></div>
   <div data-kn-state></div>
-  <form class="kn-form" id="swApptForm" novalidate hidden>
+  <form class="kn-form" id="knApptForm" novalidate hidden>
     <div class="kn-field"><label for="f-storeId">Cửa hàng</label><select class="kn-input" id="f-storeId" name="storeId" required></select></div>
     <p class="kn-error" data-err-for="storeId" role="alert" hidden></p>
     <div class="kn-field"><label for="f-date">Ngày</label><input class="kn-input" id="f-date" name="date" type="date" required /></div>
@@ -23,9 +23,9 @@
     <div class="kn-field"><label for="f-note">Ghi chú (nếu có)</label><textarea class="kn-input" id="f-note" name="note" maxlength="500" rows="3"></textarea></div>
     <p class="kn-error" data-err-for="note" role="alert" hidden></p>
     <div class="kn-hp" aria-hidden="true"><label for="f-website">Website</label><input class="kn-input" id="f-website" name="website" tabindex="-1" autocomplete="off" /></div>
-    <p class="kn-error" id="swFormErr" role="alert" hidden></p>
-    <p class="kn-note" id="swFormOk" role="status" aria-live="polite" hidden></p>
-    <button type="submit" class="kn-btn kn-btn--inline" id="swFormBtn">Gửi yêu cầu đặt lịch</button>
+    <p class="kn-error" id="knFormErr" role="alert" hidden></p>
+    <p class="kn-note" id="knFormOk" role="status" aria-live="polite" hidden></p>
+    <button type="submit" class="kn-btn kn-btn--inline" id="knFormBtn">Gửi yêu cầu đặt lịch</button>
   </form>
 </div>
 </th:block>

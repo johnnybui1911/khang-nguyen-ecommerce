@@ -111,7 +111,7 @@ section_m2() {
 section_m3() {
   echo "== m3: cart -> checkout -> demo payment -> order, IDOR on $BASE_URL"
   # Needs a seeded shop/product with stock (each run buys 2 units; set PRODUCT_ID to one that has stock); override with PRODUCT_ID, CURRENCY_ID, COUNTRY_ID, PAY_CODE. PRICE is read from the catalog for CURRENCY_ID unless given.
-  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-6}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO_SG}"
+  local pid="${PRODUCT_ID:-1}" price="${PRICE:-}" cur="${CURRENCY_ID:-6}" ctry="${COUNTRY_ID:-1}" code="${PAY_CODE:-ECM_DEMO}"
   if [ ! -s "$JAR" ]; then
     local rc; rc=$(register_user)
     [ "$rc" = 200 ] && ok "register throw-away user" || { CODE=$rc; CTYPE=; : >"$TMP/body"; bad "register throw-away user"; }
@@ -206,8 +206,8 @@ section_f2() {
   expect "Swan pendant 5723387 has at least 2 colour siblings (5204133, 5732414)" \
     'python3 -c "import sys,json;d=json.load(open(sys.argv[1]));f=d[\"5723387\"][\"family\"];s=[k for k,v in d.items() if v[\"family\"]==f and v[\"colors\"]];sys.exit(0 if len(s)>=3 and {\"5204133\",\"5732414\"}<=set(s) else 1)" "$TMP/body"'
   req g2 guest GET /data/stores.json
-  expect "stores.json lists at least 1 store with name and address (hours optional)" \
-    '[ "$CODE" = 200 ] && python3 -c "import sys,json;s=json.load(open(sys.argv[1]))[\"stores\"];sys.exit(0 if len(s)>=1 and all(x[\"name\"] and x[\"address\"] for x in s) else 1)" "$TMP/body"'
+  expect "stores.json lists at least 1 store with name, address, hours and a tel: phone link" \
+    '[ "$CODE" = 200 ] && python3 -c "import sys,json;s=json.load(open(sys.argv[1]))[\"stores\"];sys.exit(0 if len(s)>=1 and all(x[\"name\"] and x[\"address\"] and x[\"hours\"] and x[\"phone\"] and x[\"phoneHref\"].startswith(\"tel:+\") for x in s) else 1)" "$TMP/body"'
   local pg
   for pg in stores order-status; do
     req g3 guest GET "/$pg"

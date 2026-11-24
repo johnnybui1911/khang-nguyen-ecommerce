@@ -3,15 +3,15 @@
 <head><meta name="viewport" content="width=device-width, initial-scale=1"></head>
 <body>
 <th:block layout:fragment="content">
-<div class="kn-narrow" id="swMain" tabindex="-1">
+<div class="kn-narrow" id="knMain" tabindex="-1">
   <nav class="kn-crumb" aria-label="Đường dẫn"><a href="/">Trang chủ</a> / Tài khoản</nav>
   <h1>Tài khoản <em>của tôi</em></h1>
   <div data-kn-state></div>
-  <div id="swAccount" hidden>
-    <section class="kn-card"><h2>Thông tin cá nhân</h2><dl class="kn-dl" id="swProfile"></dl>
-      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swEditProfile" aria-expanded="false" aria-controls="swProfileForm">Sửa thông tin</button>
-      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="swLogout">Đăng xuất</button>
-      <form class="kn-form" id="swProfileForm" novalidate hidden>
+  <div id="knAccount" hidden>
+    <section class="kn-card"><h2>Thông tin cá nhân</h2><dl class="kn-dl" id="knProfile"></dl>
+      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="knEditProfile" aria-expanded="false" aria-controls="knProfileForm">Sửa thông tin</button>
+      <button type="button" class="kn-btn kn-btn--ghost kn-btn--inline" id="knLogout">Đăng xuất</button>
+      <form class="kn-form" id="knProfileForm" novalidate hidden>
         <h2>Sửa thông tin</h2>
     <div class="kn-field"><label for="f-displayName">Tên hiển thị</label><input class="kn-input" id="f-displayName" name="displayName" autocomplete="name" /></div>
     <p class="kn-error" data-err-for="displayName" role="alert" hidden></p>
@@ -21,14 +21,14 @@
     <p class="kn-error" data-err-for="dateOfBirth" role="alert" hidden></p>
     <div class="kn-field"><label for="f-address">Địa chỉ</label><input class="kn-input" id="f-address" name="address" autocomplete="street-address" /></div>
     <p class="kn-error" data-err-for="addressNumber" role="alert" hidden></p>
-    <p class="kn-error" id="swProfileErr" role="alert" hidden></p>
-        <p class="kn-note" id="swProfileOk" role="status" aria-live="polite" hidden>Đã lưu</p>
-        <button type="submit" class="kn-btn kn-btn--inline" id="swProfileSave">Lưu</button>
+    <p class="kn-error" id="knProfileErr" role="alert" hidden></p>
+        <p class="kn-note" id="knProfileOk" role="status" aria-live="polite" hidden>Đã lưu</p>
+        <button type="submit" class="kn-btn kn-btn--inline" id="knProfileSave">Lưu</button>
       </form></section>
     <section class="kn-card"><h2>Lịch sử đơn hàng</h2>
       <p class="kn-note"><a class="kn-link" href="/order-status">Tra cứu tình trạng đơn</a></p>
       <div data-kn-orders-state></div>
-      <table class="kn-orders" id="swOrders" hidden>
+      <table class="kn-orders" id="knOrders" hidden>
         <thead><tr><th scope="col">Đơn hàng</th><th scope="col">Ngày đặt</th><th scope="col">Trạng thái</th><th scope="col">Tổng cộng</th></tr></thead>
         <tbody></tbody></table></section>
   </div>

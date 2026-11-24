@@ -41,7 +41,7 @@ ezyplatform/                      repo johnnybui1911/khang-nguyen-ecommerce
 | A1 | **Link chết trong menu:** `/ngoc-hoa-dien-tan-cuong-thanh-hai` được link 8 lần (theme: header 2, footer 1, home 1; CMS: header 2, footer 1, home 1) nhưng trả **404** | ✅ trình duyệt: bấm "Đọc bài viết" ở trang chủ thì ra trang "Không tìm thấy trang", request trả 404. `/blog/ngoc-hoa-dien-…` cũng 404. Trong DB không có post này; `meta.json` ghi DRAFT | **Lỗi, khách đang thấy** |
 | A2 | **Hai nguồn UI song song.** Theme templates là bản thật. `my-site/` là bản sao CMS, nhưng mọi bản ghi trong DB đều DRAFT nên không được serve. ✏️ CSS **596 dòng** (42,6 KB; bản 1 ghi nhầm ~914) tồn tại ở **7 chỗ** (1 nguồn + 6 bản chép): `main.css`, `docs/design/kn.css`, `theme/head.html` và inline trong 4 page CMS (`home`, `customer-service`, `ngoc-hoa-dien-…`, `vong-ngoc-demo`) | `diff main.css kn.css`: lệch 1 dòng; `diff main.css <style> của head.html`: lệch 1 dòng. Commit `d2e9666` (sửa 1 dòng CSS) phải sửa đúng 7 file, đúng bằng số bản chép. DB `ezyarticle_posts`: fragment 1–4, page 5 và 8 đều `DRAFT` | Cao (sửa 1 chỗ, phải sửa theo 6 chỗ) |
 | A3 | Tên kỹ thuật là "ecommerce" chung chung, không phải tên shop: thư mục, `artifactId`, package `com.ecommerce.*`, `project_name=Ecommerce Ext/Theme`, khoá settings `ecommerce_ext.*` | `module.properties`, `pom.xml` | Trung bình |
-| A4 | Còn dấu vết tiền tố của site gốc: **107 DOM id `sw*`** (`swMain`, `swPdp`, `swCats`, `swNewsForm`…) nằm trong ✏️ **33 file**: 26 template theme, `ecommerce.js`, 6 file CMS. CSS đã chuyển sang `kn-*`, còn id thì chưa | `grep -ohE '\bsw[A-Z][A-Za-z0-9_]*'` → 107 id khác nhau | Trung bình |
+| A4 | Còn dấu vết tiền tố của site gốc: **107 DOM id `sw*`** (`sw`+`Main`, `sw`+`Pdp`, `sw`+`Cats`, `sw`+`NewsForm`…) nằm trong ✏️ **33 file**: 26 template theme, `ecommerce.js`, 6 file CMS. CSS đã chuyển sang `kn-*`, còn id thì chưa | `grep -ohE '\bsw[A-Z][A-Za-z0-9_]*'` → 107 id khác nhau | Trung bình |
 | A5 | Lặp tên `ecommerce-theme/ecommerce-theme-theme`. Đặt tên class không thống nhất: plugin dùng `Ecm*`, theme dùng `WebEcommerceTheme*`. Slug fragment trong DB bị dính chữ: `ecommercecategory-strip`, `ecommerceheader` | Danh sách file; DB | Thấp |
 | A6 | Trang có route nhưng không có nghiệp vụ thật: `/gift-card-balance` (JS ghi rõ *"no gift-card service exists in this demo"*), `/stores` (`stores.json` có `"stores": []` nhưng footer vẫn link tới) | `ecommerce.js:1291-1292`, `static/data/stores.json`. ✅ trình duyệt `/stores`: khách thấy tiêu đề "Cửa hàng của chúng tôi" và một ô trống ghi **"Chưa có cửa hàng để hiển thị."**, không có địa chỉ, bản đồ hay giờ mở cửa | Trung bình |
 | A7 | Dữ liệu test lộ ra ngoài: blog post duy nhất đang PUBLISHED là *"Cách chọn vòng ngọc phỉ thuý hợp mệnh (bài thử)"*. Mã thanh toán cũ `ECM_DEMO_SG` trong `tests/api/run.sh:114`, dù đã bỏ Singapore. 🆕 DB còn setting `ecommerce_payment_service_ECM_DEMO_SG_secret_key` (giá trị đã che) | DB `ezyarticle_posts` id 11; grep; `ezy_settings` | Trung bình |
@@ -69,7 +69,7 @@ ezyplatform/                      repo johnnybui1911/khang-nguyen-ecommerce
 
 | # | Cũ | Mới | Lý do | Rủi ro |
 |---|---|---|---|---|
-| R1 | DOM id `sw*` (107 id) | `kn*` | Bỏ dấu vết site gốc, thống nhất với `kn-*` | **TB**: id là hợp đồng giữa template và `ecommerce.js`. Phải đổi cả hai trong một commit, có script, rồi chạy QA UI toàn site |
+| R1 | ✅ **Đã làm (Phase 5, 2026-11-24).** DOM id `sw*` (107 id) | `kn*` | Bỏ dấu vết site gốc, thống nhất với `kn-*` | **TB**: id là hợp đồng giữa template và `ecommerce.js`. Phải đổi cả hai trong một commit, có script, rồi chạy QA UI toàn site |
 | R2 | `href="/ngoc-hoa-dien-tan-cuong-thanh-hai"` (8 chỗ) | `/blog/ngoc-hoa-dien-tan-cuong-thanh-hai` (publish thành BLOG post) | Sửa A1. `/blog` đã chạy được | Thấp |
 | R3 | Package `com.ecommerce.ext` / `com.ecommerce.theme` | `vn.khangnguyen.ext` / `vn.khangnguyen.theme` | Tên riêng của shop | **TB**: đổi `package=` trong `module.properties` ảnh hưởng tới bean scan. Cần build và deploy local |
 | R4 | Class `Ecm*` (✏️ 34 file), `WebEcommerceTheme*` (7), `EcommerceExt*/EcommerceThemeTheme*` (test) | `Kn*`, `KnTheme*` | Một tiền tố cho cả dự án | Thấp–TB (chỉ trong Java, IDE refactor được) |
@@ -104,7 +104,7 @@ Ký hiệu: **X** = xoá được ngay, **C** = cần anh quyết về nghiệp 
 |---|---|---|---|
 | B1 | `my-site/pages/example-page/` | Scaffold CLI (`"title": "Example Page"`), không có trong DB, 0 link tới, `/example-page` trả 404 | **X** |
 | B2 | `my-site/pages/vong-ngoc-demo/` (kèm 3 ảnh) | Page demo, không có trong DB, chỉ tự link tới chính nó, `/vong-ngoc-demo` trả 404. Đã có trang sản phẩm thật `/products/{code}` | **X**. ✏️ Bản sửa dở cũ của file này nằm ở nhánh `backup/local-wip-2026-11-24`, `main` đã sạch |
-| B3 | `my-site/pages/home/`, `customer-service/` và 4 fragment | Trong DB đều DRAFT; storefront dùng `templates/home.html` và `customer-service.html`. ✏️ Mỗi file nhúng sẵn toàn bộ 596 dòng CSS | **C**: nếu chọn theme là nguồn UI duy nhất thì xoá (khuyến nghị). Nếu muốn sửa nội dung qua CMS thì phải publish và bỏ template trùng |
+| B3 | `my-site/pages/home/`, `customer-service/` và 4 fragment | Trong DB đều DRAFT; storefront dùng `templates/home.html` và `customer-service.html`. ✏️ Mỗi file nhúng sẵn toàn bộ 596 dòng CSS | **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).** Xoá `pages/home`, `pages/customer-service` và `page-fragments/ecommerce/*`. Bản ghi DRAFT tương ứng trong DB (`ezyarticle_posts`: 4 FRAGMENT, 2 STANDALONE_PAGE) giữ nguyên, không được serve |
 | B4 | `my-site/pages/ngoc-hoa-dien-tan-cuong-thanh-hai/` | Có nội dung thật, nhưng không có trong DB và URL trả 404, trong khi menu đang link tới | **Giữ nội dung, chuyển thành BLOG post**, rồi sửa link (R2) |
 | B5 | `/gift-card-balance` + `templates/gift-card-balance.html` + `pages.giftcard` trong JS + key `page.giftCardBalance` | 0 link tới (chỉ có controller). JS ghi chú không có dịch vụ thẻ quà tặng, mọi mã đều nhận cùng một câu trả lời | **X** (hoặc **C** nếu shop định bán thẻ quà tặng) |
 | B6 | `/stores` + `stores.json` rỗng | Footer và `appointment.html` link tới. ✅ trình duyệt: trang hiện "Chưa có cửa hàng để hiển thị." | **C**: điền địa chỉ thật (ví dụ cửa hàng 5 Đặng Dung, Ba Đình nếu anh xác nhận), hoặc bỏ link và bỏ route |
@@ -147,7 +147,7 @@ Không đổi từ lúc clone: toàn bộ `ecommerce-ext/` (trừ `EcmStoreConta
 ### Cần anh Johnny quyết
 (✏️ Đã bỏ câu hỏi về 48 commit / 15 file sửa dở, vì đã xử lý xong như ghi ở đầu báo cáo.)
 > Bản 3: danh sách mới nhất (thêm câu 4) nằm ở cuối mục (f).
-1. B3: dùng theme templates làm nguồn UI duy nhất (khuyến nghị), hay quản lý nội dung qua CMS?
+1. B3: ✅ **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).**
 2. B5/B6: shop có bán thẻ quà tặng không? Có địa chỉ cửa hàng thật để đưa vào `/stores` không?
 3. Phase 6 (đổi tên module/package): làm hay không?
 
@@ -308,7 +308,7 @@ bash ~/ezyplatform-dev-site/ezyplatform-ctl.sh stop --dir ~/ezyplatform-dev-site
 - Không có LaunchAgent, crontab hay login item nào tự bật bản native.
 
 ### Cập nhật "Cần anh Johnny quyết" (bản 3)
-1. B3: theme là nguồn UI duy nhất (khuyến nghị) hay CMS? Quyết định này xác định dòng "Page do CMS quản lý" trong bảng (f) có dùng hay không.
+1. B3: ✅ **Đã chốt: theme là nguồn UI duy nhất (anh Johnny, 2026-11-24).** Dòng "Page do CMS quản lý" trong bảng (f) không dùng.
 2. B5/B6: thẻ quà tặng, địa chỉ cửa hàng thật cho `/stores`.
 3. Phase 6 (đổi tên module/package): làm hay không.
 4. 🆕 F-1: **Đã chốt: Docker :8080 là môi trường chính, native tắt và giữ lại (anh Johnny, 2026-11-24).**

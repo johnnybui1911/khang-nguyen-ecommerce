@@ -14,8 +14,8 @@
     var CAT_KEY = 'ecm.categories';
     var CAT_TTL = 5 * 60 * 1000;
     var FALLBACK_CATEGORIES = [
-        ['vong-ngoc', 'Vòng ngọc'], ['nhan-ngoc', 'Nhẫn ngọc'],
-        ['chuoi-hat', 'Chuỗi hạt'], ['set-nhan-vong', 'Set nhẫn vòng']
+        ['set-nhan-vong', 'Set nhẫn & vòng'], ['vong-ngoc', 'Vòng ngọc'],
+        ['chuoi-hat', 'Chuỗi hạt'], ['nhan-ngoc', 'Nhẫn ngọc']
     ].map(function (c, i) { return {name: c[0], displayName: c[1], displayOrder: i + 1}; });
 
     function q(sel, root) { return (root || d).querySelector(sel); }
@@ -233,7 +233,7 @@
     }
     function renderBagCount() {
         var n = readBag().reduce(function (s, l) { return s + l.qty; }, 0);
-        var badge = q('#swBagCount');
+        var badge = q('#knBagCount');
         if (!badge) { return; }
         badge.textContent = String(n);
         badge.hidden = n === 0;
@@ -279,7 +279,7 @@
         keep.forEach(function (n) { ul.appendChild(n); });
     }
     function renderCategoryLists(cats) {
-        ['#swCats', '#swDrawerCats', '#swFootCats', '#swHomeCats'].forEach(function (sel) {
+        ['#knCats', '#knDrawerCats', '#knFootCats', '#knHomeCats'].forEach(function (sel) {
             var ul = q(sel);
             if (ul) { fillCategoryList(ul, cats); }
         });
@@ -322,9 +322,9 @@
     }
 
     function notify(message) {
-        var box = q('#swToast');
+        var box = q('#knToast');
         if (!box) {
-            box = el('div', {id: 'swToast', 'class': 'kn-toast', role: 'status'});
+            box = el('div', {id: 'knToast', 'class': 'kn-toast', role: 'status'});
             d.body.appendChild(box);
         }
         box.textContent = message;
@@ -403,8 +403,8 @@
     function pageList(grid, root, state) {
         var limit = Number(grid.getAttribute('data-limit')) || 12;
         var nextToken = null;
-        var loadBtn = q('#swLoadMore');
-        var countEl = q('#swCount');
+        var loadBtn = q('#knLoadMore');
+        var countEl = q('#knCount');
         var params = state.params;
         var loaded = 0;
 
@@ -442,26 +442,26 @@
     var pages = {};
 
     pages.home = function () {
-        var grid = q('#swGrid');
+        var grid = q('#knGrid');
         var root = grid.closest('section');
         pageList(grid, root, {params: {sortOrder: ''}})(false);
     };
 
     pages.products = function () {
-        var root = q('#swMain');
-        var grid = q('#swGrid');
+        var root = q('#knMain');
+        var grid = q('#knGrid');
         var url = new URLSearchParams(location.search);
         var slug = PARAM || url.get('category') || '';
-        var sel = q('#swFilterCat');
-        var sort = q('#swSort');
-        var kw = q('#swKeyword');
-        var priceMin = q('#swPriceMin');
-        var priceMax = q('#swPriceMax');
-        var discount = q('#swDiscount');
-        var colorSel = q('#swColor');
-        var materialSel = q('#swMaterial');
-        var titleEl = q('#swListTitle');
-        var bc = q('#swBcCur');
+        var sel = q('#knFilterCat');
+        var sort = q('#knSort');
+        var kw = q('#knKeyword');
+        var priceMin = q('#knPriceMin');
+        var priceMax = q('#knPriceMax');
+        var discount = q('#knDiscount');
+        var colorSel = q('#knColor');
+        var materialSel = q('#knMaterial');
+        var titleEl = q('#knListTitle');
+        var bc = q('#knBcCur');
         kw.value = url.get('keyword') || '';
         sort.value = url.get('sort') || '';
         priceMin.value = nonNegative(url.get('priceMin'));
@@ -490,8 +490,8 @@
             if (discount.value) { params.discountPercentGt = Number(discount.value) - 1; }
             pageList2({params: params, attr: {color: colorSel.value, material: materialSel.value, maxPrice: priceMax.value}});
         }
-        var loadBtn = q('#swLoadMore');
-        var countEl0 = q('#swCount');
+        var loadBtn = q('#knLoadMore');
+        var countEl0 = q('#knCount');
         var current;
         function pageList2(pState) {
             if (location.pathname === '/search' && !pState.params.keyword) {
@@ -522,7 +522,7 @@
             var limit = Number(grid.getAttribute('data-limit')) || 12;
             var nextToken = null;
             var loaded = 0;
-            var countEl = q('#swCount');
+            var countEl = q('#knCount');
             var seq = 0;
             var buffer = null;
             var shown = 0;
@@ -615,10 +615,10 @@
 
         var dropped = [];
         function showDroppedFilters() {
-            var note = q('#swFilterNote');
+            var note = q('#knFilterNote');
             if (!note) {
-                note = el('p', {'class': 'kn-note', id: 'swFilterNote', role: 'status'});
-                q('#swTools').insertAdjacentElement('afterend', note);
+                note = el('p', {'class': 'kn-note', id: 'knFilterNote', role: 'status'});
+                q('#knTools').insertAdjacentElement('afterend', note);
             }
             note.textContent = dropped.length
                 ? 'Chưa có ' + dropped.join(' hoặc ') + ', nên bộ lọc đó chưa được áp dụng.'
@@ -647,12 +647,12 @@
             });
             sel.value = slug;
             if (sel.value !== slug) { sel.value = ''; }
-            fillAttrSelect(colorSel, q('#swColorWrap'), 'colors', wantColor, 'màu sắc');
-            fillAttrSelect(materialSel, q('#swMaterialWrap'), 'materials', wantMaterial, 'chất liệu');
+            fillAttrSelect(colorSel, q('#knColorWrap'), 'colors', wantColor, 'màu sắc');
+            fillAttrSelect(materialSel, q('#knMaterialWrap'), 'materials', wantMaterial, 'chất liệu');
             showDroppedFilters();
             apply();
         });
-        q('#swTools').addEventListener('submit', function (e) {
+        q('#knTools').addEventListener('submit', function (e) {
             e.preventDefault();
             var u = new URLSearchParams();
             if (sel.value) { u.set('category', sel.value); }
@@ -666,11 +666,11 @@
             history.replaceState(null, '', location.pathname + (u.toString() ? '?' + u.toString() : ''));
             apply();
         });
-        sort.addEventListener('change', function () { q('#swTools').requestSubmit(); });
-        sel.addEventListener('change', function () { q('#swTools').requestSubmit(); });
-        discount.addEventListener('change', function () { q('#swTools').requestSubmit(); });
-        colorSel.addEventListener('change', function () { q('#swTools').requestSubmit(); });
-        materialSel.addEventListener('change', function () { q('#swTools').requestSubmit(); });
+        sort.addEventListener('change', function () { q('#knTools').requestSubmit(); });
+        sel.addEventListener('change', function () { q('#knTools').requestSubmit(); });
+        discount.addEventListener('change', function () { q('#knTools').requestSubmit(); });
+        colorSel.addEventListener('change', function () { q('#knTools').requestSubmit(); });
+        materialSel.addEventListener('change', function () { q('#knTools').requestSubmit(); });
     };
 
     function stockText(p) {
@@ -689,7 +689,7 @@
                 return attrs[code].family === mine.family && (attrs[code].colors || []).length;
             }).sort();
             if (family.length < 2) { return; }
-            var list = q('#swPdpSwatchList');
+            var list = q('#knPdpSwatchList');
             clear(list);
             family.forEach(function (code) {
                 var color = attrs[code].colors[0];
@@ -702,45 +702,45 @@
                 if (current) { link.setAttribute('aria-current', 'true'); }
                 list.appendChild(el('li', {}, [link]));
             });
-            q('#swPdpColor').textContent = mine.colors[0];
-            q('#swPdpSwatches').hidden = false;
+            q('#knPdpColor').textContent = mine.colors[0];
+            q('#knPdpSwatches').hidden = false;
         });
     }
 
     pages.product = function () {
-        var root = q('#swMain');
+        var root = q('#knMain');
         var code = PARAM;
-        var qty = q('#swPdpQty');
+        var qty = q('#knPdpQty');
         var product;
-        var wishBtn = q('#swWishBtn');
+        var wishBtn = q('#knWishBtn');
         function load() {
             setState(root, 'loading', 'Đang tải sản phẩm…');
             api('/api/v1/products/' + encodeURIComponent(code) + '/details').then(function (p) {
                 product = p;
                 setState(root, null);
                 d.title = p.name + ' | Khang Nguyên · Ngọc Bảo';
-                q('#swBcCur').textContent = p.name;
-                q('#swPdpCode').textContent = 'Mã ' + p.code;
-                q('#swPdpName').textContent = p.name;
-                var priceBox = q('#swPdpPrice');
+                q('#knBcCur').textContent = p.name;
+                q('#knPdpCode').textContent = 'Mã ' + p.code;
+                q('#knPdpName').textContent = p.name;
+                var priceBox = q('#knPdpPrice');
                 priceBox.textContent = priceText(p);
                 var was = originalText(p);
                 if (was && p.discountPercent > 0) { priceBox.appendChild(el('s', {text: was})); }
-                q('#swPdpStock').textContent = stockText(p);
-                var box = q('#swPdpImg');
+                q('#knPdpStock').textContent = stockText(p);
+                var box = q('#knPdpImg');
                 clear(box);
                 var src = imageUrl(p.bannerImage || p.iconImage);
                 if (src) { box.appendChild(el('img', {src: src, alt: p.name})); }
-                q('#swPdpDescText').textContent = p.description || p.name;
+                q('#knPdpDescText').textContent = p.description || p.name;
                 paintAddState();
                 // the quantity picker is offered only when more than one piece is in stock
-                var qtyRow = q('#swPdpQtyRow');
+                var qtyRow = q('#knPdpQtyRow');
                 if (qtyRow) { qtyRow.hidden = p.amount <= 1; }
                 if (p.amount === 1) { qty.value = '1'; }
                 wishBtn.setAttribute('data-pid', String(p.id));
                 wishBtn.setAttribute('aria-pressed', 'false');
                 loadWish().then(paintHearts);
-                q('#swPdp').hidden = false;
+                q('#knPdp').hidden = false;
                 renderSwatches(p);
             }).catch(function (e) {
                 if (e.status === 404 || e.status === 400) {
@@ -754,17 +754,17 @@
         function paintAddState() {
             var inStock = product.amount > 0;
             var full = inStock && bagQty(product.id) >= product.amount;
-            var addBtn = q('#swAddBtn');
+            var addBtn = q('#knAddBtn');
             addBtn.disabled = !inStock || full;
             addBtn.textContent = !inStock ? 'Hết hàng' : (full ? 'Đã có trong giỏ' : 'Thêm vào giỏ hàng');
-            q('#swPdpQty').disabled = !inStock || full;
+            q('#knPdpQty').disabled = !inStock || full;
             qa('[data-qty-dec],[data-qty-inc]').forEach(function (n) { n.disabled = !inStock || full; });
         }
         q('[data-qty-dec]').addEventListener('click', function () { qty.value = Math.max(1, (Number(qty.value) || 1) - 1); });
         q('[data-qty-inc]').addEventListener('click', function () { qty.value = (Number(qty.value) || 1) + 1; });
         wishBtn.setAttribute('data-wish-label', '');
         wishBtn.addEventListener('click', function () { if (product) { toggleWish(product.id); } });
-        q('#swAddBtn').addEventListener('click', function () {
+        q('#knAddBtn').addEventListener('click', function () {
             if (!product) { return; }
             var n = Math.max(1, Math.floor(Number(qty.value) || 1));
             if (product.amount && n > product.amount) { n = product.amount; qty.value = n; }
@@ -773,7 +773,7 @@
             if (n < 1) { paintAddState(); return; }
             addToBag(product.id, n, product.amount);
             paintAddState();
-            var note = q('#swAddNote');
+            var note = q('#knAddNote');
             note.textContent = '';
             var link = el('a', {href: '/shopping-cart', 'class': 'kn-link', text: 'Xem giỏ hàng'});
             note.appendChild(d.createTextNode('Đã thêm ' + n + ' sản phẩm vào giỏ hàng. '));
@@ -815,9 +815,9 @@
     }
 
     pages.cart = function () {
-        var root = q('#swMain');
-        var wrap = q('#swCart');
-        var list = q('#swLines');
+        var root = q('#knMain');
+        var wrap = q('#knCart');
+        var list = q('#knLines');
         function render() {
             setState(root, 'loading', 'Đang tải giỏ hàng…');
             loadLines().then(function (rows) {
@@ -830,7 +830,7 @@
                     return;
                 }
                 rows.forEach(function (r) { list.appendChild(lineNode(r, render)); });
-                q('#swSubtotal').textContent = subtotal(rows);
+                q('#knSubtotal').textContent = subtotal(rows);
                 wrap.hidden = false;
             }).catch(function () {
                 wrap.hidden = true;
@@ -882,10 +882,10 @@
     }
 
     pages.checkout = gated('/checkout', function () {
-        var root = q('#swMain');
-        var form = q('#swCheckoutForm');
-        var wrap = q('#swCheckout');
-        var errBox = q('#swFormErr');
+        var root = q('#knMain');
+        var form = q('#knCheckoutForm');
+        var wrap = q('#knCheckout');
+        var errBox = q('#knFormErr');
         var rowsCache = [];
         var currency;
 
@@ -913,20 +913,20 @@
                     return;
                 }
                 var countries = vietnamFirst(res[2]);
-                var cSel = q('#swCountry');
+                var cSel = q('#knCountry');
                 clear(cSel);
                 countries.forEach(function (c) {
                     cSel.appendChild(el('option', {value: String(c.id), text: c.localName || c.internationalName || c.code}));
                 });
                 if (countries.length && isVietnam(countries[0])) { cSel.value = String(countries[0].id); }
                 var services = Array.isArray(res[3]) ? res[3] : (res[3].items || res[3].paymentServices || []);
-                var pSel = q('#swPay');
+                var pSel = q('#knPay');
                 clear(pSel);
                 services.forEach(function (s) {
                     var code = s.code || s.paymentServiceCode || s.name;
                     pSel.appendChild(el('option', {value: code, text: s.displayName || s.name || code}));
                 });
-                var mini = q('#swMini');
+                var mini = q('#knMini');
                 clear(mini);
                 rowsCache.forEach(function (r) {
                     mini.appendChild(el('li', {}, [
@@ -934,7 +934,7 @@
                         el('span', {text: lineTotalText(r.product, r.line.qty)})
                     ]));
                 });
-                q('#swTotal').textContent = subtotal(rowsCache);
+                q('#knTotal').textContent = subtotal(rowsCache);
                 api('/ezyaccount/api/v1/account').then(function (a) {
                     if (a && a.displayName && !form.deliveryFullName.value) { form.deliveryFullName.value = a.displayName; }
                     if (a && a.email && !form.deliveryEmail.value) { form.deliveryEmail.value = a.email; }
@@ -956,7 +956,7 @@
             }
             if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Nhập địa chỉ email hợp lệ.', f.deliveryEmail); return; }
             if (!f.paymentServiceCode.value) { showErr('Hiện chưa có phương thức thanh toán nào.', f.paymentServiceCode); return; }
-            var btn = q('#swPlace');
+            var btn = q('#knPlace');
             btn.disabled = true;
             btn.textContent = 'Đang đặt hàng…';
             var amountByProductId = {};
@@ -1008,10 +1008,10 @@
     }
 
     pages.login = pages.register = function () {
-        var form = q('#swAuthForm');
+        var form = q('#knAuthForm');
         var mode = form.getAttribute('data-mode');
-        var errBox = q('#swFormErr');
-        var btn = q('#swAuthBtn');
+        var errBox = q('#knFormErr');
+        var btn = q('#knAuthBtn');
         var next = safeNext();
         var alt = q('[data-kn-next-link]');
         if (alt && next) { alt.href = alt.getAttribute('href') + '?next=' + encodeURIComponent(next); }
@@ -1045,10 +1045,10 @@
     };
 
     pages.account = gated('/account', function () {
-        var root = q('#swMain');
-        var wrap = q('#swAccount');
+        var root = q('#knMain');
+        var wrap = q('#knAccount');
         var ordersBox = q('[data-kn-orders-state]');
-        var table = q('#swOrders');
+        var table = q('#knOrders');
 
         function profileRow(dl, label, value) {
             if (!value) { return; }
@@ -1058,7 +1058,7 @@
         var account = null;
         var vnId = 0;
         vietnamId().then(function (id) { vnId = id; });
-        var form = q('#swProfileForm');
+        var form = q('#knProfileForm');
         function isoDate(ms) {
             return ms > 0 ? new Date(ms).toISOString().slice(0, 10) : '';
         }
@@ -1070,7 +1070,7 @@
         }
         function showProfile(a) {
             account = a;
-            var dl = q('#swProfile');
+            var dl = q('#knProfile');
             clear(dl);
             profileRow(dl, 'Họ tên', a.displayName);
             profileRow(dl, 'Tên đăng nhập', a.username);
@@ -1083,8 +1083,8 @@
         function clearErrors() {
             qa('[data-err-for]', form).forEach(function (n) { n.hidden = true; n.textContent = ''; });
             qa('input', form).forEach(function (n) { n.removeAttribute('aria-invalid'); });
-            q('#swProfileErr').hidden = true;
-            q('#swProfileOk').hidden = true;
+            q('#knProfileErr').hidden = true;
+            q('#knProfileOk').hidden = true;
         }
         function fieldError(name, msg) {
             var box = q('[data-err-for="' + name + '"]', form);
@@ -1101,7 +1101,7 @@
             }
             return false;
         }
-        q('#swEditProfile').addEventListener('click', function () {
+        q('#knEditProfile').addEventListener('click', function () {
             var open = form.hidden;
             form.hidden = !open;
             this.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -1111,7 +1111,7 @@
             e.preventDefault();
             if (!account) { return; }
             clearErrors();
-            var save = q('#swProfileSave');
+            var save = q('#knProfileSave');
             var born = form.elements.birthDate.value;
             var body = {
                 updateUser: true,
@@ -1132,7 +1132,7 @@
             }).then(function (a) {
                 save.disabled = false;
                 showProfile(a);
-                q('#swProfileOk').hidden = false;
+                q('#knProfileOk').hidden = false;
             }).catch(function (err) {
                 save.disabled = false;
                 if (err.status === 401) { goLogin('/account'); return; }
@@ -1142,7 +1142,7 @@
                         shown = fieldError(k, String(err.data[k])) || shown;
                     });
                 }
-                var box = q('#swProfileErr');
+                var box = q('#knProfileErr');
                 box.textContent = shown
                     ? 'Chưa lưu được hồ sơ. Vui lòng kiểm tra các ô được đánh dấu.'
                     : 'Chưa lưu được hồ sơ. Vui lòng thử lại.';
@@ -1196,13 +1196,13 @@
                 ordersBox.appendChild(el('div', {'class': 'kn-state', 'data-kind': 'error', role: 'alert'}, [d.createTextNode('Chưa tải được đơn hàng.'), el('div', {}, [retry])]));
             });
         }
-        q('#swLogout').addEventListener('click', function () { signOut(); });
+        q('#knLogout').addEventListener('click', function () { signOut(); });
         load();
     });
 
     pages.stores = function () {
-        var root = q('#swMain');
-        var list = q('#swStores');
+        var root = q('#knMain');
+        var list = q('#knStores');
         function load() {
             setState(root, 'loading', 'Đang tải danh sách cửa hàng…');
             api('/data/stores.json').then(function (data) {
@@ -1215,6 +1215,10 @@
                         el('h2', {text: s.name}),
                         el('p', {text: s.address}),
                         s.hours ? el('p', {'class': 'kn-muted', text: 'Giờ mở cửa: ' + s.hours}) : null,
+                        s.phone && s.phoneHref ? el('p', {}, [
+                            d.createTextNode('Điện thoại: '),
+                            el('a', {'class': 'kn-link', href: s.phoneHref, text: s.phone})
+                        ]) : null,
                         el('p', {}, [el('a', {
                             'class': 'kn-link',
                             href: '/book-an-appointment?store=' + encodeURIComponent(s.id),
@@ -1222,7 +1226,7 @@
                         })])
                     ]));
                 });
-                q('#swStoresNote').textContent = data.note || '';
+                q('#knStoresNote').textContent = data.note || '';
             }).catch(function () {
                 setState(root, 'error', 'Chưa tải được danh sách cửa hàng.', load);
             });
@@ -1231,17 +1235,17 @@
     };
 
     pages.orderstatus = function () {
-        var form = q('#swStatusForm');
-        var msg = q('#swStatusMsg');
-        var result = q('#swStatusResult');
-        var btn = q('#swStatusBtn');
-        var summary = q('#swStatusSummary');
-        var lines = q('#swStatusLines');
+        var form = q('#knStatusForm');
+        var msg = q('#knStatusMsg');
+        var result = q('#knStatusResult');
+        var btn = q('#knStatusBtn');
+        var summary = q('#knStatusSummary');
+        var lines = q('#knStatusLines');
         var presetId = new URLSearchParams(location.search).get('order') || '';
         // only the order number may come from the link; the email is always typed by the customer
         if (/^[0-9]+$/.test(presetId)) {
-            q('#swStatusId').value = presetId;
-            q('#swStatusEmail').focus();
+            q('#knStatusId').value = presetId;
+            q('#knStatusEmail').focus();
         }
         function resetResult() {
             result.hidden = true;
@@ -1251,8 +1255,8 @@
         }
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-            var id = q('#swStatusId').value.trim();
-            var email = q('#swStatusEmail').value.trim();
+            var id = q('#knStatusId').value.trim();
+            var email = q('#knStatusEmail').value.trim();
             resetResult();
             if (!/^[0-9]+$/.test(id) || email.indexOf('@') < 1) {
                 msg.textContent = 'Nhập mã đơn hàng và địa chỉ email hợp lệ.';
@@ -1262,10 +1266,10 @@
             btn.disabled = true;
             api('/api/v1/ecm/order-status?' + qs({orderId: id, email: email})).then(function (r) {
                 msg.textContent = '';
-                q('#swStatusOrder').textContent = '#' + r.orderId;
-                q('#swStatusValue').textContent = statusText(r.status);
-                q('#swStatusPlaced').textContent = r.createdAt ? dateText(r.createdAt, true) : '-';
-                q('#swStatusUpdated').textContent = r.updatedAt ? dateText(r.updatedAt, true) : '-';
+                q('#knStatusOrder').textContent = '#' + r.orderId;
+                q('#knStatusValue').textContent = statusText(r.status);
+                q('#knStatusPlaced').textContent = r.createdAt ? dateText(r.createdAt, true) : '-';
+                q('#knStatusUpdated').textContent = r.updatedAt ? dateText(r.updatedAt, true) : '-';
                 result.hidden = false;
                 if (Array.isArray(r.items) && r.items.length) {
                     r.items.forEach(function (it) {
@@ -1274,7 +1278,7 @@
                             el('span', {text: orderMoney(it.lineTotal)})
                         ]));
                     });
-                    q('#swStatusTotal').textContent = orderMoney(r.total);
+                    q('#knStatusTotal').textContent = orderMoney(r.total);
                     summary.hidden = false;
                 }
             }).catch(function (err) {
@@ -1293,8 +1297,8 @@
     var PHONE_RE = /^\+?[0-9]{8,15}$/;
 
     function formMessages(form) {
-        var err = q('#swFormErr', form);
-        var ok = q('#swFormOk', form);
+        var err = q('#knFormErr', form);
+        var ok = q('#knFormOk', form);
         return {
             reset: function () {
                 err.hidden = true; ok.hidden = true;
@@ -1346,7 +1350,7 @@
 
     function sendRequest(form, path, body, labels, done) {
         var msgs = formMessages(form);
-        var btn = q('#swFormBtn', form);
+        var btn = q('#knFormBtn', form);
         btn.disabled = true;
         api(path, {method: 'POST', body: body}).then(function () {
             done(msgs);
@@ -1364,14 +1368,14 @@
     }
 
     pages.forgotpassword = function () {
-        var form = q('#swForgotForm');
+        var form = q('#knForgotForm');
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             var msgs = formMessages(form);
             msgs.reset();
             var email = form.elements.email.value.trim();
             if (!EMAIL_RE.test(email)) { msgs.error('Nhập địa chỉ email hợp lệ.', form.elements.email); return; }
-            var btn = q('#swFormBtn', form);
+            var btn = q('#knFormBtn', form);
             btn.disabled = true;
             // the answer is the same whether or not the address is registered
             api('/ezylogin/api/v1/forgot-password', {method: 'POST', body: {email: email}}).then(function () {
@@ -1385,7 +1389,7 @@
     };
 
     pages.resetpassword = function () {
-        var form = q('#swResetForm');
+        var form = q('#knResetForm');
         var params = new URLSearchParams(location.search);
         var uuid = params.get('uuid') || '';
         var token = params.get('token') || '';
@@ -1405,7 +1409,7 @@
             var f = form.elements;
             if (f.password.value.length < 8) { msgs.error('Mật khẩu cần có ít nhất 8 ký tự.', f.password); return; }
             if (f.password.value !== f.confirm.value) { msgs.error('Hai mật khẩu chưa khớp nhau.', f.confirm); return; }
-            var btn = q('#swFormBtn', form);
+            var btn = q('#knFormBtn', form);
             btn.disabled = true;
             api('/ezylogin/api/v1/reset-password', {
                 method: 'POST',
@@ -1430,10 +1434,10 @@
         topic: 'Chủ đề', message: 'Nội dung tin nhắn'};
 
     pages.wishlist = gated('/wishlist', function () {
-        var root = q('#swMain');
-        var grid = q('#swGrid');
-        var more = q('#swLoadMore');
-        var count = q('#swCount');
+        var root = q('#knMain');
+        var grid = q('#knGrid');
+        var more = q('#knLoadMore');
+        var count = q('#knCount');
         var page = 1;
         var shown = 0;
         var total = 0;
@@ -1473,18 +1477,18 @@
     pages.newsletter = function () {
         var unsub = /\/unsubscribe\/?$/.test(location.pathname);
         var token = new URLSearchParams(location.search).get('token') || '';
-        var btn = q('#swNlBtn');
-        var err = q('#swNlErr');
-        var ok = q('#swNlOk');
+        var btn = q('#knNlBtn');
+        var err = q('#knNlErr');
+        var ok = q('#knNlOk');
         // keep the one-time token out of the address bar, history and Referer headers
         if (history.replaceState) { history.replaceState(null, '', location.pathname); }
-        q('#swNlTitle').textContent = unsub ? 'Hủy đăng ký bản tin' : 'Xác nhận đăng ký';
+        q('#knNlTitle').textContent = unsub ? 'Hủy đăng ký bản tin' : 'Xác nhận đăng ký';
         if (!/^[0-9a-f]{64}$/.test(token)) {
             err.textContent = 'Đường dẫn không hợp lệ. Vui lòng dùng đường dẫn trong email của bạn.';
             err.hidden = false;
             return;
         }
-        q('#swNlText').textContent = unsub
+        q('#knNlText').textContent = unsub
             ? 'Nhấn nút bên dưới để ngừng nhận bản tin của chúng tôi.'
             : 'Nhấn nút bên dưới để xác nhận bạn muốn nhận bản tin của chúng tôi.';
         btn.textContent = unsub ? 'Hủy đăng ký' : 'Xác nhận đăng ký';
@@ -1495,7 +1499,7 @@
             api('/api/v1/ecm/newsletter/' + (unsub ? 'unsubscribe' : 'confirm'), {method: 'POST', body: {token: token}})
                 .then(function () {
                     btn.hidden = true;
-                    q('#swNlText').textContent = '';
+                    q('#knNlText').textContent = '';
                     ok.textContent = unsub
                         ? 'Bạn đã hủy đăng ký. Bạn sẽ không nhận bản tin của chúng tôi nữa.'
                         : 'Cảm ơn bạn. Đăng ký của bạn đã được xác nhận.';
@@ -1513,7 +1517,7 @@
     };
 
     pages.contact = function () {
-        var form = q('#swContactForm');
+        var form = q('#knContactForm');
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             var msgs = formMessages(form);
@@ -1543,8 +1547,8 @@
         phone: 'Số điện thoại', email: 'Email', note: 'Ghi chú'};
 
     pages.appointment = function () {
-        var root = q('#swMain');
-        var form = q('#swApptForm');
+        var root = q('#knMain');
+        var form = q('#knApptForm');
         var dateInput = form.elements.date;
         var timeSel = form.elements.time;
         var storeSel = form.elements.storeId;
@@ -1614,7 +1618,7 @@
     }
 
     pages.order = gated(function () { return location.pathname; }, function () {
-        var root = q('#swMain');
+        var root = q('#knMain');
         var id = PARAM;
         function row(dl, label, value) {
             if (!value) { return; }
@@ -1626,16 +1630,16 @@
             api('/api/v1/orders/' + encodeURIComponent(id)).then(function (o) {
                 setState(root, null);
                 var paid = o.paymentStatus === 'PAID';
-                q('#swOrderTitle').textContent = paid ? 'Cảm ơn bạn đã đặt hàng' : 'Đơn hàng của bạn';
-                var st = q('#swOrderStatus');
+                q('#knOrderTitle').textContent = paid ? 'Cảm ơn bạn đã đặt hàng' : 'Đơn hàng của bạn';
+                var st = q('#knOrderStatus');
                 st.textContent = paid ? 'Đã nhận thanh toán. Đơn hàng #' + o.id + ' đã được xác nhận.' : 'Đơn hàng #' + o.id + ' ' + statusText(o.status) + '.';
-                var meta = q('#swOrderMeta');
+                var meta = q('#knOrderMeta');
                 clear(meta);
                 row(meta, 'Mã đơn hàng', '#' + o.id);
                 row(meta, 'Trạng thái', statusText(o.status));
                 row(meta, 'Thanh toán', statusText(o.paymentStatus));
                 row(meta, 'Ngày đặt', o.createdAt ? dateText(o.createdAt, true) : '');
-                var lines = q('#swOrderLines');
+                var lines = q('#knOrderLines');
                 clear(lines);
                 (o.products || []).forEach(function (l) {
                     lines.appendChild(el('li', {}, [
@@ -1643,10 +1647,10 @@
                         el('span', {text: orderMoney(l.formattedTotalAmountMoneyIncludeSymbol)})
                     ]));
                 });
-                q('#swOrderTotal').textContent = orderMoney(o.formattedTotalAmountMoneyIncludeSymbol);
-                var track = q('#swOrderTrack');
+                q('#knOrderTotal').textContent = orderMoney(o.formattedTotalAmountMoneyIncludeSymbol);
+                var track = q('#knOrderTrack');
                 if (track) { track.setAttribute('href', '/order-status?order=' + encodeURIComponent(o.id)); }
-                q('#swOrder').hidden = false;
+                q('#knOrder').hidden = false;
                 d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';
             }).catch(function (e) {
                 if (e.status === 401) { goLogin(location.pathname); return; }
@@ -1662,7 +1666,7 @@
     /* ---------- chrome ---------- */
     function initChrome() {
         b.dataset.knChrome = '1';
-        var drawer = q('#swDrawer');
+        var drawer = q('#knDrawer');
         var menuBtn = q('[data-kn-menu]');
         function openDrawer(open) {
             d.body.classList.toggle('kn-drawer-open', open);
@@ -1678,13 +1682,13 @@
                 if (e.key === 'Escape' && d.body.classList.contains('kn-drawer-open')) { openDrawer(false); }
             });
         }
-        var searchForm = q('#swSearch');
+        var searchForm = q('#knSearch');
         var searchBtn = q('[data-kn-search-toggle]');
         if (searchForm && searchBtn) {
             var toggleSearch = function (show) {
                 searchForm.hidden = !show;
                 searchBtn.setAttribute('aria-expanded', show ? 'true' : 'false');
-                if (show) { q('#swSearchInput').focus(); } else { searchBtn.focus(); }
+                if (show) { q('#knSearchInput').focus(); } else { searchBtn.focus(); }
             };
             searchBtn.addEventListener('click', function () { toggleSearch(searchForm.hidden); });
             searchForm.addEventListener('keydown', function (e) {
@@ -1701,11 +1705,11 @@
     }
 
     function initNewsletter() {
-        var form = q('#swNewsForm');
+        var form = q('#knNewsForm');
         if (!form) { return; }
-        var err = q('#swNewsErr');
-        var ok = q('#swNewsOk');
-        var btn = q('#swNewsBtn');
+        var err = q('#knNewsErr');
+        var ok = q('#knNewsOk');
+        var btn = q('#knNewsBtn');
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             err.hidden = true;
