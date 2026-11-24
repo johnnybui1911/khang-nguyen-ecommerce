@@ -72,6 +72,32 @@ public class KnPaymentMailer extends EzyLoggable {
         }
     }
 
+    /**
+     * Asks the shop to confirm the money arrived; the button opens a page that changes nothing
+     * until the shop presses the confirm button on it.
+     */
+    public void sendShopConfirmRequest(OrderModel order, String confirmUrl) {
+        try {
+            String to = shopRecipient();
+            if (to == null) {
+                logger.info("no shop email configured, skip confirm mail of order {}",
+                    order.getId());
+                return;
+            }
+            String body = "<p>Đơn <b>#" + order.getId() + "</b> chờ chuyển khoản "
+                + "<b>" + money(order.getTotalAmountMoney()) + "</b>. Nội dung chuyển khoản: <b>"
+                + escape(bankInfoService.build(order).getContent()) + "</b>.</p>"
+                + "<p>Khi thấy tiền về tài khoản, bấm nút dưới đây:</p>"
+                + "<p><a href=\"" + escape(confirmUrl) + "\" style=\"background:#1a7f37;"
+                + "color:#fff;padding:10px 18px;text-decoration:none;border-radius:4px\">"
+                + "Xác nhận đã nhận tiền</a></p>"
+                + "<p>Liên kết dùng được một lần và hết hạn sau 72 giờ.</p>";
+            deliver(to, "Đơn #" + order.getId() + " chờ xác nhận chuyển khoản", body);
+        } catch (Exception e) {
+            logger.warn("can not send the shop confirm mail of order {}", order.getId(), e);
+        }
+    }
+
     private String receivedBankBody(OrderModel order) {
         KnBankTransferInfo info = bankInfoService.build(order);
         StringBuilder html = new StringBuilder()
@@ -110,6 +136,10 @@ public class KnPaymentMailer extends EzyLoggable {
             logger.info("order {} has no customer email, skip mail", order.getId());
             return;
         }
+        deliver(to, title, body);
+    }
+
+    private void deliver(String to, String title, String body) {
         mailDeliver.send(
             MailModel.builder()
                 .type(MailType.SYSTEM)
@@ -118,6 +148,18 @@ public class KnPaymentMailer extends EzyLoggable {
                 .content("<div style=\"font-family:Arial,sans-serif\">" + body + "</div>")
                 .build()
         );
+    }
+
+    private String shopRecipient() {
+        String redirect = settings.get(REDIRECT_SETTING);
+        if (redirect.isEmpty()) {
+            redirect = DEFAULT_REDIRECT;
+        }
+        if (!REDIRECT_OFF.equalsIgnoreCase(redirect)) {
+            return redirect;
+        }
+        String shop = settings.get(KnPaymentSettings.SHOP_NOTIFY_EMAIL);
+        return shop.isEmpty() ? null : shop;
     }
 
     private String recipient(OrderModel order) {

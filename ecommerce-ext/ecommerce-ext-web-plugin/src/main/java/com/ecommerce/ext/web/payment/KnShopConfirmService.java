@@ -79,6 +79,15 @@ public class KnShopConfirmService extends EzyLoggable {
         return body + "." + KnSecrets.hmacSha256Hex(key, body);
     }
 
+    /** The page the shop opens from the mail; it needs the token to be useful. */
+    public String confirmUrl(String token) {
+        String base = settings.get(KnPaymentSettings.PUBLIC_BASE_URL);
+        if (base.isEmpty()) {
+            base = System.getProperty("ecm.base.url", "http://localhost:8080");
+        }
+        return base.replaceAll("/+$", "") + "/payment/shop-confirm?token=" + token;
+    }
+
     /** Checks the token without changing anything. */
     public Preview preview(String token) {
         Parsed parsed = parse(token);
