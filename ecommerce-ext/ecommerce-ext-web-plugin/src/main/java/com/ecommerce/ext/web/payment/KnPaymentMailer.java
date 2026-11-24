@@ -182,7 +182,10 @@ public class KnPaymentMailer extends EzyLoggable {
         );
     }
 
-    /** The mailbox an address lands in: lower case, without a "+tag" in the local part. */
+    /**
+     * The mailbox an address lands in: lower case, without a "+tag" in the local part. Gmail
+     * also ignores dots in the local part and treats googlemail.com as gmail.com.
+     */
     static String mailboxKey(String email) {
         String lower = email.trim().toLowerCase(Locale.ROOT);
         int at = lower.lastIndexOf('@');
@@ -190,8 +193,18 @@ public class KnPaymentMailer extends EzyLoggable {
             return lower;
         }
         String local = lower.substring(0, at);
+        String domain = lower.substring(at + 1);
         int plus = local.indexOf('+');
-        return (plus > 0 ? local.substring(0, plus) : local) + lower.substring(at);
+        if (plus > 0) {
+            local = local.substring(0, plus);
+        }
+        if ("gmail.com".equals(domain) || "googlemail.com".equals(domain)) {
+            String undotted = local.replace(".", "");
+            if (!undotted.isEmpty()) {
+                return undotted + "@gmail.com";
+            }
+        }
+        return local + "@" + domain;
     }
 
     private static int intProperty(String key, int defaultValue) {

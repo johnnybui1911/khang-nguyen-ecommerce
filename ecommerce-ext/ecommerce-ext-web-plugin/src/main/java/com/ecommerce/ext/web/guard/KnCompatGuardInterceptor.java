@@ -38,8 +38,9 @@ import java.util.regex.Pattern;
  * <p>The anonymous user of a guest checkout may not change an account: a state-changing call to
  * the ezyaccount API, the platform account API (profile, password, avatar) or the two-factor
  * settings answers 403 for it, so it can not set an email or password and pass for a member.
- * Order pages and order APIs answer with {@code Referrer-Policy: no-referrer} and
- * {@code Cache-Control: no-store}, so the secret {@code ?key=} of a guest order link is neither
+ * Order pages, order APIs and the shop's money-received page answer with
+ * {@code Referrer-Policy: no-referrer} and {@code Cache-Control: no-store}, so the secret
+ * {@code ?key=} of a guest order link and the {@code ?token=} of a shop-confirm link are neither
  * sent to other sites nor kept in a cache.
  */
 @Interceptor(priority = 1)
@@ -52,7 +53,7 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
     private static final String REQUIRED_HEADER_VALUE = "ecm";
     private static final Pattern LIST_SPLIT = Pattern.compile("\\s*,\\s*");
     private static final Pattern ORDER_PATH =
-        Pattern.compile("^(/orders/|/api/v1/ecm/orders/|/api/v1/orders/).*");
+        Pattern.compile("^(/orders/|/api/v1/ecm/orders/|/api/v1/orders/|/payment/shop-confirm).*");
     private static final String EZYACCOUNT_API = "org.youngmonkeys.ezyaccount.web.controller.api.";
     private static final String PLATFORM_ACCOUNT_API =
         "org.youngmonkeys.ezyplatform.web.controller.api.WebApiAccountController";

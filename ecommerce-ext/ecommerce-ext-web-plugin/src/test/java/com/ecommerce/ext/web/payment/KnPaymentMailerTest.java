@@ -13,6 +13,13 @@ public class KnPaymentMailerTest {
     }
 
     @Test
+    public void mailboxKeyFoldsGmailDotsAndGooglemail() {
+        assertEquals(KnPaymentMailer.mailboxKey("k.n.shop+guest1@gmail.com"), "knshop@gmail.com");
+        assertEquals(KnPaymentMailer.mailboxKey("KN.Shop@GoogleMail.com"), "knshop@gmail.com");
+        assertEquals(KnPaymentMailer.mailboxKey("k.n@example.com"), "k.n@example.com");
+    }
+
+    @Test
     public void mailboxKeyKeepsOddAddresses() {
         assertEquals(KnPaymentMailer.mailboxKey("+tag@x.vn"), "+tag@x.vn");
         assertEquals(KnPaymentMailer.mailboxKey("nobody"), "nobody");
