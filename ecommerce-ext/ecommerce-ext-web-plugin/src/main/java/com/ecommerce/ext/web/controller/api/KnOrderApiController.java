@@ -17,8 +17,13 @@ import com.tvd12.ezyhttp.server.core.request.RequestArguments;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.youngmonkeys.ecommerce.entity.OrderRecipientType;
+import org.youngmonkeys.ecommerce.entity.OrderStatus;
+import org.youngmonkeys.ecommerce.entity.ShoppingCartStatus;
 import org.youngmonkeys.ecommerce.model.OrderModel;
+import org.youngmonkeys.ecommerce.request.SaveOrderRequest;
 import org.youngmonkeys.ecommerce.web.controller.api.WebApiOrderController;
+import org.youngmonkeys.ecommerce.web.repo.WebShoppingCartRepository;
 import org.youngmonkeys.ezyplatform.web.annotation.UserId;
 
 /**
@@ -31,6 +36,9 @@ import org.youngmonkeys.ezyplatform.web.annotation.UserId;
 public class KnOrderApiController extends WebApiOrderController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KnOrderApiController.class);
+    /** Request attribute naming the order this request created, rather than reused. */
+    private static final String NEW_ORDER_ID =
+        KnOrderApiController.class.getName() + ".newOrderId";
 
     @EzyAutoBind
     private KnPaymentMailer paymentMailer;
@@ -44,6 +52,29 @@ public class KnOrderApiController extends WebApiOrderController {
     @EzyAutoBind
     private KnOrderViewKeyService viewKeyService;
 
+    @EzyAutoBind
+    private WebShoppingCartRepository shoppingCartRepository;
+
+    @Override
+    protected OrderModel createOrderIfNeed(
+        RequestArguments arguments,
+        long userId,
+        String paymentServiceCode,
+        OrderStatus orderStatus,
+        OrderRecipientType orderRecipientType,
+        ShoppingCartStatus shoppingCartStatus,
+        SaveOrderRequest requestBody
+    ) {
+        boolean existed = orderService.getWaitingForPaymentOrderByShoppingCartId(
+            requestBody.getFromShoppingCartId()) != null;
+        OrderModel order = super.createOrderIfNeed(arguments, userId, paymentServiceCode,
+            orderStatus, orderRecipientType, shoppingCartStatus, requestBody);
+        if (!existed) {
+            arguments.getRequest().setAttribute(NEW_ORDER_ID, order.getId());
+        }
+        return order;
+    }
+
     @Override
     protected ResponseEntity createOrderPaymentUrl(
         RequestArguments arguments,
@@ -51,17 +82,51 @@ public class KnOrderApiController extends WebApiOrderController {
         String paymentServiceCode,
         String message
     ) throws Exception {
-        ResponseEntity response =
-            super.createOrderPaymentUrl(arguments, order, paymentServiceCode, message);
-        if (KnBankTransferPaymentService.CODE.equals(paymentServiceCode)
-            || KnCodPaymentService.CODE.equals(paymentServiceCode)) {
-            paymentMailer.sendOrderReceived(order);
-            if (KnBankTransferPaymentService.CODE.equals(paymentServiceCode)) {
-                mailShop(order);
-            }
-            return withGuestKey(response, order);
+        boolean offline = KnBankTransferPaymentService.CODE.equals(paymentServiceCode)
+            || KnCodPaymentService.CODE.equals(paymentServiceCode);
+        if (!offline) {
+            return super.createOrderPaymentUrl(arguments, order, paymentServiceCode, message);
         }
-        return response;
+        ResponseEntity response;
+        try {
+            response = super.createOrderPaymentUrl(arguments, order, paymentServiceCode, message);
+        } catch (Exception e) {
+            dropUnplacedOrder(arguments, order);
+            throw e;
+        }
+        closeCart(order);
+        paymentMailer.sendOrderReceived(order);
+        if (KnBankTransferPaymentService.CODE.equals(paymentServiceCode)) {
+            mailShop(order);
+        }
+        return withGuestKey(response, order);
+    }
+
+    /**
+     * A placed offline order leaves its cart. The platform keeps the cart of an unpaid order
+     * open and reuses that order for the next checkout from the cart, so without this a second
+     * purchase would land on the first order. PAYING is what the platform itself sets once an
+     * order waits for the shop; paying or rejecting the order still moves the cart on.
+     */
+    private void closeCart(OrderModel order) {
+        long cartId = order.getFromShoppingCartId();
+        if (cartId > 0L) {
+            shoppingCartRepository.updateShoppingCartStatus(
+                cartId, ShoppingCartStatus.PAYING.toString());
+        }
+    }
+
+    /**
+     * An order this very request created and could not place (for one, cash on delivery above
+     * the limit) is invalidated, so retrying with another payment method makes a fresh order. A
+     * reused order is left as it is.
+     */
+    private void dropUnplacedOrder(RequestArguments arguments, OrderModel order) {
+        Object created = arguments.getRequest().getAttribute(NEW_ORDER_ID);
+        if (created instanceof Long && (Long) created == order.getId()) {
+            orderService.invalidateWaitingForPaymentOrderByShoppingCartIdIfExists(
+                0L, order.getCreatorUserId(), order.getFromShoppingCartId());
+        }
     }
 
     /**

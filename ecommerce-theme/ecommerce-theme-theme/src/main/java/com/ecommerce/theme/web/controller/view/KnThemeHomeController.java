@@ -37,7 +37,8 @@ public class KnThemeHomeController {
             + "<path d=\"M2 12h10l4 17z\" fill=\"#047857\"/>"
             + "<path d=\"M12 12h8l-4 17z\" fill=\"#10b981\"/>"
             + "<path d=\"M20 12h10L16 29z\" fill=\"#065f46\"/>"
-            + "<path d=\"M2 12 9 6h14l7 6-14 17z\" fill=\"none\" stroke=\"#053d30\" stroke-width=\"1\" stroke-linejoin=\"round\"/>"
+            + "<path d=\"M2 12 9 6h14l7 6-14 17z\" fill=\"none\" stroke=\"#053d30\""
+            + " stroke-width=\"1\" stroke-linejoin=\"round\"/>"
             + "</svg>";
 
     @DoGet("/")

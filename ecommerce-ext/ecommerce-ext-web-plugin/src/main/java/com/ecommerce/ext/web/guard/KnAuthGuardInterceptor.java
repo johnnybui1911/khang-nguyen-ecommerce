@@ -9,6 +9,7 @@ import com.tvd12.ezyhttp.server.core.request.RequestArguments;
 import com.tvd12.ezyhttp.server.core.request.SimpleRequestArguments;
 import org.youngmonkeys.ezylogin.web.service.WebEzyLoginUserAccessTokenService;
 import org.youngmonkeys.ezyplatform.model.UserAccessTokenModel;
+import org.youngmonkeys.ezyplatform.util.AccessTokens;
 import org.youngmonkeys.ezyplatform.web.service.WebUserService;
 
 import javax.servlet.http.Cookie;
@@ -121,18 +122,32 @@ public class KnAuthGuardInterceptor implements RequestInterceptor {
         );
     }
 
-    private static boolean hasAccessToken(HttpServletRequest request) {
+    /**
+     * True when the request carries a session the platform accepts. A made-up cookie or header
+     * counts as no session, so it can not skip the guest checkout limit.
+     */
+    private boolean hasAccessToken(HttpServletRequest request) {
+        String token = null;
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if ("accessToken".equals(cookie.getName())
-                    && cookie.getValue() != null && !cookie.getValue().isEmpty()) {
-                    return true;
+                if ("accessToken".equals(cookie.getName())) {
+                    token = cookie.getValue();
                 }
             }
         }
-        String header = request.getHeader("Authorization");
-        return header != null && !header.trim().isEmpty();
+        if (token == null || token.trim().isEmpty()) {
+            String header = request.getHeader("Authorization");
+            token = header == null ? null : AccessTokens.extractBearerToken(header);
+        }
+        if (token == null || token.trim().isEmpty()) {
+            return false;
+        }
+        try {
+            return userService.validateUserAccessToken(token) > 0L;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private void revokeCurrentToken(HttpServletRequest request) {

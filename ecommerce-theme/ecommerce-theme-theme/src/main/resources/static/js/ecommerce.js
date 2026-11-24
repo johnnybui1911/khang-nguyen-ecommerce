@@ -918,6 +918,7 @@
     }
 
     pages.checkout = function () {
+        var COD_MAX = 5000000;
         var root = q('#knMain');
         var form = q('#knCheckoutForm');
         var wrap = q('#knCheckout');
@@ -972,8 +973,14 @@
                     var lab = payLabels[code] || [s.displayName || s.name || code, ''];
                     var id = 'knPay' + idx;
                     var input = el('input', {type: 'radio', id: id, name: 'paymentServiceCode', value: code});
-                    if (idx === 0) { input.checked = true; }
-                    pBox.appendChild(el('div', {'class': 'kn-pay__opt'}, [
+                    // the shop takes cash on delivery only up to 5.000.000 ₫, the server refuses more
+                    var codTooLarge = code === 'KN_COD' && cartAmount(rowsCache) > COD_MAX;
+                    if (codTooLarge) {
+                        input.disabled = true;
+                        lab = [lab[0], 'Không áp dụng cho đơn trên 5.000.000 ₫, vui lòng chọn chuyển khoản.'];
+                    }
+                    if (!codTooLarge && !q('input:checked', pBox)) { input.checked = true; }
+                    pBox.appendChild(el('div', {'class': 'kn-pay__opt' + (codTooLarge ? ' is-disabled' : '')}, [
                         input,
                         el('label', {'for': id}, [
                             el('strong', {text: lab[0]}),
@@ -1004,6 +1011,10 @@
             });
         }
 
+        function cartAmount(rows) {
+            return rows.reduce(function (sum, r) { return sum + Number(r.product.price) * r.line.qty; }, 0);
+        }
+
         form.addEventListener('submit', function (e) {
             e.preventDefault();
             showErr('');
@@ -1014,6 +1025,7 @@
             }
             if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Nhập địa chỉ email hợp lệ.', f.deliveryEmail); return; }
             if (!f.paymentServiceCode || !f.paymentServiceCode.value) { showErr('Vui lòng chọn phương thức thanh toán.', q('#knPay input')); return; }
+            if (f.paymentServiceCode.value === 'KN_COD' && cartAmount(rowsCache) > COD_MAX) { showErr('Đơn trên 5.000.000 ₫ không áp dụng COD, vui lòng chọn chuyển khoản.', q('#knPay input')); return; }
             var btn = q('#knPlace');
             btn.disabled = true;
             btn.textContent = 'Đang đặt hàng…';
@@ -1052,6 +1064,7 @@
                 var bad = err.status === 400 && err.data && typeof err.data === 'object' ? Object.keys(err.data)[0] : '';
                 var labels = {deliveryPhoneNumber: 'số điện thoại', deliveryEmail: 'địa chỉ email', deliveryPostalCode: 'mã bưu chính', deliveryAddress: 'địa chỉ', deliveryFullName: 'họ tên', deliveryCityName: 'tỉnh/thành phố'};
                 if (bad && labels[bad] && f[bad]) { showErr('Vui lòng kiểm tra lại ' + labels[bad] + '.', f[bad]); return; }
+                if (err.status === 400 && f.paymentServiceCode.value === 'KN_COD') { showErr('Đơn này không áp dụng COD, vui lòng chọn chuyển khoản.'); return; }
                 showErr('Chưa đặt được đơn hàng. Vui lòng kiểm tra thông tin và thử lại.');
             });
         });
@@ -1764,6 +1777,9 @@
                 q('#knOrderTotal').textContent = orderMoney(o.formattedTotalAmountMoneyIncludeSymbol);
                 var track = q('#knOrderTrack');
                 if (track) { track.setAttribute('href', '/order-status?order=' + encodeURIComponent(o.id)); }
+                // a guest has no account page; its order is followed through the link or tracking
+                var all = q('#knOrderAll');
+                if (all && viewKey) { all.hidden = true; }
                 q('#knOrder').hidden = false;
                 showPayment(o, paid);
                 d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';

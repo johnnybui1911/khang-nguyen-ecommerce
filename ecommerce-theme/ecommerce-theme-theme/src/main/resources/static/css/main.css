@@ -605,6 +605,8 @@ ul.kn-cells{list-style:none}
 .kn-pay__opt input{flex:none;width:20px;height:20px;margin:2px 0 0;accent-color:var(--kn-jade)}
 .kn-pay__opt label{display:grid;gap:4px;cursor:pointer;color:var(--kn-ink)}
 .kn-pay__opt label small{color:var(--kn-muted);font-size:13px}
+.kn-pay__opt.is-disabled{opacity:.6}
+.kn-pay__opt.is-disabled label{cursor:not-allowed}
 .kn-bank__body{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;margin:0 0 16px}
 .kn-bank__qr{width:220px;height:220px;border:1px solid var(--kn-line);border-radius:12px;background:var(--kn-white)}
 .kn-bank__body .kn-dl{flex:1 1 260px;margin:0}
