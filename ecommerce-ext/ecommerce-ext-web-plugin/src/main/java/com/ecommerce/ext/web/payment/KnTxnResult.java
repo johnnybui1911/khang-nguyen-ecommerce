@@ -16,5 +16,11 @@ public enum KnTxnResult {
     /** The money went to an account other than the shop's receiving account. */
     WRONG_ACCOUNT,
     /** The transferred amount is below the order total. */
-    UNDERPAID
+    UNDERPAID,
+    /** The one-tap confirmation link is malformed or its signature does not match. */
+    INVALID_TOKEN,
+    /** The one-tap confirmation link is older than its lifetime. */
+    EXPIRED_TOKEN,
+    /** The one-tap confirmation link was already used. */
+    TOKEN_USED
 }
