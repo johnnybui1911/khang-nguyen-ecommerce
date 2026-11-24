@@ -34,6 +34,13 @@ import java.util.regex.Pattern;
  * {@code ecm.allowed.origins}) plus the header {@code X-Requested-With: ecm}, otherwise 403.
  * The loopback names 127.0.0.1 and localhost count as one site on the same port.
  * Payment-gateway callbacks are not guarded because they come from servers, not browsers.
+ *
+ * <p>The anonymous user of a guest checkout may not change an account: a state-changing call to
+ * the ezyaccount API, the platform account API (profile, password, avatar) or the two-factor
+ * settings answers 403 for it, so it can not set an email or password and pass for a member.
+ * Order pages and order APIs answer with {@code Referrer-Policy: no-referrer} and
+ * {@code Cache-Control: no-store}, so the secret {@code ?key=} of a guest order link is neither
+ * sent to other sites nor kept in a cache.
  */
 @Interceptor(priority = 1)
 public class KnCompatGuardInterceptor implements RequestInterceptor {
@@ -44,6 +51,13 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
     private static final String THEME_ACCOUNT_OWNER = "KnThemeHomeController";
     private static final String REQUIRED_HEADER_VALUE = "ecm";
     private static final Pattern LIST_SPLIT = Pattern.compile("\\s*,\\s*");
+    private static final Pattern ORDER_PATH =
+        Pattern.compile("^(/orders/|/api/v1/ecm/orders/|/api/v1/orders/).*");
+    private static final String EZYACCOUNT_API = "org.youngmonkeys.ezyaccount.web.controller.api.";
+    private static final String PLATFORM_ACCOUNT_API =
+        "org.youngmonkeys.ezyplatform.web.controller.api.WebApiAccountController";
+    private static final String TWO_FACTOR_API =
+        "org.youngmonkeys.ezylogin.web.controller.api.WebApiTwoFactorController";
 
     /** Maps the original controller simple name to its flag name. */
     private static final Map<String, String> FLAGS = new HashMap<>();
@@ -100,6 +114,12 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
     @Override
     public boolean preHandle(RequestArguments arguments, Method handler) {
         String owner = handler.getDeclaringClass().getSimpleName();
+        protectOrderPage(arguments);
+        HttpMethod method = arguments.getMethod();
+        boolean changesState = method != HttpMethod.GET && method != HttpMethod.HEAD;
+        if (changesState && isAccountWrite(handler)) {
+            forbidGuest(arguments);
+        }
         if (THEME_ACCOUNT_OWNER.equals(owner) && "account".equals(handler.getName())) {
             rejectGuestToken(arguments);
             return true;
@@ -114,8 +134,6 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
         if (ACCOUNT_OWNER.equals(owner)) {
             requireSignedIn(arguments);
         }
-        HttpMethod method = arguments.getMethod();
-        boolean changesState = method != HttpMethod.GET && method != HttpMethod.HEAD;
         if (changesState && GUARDED_CLASSES.contains(owner)) {
             return isTrustedBrowserRequest(arguments.getRequest());
         }
@@ -174,6 +192,51 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
             userId = userService.validateUserAccessToken(accessToken);
         }
         rejectGuest(userId);
+    }
+
+    /** True for the routes that let a signed-in user change its own account or login. */
+    static boolean isAccountWrite(Method handler) {
+        String type = handler.getDeclaringClass().getName();
+        return type.startsWith(EZYACCOUNT_API)
+            || PLATFORM_ACCOUNT_API.equals(type)
+            || (TWO_FACTOR_API.equals(type) && handler.getName().startsWith("usersMe2Fa"));
+    }
+
+    /**
+     * 403 for the anonymous user of a guest checkout. A request without a session or with an
+     * unknown token goes on, and the platform answers it as it always does (401).
+     */
+    private void forbidGuest(RequestArguments arguments) {
+        Long userId = (Long) arguments.getArgument(UserId.class);
+        if (userId == null || userId == 0L) {
+            String accessToken = arguments.getRequestValueAnyway("accessToken");
+            if (EzyStrings.isBlank(accessToken)) {
+                accessToken = AccessTokens.extractBearerToken(
+                    arguments.getHeader("Authorization")
+                );
+            }
+            if (EzyStrings.isBlank(accessToken)) {
+                return;
+            }
+            try {
+                userId = userService.validateUserAccessToken(accessToken);
+            } catch (Exception e) {
+                return;
+            }
+        }
+        if (userId != null && userId > 0L && viewKeyService.isGuest(userId)) {
+            throw new com.tvd12.ezyhttp.core.exception.HttpForbiddenException(
+                "a guest checkout session can not change an account"
+            );
+        }
+    }
+
+    private static void protectOrderPage(RequestArguments arguments) {
+        String uri = arguments.getRequest().getRequestURI();
+        if (uri != null && ORDER_PATH.matcher(uri).matches()) {
+            arguments.getResponse().setHeader("Referrer-Policy", "no-referrer");
+            arguments.getResponse().setHeader("Cache-Control", "no-store");
+        }
     }
 
     private void rejectGuest(Long userId) {

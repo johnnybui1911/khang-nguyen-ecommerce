@@ -2,6 +2,7 @@ package com.ecommerce.ext.web.payment;
 
 import com.ecommerce.ext.payment.KnBankTransferPaymentService;
 import com.ecommerce.ext.payment.KnCodPaymentService;
+import com.ecommerce.ext.web.guard.KnRateLimiter;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
 import com.tvd12.ezyfox.util.EzyLoggable;
@@ -22,6 +23,11 @@ import org.youngmonkeys.ecommerce.web.service.WebOrderRecipientService;
 /**
  * Sends the two customer mails of the offline payment methods. Every failure is logged and
  * swallowed so a mail problem can never undo an order or a payment confirmation.
+ *
+ * <p>Anyone can type any delivery email at checkout, so the "order received" mail is limited per
+ * address ({@code ecm.ratelimit.order-mail.max}, default 5, per
+ * {@code ecm.ratelimit.order-mail.window.seconds}, default 3600). A "+tag" in the address counts
+ * as the same mailbox. Over the limit the order is still placed and only the mail is skipped.
  */
 @EzySingleton
 public class KnPaymentMailer extends EzyLoggable {
@@ -34,6 +40,11 @@ public class KnPaymentMailer extends EzyLoggable {
     public static final String REDIRECT_SETTING = "kn_mail_redirect_to";
 
     private static final Pattern EMAIL = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+
+    private final KnRateLimiter orderMailLimiter = new KnRateLimiter(
+        intProperty("ecm.ratelimit.order-mail.max", 5),
+        intProperty("ecm.ratelimit.order-mail.window.seconds", 3600) * 1000L
+    );
 
     @EzyAutoBind
     private WebMailDeliver mailDeliver;
@@ -62,6 +73,13 @@ public class KnPaymentMailer extends EzyLoggable {
             } else if (KnCodPaymentService.CODE.equals(method)) {
                 body = receivedCodBody(order);
             } else {
+                return;
+            }
+            String to = recipient(order);
+            if (to != null && orderMailLimiter.tryAcquire(
+                mailboxKey(to), System.currentTimeMillis()) > 0) {
+                logger.warn("order received mail of order {} skipped: too many to one mailbox",
+                    order.getId());
                 return;
             }
             send(order, "Khang Nguyễn đã nhận đơn hàng #"
@@ -162,6 +180,26 @@ public class KnPaymentMailer extends EzyLoggable {
                 .content("<div style=\"font-family:Arial,sans-serif\">" + body + "</div>")
                 .build()
         );
+    }
+
+    /** The mailbox an address lands in: lower case, without a "+tag" in the local part. */
+    static String mailboxKey(String email) {
+        String lower = email.trim().toLowerCase(Locale.ROOT);
+        int at = lower.lastIndexOf('@');
+        if (at <= 0) {
+            return lower;
+        }
+        String local = lower.substring(0, at);
+        int plus = local.indexOf('+');
+        return (plus > 0 ? local.substring(0, plus) : local) + lower.substring(at);
+    }
+
+    private static int intProperty(String key, int defaultValue) {
+        try {
+            return Integer.parseInt(System.getProperty(key, String.valueOf(defaultValue)));
+        } catch (NumberFormatException e) {
+            return defaultValue;
+        }
     }
 
     private String shopRecipient() {
