@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
+import java.util.regex.Pattern;
 import org.youngmonkeys.ezymail.entity.MailType;
 import org.youngmonkeys.ezymail.model.MailModel;
 import org.youngmonkeys.ezymail.web.mail.WebMailDeliver;
@@ -23,9 +24,14 @@ import org.youngmonkeys.ecommerce.model.OrderModel;
 @EzySingleton
 public class KnPaymentMailer extends EzyLoggable {
 
+    /**
+     * Test-only switch: when it holds an email address, every mail goes there instead of to the
+     * customer or the shop. Blank, "off" or anything that is not an email means no redirect, so a
+     * live shop mails its real customers unless someone turns this on on purpose.
+     */
     public static final String REDIRECT_SETTING = "kn_mail_redirect_to";
-    public static final String DEFAULT_REDIRECT = "khangnguyen.shop.hn@gmail.com";
-    private static final String REDIRECT_OFF = "off";
+
+    private static final Pattern EMAIL = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
 
     @EzyAutoBind
     private WebMailDeliver mailDeliver;
@@ -151,11 +157,8 @@ public class KnPaymentMailer extends EzyLoggable {
     }
 
     private String shopRecipient() {
-        String redirect = settings.get(REDIRECT_SETTING);
-        if (redirect.isEmpty()) {
-            redirect = DEFAULT_REDIRECT;
-        }
-        if (!REDIRECT_OFF.equalsIgnoreCase(redirect)) {
+        String redirect = redirectTarget(settings.get(REDIRECT_SETTING));
+        if (redirect != null) {
             return redirect;
         }
         String shop = settings.get(KnPaymentSettings.SHOP_NOTIFY_EMAIL);
@@ -163,16 +166,19 @@ public class KnPaymentMailer extends EzyLoggable {
     }
 
     private String recipient(OrderModel order) {
-        String redirect = settings.get(REDIRECT_SETTING);
-        if (redirect.isEmpty()) {
-            redirect = DEFAULT_REDIRECT;
-        }
-        if (!REDIRECT_OFF.equalsIgnoreCase(redirect)) {
+        String redirect = redirectTarget(settings.get(REDIRECT_SETTING));
+        if (redirect != null) {
             return redirect;
         }
         UserModel user = userService.getUserById(order.getCreatorUserId());
         String email = user == null ? null : user.getEmail();
         return email == null || email.trim().isEmpty() ? null : email.trim();
+    }
+
+    /** The address to redirect every mail to, or null when the redirect is off. */
+    static String redirectTarget(String value) {
+        String v = value == null ? "" : value.trim();
+        return EMAIL.matcher(v).matches() ? v : null;
     }
 
     private static String row(String label, String value) {
