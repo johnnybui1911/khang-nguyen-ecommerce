@@ -68,6 +68,21 @@ public class KnBankTransferInfoService extends EzyLoggable {
         );
     }
 
+    /**
+     * The shop's receiving account number, or an empty string while it is not configured.
+     */
+    public String getReceivingAccountNumber() {
+        try {
+            ShopBankAccountModel account =
+                shopBankAccountService.getTopActivatedBankAccountByShopId(SHOP_ID);
+            return account == null || isPlaceholder(account.getAccountNumber())
+                ? "" : account.getAccountNumber().trim();
+        } catch (Exception e) {
+            logger.warn("can not load the shop bank account", e);
+            return "";
+        }
+    }
+
     private static boolean isPlaceholder(String accountNumber) {
         return accountNumber == null
             || accountNumber.trim().isEmpty()

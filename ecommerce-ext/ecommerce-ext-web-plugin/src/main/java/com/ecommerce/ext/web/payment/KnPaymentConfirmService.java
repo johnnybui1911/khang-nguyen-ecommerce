@@ -38,6 +38,9 @@ public class KnPaymentConfirmService extends EzyLoggable {
     @EzyAutoBind
     private KnPaymentMailer mailer;
 
+    @EzyAutoBind
+    private KnBankTransferInfoService bankInfoService;
+
     private final Object lock = new Object();
 
     /**
@@ -50,9 +53,14 @@ public class KnPaymentConfirmService extends EzyLoggable {
                 return KnTxnResult.DUPLICATE;
             }
             Optional<Long> orderId = KnTransferCode.extractOrderId(txn.getContent());
-            KnTxnResult result = orderId.isPresent()
-                ? markPaid(orderId.get(), txn.getAmount(), txn.getProvider())
-                : KnTxnResult.NO_CODE;
+            KnTxnResult result;
+            if (!isForShopAccount(txn)) {
+                result = KnTxnResult.WRONG_ACCOUNT;
+            } else if (orderId.isPresent()) {
+                result = markPaid(orderId.get(), txn.getAmount(), txn.getProvider());
+            } else {
+                result = KnTxnResult.NO_CODE;
+            }
             record(txn, orderId.orElse(0L), result);
             return result;
         }
@@ -85,6 +93,26 @@ public class KnPaymentConfirmService extends EzyLoggable {
             mailer.sendPaymentReceived(order);
             return KnTxnResult.PAID;
         }
+    }
+
+    /**
+     * A provider account can receive money for other purposes, so a transaction that names a
+     * receiving account must name the shop's one (the account itself or its virtual account).
+     * Nothing can be compared while the shop account is unconfigured or the provider does not
+     * report the account, and those transactions go on to the code, amount and state checks.
+     */
+    private boolean isForShopAccount(KnBankTxn txn) {
+        String shopAccount = normalize(bankInfoService.getReceivingAccountNumber());
+        boolean reported = !txn.getAccountNumber().isEmpty() || !txn.getSubAccount().isEmpty();
+        if (shopAccount.isEmpty() || !reported) {
+            return true;
+        }
+        return shopAccount.equals(normalize(txn.getAccountNumber()))
+            || shopAccount.equals(normalize(txn.getSubAccount()));
+    }
+
+    private static String normalize(String account) {
+        return account == null ? "" : account.replaceAll("\\s+", "").toLowerCase();
     }
 
     private void record(KnBankTxn txn, long orderId, KnTxnResult result) {

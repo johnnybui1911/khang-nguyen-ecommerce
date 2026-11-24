@@ -88,6 +88,17 @@ public class KnSepayPollTest {
     }
 
     @Test
+    public void pollKeepsTheReceivingAccount() {
+        KnSepayProvider sepay = provider(keys(""),
+            "{\"data\":[{\"id\":\"b1\",\"account_number\":\"0123\",\"va\":\"VA1\","
+                + "\"amount_in\":5,\"transaction_content\":\"KN00001\"}],"
+                + "\"meta\":{\"pagination\":{\"has_more\":false}}}");
+        KnBankTxn txn = sepay.poll().get(0);
+        assertEquals(txn.getAccountNumber(), "0123");
+        assertEquals(txn.getSubAccount(), "VA1");
+    }
+
+    @Test
     public void aFailedPollKeepsTheCursor() {
         KnSepayProvider sepay = new KnSepayProvider(keys(""), (url, auth) -> {
             urls.add(url);

@@ -24,6 +24,7 @@ public class KnPaymentConfirmServiceTest {
     private KnPaymentTxnRepository repository;
     private KnPaymentConfirmService service;
     private KnPaymentMailer mailer;
+    private KnBankTransferInfoService bankInfoService;
 
     private static void inject(Object target, String field, Object value) throws Exception {
         Field f = target.getClass().getDeclaredField(field);
@@ -41,6 +42,9 @@ public class KnPaymentConfirmServiceTest {
         inject(service, "eventHandlerManager", mock(WebEventHandlerManager.class));
         mailer = mock(KnPaymentMailer.class);
         inject(service, "mailer", mailer);
+        bankInfoService = mock(KnBankTransferInfoService.class);
+        when(bankInfoService.getReceivingAccountNumber()).thenReturn("0123456789");
+        inject(service, "bankInfoService", bankInfoService);
     }
 
     private OrderModel order(String method, String status, String total) {
@@ -102,5 +106,35 @@ public class KnPaymentConfirmServiceTest {
         when(repository.findByProviderAndTxnId("sepay", "t1")).thenReturn(new KnPaymentTxn());
         assertEquals(pay("KN00012", "250000"), KnTxnResult.DUPLICATE);
         verify(orderService, never()).approveOrder(anyLong(), anyLong(), anyLong());
+    }
+
+    private KnTxnResult payTo(String account, String subAccount) {
+        return service.handle(new KnBankTxn(
+            "sepay", "t9", new BigDecimal("250000"), "KN00012", account, subAccount
+        ));
+    }
+
+    @Test
+    public void aTransferToAnotherAccountIsIgnored() {
+        order("KN_BANK", "WAITING_FOR_PAYMENT", "250000");
+        assertEquals(payTo("9999999999", ""), KnTxnResult.WRONG_ACCOUNT);
+        assertEquals(payTo("9999999999", "VA77"), KnTxnResult.WRONG_ACCOUNT);
+        verify(orderService, never()).approveOrder(anyLong(), anyLong(), anyLong());
+        verify(mailer, never()).sendPaymentReceived(any(OrderModel.class));
+    }
+
+    @Test
+    public void theShopAccountOrItsVirtualAccountIsAccepted() {
+        order("KN_BANK", "WAITING_FOR_PAYMENT", "250000");
+        assertEquals(payTo("0123 456789", ""), KnTxnResult.PAID);
+        assertEquals(payTo("9999999999", "0123456789"), KnTxnResult.PAID);
+    }
+
+    @Test
+    public void withoutAShopAccountOrAReportedAccountNothingIsCompared() {
+        order("KN_BANK", "WAITING_FOR_PAYMENT", "250000");
+        assertEquals(payTo("", ""), KnTxnResult.PAID);
+        when(bankInfoService.getReceivingAccountNumber()).thenReturn("");
+        assertEquals(payTo("9999999999", ""), KnTxnResult.PAID);
     }
 }

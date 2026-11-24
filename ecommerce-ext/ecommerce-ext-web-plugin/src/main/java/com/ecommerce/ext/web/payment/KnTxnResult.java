@@ -13,6 +13,8 @@ public enum KnTxnResult {
     WRONG_METHOD,
     /** The order is not waiting for payment (already paid, cancelled, expired...). */
     NOT_WAITING,
+    /** The money went to an account other than the shop's receiving account. */
+    WRONG_ACCOUNT,
     /** The transferred amount is below the order total. */
     UNDERPAID
 }

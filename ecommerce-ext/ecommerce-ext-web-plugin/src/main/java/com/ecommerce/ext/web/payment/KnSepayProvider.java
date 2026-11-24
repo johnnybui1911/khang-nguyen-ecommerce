@@ -130,7 +130,9 @@ public class KnSepayProvider implements KnBankTxnProvider {
             NAME,
             id,
             amount,
-            contentOf(node.path("content"), node.path("code"))
+            contentOf(node.path("content"), node.path("code")),
+            node.path("accountNumber").asText(""),
+            node.path("subAccount").asText("")
         ));
         return result;
     }
@@ -198,7 +200,9 @@ public class KnSepayProvider implements KnBankTxnProvider {
                     NAME,
                     id,
                     amount,
-                    contentOf(item.path("transaction_content"), item.path("code"))
+                    contentOf(item.path("transaction_content"), item.path("code")),
+                    item.path("account_number").asText(""),
+                    item.path("va").asText("")
                 ));
             }
             if (!body.path("meta").path("pagination").path("has_more").asBoolean(false)) {

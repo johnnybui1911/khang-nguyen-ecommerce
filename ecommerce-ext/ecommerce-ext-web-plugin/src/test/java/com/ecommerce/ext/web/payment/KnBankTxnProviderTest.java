@@ -38,6 +38,17 @@ public class KnBankTxnProviderTest {
     }
 
     @Test
+    public void sepayWebhookCarriesTheReceivingAccount() {
+        List<KnBankTxn> txns = sepay.parseWebhook(
+            headers("authorization", "Apikey sepay-key"),
+            "{\"id\":3,\"transferType\":\"in\",\"transferAmount\":1,"
+                + "\"accountNumber\":\"0123\",\"subAccount\":\"VA9\",\"content\":\"x\"}"
+        );
+        assertEquals(txns.get(0).getAccountNumber(), "0123");
+        assertEquals(txns.get(0).getSubAccount(), "VA9");
+    }
+
+    @Test
     public void sepayRejectsWrongOrMissingKey() {
         String body = "{\"id\":1,\"transferType\":\"in\",\"transferAmount\":1}";
         assertTrue(expectThrows(
