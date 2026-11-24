@@ -9,17 +9,29 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.LongConsumer;
 
 /**
- * SePay. The webhook carries {@code Authorization: Apikey <key>}; the poll job reads the
- * recent transaction list with a bearer token as a safety net when a webhook is lost.
+ * SePay. The webhook carries {@code Authorization: Apikey <key>}; the poll job reads incoming
+ * transactions from the v2 list API with a bearer token as a safety net when a webhook is lost.
+ * The base URL is a setting so the sandbox ({@code https://userapi-sandbox.sepay.vn/v2}) works.
  */
 @EzySingleton
 public class KnSepayProvider implements KnBankTxnProvider {
 
     public static final String NAME = "sepay";
-    static final String LIST_URL = "https://my.sepay.vn/userapi/transactions/list?limit=50";
+    static final String DEFAULT_API_BASE_URL = "https://userapi.sepay.vn/v2";
+    static final int PAGE_SIZE = 100;
+    static final int MAX_PAGES = 20;
+    /** The API allows 3 calls per second. */
+    static final long MIN_CALL_GAP_MS = 350;
+    private static final long FIRST_POLL_LOOKBACK_DAYS = 2;
+    private static final DateTimeFormatter DATE_TIME =
+        DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     private static final ObjectMapper JSON = new ObjectMapper();
 
@@ -27,13 +39,38 @@ public class KnSepayProvider implements KnBankTxnProvider {
     private KnPaymentSettings settings;
 
     private final Function<String, String> keyOverride;
+    private final BiFunction<String, String, String> fetcher;
+    private final LongConsumer pause;
+
+    /** Id of the newest transaction read so far; only the polling thread touches it. */
+    private volatile String lastSeenId = "";
 
     public KnSepayProvider() {
         this.keyOverride = null;
+        this.fetcher = KnHttp::get;
+        this.pause = KnSepayProvider::sleep;
     }
 
     KnSepayProvider(Function<String, String> keys) {
+        this(keys, KnHttp::get, millis -> { });
+    }
+
+    KnSepayProvider(
+        Function<String, String> keys,
+        BiFunction<String, String, String> fetcher,
+        LongConsumer pause
+    ) {
         this.keyOverride = keys;
+        this.fetcher = fetcher;
+        this.pause = pause;
+    }
+
+    private static void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     private String key(String name) {
@@ -88,22 +125,54 @@ public class KnSepayProvider implements KnBankTxnProvider {
         if (token.isEmpty()) {
             return result;
         }
-        String body = KnHttp.get(LIST_URL, "Bearer " + token);
-        JsonNode list = readJson(body).path("transactions");
-        for (JsonNode item : list) {
-            BigDecimal amount = amountOf(item.path("amount_in"));
-            String id = item.path("id").asText("");
-            if (id.isEmpty() || amount == null || amount.signum() <= 0) {
-                continue;
+        String newest = lastSeenId;
+        for (int page = 1; page <= MAX_PAGES; ++page) {
+            if (page > 1) {
+                pause.accept(MIN_CALL_GAP_MS);
             }
-            result.add(new KnBankTxn(
-                NAME,
-                id,
-                amount,
-                contentOf(item.path("transaction_content"), item.path("code"))
-            ));
+            JsonNode body = readJson(fetcher.apply(pageUrl(page), "Bearer " + token));
+            for (JsonNode item : body.path("data")) {
+                String id = item.path("id").asText("");
+                if (id.isEmpty()) {
+                    continue;
+                }
+                newest = id;
+                BigDecimal amount = amountOf(item.path("amount_in"));
+                if (amount == null || amount.signum() <= 0) {
+                    continue;
+                }
+                result.add(new KnBankTxn(
+                    NAME,
+                    id,
+                    amount,
+                    contentOf(item.path("transaction_content"), item.path("code"))
+                ));
+            }
+            if (!body.path("meta").path("pagination").path("has_more").asBoolean(false)) {
+                break;
+            }
         }
+        // Saved only after every page was read: since_id filters but does not reorder, so a
+        // cursor taken mid-way would skip transactions on the pages not yet read.
+        lastSeenId = newest;
         return result;
+    }
+
+    private String pageUrl(int page) {
+        String base = key(KnPaymentSettings.SEPAY_API_BASE_URL);
+        base = base.isEmpty() ? DEFAULT_API_BASE_URL : base.replaceAll("/+$", "");
+        StringBuilder url = new StringBuilder(base)
+            .append("/transactions?transfer_type=in&transaction_date_sort=asc")
+            .append("&per_page=").append(PAGE_SIZE)
+            .append("&page=").append(page);
+        if (lastSeenId.isEmpty()) {
+            String from = LocalDateTime.now()
+                .minusDays(FIRST_POLL_LOOKBACK_DAYS).format(DATE_TIME);
+            url.append("&transaction_date_from=").append(from.replace(" ", "%20"));
+        } else {
+            url.append("&since_id=").append(lastSeenId);
+        }
+        return url.toString();
     }
 
     private static String contentOf(JsonNode content, JsonNode code) {
