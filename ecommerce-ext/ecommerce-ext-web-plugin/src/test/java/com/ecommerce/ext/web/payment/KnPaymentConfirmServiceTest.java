@@ -23,6 +23,7 @@ public class KnPaymentConfirmServiceTest {
     private WebOrderService orderService;
     private KnPaymentTxnRepository repository;
     private KnPaymentConfirmService service;
+    private KnPaymentMailer mailer;
 
     private static void inject(Object target, String field, Object value) throws Exception {
         Field f = target.getClass().getDeclaredField(field);
@@ -38,6 +39,8 @@ public class KnPaymentConfirmServiceTest {
         inject(service, "orderService", orderService);
         inject(service, "txnRepository", repository);
         inject(service, "eventHandlerManager", mock(WebEventHandlerManager.class));
+        mailer = mock(KnPaymentMailer.class);
+        inject(service, "mailer", mailer);
     }
 
     private OrderModel order(String method, String status, String total) {
@@ -59,6 +62,7 @@ public class KnPaymentConfirmServiceTest {
         assertEquals(pay("chuyen khoan KN00012", "250000"), KnTxnResult.PAID);
         verify(orderService).approveOrder(0L, 0L, 12L);
         verify(repository).save(any(KnPaymentTxn.class));
+        verify(mailer).sendPaymentReceived(any(OrderModel.class));
     }
 
     @Test

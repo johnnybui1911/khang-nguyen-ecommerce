@@ -35,6 +35,9 @@ public class KnPaymentConfirmService extends EzyLoggable {
     @EzyAutoBind
     private WebEventHandlerManager eventHandlerManager;
 
+    @EzyAutoBind
+    private KnPaymentMailer mailer;
+
     private final Object lock = new Object();
 
     /**
@@ -79,6 +82,7 @@ public class KnPaymentConfirmService extends EzyLoggable {
             orderService.approveOrder(0, 0, orderId);
             eventHandlerManager.handleEvent(new OrderActionEvent(orderId, OrderAction.APPROVED));
             logger.info("order {} marked paid by {}", orderId, source);
+            mailer.sendPaymentReceived(order);
             return KnTxnResult.PAID;
         }
     }
