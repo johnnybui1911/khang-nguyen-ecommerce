@@ -2,8 +2,8 @@ package com.ecommerce.ext.web.controller.api;
 
 import com.ecommerce.ext.payment.KnBankTransferPaymentService;
 import com.ecommerce.ext.payment.KnCodPaymentService;
-import com.ecommerce.ext.web.payment.KnBankTransferInfo;
 import com.ecommerce.ext.web.payment.KnBankTransferInfoService;
+import com.ecommerce.ext.web.payment.KnOrderViewKeyService;
 import com.ecommerce.ext.web.payment.KnPaymentMailer;
 import com.ecommerce.ext.web.payment.KnShopConfirmService;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
@@ -14,7 +14,6 @@ import com.tvd12.ezyhttp.server.core.annotation.Controller;
 import com.tvd12.ezyhttp.server.core.annotation.DoGet;
 import com.tvd12.ezyhttp.server.core.annotation.PathVariable;
 import com.tvd12.ezyhttp.server.core.request.RequestArguments;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +41,9 @@ public class KnOrderApiController extends WebApiOrderController {
     @EzyAutoBind
     private KnShopConfirmService shopConfirmService;
 
+    @EzyAutoBind
+    private KnOrderViewKeyService viewKeyService;
+
     @Override
     protected ResponseEntity createOrderPaymentUrl(
         RequestArguments arguments,
@@ -57,8 +59,27 @@ public class KnOrderApiController extends WebApiOrderController {
             if (KnBankTransferPaymentService.CODE.equals(paymentServiceCode)) {
                 mailShop(order);
             }
+            return withGuestKey(response, order);
         }
         return response;
+    }
+
+    /**
+     * A guest is signed in only in the browser that checked out, so its order page link carries
+     * the order's view key; the page then still opens after the session is gone.
+     */
+    private ResponseEntity withGuestKey(ResponseEntity response, OrderModel order) {
+        Object body = response.getBody();
+        String key = body instanceof String && viewKeyService.isGuest(order.getCreatorUserId())
+            ? viewKeyService.keyOf(order.getId()) : null;
+        if (key == null) {
+            return response;
+        }
+        String url = (String) body;
+        return ResponseEntity.builder()
+            .contentType("text/plain")
+            .body(url + (url.contains("?") ? "&" : "?") + "key=" + key)
+            .build();
     }
 
     private void mailShop(OrderModel order) {
@@ -77,23 +98,6 @@ public class KnOrderApiController extends WebApiOrderController {
         @UserId long userId,
         @PathVariable("id") long orderId
     ) {
-        OrderModel order = orderValidator.validateUserOrder(userId, orderId);
-        Map<String, Object> result = new LinkedHashMap<>();
-        if (!KnBankTransferPaymentService.CODE.equals(order.getPaymentServiceCode())) {
-            result.put("available", false);
-            return result;
-        }
-        KnBankTransferInfo info = bankInfoService.build(order);
-        result.put("available", true);
-        result.put("configured", info.isConfigured());
-        result.put("amount", info.getAmount().toBigInteger());
-        result.put("content", info.getContent());
-        if (info.isConfigured()) {
-            result.put("bankName", info.getBankName());
-            result.put("accountNumber", info.getAccountNumber());
-            result.put("accountOwner", info.getAccountOwner());
-            result.put("qrUrl", info.getQrUrl());
-        }
-        return result;
+        return bankInfoService.describe(orderValidator.validateUserOrder(userId, orderId));
     }
 }

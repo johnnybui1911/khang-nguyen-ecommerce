@@ -16,6 +16,8 @@ import org.youngmonkeys.ezymail.web.mail.WebMailDeliver;
 import org.youngmonkeys.ezyplatform.model.UserModel;
 import org.youngmonkeys.ezyplatform.service.UserService;
 import org.youngmonkeys.ecommerce.model.OrderModel;
+import org.youngmonkeys.ecommerce.model.OrderRecipientModel;
+import org.youngmonkeys.ecommerce.web.service.WebOrderRecipientService;
 
 /**
  * Sends the two customer mails of the offline payment methods. Every failure is logged and
@@ -45,6 +47,12 @@ public class KnPaymentMailer extends EzyLoggable {
     @EzyAutoBind
     private KnBankTransferInfoService bankInfoService;
 
+    @EzyAutoBind
+    private WebOrderRecipientService orderRecipientService;
+
+    @EzyAutoBind
+    private KnOrderViewKeyService viewKeyService;
+
     public void sendOrderReceived(OrderModel order) {
         try {
             String method = order.getPaymentServiceCode();
@@ -57,7 +65,7 @@ public class KnPaymentMailer extends EzyLoggable {
                 return;
             }
             send(order, "Khang Nguyễn đã nhận đơn hàng #"
-                + order.getId(), body);
+                + order.getId(), body + orderLink(order));
         } catch (Exception e) {
             logger.warn("can not send the order received mail of order {}", order.getId(), e);
         }
@@ -165,14 +173,30 @@ public class KnPaymentMailer extends EzyLoggable {
         return shop.isEmpty() ? null : shop;
     }
 
-    private String recipient(OrderModel order) {
+    /**
+     * The customer address: the delivery email typed at checkout, which is the only address a guest
+     * order has, else the email of the account that placed the order.
+     */
+    String recipient(OrderModel order) {
         String redirect = redirectTarget(settings.get(REDIRECT_SETTING));
         if (redirect != null) {
             return redirect;
         }
+        OrderRecipientModel delivery = orderRecipientService.getOrderRecipientById(order.getId());
+        String typed = delivery == null || delivery.getEmail() == null
+            ? "" : delivery.getEmail().trim();
+        if (EMAIL.matcher(typed).matches()) {
+            return typed;
+        }
         UserModel user = userService.getUserById(order.getCreatorUserId());
         String email = user == null ? null : user.getEmail();
         return email == null || email.trim().isEmpty() ? null : email.trim();
+    }
+
+    /** A button to the order page; a guest order's link carries its view key. */
+    private String orderLink(OrderModel order) {
+        String url = viewKeyService.orderUrl(order.getId(), order.getCreatorUserId());
+        return "<p><a href=\"" + escape(url) + "\">Xem đơn hàng #" + order.getId() + "</a></p>";
     }
 
     /** The address to redirect every mail to, or null when the redirect is off. */

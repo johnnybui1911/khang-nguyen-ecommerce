@@ -1,10 +1,13 @@
 package com.ecommerce.ext.web.controller.api;
 
 import com.ecommerce.ext.web.guard.KnRateLimiter;
+import com.ecommerce.ext.web.payment.KnBankTransferInfoService;
+import com.ecommerce.ext.web.payment.KnOrderViewKeyService;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.core.exception.HttpTooManyRequestsException;
 import com.tvd12.ezyhttp.server.core.annotation.DoGet;
+import com.tvd12.ezyhttp.server.core.annotation.PathVariable;
 import com.tvd12.ezyhttp.server.core.annotation.RequestParam;
 import com.tvd12.ezyhttp.server.core.request.RequestArguments;
 import org.youngmonkeys.ecommerce.model.OrderModel;
@@ -35,6 +38,11 @@ import com.tvd12.ezyhttp.server.core.annotation.Controller;
  * phone or email. Every case that does not match (unknown order, wrong email, draft or deleted
  * order) answers the same 404, so a caller cannot tell which order numbers exist. Calls are
  * limited per client address.
+ *
+ * <p>It also serves the guest order page opened by its secret link
+ * ({@code GET /api/v1/ecm/orders/{id}?key=...} and {@code .../bank-transfer}). The key is the
+ * order's view key from {@link KnOrderViewKeyService}; a wrong key, another order number or a
+ * draft/deleted order all answer the same 404, and calls are limited per client address.
  */
 @Api
 @Controller("/api/v1")
@@ -43,7 +51,17 @@ public class KnProductApiController extends WebApiProductController {
     private static final int MAX_CALLS = 10;
     private static final long WINDOW_MILLIS = 60_000L;
 
+    private static final int MAX_GUEST_ORDER_CALLS = 60;
+
     private final KnRateLimiter limiter = new KnRateLimiter(MAX_CALLS, WINDOW_MILLIS);
+    private final KnRateLimiter guestOrderLimiter =
+        new KnRateLimiter(MAX_GUEST_ORDER_CALLS, WINDOW_MILLIS);
+
+    @EzyAutoBind
+    private KnOrderViewKeyService viewKeyService;
+
+    @EzyAutoBind
+    private KnBankTransferInfoService bankInfoService;
 
     @EzyAutoBind
     private WebOrderService ecmOrderService;
@@ -54,13 +72,39 @@ public class KnProductApiController extends WebApiProductController {
     @EzyAutoBind
     private WebOrderModelDecorator ecmOrderDecorator;
 
-    @DoGet("/ecm/order-status")
-    public Map<String, Object> orderStatusGet(
+    @DoGet("/ecm/orders/{id}")
+    public WebOrderDetailsResponse guestOrderGet(
         RequestArguments arguments,
-        @RequestParam("orderId") String orderIdText,
-        @RequestParam("email") String email
+        @PathVariable("id") String orderIdText,
+        @RequestParam("key") String key
     ) {
-        long retryAfter = limiter.tryAcquire(
+        return ecmOrderDecorator.decorate(guestOrder(arguments, orderIdText, key));
+    }
+
+    @DoGet("/ecm/orders/{id}/bank-transfer")
+    public Map<String, Object> guestOrderBankTransferGet(
+        RequestArguments arguments,
+        @PathVariable("id") String orderIdText,
+        @RequestParam("key") String key
+    ) {
+        return bankInfoService.describe(guestOrder(arguments, orderIdText, key));
+    }
+
+    private OrderModel guestOrder(RequestArguments arguments, String orderIdText, String key) {
+        throttle(guestOrderLimiter, arguments);
+        long orderId = parseOrderId(orderIdText);
+        OrderModel order = orderId > 0 && viewKeyService.matches(orderId, key)
+            ? ecmOrderService.getOrderById(orderId) : null;
+        if (order == null
+            || "DRAFT".equals(order.getStatus())
+            || "DELETED".equals(order.getStatus())) {
+            throw new HttpNotFoundException("order not found");
+        }
+        return order;
+    }
+
+    private static void throttle(KnRateLimiter rateLimiter, RequestArguments arguments) {
+        long retryAfter = rateLimiter.tryAcquire(
             arguments.getRequest().getRemoteAddr(),
             System.currentTimeMillis()
         );
@@ -70,6 +114,23 @@ public class KnProductApiController extends WebApiProductController {
                 "too many lookups, retry after " + retryAfter + " seconds"
             );
         }
+    }
+
+    private static long parseOrderId(String text) {
+        try {
+            return Long.parseLong(text == null ? "" : text.trim());
+        } catch (NumberFormatException e) {
+            return 0L;
+        }
+    }
+
+    @DoGet("/ecm/order-status")
+    public Map<String, Object> orderStatusGet(
+        RequestArguments arguments,
+        @RequestParam("orderId") String orderIdText,
+        @RequestParam("email") String email
+    ) {
+        throttle(limiter, arguments);
         OrderModel order = findMatchingOrder(orderIdText, email);
         if (order == null) {
             throw new HttpNotFoundException("order not found");
@@ -107,12 +168,7 @@ public class KnProductApiController extends WebApiProductController {
     }
 
     private OrderModel findMatchingOrder(String orderIdText, String email) {
-        long orderId;
-        try {
-            orderId = Long.parseLong(orderIdText == null ? "" : orderIdText.trim());
-        } catch (NumberFormatException e) {
-            return null;
-        }
+        long orderId = parseOrderId(orderIdText);
         String wanted = email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
         if (orderId <= 0 || wanted.isEmpty()) {
             return null;

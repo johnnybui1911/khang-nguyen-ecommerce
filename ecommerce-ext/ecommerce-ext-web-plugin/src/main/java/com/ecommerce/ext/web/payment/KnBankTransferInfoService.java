@@ -1,5 +1,6 @@
 package com.ecommerce.ext.web.payment;
 
+import com.ecommerce.ext.payment.KnBankTransferPaymentService;
 import com.ecommerce.ext.payment.KnTransferCode;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.bean.annotation.EzySingleton;
@@ -7,6 +8,8 @@ import com.tvd12.ezyfox.util.EzyLoggable;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import org.youngmonkeys.ecommerce.model.BankModel;
 import org.youngmonkeys.ecommerce.model.OrderModel;
 import org.youngmonkeys.ecommerce.model.ShopBankAccountModel;
@@ -32,6 +35,30 @@ public class KnBankTransferInfoService extends EzyLoggable {
 
     @EzyAutoBind
     private WebBankService bankService;
+
+    /**
+     * The transfer block of the order page: {@code available=false} for an order that is not a
+     * bank transfer, otherwise amount and content, plus the account and QR once configured.
+     */
+    public Map<String, Object> describe(OrderModel order) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        if (!KnBankTransferPaymentService.CODE.equals(order.getPaymentServiceCode())) {
+            result.put("available", false);
+            return result;
+        }
+        KnBankTransferInfo info = build(order);
+        result.put("available", true);
+        result.put("configured", info.isConfigured());
+        result.put("amount", info.getAmount().toBigInteger());
+        result.put("content", info.getContent());
+        if (info.isConfigured()) {
+            result.put("bankName", info.getBankName());
+            result.put("accountNumber", info.getAccountNumber());
+            result.put("accountOwner", info.getAccountOwner());
+            result.put("qrUrl", info.getQrUrl());
+        }
+        return result;
+    }
 
     public KnBankTransferInfo build(OrderModel order) {
         BigDecimal amount = order.getTotalAmountMoney();

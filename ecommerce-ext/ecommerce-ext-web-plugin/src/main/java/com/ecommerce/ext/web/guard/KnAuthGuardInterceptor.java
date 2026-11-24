@@ -2,6 +2,7 @@ package com.ecommerce.ext.web.guard;
 
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyhttp.core.annotation.Interceptor;
+import com.tvd12.ezyhttp.core.exception.HttpNotFoundException;
 import com.tvd12.ezyhttp.core.exception.HttpTooManyRequestsException;
 import com.tvd12.ezyhttp.server.core.interceptor.RequestInterceptor;
 import com.tvd12.ezyhttp.server.core.request.RequestArguments;
@@ -25,7 +26,13 @@ import java.util.Locale;
  *   client address (429 with Retry-After);</li>
  *   <li>the platform's own logout also deletes the access token, so a copied token
  *   stops working.</li>
- *   <li>the accessToken cookie is marked HttpOnly and SameSite=Lax.</li>
+ *   <li>the accessToken cookie is marked HttpOnly and SameSite=Lax, also the one the guest
+ *   checkout ({@code POST /api/v1/products/checkout}) gets for its anonymous user;</li>
+ *   <li>a guest checkout without a session creates an anonymous user, so those calls are rate
+ *   limited per client address ({@code ecm.ratelimit.guest-checkout.max} per
+ *   {@code ecm.ratelimit.guest-checkout.window.seconds});</li>
+ *   <li>ezylogin's {@code /ezylogin/api/v1/anonymous/register}, which hands out a username and
+ *   password for a new anonymous user, answers 404: guests check out through the cart.</li>
  * </ul>
  * Limits come from the system properties {@code ecm.ratelimit.login.max},
  * {@code ecm.ratelimit.register.max}, {@code ecm.ratelimit.password-reset.max} and
@@ -36,6 +43,8 @@ public class KnAuthGuardInterceptor implements RequestInterceptor {
 
     private static final String AUTH_API = "WebApiAuthenticationController";
     private static final String AUTH_VIEW = "WebAuthenticationController";
+    private static final String GUEST_CHECKOUT = "WebApiProductCheckoutController";
+    private static final String ANONYMOUS_REGISTER = "WebApiAnonymousAuthenticationController";
     private static final String SAME_SITE_LAX_COMMENT = "__SAME_SITE_LAX__";
 
     private final KnRateLimiter loginLimiter = new KnRateLimiter(
@@ -52,6 +61,11 @@ public class KnAuthGuardInterceptor implements RequestInterceptor {
         intProperty("ecm.ratelimit.window.seconds", 60) * 1000L
     );
 
+    private final KnRateLimiter guestCheckoutLimiter = new KnRateLimiter(
+        intProperty("ecm.ratelimit.guest-checkout.max", 30),
+        intProperty("ecm.ratelimit.guest-checkout.window.seconds", 600) * 1000L
+    );
+
     @EzyAutoBind
     private WebUserService userService;
 
@@ -61,12 +75,18 @@ public class KnAuthGuardInterceptor implements RequestInterceptor {
     @Override
     public boolean preHandle(RequestArguments arguments, Method handler) {
         String owner = handler.getDeclaringClass().getSimpleName();
-        String name = handler.getName();
-        if ((AUTH_API.equals(owner) || AUTH_VIEW.equals(owner))
+        final String name = handler.getName();
+        if (ANONYMOUS_REGISTER.equals(owner)) {
+            throw new HttpNotFoundException("not found");
+        }
+        if ((AUTH_API.equals(owner) || AUTH_VIEW.equals(owner) || GUEST_CHECKOUT.equals(owner))
             && arguments instanceof SimpleRequestArguments) {
             ((SimpleRequestArguments) arguments).setResponse(
                 hardenResponse(arguments.getResponse())
             );
+        }
+        if (GUEST_CHECKOUT.equals(owner) && !hasAccessToken(arguments.getRequest())) {
+            return allow(guestCheckoutLimiter, "guestCheckout", arguments);
         }
         if (AUTH_API.equals(owner)) {
             KnRateLimiter limiter = "loginPost".equals(name) ? loginLimiter
@@ -99,6 +119,20 @@ public class KnAuthGuardInterceptor implements RequestInterceptor {
         throw new HttpTooManyRequestsException(
             "too many attempts, retry after " + retryAfter + " seconds"
         );
+    }
+
+    private static boolean hasAccessToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("accessToken".equals(cookie.getName())
+                    && cookie.getValue() != null && !cookie.getValue().isEmpty()) {
+                    return true;
+                }
+            }
+        }
+        String header = request.getHeader("Authorization");
+        return header != null && !header.trim().isEmpty();
     }
 
     private void revokeCurrentToken(HttpServletRequest request) {

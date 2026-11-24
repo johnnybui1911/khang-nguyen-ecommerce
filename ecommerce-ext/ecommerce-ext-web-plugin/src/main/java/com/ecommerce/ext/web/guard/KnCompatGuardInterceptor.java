@@ -1,5 +1,6 @@
 package com.ecommerce.ext.web.guard;
 
+import com.ecommerce.ext.web.payment.KnOrderViewKeyService;
 import com.tvd12.ezyfox.bean.annotation.EzyAutoBind;
 import com.tvd12.ezyfox.io.EzyStrings;
 import com.tvd12.ezyhttp.core.annotation.Interceptor;
@@ -39,6 +40,8 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KnCompatGuardInterceptor.class);
     private static final String ACCOUNT_OWNER = "AccountController";
+    /** The theme also serves the /account page shell; the platform lets any session reach it. */
+    private static final String THEME_ACCOUNT_OWNER = "KnThemeHomeController";
     private static final String REQUIRED_HEADER_VALUE = "ecm";
     private static final Pattern LIST_SPLIT = Pattern.compile("\\s*,\\s*");
 
@@ -86,6 +89,9 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
     }
 
     @EzyAutoBind
+    private KnOrderViewKeyService viewKeyService;
+
+    @EzyAutoBind
     private WebUserService userService;
 
     @EzyAutoBind
@@ -94,6 +100,10 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
     @Override
     public boolean preHandle(RequestArguments arguments, Method handler) {
         String owner = handler.getDeclaringClass().getSimpleName();
+        if (THEME_ACCOUNT_OWNER.equals(owner) && "account".equals(handler.getName())) {
+            rejectGuestToken(arguments);
+            return true;
+        }
         String flag = FLAGS.get(owner);
         if (flag == null) {
             return true;
@@ -120,11 +130,13 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
      * without one fails with a NullPointerException (HTTP 500). The platform interceptor normally
      * rejects a visitor without a valid access token first; this makes the page enforce the same
      * rule itself: no token or an unknown token raises the exception that the global handler turns
-     * into the redirect to the login page, and a valid token supplies the user id.
+     * into the redirect to the login page, and a valid token supplies the user id. The anonymous
+     * user a guest checkout gets is not an account either, so it is sent to the login page too.
      */
     private void requireSignedIn(RequestArguments arguments) {
         Long userId = (Long) arguments.getArgument(UserId.class);
         if (userId != null && userId != 0L) {
+            rejectGuest(userId);
             return;
         }
         String accessToken = arguments.getRequestValueAnyway("accessToken");
@@ -141,8 +153,33 @@ public class KnCompatGuardInterceptor implements RequestInterceptor {
             throw new UserInvalidAccessTokenException(accessToken);
         }
         Long validated = userService.validateUserAccessToken(accessToken);
+        rejectGuest(validated);
         arguments.setArgument(UserId.class, validated);
         arguments.getRequest().setAttribute(UserId.class.getName(), validated);
+    }
+
+    /** A guest checkout session opening /account goes to the login page, as without a session. */
+    private void rejectGuestToken(RequestArguments arguments) {
+        Long userId = (Long) arguments.getArgument(UserId.class);
+        if (userId == null || userId == 0L) {
+            String accessToken = arguments.getRequestValueAnyway("accessToken");
+            if (EzyStrings.isBlank(accessToken)) {
+                accessToken = AccessTokens.extractBearerToken(
+                    arguments.getHeader("Authorization")
+                );
+            }
+            if (EzyStrings.isBlank(accessToken)) {
+                return;
+            }
+            userId = userService.validateUserAccessToken(accessToken);
+        }
+        rejectGuest(userId);
+    }
+
+    private void rejectGuest(Long userId) {
+        if (userId != null && viewKeyService.isGuest(userId)) {
+            throw new UserInvalidAccessTokenException("");
+        }
     }
 
     private static boolean isTrustedBrowserRequest(HttpServletRequest request) {

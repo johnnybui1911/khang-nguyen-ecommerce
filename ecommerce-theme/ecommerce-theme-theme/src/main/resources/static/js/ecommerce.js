@@ -97,16 +97,43 @@
     function hasSessionCookie() {
         return /(?:^|;\s*)accessTokenExpiredAt=/.test(d.cookie);
     }
-    function loggedIn() {
-        if (!loginProbe && !hasSessionCookie()) { loginProbe = Promise.resolve(false); }
-        if (!loginProbe) {
-            loginProbe = fetch('/api/v1/shopping-cart/product-count', {credentials: 'same-origin', redirect: 'manual'})
+    /* A session is either a real account or the anonymous user the platform creates for a guest checkout. */
+    var sessionProbe;
+    function hasSession() {
+        if (!sessionProbe && !hasSessionCookie()) { sessionProbe = Promise.resolve(false); }
+        if (!sessionProbe) {
+            sessionProbe = fetch('/api/v1/shopping-cart/product-count', {credentials: 'same-origin', redirect: 'manual'})
                 .then(function (r) {
                     return r.status === 200 && r.type === 'basic' &&
                         (r.headers.get('content-type') || '').indexOf('json') >= 0;
                 }, function () { return false; });
         }
+        return sessionProbe;
+    }
+    /* ezylogin names a guest checkout user "anonymous" + 32 letters/digits and gives it no email. */
+    function isGuestAccount(a) {
+        return !a || (!a.email && /^anonymous[A-Za-z0-9]{32}$/.test(a.username || ''));
+    }
+    /* Signed in = a real account; a guest checkout session does not count. */
+    function loggedIn() {
+        if (!loginProbe) {
+            loginProbe = hasSession().then(function (ok) {
+                if (!ok) { return false; }
+                return api('/ezyaccount/api/v1/account').then(function (a) { return !isGuestAccount(a); },
+                    function () { return false; });
+            });
+        }
         return loginProbe;
+    }
+    /* Guest checkout: without a session, an empty product checkout makes the platform create an anonymous
+       user and set its cookies, so the cart, payment and order APIs work as for a signed-in customer. */
+    function ensureSession(force) {
+        return (force ? Promise.resolve(false) : hasSession()).then(function (ok) {
+            if (ok) { return; }
+            return api('/api/v1/products/checkout', {method: 'POST', body: {products: []}}).then(function () {
+                sessionProbe = Promise.resolve(true);
+            });
+        });
     }
 
     /* Run a page initialiser only for a signed-in visitor, otherwise send them to the login page. */
@@ -890,7 +917,7 @@
         return (sym || '') + (Number(p.price) * qty).toLocaleString('en-US') + (sym ? '' : ' ' + iso);
     }
 
-    pages.checkout = gated('/checkout', function () {
+    pages.checkout = function () {
         var root = q('#knMain');
         var form = q('#knCheckoutForm');
         var wrap = q('#knCheckout');
@@ -905,14 +932,17 @@
             if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
         }
 
-        function boot() {
+        var renewed = false;
+        function boot(force) {
             setState(root, 'loading', 'Đang chuẩn bị thanh toán…');
-            Promise.all([
-                loadLines(),
-                api('/api/v1/currencies/default'),
-                api('/api/v1/countries'),
-                api('/api/v1/available-payment-services')
-            ]).then(function (res) {
+            ensureSession(force === true).then(function () {
+                return Promise.all([
+                    loadLines(),
+                    api('/api/v1/currencies/default'),
+                    api('/api/v1/countries'),
+                    api('/api/v1/available-payment-services')
+                ]);
+            }).then(function (res) {
                 rowsCache = res[0];
                 currency = res[1];
                 setState(root, null);
@@ -961,12 +991,15 @@
                 });
                 q('#knTotal').textContent = subtotal(rowsCache);
                 api('/ezyaccount/api/v1/account').then(function (a) {
+                    if (isGuestAccount(a)) { return; }
                     if (a && a.displayName && !form.deliveryFullName.value) { form.deliveryFullName.value = a.displayName; }
                     if (a && a.email && !form.deliveryEmail.value) { form.deliveryEmail.value = a.email; }
                 }).catch(function () { /* prefill is optional */ });
                 wrap.hidden = false;
             }).catch(function (e) {
-                if (e.status === 401) { goLogin('/checkout'); return; }
+                // an expired guest session gets a fresh one once; a signed-in visitor signs in again
+                if (e.status === 401 && !renewed) { renewed = true; boot(true); return; }
+                if (e.status === 429) { setState(root, 'error', 'Bạn thao tác quá nhanh, vui lòng thử lại sau ít phút.', boot); return; }
                 setState(root, 'error', 'Chưa chuẩn bị được trang thanh toán.', boot);
             });
         }
@@ -1015,7 +1048,7 @@
             }).catch(function (err) {
                 btn.disabled = false;
                 btn.textContent = 'Đặt hàng';
-                if (err.status === 401) { goLogin('/checkout'); return; }
+                if (err.status === 401) { showErr('Phiên đặt hàng đã hết hạn. Vui lòng tải lại trang và thử lại.'); return; }
                 var bad = err.status === 400 && err.data && typeof err.data === 'object' ? Object.keys(err.data)[0] : '';
                 var labels = {deliveryPhoneNumber: 'số điện thoại', deliveryEmail: 'địa chỉ email', deliveryPostalCode: 'mã bưu chính', deliveryAddress: 'địa chỉ', deliveryFullName: 'họ tên', deliveryCityName: 'tỉnh/thành phố'};
                 if (bad && labels[bad] && f[bad]) { showErr('Vui lòng kiểm tra lại ' + labels[bad] + '.', f[bad]); return; }
@@ -1023,7 +1056,7 @@
             });
         });
         boot();
-    });
+    };
 
     function authError(data, status) {
         if (status === 401 || status === 400) {
@@ -1642,9 +1675,16 @@
         fetch('/logout', {method: 'POST', credentials: 'same-origin'}).then(done, done);
     }
 
-    pages.order = gated(function () { return location.pathname; }, function () {
+    /* Without a key the order belongs to the visitor's session; a guest order's secret link carries ?key=. */
+    pages.order = function () {
         var root = q('#knMain');
         var id = PARAM;
+        var viewKey = new URLSearchParams(location.search).get('key') || '';
+        function orderApi(suffix) {
+            return viewKey
+                ? '/api/v1/ecm/orders/' + encodeURIComponent(id) + (suffix || '') + '?key=' + encodeURIComponent(viewKey)
+                : '/api/v1/orders/' + encodeURIComponent(id) + (suffix || '');
+        }
         function row(dl, label, value) {
             if (!value) { return; }
             dl.appendChild(el('dt', {text: label}));
@@ -1666,7 +1706,7 @@
             bank.hidden = true;
             cod.hidden = !(/[?&]pay=cod\b/.test(location.search) && !paid);
             if (paid) { return; }
-            api('/api/v1/orders/' + encodeURIComponent(id) + '/bank-transfer').then(function (b) {
+            api(orderApi('/bank-transfer')).then(function (b) {
                 if (!b || !b.available) { return; }
                 var info = q('#knBankInfo');
                 var qr = q('#knBankQr');
@@ -1692,7 +1732,7 @@
                 if (!pollTimer) {
                     pollTimer = setInterval(function () {
                         if (Date.now() > pollUntil) { clearInterval(pollTimer); return; }
-                        api('/api/v1/orders/' + encodeURIComponent(id)).then(function (fresh) {
+                        api(orderApi()).then(function (fresh) {
                             if (fresh.paymentStatus === 'PAID') { clearInterval(pollTimer); load(); }
                         }).catch(function () { /* next tick retries */ });
                     }, 10000);
@@ -1701,7 +1741,7 @@
         }
         function load() {
             setState(root, 'loading', 'Đang tải đơn hàng…');
-            api('/api/v1/orders/' + encodeURIComponent(id)).then(function (o) {
+            api(orderApi()).then(function (o) {
                 setState(root, null);
                 var paid = o.paymentStatus === 'PAID';
                 q('#knOrderTitle').textContent = paid ? 'Cảm ơn bạn đã đặt hàng' : 'Đơn hàng của bạn';
@@ -1728,13 +1768,13 @@
                 showPayment(o, paid);
                 d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';
             }).catch(function (e) {
-                if (e.status === 401) { goLogin(location.pathname); return; }
-                if (e.status === 403 || e.status === 404) { setState(root, 'empty', 'Không tìm thấy đơn hàng này.'); return; }
+                if (e.status === 401 && !viewKey) { goLogin(location.pathname + location.search); return; }
+                if (e.status === 403 || e.status === 404 || e.status === 401) { setState(root, 'empty', 'Không tìm thấy đơn hàng này.'); return; }
                 setState(root, 'error', 'Chưa tải được đơn hàng.', load);
             });
         }
         load();
-    });
+    };
 
     pages.service = function () { /* static content */ };
 
