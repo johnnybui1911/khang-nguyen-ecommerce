@@ -100,7 +100,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-crumb a:hover{color:var(--kn-jade)}
 .kn-crumb--page{padding-top:24px}
 .kn-shot{margin:0;padding:12px;background:var(--kn-white);border:1px solid var(--kn-line);border-radius:20px}
-.kn-shot img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 88%;border-radius:10px}
+.kn-shot img{width:100%;aspect-ratio:4/5;object-fit:cover;object-position:50% 50%;border-radius:10px}
 .kn-buy{position:sticky;top:96px}
 .kn-buy h1{font-size:56px;line-height:1.05;margin-bottom:20px}
 .kn-price{margin:0 0 4px;font:600 32px/1.1 var(--kn-sans);letter-spacing:-.01em;color:var(--kn-jade-deep)}
@@ -189,7 +189,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-cells{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 24px;max-width:var(--kn-wrap);margin:40px auto 0;padding:0 var(--kn-pad)}
 .kn-cell{display:flex;flex-direction:column;gap:16px}
 .kn-cell figure{position:relative;margin:0}
-.kn-cell img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 100%;border-radius:20px;border:1px solid var(--kn-line)}
+.kn-cell img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 50%;border-radius:20px;border:1px solid var(--kn-line)}
 .kn-cell div{display:flex;flex-direction:column;gap:4px;padding:0 4px}
 .kn-cell h3{font-size:26px;line-height:1.15}
 .kn-cell p{margin:0;font-weight:600;font-size:15px;color:var(--kn-jade-deep)}
@@ -213,7 +213,7 @@ body.kn{margin:0;background:var(--kn-canvas);color:var(--kn-ink);font:400 16px/1
 .kn-lines{list-style:none;margin:0;padding:0}
 .kn-lines .kn-line:last-child{border-bottom:1px solid var(--kn-line)}
 .kn-line{display:grid;grid-template-columns:88px 1fr;gap:20px;align-items:center;padding:20px 0;border-top:1px solid var(--kn-line)}
-.kn-line img{width:88px;aspect-ratio:1/1;object-fit:cover;object-position:50% 100%;border-radius:10px}
+.kn-line img{width:88px;aspect-ratio:1/1;object-fit:cover;object-position:50% 50%;border-radius:10px}
 .kn-line h3{font-size:22px}
 .kn-line__meta{margin:4px 0 8px;font-size:13px;color:var(--kn-muted)}
 .kn-line__price{margin:2px 0 4px;color:var(--kn-jade-deep);font-weight:600}
