@@ -69,6 +69,18 @@
     box-shadow: inset 3px 0 0 #c29a3e;
 }
 .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active > .nav-icon { color: #fff; }
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:focus,
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:focus-visible,
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:hover:focus {
+    background-color: #0e6b57;
+    color: #fff;
+    box-shadow: inset 3px 0 0 #c29a3e;
+    outline: 2px solid #d9b45c;
+    outline-offset: -2px;
+}
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:focus > .nav-icon,
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:focus-visible > .nav-icon,
+.sidebar-dark-primary .nav-treeview > .nav-item > .nav-link.active:hover:focus > .nav-icon { color: #fff; }
 .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:not(.active),
 .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:not(.active) > .nav-icon { color: #e4f0e9; }
 .sidebar-dark-primary .nav-treeview > .nav-item > .nav-link:not(.active):hover,
