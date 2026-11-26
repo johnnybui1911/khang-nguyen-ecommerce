@@ -2,7 +2,7 @@
  * Khang Nguyen storefront theme script.
  * Every page is a server-rendered template shell; this script fills it from
  * the same-origin storefront API. Data is rendered with textContent only.
- * The bag lives in localStorage; checkout needs a signed-in user.
+ * The bag and a guest's wish list live in localStorage; checkout needs a signed-in user.
  */
 (function () {
     'use strict';
@@ -11,6 +11,8 @@
     var b = d.documentElement;
     var PARAM = b.dataset.param && b.dataset.param !== 'null' ? b.dataset.param : '';
     var BAG_KEY = 'ecm.bag';
+    var WISH_KEY = 'ecm.wish';
+    var WISH_MAX = 500;
     var CAT_KEY = 'ecm.categories';
     var CAT_TTL = 5 * 60 * 1000;
     var FALLBACK_CATEGORIES = [
@@ -321,15 +323,47 @@
     var wishPromise = null;
     var HEART_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 20.500S3.500 15 3.500 9.200A4.700 4.700 0 0112 6.700a4.700 4.700 0 018.500 2.500C20.500 15 12 20.500 12 20.500z"/></svg>';
 
-    /* The ids the signed-in visitor has saved; a guest has none and costs no request. */
+    /* A guest keeps favourites in localStorage, like the bag; they move to the account on sign-in. */
+    function readLocalWish() {
+        try {
+            var v = JSON.parse(localStorage.getItem(WISH_KEY) || '[]');
+            var seen = {};
+            return Array.isArray(v) ? v.filter(function (id) {
+                if (!(id > 0) || seen[id]) { return false; }
+                seen[id] = true;
+                return true;
+            }) : [];
+        } catch (e) { return []; }
+    }
+    function writeLocalWish(ids) {
+        try { localStorage.setItem(WISH_KEY, JSON.stringify(ids.slice(0, WISH_MAX))); } catch (e) { /* storage blocked */ }
+    }
+    function setOf(ids) {
+        var m = {};
+        ids.forEach(function (id) { m[id] = true; });
+        return m;
+    }
+    /* Copy the guest's favourites into the account. PUT is idempotent, so a product already saved there
+       is not duplicated; an id the shop no longer has (404) is dropped, any other failure is kept to retry. */
+    function mergeLocalWish() {
+        var ids = readLocalWish();
+        if (!ids.length) { return Promise.resolve(); }
+        return Promise.all(ids.map(function (id) {
+            return api('/api/v1/ecm/wishlist/' + encodeURIComponent(id), {method: 'PUT'})
+                .then(function () { return null; }, function (e) { return e.status === 404 ? null : id; });
+        })).then(function (left) {
+            var kept = left.filter(Boolean);
+            if (kept.length) { writeLocalWish(kept); } else { try { localStorage.removeItem(WISH_KEY); } catch (e) { /* ignore */ } }
+        });
+    }
+
+    /* The ids the visitor has saved: the account's list when signed in (after merging the guest list), else the local one. */
     function loadWish() {
         if (!wishPromise) {
             wishPromise = loggedIn().then(function (ok) {
-                if (!ok) { return {}; }
-                return api('/api/v1/ecm/wishlist/ids').then(function (r) {
-                    var m = {};
-                    (r && r.ids || []).forEach(function (id) { m[id] = true; });
-                    return m;
+                if (!ok) { return setOf(readLocalWish()); }
+                return mergeLocalWish().then(function () {
+                    return api('/api/v1/ecm/wishlist/ids').then(function (r) { return setOf(r && r.ids || []); });
                 }).catch(function () { return {}; });
             }).then(function (m) { wishSet = m; return m; });
         }
@@ -363,18 +397,23 @@
         notify.timer = setTimeout(function () { box.hidden = true; }, 4000);
     }
 
-    /* Flip one product. A guest is sent to sign in and brought back; a failed save is undone. */
+    /* Flip one product. A guest's choice is kept in this browser; a signed-in save that fails is undone. */
     function toggleWish(id) {
         loggedIn().then(function (ok) {
-            if (!ok) { goLogin(location.pathname + location.search); return; }
             loadWish().then(function (set) {
                 var turnOn = !set[id];
                 if (turnOn) { set[id] = true; } else { delete set[id]; }
                 paintHearts();
+                function done() { d.dispatchEvent(new CustomEvent('ecm:wish', {detail: {id: id, on: turnOn}})); }
+                if (!ok) {
+                    var ids = readLocalWish().filter(function (x) { return x !== id; });
+                    if (turnOn) { ids.unshift(id); }
+                    writeLocalWish(ids);
+                    done();
+                    return;
+                }
                 api('/api/v1/ecm/wishlist/' + encodeURIComponent(id), {method: turnOn ? 'PUT' : 'DELETE'})
-                    .then(function () {
-                        d.dispatchEvent(new CustomEvent('ecm:wish', {detail: {id: id, on: turnOn}}));
-                    })
+                    .then(done)
                     .catch(function (e) {
                         if (turnOn) { delete set[id]; } else { set[id] = true; }
                         paintHearts();
@@ -1504,7 +1543,7 @@
     var CONTACT_LABELS = {name: 'Họ tên', email: 'Email', phone: 'Số điện thoại',
         topic: 'Chủ đề', message: 'Nội dung tin nhắn'};
 
-    pages.wishlist = gated('/wishlist', function () {
+    pages.wishlist = function () {
         var root = q('#knMain');
         var grid = q('#knGrid');
         var more = q('#knLoadMore');
@@ -1519,6 +1558,26 @@
                 setState(root, 'empty', 'Danh sách yêu thích đang trống. Chạm vào biểu tượng trái tim trên sản phẩm để lưu vào đây.');
                 count.textContent = '';
             }
+        }
+        function fetchGuestPage() {
+            setState(root, 'loading', 'Đang tải danh sách yêu thích…');
+            var ids = readLocalWish();
+            Promise.all(ids.map(function (id) {
+                return api('/api/v1/products/' + id).catch(function (e) {
+                    if (e.status === 404 || e.status === 400) { return null; }
+                    throw e;
+                });
+            })).then(function (items) {
+                var good = items.filter(Boolean);
+                if (good.length !== ids.length) { writeLocalWish(good.map(function (p) { return p.id; })); }
+                setState(root, null);
+                good.forEach(function (it) { grid.appendChild(productCard(it)); });
+                shown = total = good.length;
+                more.hidden = true;
+                summary();
+            }).catch(function () {
+                setState(root, 'error', 'Chưa tải được danh sách yêu thích.', fetchGuestPage);
+            });
         }
         function fetchPage() {
             setState(root, 'loading', 'Đang tải danh sách yêu thích…');
@@ -1542,8 +1601,10 @@
             total = Math.max(0, total - 1);
             summary();
         });
-        fetchPage();
-    });
+        loadWish().then(function () { return loggedIn(); }).then(function (ok) {
+            if (ok) { fetchPage(); } else { fetchGuestPage(); }
+        });
+    };
 
     pages.newsletter = function () {
         var unsub = /\/unsubscribe\/?$/.test(location.pathname);
