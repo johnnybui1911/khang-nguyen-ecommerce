@@ -97,16 +97,43 @@
     function hasSessionCookie() {
         return /(?:^|;\s*)accessTokenExpiredAt=/.test(d.cookie);
     }
-    function loggedIn() {
-        if (!loginProbe && !hasSessionCookie()) { loginProbe = Promise.resolve(false); }
-        if (!loginProbe) {
-            loginProbe = fetch('/api/v1/shopping-cart/product-count', {credentials: 'same-origin', redirect: 'manual'})
+    /* A session is either a real account or the anonymous user the platform creates for a guest checkout. */
+    var sessionProbe;
+    function hasSession() {
+        if (!sessionProbe && !hasSessionCookie()) { sessionProbe = Promise.resolve(false); }
+        if (!sessionProbe) {
+            sessionProbe = fetch('/api/v1/shopping-cart/product-count', {credentials: 'same-origin', redirect: 'manual'})
                 .then(function (r) {
                     return r.status === 200 && r.type === 'basic' &&
                         (r.headers.get('content-type') || '').indexOf('json') >= 0;
                 }, function () { return false; });
         }
+        return sessionProbe;
+    }
+    /* ezylogin names a guest checkout user "anonymous" + 32 letters/digits and gives it no email. */
+    function isGuestAccount(a) {
+        return !a || (!a.email && /^anonymous[A-Za-z0-9]{32}$/.test(a.username || ''));
+    }
+    /* Signed in = a real account; a guest checkout session does not count. */
+    function loggedIn() {
+        if (!loginProbe) {
+            loginProbe = hasSession().then(function (ok) {
+                if (!ok) { return false; }
+                return api('/ezyaccount/api/v1/account').then(function (a) { return !isGuestAccount(a); },
+                    function () { return false; });
+            });
+        }
         return loginProbe;
+    }
+    /* Guest checkout: without a session, an empty product checkout makes the platform create an anonymous
+       user and set its cookies, so the cart, payment and order APIs work as for a signed-in customer. */
+    function ensureSession(force) {
+        return (force ? Promise.resolve(false) : hasSession()).then(function (ok) {
+            if (ok) { return; }
+            return api('/api/v1/products/checkout', {method: 'POST', body: {products: []}}).then(function () {
+                sessionProbe = Promise.resolve(true);
+            });
+        });
     }
 
     /* Run a page initialiser only for a signed-in visitor, otherwise send them to the login page. */
@@ -166,14 +193,17 @@
     }
 
     var STATUS_VI = {
-        pending: 'đang chờ xử lý', unpaid: 'chưa thanh toán', paid: 'đã thanh toán', processing: 'đang xử lý',
-        confirmed: 'đã xác nhận', shipping: 'đang giao hàng', shipped: 'đã giao cho đơn vị vận chuyển',
-        delivered: 'đã giao hàng', completed: 'hoàn tất', cancelled: 'đã hủy', canceled: 'đã hủy',
-        refunded: 'đã hoàn tiền', failed: 'thất bại', waiting_payment: 'chờ thanh toán', created: 'đã tạo đơn'
+        waiting_for_payment: 'CHỜ THANH TOÁN', waiting_payment: 'CHỜ THANH TOÁN', pending: 'CHỜ XỬ LÝ',
+        unpaid: 'CHƯA THANH TOÁN', paid: 'ĐÃ THANH TOÁN', partially_paid: 'THANH TOÁN MỘT PHẦN',
+        processing: 'ĐANG XỬ LÝ', confirmed: 'ĐÃ XÁC NHẬN', shipping: 'ĐANG GIAO HÀNG',
+        shipped: 'ĐÃ GIAO CHO VẬN CHUYỂN', delivering: 'ĐANG GIAO HÀNG', delivered: 'ĐÃ GIAO HÀNG',
+        completed: 'HOÀN TẤT', cancelled: 'ĐÃ HỦY', canceled: 'ĐÃ HỦY', refunded: 'ĐÃ HOÀN TIỀN',
+        refunding: 'ĐANG HOÀN TIỀN', failed: 'THẤT BẠI', created: 'ĐÃ TẠO ĐƠN', cod: 'THANH TOÁN KHI NHẬN HÀNG',
+        cash_on_delivery: 'THANH TOÁN KHI NHẬN HÀNG', bank_transfer: 'CHUYỂN KHOẢN'
     };
     function statusText(v) {
-        var key = String(v || '').toLowerCase();
-        return STATUS_VI[key] || key.replace(/_/g, ' ');
+        var raw = String(v || '');
+        return STATUS_VI[raw.toLowerCase()] || raw;
     }
     function dateText(ms, withTime) {
         if (!ms) { return ''; }
@@ -847,9 +877,15 @@
         if (src) { imgBox.appendChild(el('img', {src: src, alt: ''})); }
         var minus = el('button', {type: 'button', 'aria-label': 'Giảm số lượng ' + p.name, text: '−'});
         var plus = el('button', {type: 'button', 'aria-label': 'Tăng số lượng ' + p.name, text: '+'});
-        var input = el('input', {type: 'number', min: '1', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Số lượng ' + p.name});
+        var input = el('input', {type: 'number', min: '0', value: String(r.line.qty), inputmode: 'numeric', 'aria-label': 'Số lượng ' + p.name});
+        function removeLine() {
+            writeBag(readBag().filter(function (l) { return l.id !== p.id; }));
+            rerender();
+        }
         function setQty(n) {
-            n = Math.max(1, Math.floor(n) || 1);
+            n = Math.floor(n);
+            // going below 1 (minus at 1, or typing 0) takes the item out of the bag
+            if (n < 1) { removeLine(); return; }
             if (p.amount && n > p.amount) { n = p.amount; }
             var lines = readBag();
             lines.forEach(function (l) { if (l.id === p.id) { l.qty = n; } });
@@ -858,12 +894,12 @@
         }
         minus.addEventListener('click', function () { setQty(r.line.qty - 1); });
         plus.addEventListener('click', function () { setQty(r.line.qty + 1); });
-        input.addEventListener('change', function () { setQty(Number(input.value)); });
-        var remove = el('button', {type: 'button', 'class': 'kn-rm', text: 'Xóa khỏi giỏ'});
-        remove.addEventListener('click', function () {
-            writeBag(readBag().filter(function (l) { return l.id !== p.id; }));
-            rerender();
+        input.addEventListener('change', function () {
+            var v = input.value.trim();
+            setQty(v === '' || isNaN(Number(v)) ? r.line.qty : Number(v));
         });
+        var remove = el('button', {type: 'button', 'class': 'kn-rm', text: 'Xóa khỏi giỏ'});
+        remove.addEventListener('click', removeLine);
         var info = el('div', {}, [
             el('h3', {}, [el('a', {href: '/products/' + encodeURIComponent(p.code), text: p.name})]),
             el('p', {'class': 'kn-line__price', text: lineTotalText(p, r.line.qty)}),
@@ -881,7 +917,8 @@
         return (sym || '') + (Number(p.price) * qty).toLocaleString('en-US') + (sym ? '' : ' ' + iso);
     }
 
-    pages.checkout = gated('/checkout', function () {
+    pages.checkout = function () {
+        var COD_MAX = 5000000;
         var root = q('#knMain');
         var form = q('#knCheckoutForm');
         var wrap = q('#knCheckout');
@@ -896,14 +933,17 @@
             if (field) { field.setAttribute('aria-invalid', 'true'); field.focus(); }
         }
 
-        function boot() {
+        var renewed = false;
+        function boot(force) {
             setState(root, 'loading', 'Đang chuẩn bị thanh toán…');
-            Promise.all([
-                loadLines(),
-                api('/api/v1/currencies/default'),
-                api('/api/v1/countries'),
-                api('/api/v1/available-payment-services')
-            ]).then(function (res) {
+            ensureSession(force === true).then(function () {
+                return Promise.all([
+                    loadLines(),
+                    api('/api/v1/currencies/default'),
+                    api('/api/v1/countries'),
+                    api('/api/v1/available-payment-services')
+                ]);
+            }).then(function (res) {
                 rowsCache = res[0];
                 currency = res[1];
                 setState(root, null);
@@ -920,11 +960,33 @@
                 });
                 if (countries.length && isVietnam(countries[0])) { cSel.value = String(countries[0].id); }
                 var services = Array.isArray(res[3]) ? res[3] : (res[3].items || res[3].paymentServices || []);
-                var pSel = q('#knPay');
-                clear(pSel);
-                services.forEach(function (s) {
+                var pBox = q('#knPay');
+                qa('.kn-pay__opt', pBox).forEach(function (n) { pBox.removeChild(n); });
+                var payLabels = {
+                    KN_BANK: ['Chuyển khoản ngân hàng', 'Quét mã QR, đơn tự xác nhận khi tiền về.'],
+                    KN_COD: ['Thanh toán khi nhận hàng (COD)', 'Áp dụng cho đơn đến 5.000.000 ₫.']
+                };
+                services.filter(function (s) {
+                    return (s.code || s.paymentServiceCode || s.name) !== 'ECM_DEMO';
+                }).forEach(function (s, idx) {
                     var code = s.code || s.paymentServiceCode || s.name;
-                    pSel.appendChild(el('option', {value: code, text: s.displayName || s.name || code}));
+                    var lab = payLabels[code] || [s.displayName || s.name || code, ''];
+                    var id = 'knPay' + idx;
+                    var input = el('input', {type: 'radio', id: id, name: 'paymentServiceCode', value: code});
+                    // the shop takes cash on delivery only up to 5.000.000 ₫, the server refuses more
+                    var codTooLarge = code === 'KN_COD' && cartAmount(rowsCache) > COD_MAX;
+                    if (codTooLarge) {
+                        input.disabled = true;
+                        lab = [lab[0], 'Không áp dụng cho đơn trên 5.000.000 ₫, vui lòng chọn chuyển khoản.'];
+                    }
+                    if (!codTooLarge && !q('input:checked', pBox)) { input.checked = true; }
+                    pBox.appendChild(el('div', {'class': 'kn-pay__opt' + (codTooLarge ? ' is-disabled' : '')}, [
+                        input,
+                        el('label', {'for': id}, [
+                            el('strong', {text: lab[0]}),
+                            el('small', {text: lab[1]})
+                        ])
+                    ]));
                 });
                 var mini = q('#knMini');
                 clear(mini);
@@ -936,14 +998,21 @@
                 });
                 q('#knTotal').textContent = subtotal(rowsCache);
                 api('/ezyaccount/api/v1/account').then(function (a) {
+                    if (isGuestAccount(a)) { return; }
                     if (a && a.displayName && !form.deliveryFullName.value) { form.deliveryFullName.value = a.displayName; }
                     if (a && a.email && !form.deliveryEmail.value) { form.deliveryEmail.value = a.email; }
                 }).catch(function () { /* prefill is optional */ });
                 wrap.hidden = false;
             }).catch(function (e) {
-                if (e.status === 401) { goLogin('/checkout'); return; }
+                // an expired guest session gets a fresh one once; a signed-in visitor signs in again
+                if (e.status === 401 && !renewed) { renewed = true; boot(true); return; }
+                if (e.status === 429) { setState(root, 'error', 'Bạn thao tác quá nhanh, vui lòng thử lại sau ít phút.', boot); return; }
                 setState(root, 'error', 'Chưa chuẩn bị được trang thanh toán.', boot);
             });
+        }
+
+        function cartAmount(rows) {
+            return rows.reduce(function (sum, r) { return sum + Number(r.product.price) * r.line.qty; }, 0);
         }
 
         form.addEventListener('submit', function (e) {
@@ -955,7 +1024,8 @@
                 if (!f[required[i]].value.trim()) { showErr('Vui lòng điền đủ thông tin giao hàng.', f[required[i]]); return; }
             }
             if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(f.deliveryEmail.value.trim())) { showErr('Nhập địa chỉ email hợp lệ.', f.deliveryEmail); return; }
-            if (!f.paymentServiceCode.value) { showErr('Hiện chưa có phương thức thanh toán nào.', f.paymentServiceCode); return; }
+            if (!f.paymentServiceCode || !f.paymentServiceCode.value) { showErr('Vui lòng chọn phương thức thanh toán.', q('#knPay input')); return; }
+            if (f.paymentServiceCode.value === 'KN_COD' && cartAmount(rowsCache) > COD_MAX) { showErr('Đơn trên 5.000.000 ₫ không áp dụng COD, vui lòng chọn chuyển khoản.', q('#knPay input')); return; }
             var btn = q('#knPlace');
             btn.disabled = true;
             btn.textContent = 'Đang đặt hàng…';
@@ -990,15 +1060,16 @@
             }).catch(function (err) {
                 btn.disabled = false;
                 btn.textContent = 'Đặt hàng';
-                if (err.status === 401) { goLogin('/checkout'); return; }
+                if (err.status === 401) { showErr('Phiên đặt hàng đã hết hạn. Vui lòng tải lại trang và thử lại.'); return; }
                 var bad = err.status === 400 && err.data && typeof err.data === 'object' ? Object.keys(err.data)[0] : '';
                 var labels = {deliveryPhoneNumber: 'số điện thoại', deliveryEmail: 'địa chỉ email', deliveryPostalCode: 'mã bưu chính', deliveryAddress: 'địa chỉ', deliveryFullName: 'họ tên', deliveryCityName: 'tỉnh/thành phố'};
                 if (bad && labels[bad] && f[bad]) { showErr('Vui lòng kiểm tra lại ' + labels[bad] + '.', f[bad]); return; }
+                if (err.status === 400 && f.paymentServiceCode.value === 'KN_COD') { showErr('Đơn này không áp dụng COD, vui lòng chọn chuyển khoản.'); return; }
                 showErr('Chưa đặt được đơn hàng. Vui lòng kiểm tra thông tin và thử lại.');
             });
         });
         boot();
-    });
+    };
 
     function authError(data, status) {
         if (status === 401 || status === 400) {
@@ -1617,17 +1688,73 @@
         fetch('/logout', {method: 'POST', credentials: 'same-origin'}).then(done, done);
     }
 
-    pages.order = gated(function () { return location.pathname; }, function () {
+    /* Without a key the order belongs to the visitor's session; a guest order's secret link carries ?key=. */
+    pages.order = function () {
         var root = q('#knMain');
         var id = PARAM;
+        var viewKey = new URLSearchParams(location.search).get('key') || '';
+        function orderApi(suffix) {
+            return viewKey
+                ? '/api/v1/ecm/orders/' + encodeURIComponent(id) + (suffix || '') + '?key=' + encodeURIComponent(viewKey)
+                : '/api/v1/orders/' + encodeURIComponent(id) + (suffix || '');
+        }
         function row(dl, label, value) {
             if (!value) { return; }
             dl.appendChild(el('dt', {text: label}));
             dl.appendChild(el('dd', {text: value}));
         }
+        var pollTimer = 0;
+        var pollUntil = Date.now() + 30 * 60 * 1000;
+        function copyButton(text) {
+            var btn = el('button', {type: 'button', 'class': 'kn-bank__copy', text: 'Sao chép'});
+            btn.addEventListener('click', function () {
+                var done = function () { btn.textContent = 'Đã chép'; setTimeout(function () { btn.textContent = 'Sao chép'; }, 1500); };
+                if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(done, function () {}); }
+            });
+            return btn;
+        }
+        function showPayment(o, paid) {
+            var bank = q('#knOrderBank');
+            var cod = q('#knOrderCod');
+            bank.hidden = true;
+            cod.hidden = !(/[?&]pay=cod\b/.test(location.search) && !paid);
+            if (paid) { return; }
+            api(orderApi('/bank-transfer')).then(function (b) {
+                if (!b || !b.available) { return; }
+                var info = q('#knBankInfo');
+                var qr = q('#knBankQr');
+                clear(info);
+                var amount = money(b.amount, 'VND');
+                if (b.configured) {
+                    qr.hidden = !b.qrUrl;
+                    if (b.qrUrl) { qr.src = b.qrUrl; }
+                    q('#knBankNote').textContent = 'Quét mã QR hoặc chuyển khoản theo thông tin dưới đây. Giữ nguyên nội dung chuyển khoản để đơn được xác nhận tự động.';
+                    [['Ngân hàng', b.bankName], ['Số tài khoản', b.accountNumber, true], ['Chủ tài khoản', b.accountOwner], ['Số tiền', amount], ['Nội dung', b.content, true]].forEach(function (r) {
+                        info.appendChild(el('dt', {text: r[0]}));
+                        info.appendChild(el('dd', {}, r[2] ? [el('strong', {text: r[1]}), copyButton(r[1])] : [el('strong', {text: r[1]})]));
+                    });
+                } else {
+                    qr.hidden = true;
+                    q('#knBankNote').textContent = 'Thông tin tài khoản nhận tiền sẽ được gửi cho bạn qua email. Mã nội dung chuyển khoản của đơn này:';
+                    info.appendChild(el('dt', {text: 'Nội dung'}));
+                    info.appendChild(el('dd', {}, [el('strong', {text: b.content}), copyButton(b.content)]));
+                    info.appendChild(el('dt', {text: 'Số tiền'}));
+                    info.appendChild(el('dd', {}, [el('strong', {text: amount})]));
+                }
+                bank.hidden = false;
+                if (!pollTimer) {
+                    pollTimer = setInterval(function () {
+                        if (Date.now() > pollUntil) { clearInterval(pollTimer); return; }
+                        api(orderApi()).then(function (fresh) {
+                            if (fresh.paymentStatus === 'PAID') { clearInterval(pollTimer); load(); }
+                        }).catch(function () { /* next tick retries */ });
+                    }, 10000);
+                }
+            }).catch(function () { /* the order page still works without the transfer block */ });
+        }
         function load() {
             setState(root, 'loading', 'Đang tải đơn hàng…');
-            api('/api/v1/orders/' + encodeURIComponent(id)).then(function (o) {
+            api(orderApi()).then(function (o) {
                 setState(root, null);
                 var paid = o.paymentStatus === 'PAID';
                 q('#knOrderTitle').textContent = paid ? 'Cảm ơn bạn đã đặt hàng' : 'Đơn hàng của bạn';
@@ -1650,16 +1777,20 @@
                 q('#knOrderTotal').textContent = orderMoney(o.formattedTotalAmountMoneyIncludeSymbol);
                 var track = q('#knOrderTrack');
                 if (track) { track.setAttribute('href', '/order-status?order=' + encodeURIComponent(o.id)); }
+                // a guest has no account page; its order is followed through the link or tracking
+                var all = q('#knOrderAll');
+                if (all && viewKey) { all.hidden = true; }
                 q('#knOrder').hidden = false;
+                showPayment(o, paid);
                 d.title = 'Đơn hàng #' + o.id + ' | Khang Nguyên · Ngọc Bảo';
             }).catch(function (e) {
-                if (e.status === 401) { goLogin(location.pathname); return; }
-                if (e.status === 403 || e.status === 404) { setState(root, 'empty', 'Không tìm thấy đơn hàng này.'); return; }
+                if (e.status === 401 && !viewKey) { goLogin(location.pathname + location.search); return; }
+                if (e.status === 403 || e.status === 404 || e.status === 401) { setState(root, 'empty', 'Không tìm thấy đơn hàng này.'); return; }
                 setState(root, 'error', 'Chưa tải được đơn hàng.', load);
             });
         }
         load();
-    });
+    };
 
     pages.service = function () { /* static content */ };
 

@@ -18,7 +18,9 @@
         <meta property="og:image" th:if="${knMetaImage != null}" th:content="${knMetaImage}">
         <meta name="twitter:card" th:attr="content=${knMetaImage != null ? 'summary_large_image' : 'summary'}">
     </th:block>
-    <link th:if="${siteIconUrl == null}" rel="icon" type="image/svg+xml" ezy:vhref="/images/favicon.svg">
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48" ezy:vhref="/images/kn-favicon.ico">
+    <link rel="icon" type="image/svg+xml" ezy:vhref="/images/favicon.svg">
+    <link rel="apple-touch-icon" sizes="180x180" ezy:vhref="/images/apple-touch-icon.png">
     <th:block th:if="${commonFragments == null || commonFragments.get('styles') == null || commonFragments.get('styles').content == 'styles'}">
         <th:block th:if="${themeStyles == null}">
             <link rel="stylesheet" type="text/css" ezy:vhref="/css/main.css" />

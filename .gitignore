@@ -23,6 +23,8 @@ khang-nguyen-site/.artifacts/
 **/.artifacts/
 *.sql
 !ecommerce-ext/scripts/drop-ecm-tables.sql
+!ecommerce-ext/scripts/payment/*.sql
+!ecommerce-ext/ecommerce-ext-admin-plugin/src/main/resources/scripts/create_ecm_tables.sql
 *.dump
 *.bak
 
